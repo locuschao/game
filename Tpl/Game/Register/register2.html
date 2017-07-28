@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>注册</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/layer.min.js"></script>
+<style>
+body {
+	background: #fff;
+}
+
+.trsp {
+	width: 95%;
+	background-color: transparent;
+	margin: 0 auto;
+	border: none;
+	height: 35px;
+	line-height: 35px;
+	background-color: transparent;
+}
+
+.no-i {
+	text-indent: 0;
+}
+
+.br-b {
+	border-bottom: #ccc solid 1px;
+}
+
+.getCode {
+	background: #1bc1ff;
+	color: #fff;
+	text-align: center;
+}
+
+.w20 {
+	width: 20px;
+}
+
+.login_btn {
+	display: block;
+	width: 80%;
+	height: 40px;
+	line-height: 40px;
+	margin: 0 auto;
+	background: #00b4ff;
+	border-radius: 4px;
+	text-align: center;
+	color: #fff;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<div class="_top">
+		<div class="_left_top" onclick='history.go(-1)'></div>
+		<div class="_title_top">注册</div>
+		<div class="_right_top no-bg"></div>
+	</div>
+	<div class="ub lh45  "></div>
+	<div class="ub lh45  ">
+		<div class="ub-f1 ub br-b">
+			<div class="ub-f1 txt-c">
+				<input class="trsp " type="password" name="pwd" id="pwd" value=""
+					placeholder="请输入密码" />
+			</div>
+		</div>
+	</div>
+	<div class="ub lh45  ">
+		<div class="ub-f1 ub br-b">
+			<div class="ub-f1 txt-c">
+				<input class="trsp " type="password" name="rpwd" id="rpwd" value=""
+					placeholder="重复输入密码" />
+			</div>
+		</div>
+	</div>
+	<div class="ub lh35 mr-t10" style="margin-top: 20px;">
+		<div class="ub-f1">
+			<span class="login_btn" onclick="register()"> 确定 </span>
+		</div>
+	</div>
+	<input type="hidden" name="isrepeat" id="isrepeat" value="0" />
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script>
+	function register() {
+		if($('#isrepeat').val()==1){
+			layer.msg('请勿重复提交');
+			return;
+		}
+		var pwd = $.trim($('#pwd').val());
+		var rpwd = $.trim($('#rpwd').val());
+		if (pwd.length < 6 || rpwd.length < 6) {
+			layer.msg('密码长度6-20个字符');
+			return;
+		}
+		if (pwd != rpwd) {
+			layer.msg('重复密码不一致');
+			return;
+		}
+		$('#isrepeat').val(1);
+		$.ajax({
+			type : "POST",
+			url : "{:U('Register/registerHandle')}",
+			data : {
+				pwd : pwd
+			},
+			dataType : "json",
+			success : function(data) {
+				try {
+					 if (data.status == 0) {
+							$('#isrepeat').val(1);
+							layer.msg('注册成功');
+							setTimeout(function(){
+								//location.href="{:U('Login/login',array('r'=>'my'))}";
+								location.href=data.return_back_uri;
+							},1000)
+							return;
+						}else if(data.status==-2){
+								location.href="{:U('Login/login',array('r'=>'my'))}";
+						}else{
+							$('#isrepeat').val(0);
+							layer.msg('请稍候重试');
+						}
+
+				} catch (err) {
+					$('#isrepeat').val(0);
+				}
+				//console.log(data);
+			}
+		});
+
+	}
+</script>
+</html>

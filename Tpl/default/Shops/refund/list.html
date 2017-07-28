@@ -1,0 +1,147 @@
+<extend name="Shops:layout" />
+<block name="content"> <script
+	src="__PUBLIC__/laydate/laydate.js"></script>
+<style type="text/css">
+.clickBtn {
+	padding: 5px;
+	border-radius: 4px;
+	cursor: pointer;
+	margin-left: 10px;
+	background-color: #fafafa;
+	border: #ddd solid 1px;
+	color: #666;
+	background-color: #fafafa;
+}
+
+.wst-list thead tr th {
+	text-align: center;
+	border: #f2f2f2 solid 1px;
+}
+
+.wst-list tbody tr td {
+	text-align: center;
+	border: #f2f2f2 solid 1px;
+}
+
+.processed {
+	color: #fff;
+	background: #f00;
+}
+</style>
+<script>
+	function agreeRefund(id, type) {
+		var status = "同意";
+		if (type == 0) {
+			status = "拒绝";
+		}
+		layer.confirm("确定" + status + "退单吗？", {
+			icon : 3,
+			title : '系统提示'
+		}, function(tips) {
+			$.post(Think.U('Home/Refund/agressRefund'), {
+				id : id,
+				type : type
+			}, function(data, textStatus) {
+				layer.close(tips);
+				var json = WST.toJson(data);
+				if (json.status == '1') {
+					WST.msg('操作成功！', {
+						icon : 1
+					}, function() {
+						location.reload();
+					});
+				} else {
+					WST.msg('操作失败', {
+						icon : 5
+					});
+				}
+			});
+		});
+	}
+</script>
+<div class="wst-body">
+	<div class='wst-page-header'>卖家中心 >退单信息</div>
+	<div class='wst-page-content'>
+		<form name="form1" method="get" action="refundList">
+			<div>
+				退单状态： <select id='biz_status' name="biz_status">
+					<option value=''<if
+							condition="empty($_GET['biz_status'])">selected</if> >请选择状态
+					</option>
+					<option value='0'<if
+							condition="$_GET['biz_status'] == 0 &&isset($_GET['biz_status']) ">selected</if>
+						>已取消订单
+					</option>
+					<option value='1'<if
+							condition="$_GET['biz_status'] == 1 ">selected</if> >待处理退单
+					</option>
+					<option value='2'<if
+							condition="$_GET['biz_status'] == 2 ">selected</if> >已同意退单
+					</option>
+					<option value='3'<if
+							condition="$_GET['biz_status'] == 3 ">selected</if> >已拒绝退单
+					</option>
+				</select>
+				<!--   <select id='shopCatId2' autocomplete="off">
+	         <option value='0'>请选择</option>
+	     </select> -->
+				申请时间<input class="laydate-icon" style="width: 120px"
+					name="start_day" placeholder="开始日期" value="{$_GET['start_day']}"
+					onclick="laydate()"> - <input class="laydate-icon"
+					style="width: 120px" name="end_day" value="{$_GET['end_day']}"
+					placeholder="结束日期" onclick="laydate()"> 订单号： <input
+					type='text' id='searchKey' name="searchKey"
+					value='{$_GET["searchKey"]}' /> <input
+					style="border: none; padding: 0; margin: 0; background: #f00; padding: 5px 15px; color: #fff; box-shadow: none; cursor: pointer; border-radius: 0px;"
+					type="submit" id="button" value="查询">
+			</div>
+		</form>
+		<table class='wst-list' style="text-align: center;">
+			<thead>
+				<tr>
+					<th width='30'>序号</th>
+					<th width='50'>订单编号</th>
+					<!-- <th width='50'>退单金额</th> -->
+					<th width='50'>商家处理</th>
+					<th width='50'>申请时间</th>
+					<th width='100'>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<volist name='res["list"]' id="vo">
+				<tr>
+					<td>{$key+1}</td>
+					<td>{$vo.orderNo}</td>
+					<!-- 	<td>{$vo.money}</td> -->
+					<td><if condition="$vo['type'] eq 1">订单取消<else /> <switch
+							name="vo.biz_status"> <case value="0">待处理</case> <case
+							value="1">已同意</case> <case value="2">已拒绝</case><case value="3">商家已拒绝，但平台强制退款</case> <default /> </switch> </if></td>
+					<td>{$vo.refundTime}</td>
+					<td><if condition="$vo['type'] eq 1"> <a class='clickBtn'
+							href="{:U('Refund/detail',array('id'=>$vo['id'],'refundStautus'=>$_GET['refundStautus'],'start_day'=>$_GET['start_day'],'end_day'=>$_GET['end_day'],'searchKey'=>$_GET['searchKey']))}">查看详情</a>
+						<else /> <switch name="vo['biz_status']"> <case value="0">
+						<a class='clickBtn ' href="javascript:agreeRefund({$vo['id']},1)">同意退单</a>
+						<a class='clickBtn' href="javascript:agreeRefund({$vo['id']},0)">拒绝退单</a>
+						<a class='clickBtn'
+							href="{:U('Refund/detail',array('id'=>$vo['id'],'refundStautus'=>$_GET['refundStautus'],'start_day'=>$_GET['start_day'],'end_day'=>$_GET['end_day'],'searchKey'=>$_GET['searchKey']))}">退款详情</a>
+						</case> <case value="1"> <a class='clickBtn'
+							href="{:U('Refund/detail',array('id'=>$vo['id'],'refundStautus'=>$_GET['refundStautus'],'start_day'=>$_GET['start_day'],'end_day'=>$_GET['end_day'],'searchKey'=>$_GET['searchKey']))}">退款详情</a></case>
+						<case value="2"> <a class='clickBtn'
+							href="{:U('Refund/detail',array('id'=>$vo['id'],'refundStautus'=>$_GET['refundStautus'],'start_day'=>$_GET['start_day'],'end_day'=>$_GET['end_day'],'searchKey'=>$_GET['searchKey']))}">退款详情</a></case>
+						<default />
+							<case value="3">
+								<a class='clickBtn'
+								   href="{:U('Refund/detail',array('id'=>$vo['id'],'refundStautus'=>$_GET['refundStautus'],'start_day'=>$_GET['start_day'],'end_day'=>$_GET['end_day'],'searchKey'=>$_GET['searchKey']))}">退款详情</a>
+							</case>
+						</switch> </if> <a class='clickBtn'
+						onclick=showOrder({$vo.orderid})>订单详情</a></td>
+				</tr>
+				</volist>
+				<tr>
+					<td colspan='6' align='center'>{$res['show']}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+</block>

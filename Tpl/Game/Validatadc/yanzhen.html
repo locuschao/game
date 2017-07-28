@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>购买商品</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/base.js"></script>
+<script src="__JS__/layer.min.js"></script>
+
+<style>
+body {
+	background: #efeff4;
+	max-width: 800px;
+}
+
+.inputList {
+	width: 100%;
+	margin: 0 auto;
+}
+
+.inputStyle {
+	width: 80%;
+	border: #999999 solid 1px;
+	border-radius: 2px;
+	height: 25px;
+	line-height: 25px;
+	text-indent: 10px;
+	background: #efeff4;
+}
+
+.col-6 {
+	color: #666666;
+}
+
+.mar-l {
+	margin-left: 10px;
+}
+
+.inputList div:first-child {
+	width: 80px;
+}
+
+#versions {
+	width: 80%;
+	border-radius: 2px;
+	height: 25px;
+	line-height: 25px;
+	text-indent: 20px;
+	background: url(__IMG__/g_ico.png) 95% center no-repeat;
+	background-size: 9px 5px;;
+}
+
+.orderNav {
+	color: #999999;
+	height: 45px;
+	line-height: 45px;
+	border-bottom: #d5d7dc solid 1px;
+	background: #fff;
+}
+
+.br-r {
+	border-right: #eeeeee solid 1px;
+}
+.orderMenu{cursor:pointer}
+.btn {
+	border-radius: 4px;
+	margin: 0 auto;
+	text-align: center;
+	color: #fff;
+	background: #38aaff;
+	height: 40px;
+	line-height: 40px;
+	width: 90%;
+}
+
+.checkIco {
+	cursor:pointer;
+	width: 50px;
+	background: url(__IMG__/check_false.png) center no-repeat;
+	background-size: 22px;
+}
+
+.checkIco_true {
+	width: 50px;
+	background: url(__IMG__/check_true.png) center no-repeat;
+	background-size: 22px;
+}
+
+.checkList {
+	cursor:pointer;
+	border-bottom: #d5d7dc solid 1px;
+	padding: 10px 0px;
+}
+
+.checkText {
+	padding: 5px;
+}
+
+.orderList {
+	display: none;
+}
+
+.orderList:first-child {
+	display: block;
+}
+
+.inputText {
+	border-bottom: #d5d7dc solid 1px;
+	padding: 10px 0px;
+}
+._top{
+	max-width: 800px;
+}
+.remove{
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #efeded;
+    color: #fff;
+    text-align: center;
+    padding: 1px 4px;
+    font-size: 12px;
+    cursor:pointer;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<div class="_top" style="z-index: 999">
+		<div class="_left_top" onclick='history.go(-1)'></div>
+		<div class="_title_top">帐号验证</div>
+		<div class="_right_top " style="background: none;"></div>
+	</div>
+	<div class="lh45"></div>
+	<div class="ub orderNav">
+		<div class="ub-f1 pos-r br-r  orderMenu orderNavActive ">
+			<div class="pos-a txt-c">输入手游狗首充号</div>
+		</div>
+		<div class="ub-f1 pos-r br-r orderMenu ">
+			<div class="pos-a txt-c">选择已购买首充号</div>
+		</div>
+	</div>
+	<div style="width: 100%; padding-top: 10px;">
+		<div class="orderList">
+			<div class="back-ff inputText">
+				<div class="ub lh45  back-ff inputList">
+					<div class="col-6 ti10">游戏版本</div>
+					<div class="ub-f1 mar-l">
+						<select name="versions" id="versions">
+							<volist name="versions" id="vo">
+							<option value="{$vo.id}">{$vo.vName}</option>
+							</volist>
+						</select>
+					</div>
+				</div>
+				<div class="ub lh45  back-ff inputList">
+					<div class="col-6 ti10">游戏帐号</div>
+					<div class="ub-f1 mar-l">
+						<input class="inputStyle" type="text" id="account" name="account"
+							value="" placeholder="" />
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="orderList">
+			<volist name="account" id="vo">
+			<div class="ub checkList back-ff mar-t10" style="position:relative;">
+				<div class="ub-f1">
+					<div class="checkText">
+						<span class="col-9">账号：</span>{$vo.account}
+					</div>
+					<div class="checkText">
+						<span class="col-9">版本：</span>{$vo.vName}
+					</div>
+				</div>
+				<div class="checkIco" data-vid="{$vo.vid}" style="width:118px;"
+					data-account="{$vo.account}"></div>
+                    
+                  <div class="remove" data-id = "{$vo.id}">X</div>
+			</div>
+			</volist>
+		</div>
+	</div>
+	<div class="lh35"></div>
+	<div class="btn" onclick="subMit()">账号验证</div>
+	<div class="lh35"></div>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script>
+
+//全部订单，待发货，待付款，已完成切换 
+$('body').on('click','.orderMenu',function(){
+	var index=$(this).index();
+	$('.orderMenu').removeClass('orderNavActive');
+	$(this).addClass('orderNavActive');
+	$('.orderList').hide();
+	$('.orderList').eq(index).show();
+})
+
+$('body').on('click','.checkIco',function(){
+	$('.checkIco').removeClass('checkIco_true');
+	$(this).addClass('checkIco_true');
+	var vid=$(this).attr('data-vid');
+	var account=$(this).attr('data-account');
+	$('#account').val(account);
+    $("#versions option[value='"+vid+"']").prop("selected",true);
+	
+})
+
+ function subMit(){
+	  var versions=$("#versions  option:selected").val();
+	  var account=$('input[name=account]').val();
+	  var gameId="{$_GET['gameId']}";
+	  var goodsType="{$_GET['goodsType']}";
+	  var id="{$_GET['id']}";
+	  if(!isDefine(versions)){
+		  layer.msg('请选择游戏版本');
+		  return;
+	  }
+	 
+	 if(!isDefine(account)){
+	  		  layer.msg('请填写游戏帐号');
+			  return;
+	   }
+	$.ajax({
+		type:'POST',
+		url:"{:U('Validatadc/validataAccount')}",
+		data:{versions:versions,account:account,id:id,gameId:gameId,goodsType:goodsType},
+		dataType:'json',
+		success:function(data){
+			if(data.status==0){
+				layer.msg('验证成功');
+				setTimeout(function(){
+					///goodsId/{$_GET['id']}/v/"+data.vid+"/cc/"+data.account
+					var href="/Game/Goods/validateGoodsList";
+					window.location.href=href;
+				},1000)
+			}else{
+				layer.msg('验证失败');
+			}
+		}
+	});
+	 
+ }
+ 
+ 
+ /**
+  * @author peng
+  * @date 2017-01
+  * @descreption 有已购买首充号的直接显示
+  */
+
+$(function(){
+
+     if($('.orderList:eq(1) .ub.checkList').length>0) {
+        $('.orderMenu:eq(1)').click();
+     }
+     
+     //author: peng descreption:删除自己的充值记录
+     $('body').on('click','div.remove',function(){
+        var thisobj = $(this); 
+        layer.confirm('确定删除?', {icon: 3, title:'退出登录'}, function(index){
+            $.post('__URL__/delRecordAccount',{id:thisobj.data('id')},function(data){
+                if(data.status == 1){
+                    thisobj.closest('.ub.checkList').remove();
+                }else{
+                    layer.msg('删除失败');
+                }                
+            },'json')       
+			layer.close(index);
+		});
+        
+     })
+     
+     
+})
+</script>
+</html>

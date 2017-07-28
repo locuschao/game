@@ -1,0 +1,78 @@
+<extend name="Shops:layout" />
+<block name="content">
+
+<link rel="stylesheet" type="text/css"
+	href="__CSS__/shops/TTAgent.css" />
+<style>
+.show_pwd{
+    color:blue;
+}
+.hide_pwd{
+    color:blue;
+    display:none;
+}
+.pwd_tip{
+    margin-left:25px;
+    color:red;
+}
+</style>
+<div class="wst-body">
+
+	<div class='wst-page-header'>卖家中心 > 绑定代理</div>
+	<div class='wst-page-content' style="position: relative;">
+		<div class="agent-block">
+       <div class="agent-panel">
+            
+            <div class="row"><span><?php if($bind_info): ?> 已绑定<?php endif; ?>代理账号 :</span>
+            <?php if($bind_info): ?><input type="hidden" id="username" value="{$bind_info.username}" name="username"/>{$bind_info.username} <?php else : ?><input type="text" id="username" name="username" placeholder="代理名称"/> <?php endif; ?>
+            </div>
+            <div class="row"><span>代理登陆密码 :
+            </span><input type="password" id="password" name="password" placeholder="代理登陆密码" <?php if($mode == 3) echo 'disabled' ?>/></div>
+            
+            <div class="row">
+            <span>支付密码 :</span>
+            <input type="password" id="pay_pwd" name="pay_pwd" placeholder="支付密码" <?php if($mode == 3) echo 'disabled' ?>/>
+            <a class="show_pwd" href="javascript:void(0)">显示密码</a>
+            <a class="hide_pwd" href="javascript:void(0)">隐藏密码</a>
+            <span class="pwd_tip">提示：支付密码不正确将无法自动发货</span>
+            </div> 
+          
+            <!--<div class="row"><span>验证码 :</span>
+            <input type="text" class="code" id="code" name="code" placeholder="验证码"/>
+            <img class="verifyImg" style="vertical-align: middle; cursor: pointer; height: 30px;" src="/Home/Users/getVerify/rnd/0.9067240689618885.html" title="刷新验证码" onclick="javascript:getVerify()">
+            </div>-->
+            
+            <div class="row"><span></span>
+            <?php if($mode == 1) {?>
+            <button id="unbind" class="btn btn-md btn-primary bindBtn">解除绑定</button>
+            
+            <?php }else if($mode == 2){?>
+            <button id="bindBtn" class="btn btn-md btn-primary bindBtn">绑定</button>
+            
+            <?php }else{ ?>
+            <button id="apply_update" class="btn btn-md btn-primary bindBtn">申请解除绑定</button>
+            <?php }?>
+            </div>
+       </div>
+       <div class="apply_block">
+       <div class="row">
+           <span>申请理由：</span>
+           <textarea id="reason" class="reason"><?=str_replace('<br/>',PHP_EOL,M('update_bind')->find(I('id'))['update_reason'])?></textarea>
+       
+       </div>
+       <div class="apply_div row">
+       <button id="apply_submit" class="btn btn-md btn-primary bindBtn">确定</button>
+       <button id="cancel_apply"class="btn btn-sm btn-default bindBtn">取消</button>
+       </div>
+       </div>
+   </div>
+	</div>
+</div>
+<script>
+var __url__ = '__URL__';
+var versionId = "<?=intval(I('versionId'))?>";
+var agentId = "<?=intval($bind_info['agentId'])?>";
+var id = "<?=(int)I('id',0)?>";
+</script>
+<script type="text/javascript" src="__JS__/shops/agent.js">
+</block>

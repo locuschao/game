@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title><if condition="$_GET['r'] eq 'index' "> 首页 <elseif
+		condition="$_GET['r'] eq 'order' " /> 订单 <elseif
+		condition="$_GET['r'] eq 'my' " /> 个人中心 <else /> 首页 </if></title>
+<include file="./Tpl/head.html" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<!--标准mui.css-->
+<link rel="stylesheet" type="text/css" href="__CSS__/swiper.min.css">
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/swiper.min.js"></script>
+
+<style>
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+<include file="./Tpl/Public/commonFooter.html" />
+</body>
+</html>

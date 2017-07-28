@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>购买商品</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<link rel="stylesheet" href="__CSS__/order/buy.css?20170411" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/base.js"></script>
+<script src="__JS__/layer.min.js"></script>
+
+<style>
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<?php
+$goodsVersionsInfo = M('goods_versions')->where(array(
+                'id' => $post['attrid']
+            ))->find();
+
+$dlLink = M('game_version_download')->where([
+    'shopId'=>$goodsVersionsInfo['shopId'],
+    'gameId'=>M('goods')->where(['goodsId'=>$goodsVersionsInfo['goodsId']])->find()['gameId'],
+    'versionId'=>$goodsVersionsInfo['versionsId']
+])->find()['downloadLink'];
+
+?>
+<body>
+
+    <div class="cover" <?php if($dlLink=='') echo 'style="display:none;"'?>></div>
+    <div class="selfBlock" <?php if($dlLink=='') echo 'style="display:none;"'?> data-dlLink="{$dlLink}">
+        <div class="content">
+        <div class="close-btn">X</div>
+            <div class="title">账号生成方式</div>
+            <div class="row self-create">
+                <div class="self-div"><a href="javascript:void(0)" id="selfCreate">自建首充号</a></div>
+                <div class="link-div"><a href="{$dlLink}" target="_blank" id="down">点击下载游戏APP</a></div>
+                <div class="copy-link-block">
+                    <div class="copy-link">或者手动复制链接:</div>
+                    <div class="download-link">{$dlLink}</div>
+                </div>
+                
+            </div>
+            <div class="row system-create"><a href="javascript:void(0)">系统生成</a></div>
+        </div>
+    </div>
+	<div class="_top" style="z-index: 999">
+		<div class="_left_top" onclick='history.go(-1)'></div>
+		<div class="_title_top">购买商品</div>
+		<div class="_right_top mess"
+			onclick="location.href='/Game/Mess/mess/r/Orders_buy'"></div>
+	</div>
+	<div class="lh45"></div>
+	<form action="{:U('Orders/submitOrder')}" method="post" id="buyGoods">
+    <!--验证账号-->
+    <input type="hidden" id="versionsId" value="<?=$goodsVersionsInfo['versionsId']?>"/>
+  
+    <!--验证账号-->
+		<input type="hidden" id="goodsId" name="id" value="{$post.goodsId}" />
+		<input type="hidden" name="orderType" value="{$goodsInfo['scopeId']}" />
+		<input type="hidden" name="num" value="{$post.num}" /> <input
+			type="hidden" name="vid" value="{$_GET['v']}" />
+		<if condition="$post['attrid'] gt 0"> <input type="hidden"
+			name="attrid" value="{$post.attrid}" /> </if>
+		<div style="width: 100%; padding-top: 10px; background: #fff;"
+			class="bor">
+            <div class="ub lh35  back-ff inputList" id="self_block">
+				<div class="col-6">填写账号</div>
+				<div class="ub-f1 mar-l">
+					<input class="inputStyle" type="text" name="selfBuildAccount" id="selfBuildAccount"
+						value="" placeholder="请填写自建账号..." /><font
+						style="padding: 0px 10px" color='red'>*</font>
+				</div>
+			</div>
+			<div class="ub lh35  back-ff inputList">
+				<div class="col-6">填写区服</div>
+				<div class="ub-f1 mar-l">
+					<input class="inputStyle" type="text" name="area"
+						value="{$daichong.area}" placeholder="" /><font
+						style="padding: 0px 10px" color='red'>*</font>
+				</div>
+			</div>
+			<if condition="empty($_GET['v'])">
+			<div class="ub lh35  back-ff inputList">
+				<div class="col-6">角色名称</div>
+				<div class="ub-f1 mar-l">
+					<input class="inputStyle" type="text" name="roleName" value=""
+						placeholder="" /><font style="padding: 0px 10px" color='red'>*</font>
+				</div>
+			</div>
+			<div class="ub lh35  back-ff inputList">
+				<div class="col-6">手机号码</div>
+				<div class="ub-f1 mar-l">
+					<input onkeyup="this.value=this.value.replace(/\D/g,'')"
+						onafterpaste="this.value=this.value.replace(/\D/g,'')"
+						class="inputStyle" type="text" name="mobile" value=""
+						placeholder="" /><font style="padding: 0px 10px" color='red'>*</font>
+				</div>
+			</div>
+			<div class="ub lh35  back-ff inputList">
+				<div class="col-6">联系QQ</div>
+				<div class="ub-f1 mar-l">
+					<input onkeyup="this.value=this.value.replace(/\D/g,'')"
+						onafterpaste="this.value=this.value.replace(/\D/g,'')"
+						class="inputStyle" type="text" name="qq" value="" placeholder="" /><font
+						style="padding: 0px 10px" color='red'>*</font>
+				</div>
+			</div>
+			<div class="ub lh35  back-ff inputList">
+				<div class="col-6">职业</div>
+				<div class="ub-f1 mar-l">
+					<input class="inputStyle" type="text" name="profession" value=""
+						placeholder="" />
+				</div>
+			</div>
+			<div class="ub lh35  back-ff inputList">
+				<div class="col-6">特殊备注</div>
+				<div class="ub-f1 mar-l">
+					<input class="inputStyle" type="text" name="orderRemarks" value=""
+						placeholder="" />
+				</div>
+			</div>
+			<else />
+			<div class="ub lh35  back-ff inputList">
+				<div class="col-6">游戏帐号</div>
+				<div class="ub-f1 mar-l">
+					<input readonly="readonly" class="inputStyle" type="text"
+						name="account" value="{$daichong.account}" placeholder="" />
+				</div>
+			</div>
+			<div class="ub lh35  back-ff inputList">
+				<div class="col-6">登录密码</div>
+				<div class="ub-f1 mar-l">
+					<input class="inputStyle" type="text" name="password" value=""
+						placeholder="" />
+				</div>
+			</div>
+			<div class="ub lh35  back-ff inputList">
+				<div class="col-6">游戏版本</div>
+				<div class="ub-f1 mar-l">
+					<input readonly="readonly" class="inputStyle" type="text"
+						name="vName" value="{$daichong.vName}" placeholder="" />
+				</div>
+			</div>
+			</if>
+            <!--
+             * @author peng
+             * @date 2017-01
+             * @descreption 
+            -->
+            <input type="hidden" name="vouchers" value="<?=$post['vouchers']?>"/>
+	</form>
+	<div class="ub">
+		<div class="goodsImg">
+			<img src="/{$goodsInfo.goodsThums}" />
+		</div>
+		<div class="ub-f1 goodsName "
+			style="word-break: break-all; word-wrap: break-word;">{$goodsInfo.goodsName}</div>
+	</div>
+	<div class="ub lh35  back-ff detailList">
+		<div class="col-9">所属游戏：</div>
+		<div class="ub-f1 ">
+			{$game}
+			<if condition="$post['attrid'] gt 0">({$attrInfo.vName})</if>
+		</div>
+	</div>
+	<div class="ub lh35  back-ff detailList">
+		<div class="col-9">商品类别：</div>
+		<div class="ub-f1 ">{$type}</div>
+	</div>
+	<div class="ub lh35  back-ff detailList">
+		<div class="col-9">购买数量：</div>
+		<div class="ub-f1 ">{$post.num}</div>
+	</div>
+	<div class="ub lh35  back-ff detailList">
+		<div class="col-9">商品单价：</div>
+		<div class="ub-f1 ">
+			<if condition="$post['attrid'] eq 0">{$goodsInfo.shopPrice}<else />{$attrInfo.attrPrice}</if>
+		</div>
+	</div>
+    <!--
+     * @author peng
+     * @date 2017-01
+     * @descreption 
+    -->
+    <?php  if($sum_voucher_price>0) : ?>
+    <div class="ub lh35  back-ff detailList">
+		<div class="col-9">抵消金额：</div>
+		<div class="ub-f1 ">
+			<?=number_format($sum_voucher_price,2)?>
+		</div>
+	</div>
+    <?php endif; ?>
+
+	<div class="ub lh35  back-ff detailList">
+		<div class="col-9">订单总额：</div>
+		<div class="ub-f1 ">
+			<php> if($post['attrid']>0){ echo
+			sprintf('%0.2f',$attrInfo['attrPrice']*$post['num']-$sum_voucher_price); }else{ echo
+			sprintf('%0.2f',$goodsInfo['shopPrice']*$post['num']-$sum_voucher_price); } </php>
+		</div>
+	</div>
+	<div class="ub lh35  back-ff detailList">
+		<div class="col-9">充值总额：</div>
+		<div class="ub-f1 ">
+			<php> echo
+			sprintf('%0.1f',$goodsInfo['shopPrice']*$post['num']); </php>
+		</div>
+	</div>
+	</div>
+	<div class="lh35"></div>
+	<div class="btn" style="cursor: pointer" onclick="subMit()">提交订单</div>
+	<div class="lh35"></div>
+	<input type="hidden" name="isRepeat" id="isRepeat" value="0" />
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+
+<script>
+	function subMit() {
+		var isRepeat = $('#isRepeat').val();
+		if (isRepeat == 1) {
+			location.href = "{:U('Game/Index/index',array('r'=>'order'))}";
+			return;
+		}
+		var area = $('input[name=area]').val();
+
+		var roleName = $('input[name=roleName]').val();
+
+		var mobile = $('input[name=mobile]').val();
+		var qq = $('input[name=qq]').val();
+		var profession = $('input[name=profession]').val();
+        //author: peng descreption:自建账号
+        var selfBuildAccount = $('#selfBuildAccount');
+        
+        if (selfBuildAccount.length>0 && selfBuildAccount.val()=='') {
+			layer.msg('请填写自建账号');
+			return;
+		}
+        
+		if (!isDefine(area)) {
+			layer.msg('请填写区服');
+			return;
+		}
+		if (!isDefine(roleName)) {
+			layer.msg('请填写角色名称');
+			return;
+		}
+		if (!isDefine(mobile)) {
+			layer.msg('请填写手机号');
+			return;
+		}
+		var telReg = !!mobile
+				.match(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/);
+		//如果手机号码不能通过验证
+		if (telReg == false) {
+			layer.msg('手机号格式不正确');
+			return;
+		}
+		if (!isDefine(qq)) {
+			layer.msg('请填写qq');
+			return;
+		}
+		/*  if(!isDefine(profession)){
+		  		  layer.msg('请填写职业');
+				  return;
+		   } */
+		var goodsId = "{$post.goodsId}";
+        
+        $('.btn').text('提交中...');
+        if(selfBuildAccount.length>0){
+       
+            $.post('{:U("Game/Validatadc/validataAccount")}',{
+                    account:selfBuildAccount.val(),
+                    goodsType:0,
+                    id:$('#goodsId').val(),
+                    gameId:'',
+                    versions:$('#versionsId').val(),
+                    from:'submit_order'
+                
+            },function(data){
+                if(data.status == 0){   //账号验证通过
+                    checkShopExpireAndSubmit(goodsId);
+                }else if(data.status == -1){
+                        $('.btn').text('提交订单');
+                    	layer.msg('验证失败');
+       					return;
+                }else if(data.status == -2){
+                        $('.btn').text('提交订单');
+                    	layer.msg('自建账号已经存在,请续充');
+       					return;
+                }
+            },'json');
+        }else{
+            checkShopExpireAndSubmit(goodsId);
+        }
+		
+
+	}
+    function checkShopExpireAndSubmit(goodsId){
+        //检查库存及营业时间
+		$.ajax({
+			type : 'post',
+			url : "{:U('Goods/stock')}",
+			dataType : 'json',
+			data : {
+				goodsId : goodsId
+			},
+			success : function(data) {
+				if (data.status == 0) {
+					$('#isRepeat').val(1);
+					$('#buyGoods').submit();
+				} else {
+					layer.msg(data.msg);
+					return;
+				}
+			}
+		})
+    }
+ 
+</script>
+<script src="__JS__/goods/game-orders.js?20170411"></script>
+</html>

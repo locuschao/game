@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta http-equiv="Cache-control" content="no-cache"/>
+<meta http-equiv="Cache" content="no-cache"/>
+    <link href="/Public/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/Tpl/Admin/css/page.css" rel="stylesheet">
+    <script src="__PUBLIC__/js/jquery.min.js"></script>
+<title>平台订单列表</title>
+    <style>
+        .order_table table{
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="order_table">
+                <form method="post" action="">
+                    <table>
+                        <tr><td>订单：</td><td><input type="text" class="form-control" name="orderNo" style="width:250px"></td><td><button class="btn btn-primary">搜索</button></td></tr>
+                    </table>
+                </form>
+            </div>
+            <table class="list_tab">
+                <tr><th>商品图片</th><th>订单号</th><th>商品名</th><th>付款金额</th><th>分成金额</th><th>下单时间</th><th>订单状态</th><th>操作</th></tr>
+                <volist name="list" id="vo">
+                    <tr><td><img src="/{$vo.picture}" width="50px"></td><td>{$vo.orderNo}</td><td>{$vo.goodsName}</td><td>{$vo.needPay}</td><td><?=number_format($vo['gain_price'],2)?></td><td>{$vo.createTime}</td><td>
+                        <if condition="$vo.orderStatus eq -2 ">未支付
+                        <elseif condition="$vo.orderStatus eq 1" />未发货
+                        <elseif condition="$vo.orderStatus eq 2" />已发货
+                        <elseif condition="$vo.orderStatus eq 3" />交易完成
+                        <elseif condition="$vo.orderStatus eq -3" />退款中
+                        <elseif condition="$vo.orderStatus eq -4" />买家取消订单
+                        <elseif condition="$vo.orderStatus eq -5" />退款成功
+                        <elseif condition="$vo.orderStatus eq -6" />商家拒绝退款
+                        <elseif condition="$vo.orderStatus eq -7" />商家取消订单
+                        <elseif condition="$vo.orderStatus eq -8" />平台拒绝退款
+                        <elseif condition="$vo.orderStatus eq -9" />订单失效
+                        </if>
+                    </td>
+                        <td><button class="btn btn-primary" onclick="location.href='__CONTROLLER__/orderDetail/orderId/{$vo.orderId}';">查看</button> </td>
+                    </tr>
+                </volist>
+            </table>
+            <div class="page_nav">
+                {$page}
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

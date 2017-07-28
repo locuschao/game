@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>个人信息</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<link rel="stylesheet" type="text/css" href="__CSS__/app.css" />
+<link rel="stylesheet" href="__CSS__/my.css" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/layer.min.js"></script>
+<script type="text/javascript" src="__JS__/ajaxupload.js"></script>
+<style>
+html{
+	margin: 0 auto;
+	max-width: 800px;
+}
+.right_arrows {
+	background-size: 9px;
+}
+
+#tou {
+	background: #ff4045;
+}
+
+.lh60 {
+	height: 50px;
+	line-heigt: 50px;
+	padding: 10px 0px;
+}
+
+.avator {
+	border-riadius: 50%;
+}
+
+.avator img {
+	border-radius: 50%;
+	width: 50px;
+	height: 50px;
+}
+
+.ft12 {
+	font-size: 12px;
+}
+.joinBtn{
+    color:blue;
+    margin-right:7px;
+}
+#avator{
+    background:none;
+    padding-top:0;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<div class="_top">
+		<div class="_left_top"
+			onclick="location.href='{:U('Index/index',array('r'=>'my'))}'"></div>
+		<div class="_title_top">我的账户</div>
+		<div class="_right_top no-bg mess"
+			onclick="location.href='/Game/Mess/mess/r/Login_userInfo'"></div>
+	</div>
+	<div class="lh35" style="height: 40px;"></div>
+	<div class="ub  back-ff border_bottom1  lh60 ">
+		<div class="col_9   text-l " style="line-height: 50px;">
+			<span class="col-6">头像</span>
+		</div>
+		<div class="col_9   text-r ub-f1 avator margin_right10" id='avator'>
+			<img src="{$uinfo.userPhoto|default='__IMG__/default_avator.png'}" />
+		</div>
+		<div class="right_arrows "></div>
+	</div>
+	<div class="ub lh45 back-ff border_bottom1  ">
+		<div class="col_9   text-l ">
+			<span class="col-6">用户名</span>
+		</div>
+		<div class="col_9  text-r ub-f1" <if condition="empty($uinfo['userPhone'])"> onclick="location.href='{:U('Login/bindPhone')}'"</if> >{$uinfo.userPhone|default='请绑定手机'}</div>
+		<div class="right_arrows "></div>
+	</div>
+    <!--
+    @author peng
+    @date 2017-01-10
+    @descreption 
+    -->
+
+    <div class="ub lh45 back-ff border_bottom1">
+		<div class="col_9  text-l" >
+			<span class="col-6">会员等级</span>
+		</div>
+		<div class="col_9  text-r ub-f1" >
+       <?php if(in_array($uinfo['rank'],[2,3])) : ?>
+        <a href="/Game/GoodsRank" class="joinBtn">[会员升级]</a>
+       <?php endif; ?> 
+       <?php if($uinfo['rank']>0) {
+             $rank_text=[1=>'钻石VIP特权',2=>'白金VIP特权',3=>'黄金VIP特权'];
+             echo $rank_text[$uinfo['rank']];
+       }else {
+            echo '<a href="/Game/GoodsRank" style="color:blue;">[成为会员]</a>';
+       }
+        
+       ?>
+       
+        </div>
+		<div class="right_arrows "></div>
+	</div>
+
+	<div class="ub lh45  txt-c ti10">安全设置</div>
+	<div class="ub lh45 back-ff border_bottom1  "
+		onclick="location.href='{:U('Login/setLoginPwd')}'">
+		<div class="col_9   text-l ub-f1">
+			<span class="col-6">登录密码</span>
+		</div>
+		<div class="col_9 ft12">修改</div>
+		<div class="right_arrows"></div>
+	</div>
+	<div class="ub lh45 back-ff border_bottom1  "
+		onclick="location.href='{:U('Login/payPwd')}'">
+		<div class="col_9   text-l ub-f1">
+			<span class="col-6">支付密码</span>
+		</div>
+		<div class="col_9 ft12">修改</div>
+		<div class="right_arrows"></div>
+	</div>
+	<!--<div class="ub lh45 back-ff border_bottom1"-->
+		<!--style="position: fixed; width: 100%; bottom: 0; left: 0;max-width: 800px;margin: 0 auto;left: 0;right: 0;"-->
+		<!--onclick="logOut()">-->
+		<!--<div class="col_9   text-l ub-f1 txt-c">-->
+			<!--<span class="col-6">退出当前账户</span>-->
+		<!--</div>-->
+	<!--</div>-->
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script>
+function logOut(){
+	layer.confirm('确认退出登录吗?', {icon: 3, title:'退出登录'}, function(index){
+		  //do something
+		  	$.ajax({
+				type : "POST",
+				url : "{:U('Login/logOut')}",
+				data : {},
+				dataType : "json",
+				success : function(data) {
+					if(data.status==0){
+						layer.msg('成功退出');
+						setTimeout(function(){
+							location.href="{:U('Index/index')}";
+						},1000)
+						}
+					}
+				});
+		  layer.close(index);
+		});
+}
+
+$(function(){
+    var fileType = "pic",fileNum = "one"; 
+    new AjaxUpload('#avator',{
+        action: "{:U('Login/uploadImg')}",
+        name: 'images',
+        onSubmit : function(file, ext){
+            if(fileType == "pic")
+            {
+                if (ext && /^(jpg|png|jpeg|gif|JPG)$/.test(ext)){
+                    this.setData({
+                        'info': '文件类型为图片'
+                    });
+                } else {
+                	 layer.msg('仅支持.png .jpg .jpeg的图片');  
+                    return false;               
+                }
+            }
+            layer.msg('文件上传中');            
+            if(fileNum == 'one')
+                this.disable();
+        },
+        onComplete: function(file, response){
+			if(response != "success"){
+				if(response =='2'){
+					 layer.msg('图片格式错误');
+					setTimeout(function(){
+						location.reload([true]);
+					},1000)
+				}else{
+
+					if(response.length>45){
+						 layer.msg('上传失败');   
+						 setTimeout(function(){
+							 location.reload([true]);
+						 },1000)
+					}else{
+						 layer.msg('上传完成');   
+						 $('.avator').find('img').attr('src',response);
+						 location.reload([true]);
+					}
+				}
+			}
+            window.clearInterval(interval);
+            this.enable();
+            if(response == "success")
+            layer.msg('上传成功');   
+        }
+    });
+})
+</script>
+</html>

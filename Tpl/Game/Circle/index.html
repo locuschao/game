@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>圈子</title>
+<include file="./Tpl/head.html" />
+<!--<meta name="viewport"
+	content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">-->
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=no, maximum-scale=1.0" />
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<!--标准mui.css-->
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/mui.min.css">
+<link rel="stylesheet" href="__CSS__/font.css" />
+<!--App自定义的css-->
+<link rel="stylesheet" href="__CSS__/bootstrap/css/bootstrap.min.css" />
+
+<style>
+body {
+	background-color: #EFEFF3 !important;
+}
+header{
+	max-width: 800px;
+	margin: 0 auto;
+}
+.container{
+	max-width: 800px;
+}
+.oa-contact-cell.mui-table .mui-table-cell {
+	padding: 11px 0;
+	vertical-align: middle;
+}
+
+.oa-contact-avatar img {
+	border-radius: 50%;
+}
+
+.oa-contact-name, oa-contact-position {
+	float: left;
+}
+
+ul, li {
+	margin: 0;
+	padding: 0;
+}
+
+.swiper-slide img {
+	height: 180px;
+	min-width: 100%;
+}
+
+body {
+	padding-bottom: 50px;
+	font-size: 14px;
+}
+
+.hideDiv {
+	display: none;
+}
+
+._dian {
+	background: url(__IMG__/dianjia_logo.png) center no-repeat;
+	width: 25px;
+	background-size: 25px;
+}
+
+p, ul, li, h1, h2, input, select, hr {
+	background: none;
+}
+
+#max_lists li {
+	width: 25%;
+	over-flow: hidden;
+	line-height: 80px;
+	height: 80px;
+}
+
+#max_lists ul li img {
+	padding-top: 10px;
+}
+
+#lists li {
+	height: 55px;
+}
+
+.lh35 {
+	height: 35px;
+	line-height: 35px;
+	text-align: center;
+}
+
+.price p {
+	height: 15px;
+	line-height: 15px;
+}
+
+input[placeholder], [placeholder], *[placeholder] {
+	color: #ccc;
+	font-size: 90%;
+}
+
+::-webkit-input-placeholder {
+	color: #ccc;
+	font-size: 90%;
+}
+
+._imgWidth img {
+	height: 93px;
+	overflow: hidden;
+}
+
+.mui-icon {
+	color: white;
+}
+
+.mui-icon-black {
+	color: black;
+	-ms-transform: rotate(180deg); /* IE 9 */
+	-moz-transform: rotate(180deg); /* Firefox */
+	-webkit-transform: rotate(180deg); /* Safari 和 Chrome */
+	-o-transform: rotate(180deg); /* Opera */
+	transform: rotate(180deg);
+}
+
+.h-2 {
+	height: 2em;
+}
+
+.buttom-line {
+	border-bottom: 4px solid white;
+}
+
+.row-top {
+	background-color: white;
+}
+
+.row-body {
+	background-color: whitesmoke;
+}
+
+.row-buttom {
+	background-color: white;
+}
+
+.red {
+	color: red;
+}
+
+.enlarge {
+	font-size: 20px;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+
+<body>
+	<header class="mui-bar mui-bar-nav" style="background: #ff4045;">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"
+			ontouchend="history.go(-1)"></a>
+		<h1 class="mui-title" style="background: none;">圈子</h1>
+	</header>
+
+	<div class="container">
+		<div class="row h-2"
+			style="background-color: red; color: white; border-top: 2px solid white; line-height: 2em;">
+			<div class="col-xs-6 text-center top-hot buttom-line"
+				style="height: 100%; border-right: 1px solid white;">最新</div>
+			<div class="col-xs-6 text-center top-new" style="height: 100%">最热</div>
+		</div>
+		<div class="hot">
+			<volist name="list['hot']" id="vo">
+			<div class="row"
+				style="background-color: wheat; border-top: 1px solid black;">
+				<div class="row row-top">
+					<div class="col-xs-3">
+						<img class="img-thumbnail"
+							src="/{$vo.shopImg|default='Tpl/Wx/image/member.jpg'}">
+					</div>
+					<div class="col-xs-9">{$vo.title}--</div>
+				</div>
+				<a onclick=window.location.href=
+					"{:U('Circle/Detail',array('circleId'=>$vo['id']))}">
+					<div class="col-xs-12 text-center row-body">
+						<img src="/{$vo.imgThums|default='Tpl/Wx/image/loading.gif'}"
+							alt="">
+					</div>
+				</a>
+				<!--<div class="col-xs-12">test</div>-->
+				<div class="row row-buttom">
+					<div class="col-xs-4 text-center">
+						<span class="enlarge glyphicon glyphicon-eye-open"></span><span>
+							{$vo.looks|default='0'}</span>
+					</div>
+					<div class="col-xs-2">
+						<!--<button class="btn "></button>-->
+						<span data-id="{$vo.id}" data-uid="{$vo.uid}"
+							data-shopId="{$vo.shopId}"
+							class="enlarge circle_{$vo.id}_uid_{$vo.uid} glyphicon glyphicon-thumbs-up <if condition='$vo.likeStatus eq 1'>red</if> "></span>
+
+					</div>
+
+					<div class="col-xs-6 text-center">{$vo.time}</div>
+				</div>
+
+			</div>
+			</volist>
+
+
+
+		</div>
+
+		<div class="new" style="display: none">
+			<volist name="list['new']" id="vo">
+			<div class="row"
+				style="background-color: wheat; border-top: 1px solid black;">
+				<div class="row row-top">
+					<div class="col-xs-3">
+						<img class="img-thumbnail"
+							src="/{$vo.shopImg|default='Tpl/Wx/image/member.jpg'}">
+					</div>
+					<div class="col-xs-9">{$vo.title}</div>
+				</div>
+				<a onclick=window.location.href=
+					"{:U('Circle/Detail',array('circleId'=>$vo['id']))}">
+					<div class="col-xs-12 text-center row-body">
+						<img src="/{$vo.imgThums|default='Tpl/Wx/image/loading.gif'}"
+							alt="">
+					</div>
+				</a>
+				<!--<div class="col-xs-12">test</div>-->
+				<div class="row row-buttom">
+					<div class="col-xs-4 text-center">
+						<span class="glyphicon glyphicon-eye-open"></span>
+						{$vo.looks|default='0'}
+					</div>
+					<div class="col-xs-2">
+						<span data-id="{$vo.id}" data-uid="{$vo.uid}"
+							data-shopId="{$vo.shopId}"
+							class="circle_{$vo.id}_uid_{$vo.uid} glyphicon glyphicon-thumbs-up <if condition='$vo.likeStatus eq 1'>red</if>"></span>
+					</div>
+					<div class="col-xs-6 text-center">{$vo.time}</div>
+				</div>
+
+			</div>
+			</volist>
+		</div>
+
+	</div>
+	<script>
+
+        (function(){
+            var headerHeight = document.querySelector('header').clientHeight;
+
+            document.querySelector('.container').style.marginTop = headerHeight+'px';
+
+
+
+
+
+        })();
+
+    </script>
+
+	<script src="__JS__/jquery2.1.1.min.js"></script>
+	<script src="__JS__/layer1.7/layer.js"></script>
+
+	<script>
+        var ThinkPHP = window.Think = {
+            "ROOT"   : "__ROOT__",
+            "APP"    : "__APP__",
+            "PUBLIC" : "__PUBLIC__",
+            "DEEP"   : "{:C('URL_PATHINFO_DEPR')}",
+            "MODEL"  : ["{:C('URL_MODEL')}", "{:C('URL_CASE_INSENSITIVE')}", "{:C('URL_HTML_SUFFIX')}"],
+            "VAR"    : ["{:C('VAR_MODULE')}", "{:C('VAR_CONTROLLER')}", "{:C('VAR_ACTION')}"]
+        }
+    </script>
+	<!--<script src="__JS__/layer1.7/layer.js"></script>-->
+	<script src="__PUBLIC__/js/think.js"></script>
+
+
+
+	<script>
+    $(function(){
+       $('.top-hot').on('click',function(){
+           $('.top-new').removeClass('buttom-line');
+           $('.top-hot').addClass('buttom-line');
+          $('.hot').show();
+           $('.new').hide();
+       });
+
+        $('.top-new').on('click',function(){
+            $('.top-hot').removeClass('buttom-line');
+            $('.top-new').addClass('buttom-line');
+            $('.new').show();
+            $('.hot').hide();
+        });
+
+        $('span.glyphicon.glyphicon-thumbs-up').on('click',function(e){
+//           console.log(e);
+            var target = $(e)[0].target;
+            var id = $(target).attr('data-id');
+            var uid = $(target).attr('data-uid');
+            var shopid = $(target).attr('data-shopId');
+
+            if($(target).hasClass('red')){
+              //  $(target).removeClass('red');
+              //  $('.circle_'+id+'_uid_'+uid).removeClass('red');
+                sendLike({'circleId':id,'uid':uid,'shopId':shopid,'action':'delete'},target,'delete');
+            }else{
+
+               // $(target).addClass('red');
+               // $('.circle_'+id+'_uid_'+uid).addClass('red');
+                sendLike({'circleId':id,'uid':uid,'shopId':shopid,'action':'add'},target,'add');
+            }
+
+        });
+
+
+
+
+    });
+
+
+    function sendLike(data,target,action){
+
+
+        $.ajax({
+            url:Think.U('Wx/Circle/like'),
+            data:{
+                data:data
+            },
+            type:"post",
+            success:function( data ){
+
+                    sendLike.checkTurn(data.status,target,action);
+
+
+            }
+
+
+        });
+    }
+
+
+
+
+
+    sendLike.checkTurn=function (data,target,action) {
+        var string = "";
+
+        if(data!==false){
+            var id = $(target).attr('data-id');
+            var uid = $(target).attr('data-uid');
+            var shopid = $(target).attr('data-shopId');
+            if(action=='add'){
+
+                $(target).addClass('red');
+                 $('.circle_'+id+'_uid_'+uid).addClass('red');
+
+            }else{
+                $(target).removeClass('red');
+                 $('.circle_'+id+'_uid_'+uid).removeClass('red');
+            }
+
+
+           // console.log(action);
+//            $(target)[actionString]('red');
+            //$(target).actionString('red');
+           // $('.circle_'+id+'_uid_'+uid).actionString('red');
+        }
+        switch(data)
+        {
+            case 1:
+                string = '取消点赞';
+                break;
+            case false:
+                string = '未登陆';
+                break;
+            default:
+                string = '点赞成功';
+                break;
+        }
+
+
+        layer.open({
+            content: string,
+            time: 0.5
+       });
+       // alert(string);
+
+    }
+</script>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+</html>

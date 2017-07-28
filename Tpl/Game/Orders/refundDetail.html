@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>退款详情</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<link rel="stylesheet" href="__CSS__/font.css" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/layer.min.js"></script>
+<style>
+.font90 {
+	font-size: 90%;
+}
+
+.layui-layer-btn a {
+	font-weight: normal
+}
+
+body {
+	padding-bottom: 50px;
+}
+
+.con {
+	padding: 10px 10px 20px 10px;
+	background: #fff url(__IMG__/teeth.png) bottom center repeat-x;
+	background-size: 20px;
+}
+
+.one {
+	background: url(__IMG__/warning.png) left center no-repeat;
+	text-indent: 20px;
+	background-size: 15px;
+	height: 30px;
+	line-height: 30px;
+}
+
+.explain {
+	padding: 3px 0;
+}
+
+.divli {
+	padding: 10px;
+	width: 85%;
+	margin: 0 auto;
+	border: #d5d7dc solid 1px;
+	margin-top: 10px;
+}
+
+.mar_t0 {
+	margin-top: 0px;
+	border-top: 0;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<php> $url=explode('_',$_GET['ref']); $a=$url[0]; $m=$url[1];
+	$p=$url[2]; $refUrl=U("$a/$m",array('id'=>$p)); </php>
+	<div class="_top">
+		<div class="_left_top"
+			onclick='javascript:window.location.href="<php>echo $refUrl;</php>"'></div>
+		<div class="_title_top">退款详情</div>
+		<div class="_right_top nobackground"></div>
+	</div>
+	<div class="_content">
+		<div class="bg-ff con">
+			<div class="one bold">
+				<switch name="info['isRefund']"> <case value="1">等待商家处理退款申请</case>
+				<case value="2">退款成功</case> <case value="3">退款关闭</case> </switch>
+			</div>
+			<div class="explain">
+				<span class="col-9">如果商家同意：</span>申请将达成并退款至您的钱包余额
+			</div>
+			<div class="explain">
+				<span class="col-9">如果商家未处理：</span>超过48小时则申请达成并退款至您的 钱包余额
+			</div>
+			<div class="explain">
+				<span class="col-9">如果商家已发货：</span>订单将关闭，你可以再次发起退款
+			</div>
+		</div>
+		<div class="_son_title ub">
+			<div class="ub-f1 text-l">协商详情</div>
+			<div class="right_arrows"></div>
+		</div>
+		<div class="divli bg-ff ">
+			<span class="col-9">退款类型</span> 仅退款
+		</div>
+		<div class="divli bg-ff mar_t0">
+			<span class="col-9">店铺名称</span> {$info.shopName}
+		</div>
+		<div class="divli bg-ff mar_t0">
+			<span class="col-9">退款金额</span> <span class="col-red">￥{$info.money}元</span>
+		</div>
+		<div class="divli bg-ff mar_t0">
+			<span class="col-9">退款原因</span> {$info.reason}
+		</div>
+		<div class="divli bg-ff mar_t0">
+			<span class="col-9">退款说明</span> {$info.explain}
+		</div>
+		<div class="divli bg-ff mar_t0">
+			<span class="col-9">退款编号</span> {$info.refundNo}
+		</div>
+
+		<div class="divli bg-ff mar_t0">
+			<span class="col-9">申请时间</span> {$info.time|date="Y-m-d H:i:s",###}
+		</div>
+	</div>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script>
+	$('body').on('click', '.lx', function() {
+		var id = $(this).attr('data-tel');
+		if (!id) {
+			return;
+		}
+		layer.confirm(id, {
+			title : '联系商家'
+		}, function(index) {
+			location.href = "tel:" + id;
+			layer.close(index);
+		});
+	})
+</script>
+</html>

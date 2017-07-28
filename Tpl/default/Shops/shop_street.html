@@ -1,0 +1,91 @@
+<extend name="Base:common" />
+<block name="static">
+<link rel="stylesheet" href="__CSS__/shopstreet.css" />
+<link rel="stylesheet" href="__CSS__/magnifier.css" />
+</block>
+<block name="body">
+<div>
+	<div class="wst-street-ad-box">
+		<volist name="ads" id="vo" key='i'> <if condition="$i eq 1">
+		<a href="{:U('Home/Index/access/',array('url'=>$vo['adURL']))}"
+			target="_blank"> <img src="__ROOT__/{$vo['adFile']}" width='1210'
+			height="350" title="{$vo['adName']}" />
+		</a> </if> </volist>
+	</div>
+</div>
+<div class="wst-shadow">
+	<div class="wst-street-schbox">
+		&nbsp;&nbsp;&nbsp;&nbsp;您附近有<span id="spcnt" class="wst-street-spcnt">
+			<?php echo count($dsplist[0]['ctlist']) ?>
+		</span>个相关地址：您的位置 <select id="cityId" onchange="getDistrictsShops();">
+			<volist name="areaList" id="vo" key='i'>
+			<option<if condition="$areaId3 eq $vo['areaId']">selected="selected"</if>
+				value="{$vo['areaId']}">{$vo['areaName']}
+			</option>
+			</volist>
+		</select>
+		<div style="float: right;">
+			<div class="wst-street-sch-bx1">
+				&nbsp;&nbsp;&nbsp;&nbsp;筛选店铺&nbsp;&nbsp;&nbsp;&nbsp; <select
+					id="deliveryStartMoney" onchange="getDistrictsShops();">
+					<option value="-1">起送金额(全部)</option>
+					<option value="0-10">10元以下</option>
+					<option value="10-50">10-50元</option>
+					<option value="50-100">50-100元</option>
+					<option value="100-150">100-150元</option>
+					<option value="150-200">150-200元</option>
+					<option value="200">200元以上</option>
+				</select> <select id="deliveryMoney" onchange="getDistrictsShops();">
+					<option value="-1">配送费(全部)</option>
+					<option value="0-10">10元以下</option>
+					<option value="10-50">10-50元</option>
+					<option value="50-100">50-100元</option>
+					<option value="100-150">100-150元</option>
+					<option value="150-200">150-200元</option>
+					<option value="200">200元以上</option>
+				</select> <select id="shopAtive" onchange="getDistrictsShops();">
+					<option value="-1">店铺状态(全部)</option>
+					<option value="1">营业中</option>
+					<option value="0">休息中</option>
+				</select>
+
+			</div>
+			<div class="wst-street-sch-bx2">
+				<div class="wst-street-scp-dp">
+					<input id="shopName" class="wst-street-scp-sn" placeholder="搜索 店铺"
+						autocomplete="off" value='{$keyWords}'>
+					<div class="wst-street-scp-sk" onclick="getDistrictsShops();">搜&nbsp;索</div>
+				</div>
+			</div>
+			<div style=""></div>
+		</div>
+		<div style=""></div>
+	</div>
+</div>
+
+<!----加载商品楼层start----->
+<div class="wst-container">
+
+	<div class="wst-shadow">
+		<div class="wst-shop-address-box wst-shadow"></div>
+		<div class="wst-shop-container">
+			<div class="wst-shop-list">
+				<div>附近没有相关商铺</div>
+			</div>
+			<div class="wst-page"
+				style="text-align: center; margin-bottom: 10px; padding-right: 15px;">
+				<div id="wst-page-items"></div>
+			</div>
+		</div>
+		<div class="wst-clear"></div>
+	</div>
+
+</div>
+</block>
+<block name="footer_static"> <script
+	src="__PUBLIC__/plugins/layer/layer.min.js"></script> <script
+	src="__JS__/shopstreet.js"></script> </block>
+
+
+
+

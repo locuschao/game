@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<include file="./Tpl/homeHead.html" />
+<meta name="format-detection" content="telephone=no">
+<title>{$data['title']}大奖刮出来！</title>
+<link href="__CSS__/activity-style.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+#txt {
+	color: #000000;
+}
+
+.footFix {
+	width: 100%;
+	text-align: center;
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	z-index: 99;
+}
+
+#footReturn a, #footReturn2 a {
+	display: block;
+	line-height: 41px;
+	color: #fff;
+	text-shadow: 1px 1px #282828;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+#footReturn, #footReturn2 {
+	z-index: 89;
+	display: inline-block;
+	text-align: center;
+	text-decoration: none;
+	vertical-align: middle;
+	cursor: pointer;
+	width: 100%;
+	outline: 0 none;
+	overflow: visible; Unknown property name.-moz-box-sizing : border-box;
+	box-sizing: border-box;
+	padding: 0;
+	height: 41px;
+	opacity: .95;
+	border-top: 1px solid #181818;
+	box-shadow: inset 0 1px 2px #b6b6b6;
+	background-color: #515151; Invalid property value.background-image :
+	-ms-linear-gradient( top, #838383, #202020);
+	background-image: -webkit-linear-gradient(top, #838383, #202020);
+	Invalid property value.background-image : -moz-linear-gradient( top,
+	#838383, #202020); Invalid property value.background-image :
+	-o-linear-gradient( top, #838383, #202020);
+	background-image: -webkit-gradient(linear, 0% 0, 0% 100%, from(#838383),
+		to(#202020));
+	Invalid
+	property
+	value.filter
+	:
+	progid
+	:
+	DXImageTransform.Microsoft.gradient
+	(
+	GradientType
+	=
+	0
+	,
+	startColorstr
+	=
+	'#838383'
+	,
+	endColorstr
+	=
+	'#202020'
+	);
+	Unknown
+	property
+	name.-ms-filter
+	:
+	progid
+	:
+	DXImageTransform.Microsoft.gradient
+	(
+	GradientType
+	=
+	0
+	,
+	startColorstr
+	=
+	'#838383'
+	,
+	endColorstr
+	=
+	'#202020'
+	);
+}
+</style>
+
+<script type="text/javascript">
+
+function loading(canvas,options){   
+  this.canvas = canvas;   
+  if(options){   
+    this.radius = options.radius||12;   
+    this.circleLineWidth = options.circleLineWidth||4;   
+    this.circleColor = options.circleColor||'lightgray';   
+    this.moveArcColor = options.moveArcColor||'gray';   
+  }else{   
+    this.radius = 12;   
+    this.circelLineWidth = 4;   
+    this.circleColor = 'lightgray';   
+    this.moveArcColor = 'gray';   
+  }   
+}   
+loading.prototype = {   
+  show:function (){   
+    var canvas = this.canvas;   
+    if(!canvas.getContext)return;   
+    if(canvas.__loading)return;   
+    canvas.__loading = this;   
+    var ctx = canvas.getContext('2d');   
+    var radius = this.radius;   
+    var me = this;   
+    var rotatorAngle = Math.PI*1.5;   
+    var step = Math.PI/6;   
+    canvas.loadingInterval = setInterval(function(){   
+      ctx.clearRect(0,0,canvas.width,canvas.height);   
+      var lineWidth = me.circleLineWidth;   
+      var center = {x:canvas.width/2,y:canvas.height/2};  
+
+      ctx.beginPath();   
+      ctx.lineWidth = lineWidth;   
+      ctx.strokeStyle = me.circleColor;   
+      ctx.arc(center.x,center.y+20,radius,0,Math.PI*2);   
+      ctx.closePath();   
+      ctx.stroke();   
+      //在圆圈上面画小圆   
+      ctx.beginPath();   
+      ctx.strokeStyle = me.moveArcColor;   
+      ctx.arc(center.x,center.y+20,radius,rotatorAngle,rotatorAngle+Math.PI*.45);   
+      ctx.stroke();   
+      rotatorAngle+=step;   
+ 
+    },100);   
+  },   
+  hide:function(){   
+    var canvas = this.canvas;   
+    canvas.__loading = false;   
+    if(canvas.loadingInterval){   
+      window.clearInterval(canvas.loadingInterval);   
+    }   
+    var ctx = canvas.getContext('2d');   
+    if(ctx)ctx.clearRect(0,0,canvas.width,canvas.height);   
+  }   
+};   
+</script>
+<link rel="stylesheet" href="__CSS__/layer.css">
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body data-role="page" class="activity-scratch-card-winning">
+	<script type="text/javascript">
+var loadingObj = new loading(document.getElementById('loading'),{radius:20,circleLineWidth:8});   
+    loadingObj.show(); 
+</script>
+	<script src="__JS__/ggk/jquery.js" type="text/javascript"></script>
+	<script src="__JS__/ggk/alert.js" type="text/javascript"></script>
+	<script src="__JS__/ggk/wScratchPad.js" type="text/javascript"></script>
+	<script type="text/javascript" src="__JS__/layer.js"></script>
+	<script type="text/javascript" src="__JS__/layer.ext.js"></script>
+	<script>
+  $(function(){
+    layer.config({extend: 'extend/layer.ext.js'});
+  })
+</script>
+	<?php 
+if($data['isover']!=1){
+?>
+	<div class="main">
+		<div class="banner">
+			<img src="__IMG__/ggk/activity-scratch-card-end2.jpg">
+		</div>
+		<div class="content" style="margin-top: -5px">
+			<div class="boxcontent boxwhite">
+				<div class="box">
+					<div class="title-brown">活动结束说明：</div>
+					<div class="Detail">
+						<p>{$data["endinfo"]}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<?php 
+}else{
+?>
+	<div class="main">
+		<div class="cover">
+			<img src="__IMG__/ggk/activity-scratch-card-bannerbg.png">
+			<?php  if((int)$data['isgua']===0){?>
+			<div id="prize">刮奖次数已用完</div>
+			<?php 
+  }else{
+  ?>
+			<div id="prize"></div>
+			<div id="scratchpad"></div>
+			<?php  } ?>
+		</div>
+
+
+
+		<div class="content">
+			<div id="zjl" style="display: none" class="boxcontent boxwhite">
+				<div class="box">
+					<div class="title-red">
+						<span>恭喜你中奖了</span>
+					</div>
+					<div class="Detail">
+						<p>
+							您中了：<span class="red" id="red"></span>
+						</p>
+						<p class="red">{$data["sttxt"]}</p>
+						<?php if(empty($data['area']['str'])){ ?>
+						<div id="msg">
+							<hr>
+							您的中奖码是<b id="snma" style="color: red;">{$data['area']['sn']}</b>，您可以进去店铺向客服使用中奖码领取奖品。<br>您没有填写收货地址，请先在<b><a
+								href='/Home/UserAddress/queryByPage.html'>“买家中心 > 收货地址”</a></b>填写收货地址。<br>中奖纪录将在<b><a
+								href='/Home/Ggk/gitlist.html'>“买家中心 > 刮刮卡中奖纪录”</a></b>中显示。<br>
+						</div>
+						<?php }else{ ?>
+
+						<?php if($data['area']['isress']!=0){ ?>
+
+						<div id="msg">
+							<hr>
+							您的中奖码是<b id="snma" style="color: red;">{$data['area']['sn']}</b>，您可以进去店铺向客服使用中奖码领取奖品。<br>奖品将尽快寄出下面的收货地址，中奖纪录将在<b><a
+								href='/Home/Ggk/gitlist.html'>“买家中心 > 刮刮卡中奖纪录”</a></b>中显示。<br>
+							<b>{$data['area']['str']}</b>
+						</div>
+
+						<?php }else{ ?>
+
+						<div id="msg">
+							<hr>
+							您的中奖码是<b id="snma" style="color: red;">{$data['area']['sn']}</b>，您可以进去店铺向客服使用中奖码领取奖品。<br>或选择下面收货地址，奖品将尽快寄出，中奖纪录将在<b><a
+								href='/Home/Ggk/gitlist.html'>“买家中心 > 刮刮卡中奖纪录”</a></b>中显示。<br>
+							{$data['area']['str']}
+							<button onclick="javascript:getress({$data['id']})">确定收货地址</button>
+						</div>
+						<?php } ?>
+						<?php } ?>
+					</div>
+				</div>
+			</div>
+
+
+
+			<div id="canyu" style="display: none" class="boxcontent boxwhite">
+				<div class="box">
+					<div class="title-red">
+						<span>谢谢参与！</span>
+					</div>
+					<div class="Detail">
+
+						<p class="red">叮咚...没中奖哦,继续努力!</p>
+
+						<p>
+							<input class="pxbtn" name="提 交" id="canyubtn" type="button"
+								value="继续刮奖">
+						</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="boxcontent boxwhite">
+				<div class="box">
+					<div class="title-brown">
+						<span>奖项说明：</span>
+					</div>
+					<div class="Detail">
+						<p style="line-height: 30px">
+							每人最多有 {$data["canrqnums"]} 次机会,您还有<span class="red" id="usenums">
+								{$data['canrqnums']-$data['usercount']} </span>机会。
+						</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="boxcontent boxwhite">
+				<div class="box">
+					<div class="title-brown">活动说明：</div>
+					<div class="Detail">
+						{$data["info"]}
+						<p style="line-height: 25px">活动时间:
+							{$data['statdate']|date='Y-m-d H:i',###} 至
+							{$data['enddate']|date='Y-m-d H:i',###}</p>
+						<p style="line-height: 30px">{$data["txt"]}</p>
+					</div>
+				</div>
+			</div>
+			<?php if((int)$data['showgit']===1) { ?>
+			<div class="boxcontent boxwhite">
+				<div class="box">
+					<div class="title-brown">
+						<span> 奖项设置： </span>
+					</div>
+					<div class="Detail">{$data['prizeStr']}</div>
+				</div>
+			</div>
+			<?php } ?>
+		</div>
+		<div id=flag style="display: none">0</div>
+		<input type="hidden" id="islottery" value="{$data['prize']}">
+		<div style="clear: both;"></div>
+	</div>
+	<?php 
+}
+?>
+	<script type="text/javascript">
+
+
+var num = $("#usenums").text();///剩余次数
+var count = {$data['canrqnums']};//总数
+
+
+       function start() {    
+        $.ajax({
+       url     : "/Home/Ggk/getluck.html?id={$data['id']}",
+       dataType: "json",
+       type    : "get",
+       beforeSend : function(){
+       },
+       success    : function(backdata){
+       var usenums=parseInt(backdata.usenums) + 1;
+       var jihui= parseFloat({$data['canrqnums']})- parseFloat(usenums)
+         $("#usenums").text(jihui)
+        
+        if (backdata.isover == 1) {
+          $("#prize").html(backdata.msg)
+        }
+        
+        if (backdata.isover ==2) {
+          $("#prize").html(backdata.msg)
+        }
+        
+        
+        if (backdata.success==1) { 
+          $("#red").html(backdata.msg);
+          $("#sn").val(backdata.sn);
+          $("#prize").html(backdata.msg);
+          $("#prizetype").val(backdata.prizetype);
+          $("#zjl").slideToggle(500);
+          $("#usenums").text(0);
+          getgit({$data['id']});
+        }else{
+          $("#prize").html(backdata.msg)
+          $("#canyu").slideToggle(500);
+            
+        }
+       }
+      });
+}   
+  
+  function getgit(id){
+        var msg=$('#msg');
+         $.ajax({
+          url:"/Home/ggk/getress.html",
+          data:{id:id},
+          beforeSend:function(){
+            layer.load();
+          },
+          success:function(data){
+            layer.closeAll();
+            $('#snma').text(data.sn);
+            // msg.prepend(data.str);
+          }});
+}
+
+    function getress(id){
+      var ress= $('input[name="address"]:checked ').val(); 
+      $.post("/Home/ggk/getress.html",{id:id,ress:ress,tj:1},function(data){
+         if (data.status==1) {
+          alert('提交成功');
+        }else{
+          alert('异常');
+        }
+      })
+    }
+      
+$(function(){
+  $("input[name=address]:eq(0)").attr("checked",'checked');
+  $("#scratchpad").wScratchPad({
+    width : 150,
+    height : 40,
+    color : "#a9a9a7",
+    scratchMove : function(){
+      var flag = parseInt($("#flag").text());
+      if(flag==0){
+        $("#flag").text("1")
+        start()
+      }
+    }
+  });
+});
+
+$("#canyubtn").click(function(){
+  //top.location.reload();
+ $("#flag").text("0")
+ $("#canyu").slideToggle(500);
+ $("#scratchpad").wScratchPad('reset');   
+ var usenums =$('#usenums').text();
+ if (usenums=='0') {
+   $('#scratchpad').remove();
+   $('#prize').text('刮奖次数已用完');
+   $('#usenums').text(0);
+ }
+
+});
+
+document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+WeixinJSBridge.call('hideToolbar');
+});
+</script>
+	<script>
+  $(function(){
+    var islottery =$('#islottery').val();
+  if (islottery) {
+    switch (islottery){
+      case '1':
+       var text = '一等奖';
+        break;
+      case '2':
+       var text = '二等奖';
+        break;
+      case '3':
+       var text = '三等奖';
+        break;
+    }
+    $('#prize').text(text);
+    $('#scratchpad').remove();
+    $('#red').text(text);
+    $('#zjl').css('display','block');
+    $('#usenums').text(0);
+  } 
+  })
+</script>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+</html>

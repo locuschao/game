@@ -1,0 +1,301 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta http-equiv="Cache-control" content="no-cache"/>
+<meta http-equiv="Cache" content="no-cache"/>
+<title>添加代金券</title>
+<link href="/Public/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="/Tpl/Admin/css/AdminLTE.css" rel="stylesheet"/>
+<link href="/Tpl/Admin/css/statistic/statistic-index.css" rel="stylesheet"/>
+ <script src="__PUBLIC__/js/jquery.min.js"></script>
+    <script src="/Tpl/Game/js/layer.min.js"></script>
+    <script>
+        $(function () {
+          $('#submit').click(function () {
+              var selector = $('input[type=radio]:checked');
+              var name = selector.attr('id');
+              if(name == 'undefined' || name == '' || name == null)
+              {
+                  layer.msg('类型未选择');
+                  return;
+              }
+              var gameId = 0;
+              var versionId = 0;
+              var is_global = 0;
+              var consume = 0;
+              var money = $('#money').val();
+              var goodsname = '';
+              var remark = '';
+              var discount_amount=0;
+              if(money == '' && name != 'discount_amount')
+              {
+                  layer.msg('面额未写');
+                  return;
+              }
+              goodsname = goodsname + money + '元';
+              if(name == 'gameId')
+              {
+                  gameId = selector.parents('.row').find('select[name='+name+']').val();
+                  if(gameId == 0)
+                  {
+                      layer.msg('请选择游戏');
+                      return;
+                  }
+                  var gameName = selector.parents('.row').find('option[value='+gameId+']').html();
+                    goodsname = goodsname + gameName;
+                    remark = remark+'只能在'+gameName+'游戏上使用，';
+              }else if (name == 'versionId')
+              {
+                  versionId = selector.parents('.row').find('select[name='+name+']').val();
+                  if(versionId == 0)
+                  {
+                      layer.msg('请选择版本');
+                      return;
+                  }
+                  var versionName = selector.parents('.row').find('option[value='+versionId+']').html()
+                  goodsname = goodsname + versionName;
+                  remark = remark + '只能在'+ versionName + '版本上使用，';
+              }
+              else if(name == 'gameVersion'){
+                  gameId = selector.parents('.row').find('select[name=gameId]').val();
+                  versionId = selector.parents('.row').find('select[name=versionId]').val();
+                  if(gameId == 0)
+                  {
+                      layer.msg('请选择游戏');
+                      return;
+                  }
+                  if(versionId == 0)
+                  {
+                      layer.msg('请选择版本');
+                      return;
+                  }
+                  var gameName = selector.parents('.row').find('select[name=gameId]').find('option[value='+gameId+']').html();
+                  var versionName = selector.parents('.row').find('select[name=versionId]').find('option[value='+versionId+']').html();
+                  goodsname = goodsname + gameName;
+                  goodsname = goodsname + versionName;
+                  remark = remark + '只能在'+gameName+'游戏上使用，';
+                  remark = remark + '只能在'+ versionName + '版本上使用，';
+              }else if(name == 'is_global'){
+                  is_global = selector.parents('.row').find('input[name=is_global]').val();     //这个固定为1
+                  goodsname = goodsname + '通用';
+                  remark = remark + '全站通用，';
+              }else if(name == 'consume'){
+                  consume = selector.parents('.row').find('input[name=consume]').val();
+                  if(consume == '')
+                  {
+                      layer.msg('满多少金额使用未填');
+                      return;
+                  }
+                  goodsname = goodsname + '满'+consume + '元';
+                  remark = remark + '实付金额满' + consume + '元使用，';
+              }else if(name == 'discount_amount'){
+                   discount_amount =  $('input[name="discount_amount"]').val()
+                   if(discount_amount<=0){
+                        layer.msg('免去充值金额必须大于0');
+                        return;
+                   }
+                   money=0;
+                   goodsname = '免去'+discount_amount+'元充值金额';
+                   remark = '抵消'+discount_amount+'元充值金额的费用，'; 
+              }
+              var validTime = $('#validTime').val();
+              if(validTime == '')
+              {
+                  layer.msg('请填写有效时间');
+                  return;
+              }
+              remark = remark.substr(0,remark.length-1);
+              goodsname = goodsname + '代金券';
+              var value = {
+                  gameId:gameId,
+                  versionId :versionId,
+                  is_global:is_global,
+                  consume:consume,
+                  validTime:validTime,
+                  money:money,
+                  name:goodsname,
+                  remark:remark,
+                  discount_amount:discount_amount
+              };
+              $.ajax({
+                  url:'__CONTROLLER__/addVoucherAction',
+                  data:value,
+                  type:'post',
+                  dataType:'json',
+                  success:function (res) {
+                      if(res.status == 0)
+                      {
+                          layer.msg(res.msg);
+                          location.href='__CONTROLLER__/index';
+                      }
+                      else{
+                            layer.msg(res.msg);
+                      }
+                  }
+              })
+          })
+        });
+        function gameSearch(t) {
+            var gameName = $(t).parent().find('input').val();
+            $.ajax({
+                url:'__CONTROLLER__/gameSearch',
+                data:{gameName:gameName},
+                dataType:'json',
+                type:'post',
+                success:function (res) {
+                    if(res.status == 0)
+                    {
+//                        alert($(t).parent().find('option[value='+res.gameId+']').html());
+//                        return;
+                        $(t).parents('.row').find('select[name=gameId]').find('option').removeAttr('selected');
+                        $(t).parents('.row').find('select[name=gameId]').find('option[value='+res.gameId+']').attr('selected','selected');
+                    }else{
+                        layer.msg(res.msg);
+                    }
+                }
+            })
+        }
+    </script>
+</head>
+<style>
+.wrap{
+    margin-left:30px;
+}
+.category-block .title{
+    font-weight:bold;
+    font-size:18px;
+}
+.row{
+    padding-left: 20px;
+    padding-bottom: 30px;
+}
+
+.cate-name{
+    display: inline-block;
+}
+select.form-control{
+    padding-top: 0px;
+}
+.cate-name{
+    min-width:100px;
+}
+.descreption{
+    padding-left:5px;
+}
+</style>
+<div class="wrap">
+
+        <form class="form-inline">
+            <div class="category-block">
+                <div  class="row title">类型：</div>
+                <div class="row">
+                    <div class="form-group">
+                     <input type="radio"  id="is_global" name="a"/>
+                    </div>
+                    <div class="form-group">
+                    <div class="cate-name"><label for="is_global">通用</label> </div>
+                        <input name="is_global" type="hidden" value="1">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                     <input type="radio" name="a"  id="consume"/>
+
+                    </div>
+                    <div class="form-group">
+                    <div class="cate-name"><label for="consume">满多少使用</label></div>
+                    </div>
+                    <div class="form-group">
+                    <input type="number" class="form-control" name="consume" style="width:60px"/><span class="descreption">(单位：元)</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                     <input type="radio" name="a" id="gameId"/>
+
+                    </div>
+                    <div class="form-group">
+                    <div class="cate-name"><label for="gameId">指定游戏</label> </div>
+                    </div>
+                     <div class="form-group">
+                    <select class="form-control" name="gameId">
+                        <option value="0">请选择游戏</option>
+                        <volist name="game" id="vo">
+                            <option value="{$vo.id}">{$vo.gameName}</option>
+                        </volist>
+                    </select>
+                         <input type="text" placeholder="搜索游戏"><button  type="button" onclick="gameSearch(this)">搜索</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                     <input type="radio" name="a" id="versionId"/>
+
+                    </div>
+                    <div class="form-group">
+                    <div class="cate-name"><label for="versionId">指定版本</label> </div>
+                    <div class="form-group">
+                    <select class="form-control" name="versionId">
+                        <option value="0">请选择游戏版本</option>
+                        <volist name="versions" id="vo">
+                            <option value="{$vo.id}">{$vo.vName}</option>
+                        </volist>
+                    </select>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group">
+                        <input type="radio" id="gameVersion"  name="a" value=""/>
+
+                    </div>
+                    <div class="form-group">
+                        <div class="cate-name"><label for="gameVersion">指定版本和游戏</label> </div>
+                        <div class="form-group">
+                            <select class="form-control" name="gameId">
+                                <option value="0">请选择游戏</option>
+                                <volist name="game" id="vo">
+                                    <option value="{$vo.id}">{$vo.gameName}</option>
+                                </volist>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control" name="versionId">
+                                <option value="0">请选择游戏版本</option>
+                                <volist name="versions" id="vo">
+                                    <option value="{$vo.id}">{$vo.vName}</option>
+                                </volist>
+                            </select>
+                            <input type="text" placeholder="搜索游戏"><button  type="button" onclick="gameSearch(this)">搜索</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                     <input type="radio" name="a" id="discount_amount"/>
+
+                    </div>
+                    <div class="form-group">
+                    <div class="cate-name"><label for="discount_amount">免去充值金额</label> </div>
+                    <div class="form-group">
+                    <input type="number" class="form-control" name="discount_amount" style="width:60px"/><span class="descreption">(单位：元)</span>
+                    </div>
+                    </div>
+                </div>
+
+
+                <div class="row"><label for="validTime">有效期：</label><input type="number" step="any" id="validTime" style="width:60px" class="form-control"/><span class="descreption">(单位：天)</span>&nbsp;&nbsp;&nbsp;<label for="money">面额：</label><input type="number" id="money" style="width:60px" class="form-control" step="any"/><span class="descreption">(单位：元)</span></div>
+                <div class="row"><input value="提交" type="button" id="submit"></div>
+
+            </div>
+        </form>
+
+
+</div>
+
+</body>
+</html>

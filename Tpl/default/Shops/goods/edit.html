@@ -1,0 +1,409 @@
+<extend name="Shops:layout" />
+<block name="content"> <script
+	src="__PUBLIC__/plugins/kindeditor/kindeditor.js"></script> <script
+	src="__PUBLIC__/plugins/kindeditor/lang/zh_CN.js"></script>
+
+<link rel="stylesheet" type="text/css"
+	href="__PUBLIC__/plugins/webuploader/style.css" />
+<link rel="stylesheet" type="text/css"
+	href="__PUBLIC__/plugins/webuploader/webuploader.css" />
+<script type="text/javascript"
+	src="__PUBLIC__/plugins/webuploader/webuploader.js"></script> <script
+	type="text/javascript" src="__JS__/goodsbatchupload.js"></script> <script
+	type="text/javascript" src="__JS__/layer.js"></script> <script
+	type="text/javascript" src="__JS__/jquery-1.8.3.min.js"></script> <script
+	type="text/javascript" src="__PUBLIC__/plugins/jeDate/jedate.js"></script>
+
+<style>
+.datainp {
+	width: 150px;
+}
+
+.bor tr td, th {
+	border: #efefef solid 1px;
+}
+
+.tableinput input {
+	width: 60px;;
+}
+/**
+ * @author peng	
+ * @date 2017-01-06
+ * @descreption 
+ */
+ .wst-form.bor input{
+    width:60px;
+ }
+</style>
+<script>
+	$(function() {
+		$('#tab').TabPanel({
+			tab : 0
+		});
+		$.formValidator.initConfig({
+			theme : 'Default',
+			mode : 'AutoTip',
+			formID : "myform",
+			debug : true,
+			submitOnce : true,
+			onSuccess : function() {
+				editGoods('{$umark}');
+				return false;
+			},
+			onError : function(msg) {
+			}
+		});
+		$("#goodsSn").formValidator({
+			onShow : "",
+			onFocus : "",
+			onCorrect : "输入正确"
+		}).inputValidator({
+			min : 1,
+			max : 50,
+			onError : "请输入商品编号"
+		});
+		$("#goodsName").formValidator({
+			onShow : "",
+			onFocus : "",
+			onCorrect : "输入正确"
+		}).inputValidator({
+			min : 1,
+			max : 200,
+			onError : "请输入商品名称"
+		});
+		$("#shopPrice").formValidator({
+			onShow : "",
+			onFocus : "",
+			onCorrect : "输入正确"
+		}).inputValidator({
+			min : 1,
+			max : 50,
+			onError : "请输入充值面额"
+		});
+		$("#commission").formValidator({
+			onShow : "",
+			onFocus : "",
+			onCorrect : "输入正确"
+		}).inputValidator({
+			min : 1,
+			max : 50,
+			onError : "请输入分成金额"
+		});
+	});
+
+	function imglimouseover(obj) {
+		if (!$(obj).find('.file-panel').html()) {
+			$(obj).find('.setdel').addClass('trconb');
+			$(obj).find('.setdel').css({
+				"display" : ""
+			});
+		}
+	}
+
+	function imglimouseout(obj) {
+
+		$(obj).find('.setdel').removeClass('trconb');
+		$(obj).find('.setdel').css({
+			"display" : "none"
+		});
+	}
+
+	function imglidel(obj) {
+		if (confirm('是否删除图片?')) {
+			$(obj).parent().remove("li");
+			return;
+		}
+	}
+
+	function imgmouseover(obj) {
+		$(obj).find('.wst-gallery-goods-del').show();
+	}
+	function imgmouseout(obj) {
+		$(obj).find('.wst-gallery-goods-del').hide();
+	}
+	function delImg(obj) {
+		$(obj).parent().remove();
+	}
+
+	var filetypes = [ "gif", "jpg", "png", "jpeg" ];
+
+	$('body')
+			.on(
+					'change',
+					'#game',
+					function() {
+						var gameId = $(this).val();
+						if (gameId == 0) {
+							layer.msg('请选择所属游戏');
+							return;
+						}
+						$
+								.ajax({
+									type : "POST",
+									url : '{:U("Goods/getGameVersions")}',
+									data : {
+										gameId : gameId
+									},
+									dataType : "json",
+									success : function(data) {
+										var html = '<table class="wst-form bor" style="width:90%">';
+										for (var i = 0; i < data.length; i++) {
+											html += '	<tr><th width="120">游戏版本<font color="red">*</font>：</th>';
+											html += '<td width="100">'
+													+ data[i].vName + '</td>';
+											html += '<td width="50">库存</td>';
+											html += '<td width="100"><input  data-id="'
+													+ data[i].id
+													+ '" class="versions_num" onkeyup="keyupFun(this)"  type="text" name="versions" value="" /></td>';
+											html += '<td width="50">价格</td>';
+											html += '<td width="100"><input  data-id="'
+													+ data[i].id
+													+ '"  class="versions_price"   onkeyup="keyupFun(this)"   type="text" name="verPrice" value="" /></td>';
+										}
+										//onkeyup="this.value=this.value.replace(/[\|\;]/g,'')" onafterpaste="this.value=this.value.replace(/[\|\;]/g,'')"
+										html += '</tr></table>';
+										$('.versionAttr').html(html);
+									}
+								});
+
+					})
+
+	function keyupFun(_this) {
+		$(_this).val($(_this).val().replace(/[\|\;\D]/g, ''));
+	}
+</script>
+<div class="wst-body">
+	<div class='wst-page-header'>
+		卖家中心 >
+		<if condition="$object['goodsId'] ==0 ">新增<else />编辑</if>
+		商品资料
+	</div>
+	<div class='wst-page-content'>
+		<div id='tab' class="wst-tab-box">
+			<ul class="wst-tab-nav">
+				<li>商品信息</li>
+				<!-- 	<li>属性</li> -->
+				<!--   <li>商品相册</li>
+	        <li>团购信息</li>
+			<li>秒杀信息</li> -->
+			</ul>
+			<div class="wst-tab-content" style='width: 99%; margin-bottom: 10px;'>
+				<!-- 商品基础信息 -->
+				<div class='wst-tab-item' style="position: relative;">
+					<iframe name="upload" style="display: none"></iframe>
+
+					<!--卖家商品添加，图片上传【疑点】-->
+					<form id="uploadform_Filedata" autocomplete="off"
+						style="position: absolute; top: 155px; left: 417px; z-index: 10;"
+						enctype="multipart/form-data" method="POST" target="upload"
+						action="{:U('Home/Shops/uploadPic')}">
+						<div style="position: relative;">
+							<input id="goodsImg" name="goodsImg" type="text"
+								value="{$object.goodsImg}" readonly
+								style="margin-right: 4px; float: left; margin-left: 8px; width: 140px;" />
+							<div class="div1">
+								<div class="div2">浏览</div>
+								<input type="file" class="inputstyle" id="Filedata"
+									name="Filedata" onchange="updfile('Filedata');">
+							</div>
+							<div style="clear: both;"></div>
+
+							<div>&nbsp;图片大小:150 x 120 (px)(格式为 gif, jpg, jpeg, png)</div>
+							<input type="hidden" name="dir" value="goods"> <input
+								type="hidden" name="width" value="500"> <input
+								type="hidden" name="folder" value="Filedata"> <input
+								type="hidden" name="sfilename" value="Filedata"> <input
+								type="hidden" name="fname" value="goodsImg"> <input
+								type="hidden" id="s_Filedata" name="s_Filedata" value="">
+
+						</div>
+					</form>
+
+					<!--表单提交部分-->
+					<form name="myform" method="post" id="myform" autocomplete="off">
+						<input type='hidden' id='id' value='{$object.goodsId}' /> <input
+							type='hidden' id='goodsThumbs' value='{$object.goodsThums}' />
+						<table class="table table-hover table-striped table-bordered wst-list wst-form">
+							<tr>
+								<th width='120'>商品编号<font color='red'>*</font>：
+								</th>
+								<td width='300'><input type='text' id='goodsSn'
+									name='goodsSn' class="form-control wst-ipt"
+									value='{$object.goodsSn}' maxLength='25' /></td>
+								<td rowspan='7' valign='top'>
+									<div id="preview_Filedata">
+										<img id='goodsImgPreview' src='<if condition="empty($object['goodsImg'])">__ROOT__/{$CONF['goodsImg']}
+										<else />
+										/{$object['goodsImg']}
+										</if>
+										' height='152'/><br />
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th width='120'>商品名称<font color='red'>*</font>：
+								</th>
+								<td><input type='text' id='goodsName' name='goodsName'
+									class="form-control wst-ipt" value='{$object.goodsName}'
+									maxLength='100' /></td>
+							</tr>
+							<tr>
+								<th width='120'>充值面额<font color='red'>*</font>：
+								</th>
+								<td>
+                                <?php if($object['shopPrice']!=0) : ?>
+                                <input readonly="readonly" type='text' id='shopPrice'
+									name='shopPrice' class="form-control wst-ipt"
+									value='{$object.shopPrice}'
+									onkeypress="return WST.isNumberdoteKey(event)"
+									onkeyup="javascript:WST.isChinese(this,1)" maxLength='10' />
+                                <?php else :?>
+                                任意面额
+                                <?php endif ?>
+                                </td>
+							</tr>
+                            <?php $isCanSetMiaoChong=D('Home/AgentGame')->isCanSetMiaoChong($object['gameId']); ?>
+							<tr id="isMiaoTr">
+								<th width='120'>是否秒充商品<font color='red'>*</font>：
+								</th>
+								<td colspan='3'><label> <input type='radio' 
+                                 <?php if(!$isCanSetMiaoChong) echo 'disabled="disabled"'; ?>
+										id='isMiao' name='isMiao'
+									<if condition="$object['isMiao'] ==1 ">checked</if>
+										value='1'/>是
+								</label> <label> <input type='radio' id='isMiao' name='isMiao' 
+                                <?php if(!$isCanSetMiaoChong) echo 'disabled="disabled"'; ?>
+									<if condition="$object['isMiao'] ==0 ">checked</if>
+										value='0'/>否
+								</label><label style="color: red;">（仅支持手游狗、乐8、TT版本的部分游戏）</label></td></td>
+							</tr>
+							<PHP>if($agentStatus){</PHP>
+							<!--<tr>
+								<th width='120'>分佣价格<font color='red'>*</font>：
+								</th>
+								<td><input type='text' id='agentPrice' name='agentPrice'
+									class="form-control wst-ipt" value='{$object.agentPrice}'
+									onkeypress="return WST.isNumberdoteKey(event)"
+									onkeyup="javascript:WST.isChinese(this,1)" maxLength='10' /></td>
+							</tr>-->
+							<PHP>}</PHP>
+							<tr>
+								<th>适应系统<font color='red'>*</font>：
+								</th>
+								<php>$_appTo=explode(',',$object['applyTo']);</php>
+								<td colspan='3'><label><input name="applyTo"
+										class="applyTo"
+									<if condition="in_array('苹果',$_appTo)">checked</if>
+										type="checkbox" value="苹果" />苹果 </label> <label><input
+										class="applyTo"
+									<if condition="in_array('安卓',$_appTo)">checked</if>
+										name="applyTo" type="checkbox" value="安卓" />安卓 </label></td>
+							</tr>
+							<tr>
+								<th width='120'>简介：</th>
+								<td><input style="width: 100%;" type='text' id='goodsSpec'
+									name='goodsSpec' class="form-control wst-ipt"
+									value='{$object.goodsSpec}' /></td>
+							</tr>
+							<tr>
+								<th>游戏类型<font color='red'>*</font>：
+								</th>
+								<td colspan='3'><select name="scope" id="scope"<if
+											condition="$object['goodsId'] gt 0"> disabled=true</if> >
+										<option value="0"<if
+												condition="$object['scopeId'] eq 0">selected</if> >--请选择--
+										</option>
+										<option value="1"<if
+												condition="$object['scopeId'] eq 1">selected</if>>首充号
+										</option>
+										<option value="2"<if
+												condition="$object['scopeId'] eq 2">selected</if>>首充号代充
+										</option>
+										<option value="3"<if
+												condition="$object['scopeId'] eq 3">selected</if>>首充号分销
+										</option>
+										<option value="4"<if
+												condition="$object['scopeId'] eq 4">selected</if>>自主充值
+										</option>
+								</select></td>
+							</tr>
+							<tr>
+								<th>所属游戏<font color='red'>*</font>：
+								</th>
+								<td colspan='3'><select name="game" id="game"<if
+											condition="$object['goodsId'] gt 0"> disabled=true</if>>
+										<option value="0">--请选择--</option>
+										<volist name="game" id="vo">
+										<option value="{$vo.id}"<if
+												condition="$object['gameId'] eq $vo['id']">selected</if>
+											>{$vo.gameName}
+										</option>
+										</volist>
+								</select> <br />
+                                
+									<div class="versionAttr" style="width:950px">
+										<table class="wst-form bor" style="width: 90%">
+											<volist name="object['versions']" id="vo">
+											<tr>
+												<th width="120">游戏版本<font color="red">*</font>：
+												</th>
+                                                
+												<td width="100">{$vo.vName}</td>
+                                                
+                                                <td width="250">销售价格/低级、中级、高级、会员价格</td>
+                                                
+												<td width="65"><input data-id="{$vo.id}"
+													data-vid="{$vo.vid|default=0}" class="versions_price"
+													onkeypress="keyPress(this)" onkeyup="keyUp(this)"
+													type="text" name="verPrice" value="{$vo.attrPrice}" /></td>
+                                                    <!--
+                                                    @author peng
+                                                    @date 2017-01
+                                                    @descreption 会员价
+                                                    -->
+                                                    
+                                                    <td width="100"><input data-id="{$vo.id}"
+													data-vid="{$vo.vid|default=0}" 
+													onkeypress="keyPress(this)" onkeyup="keyUp(this)"
+													type="text" name="" value="{$vo.low_member_price}" class="price1"/></td>
+                                                    <td width="100"><input data-id="{$vo.id}"
+													data-vid="{$vo.vid|default=0}" 
+													onkeypress="keyPress(this)" onkeyup="keyUp(this)"
+													type="text" name="" value="{$vo.mid_member_price}" class="price2"/></td>
+                                                    <td width="100"><input data-id="{$vo.id}"
+													data-vid="{$vo.vid|default=0}" 
+													onkeypress="keyPress(this)" onkeyup="keyUp(this)"
+													type="text" name="" value="{$vo.heigh_member_price}" class="price3"/></td>
+				         
+                                            </tr>
+											</volist>
+										</table>
+									</div></td>
+							</tr>
+							<tr>
+								<td colspan='3' style='padding-left: 320px;'>
+									<button class='wst-btn-query' type="submit">保&nbsp;存</button> <if
+										condition="$umark !='toEdit' ">
+									<button class='wst-btn-query' type="button"
+										onclick='history.go(-1)'>返&nbsp;回</button>
+									</if>
+								</td>
+							</tr>
+						</table>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div style='clear: both;'></div>
+</div>
+<script type="text/javascript">
+function keyPress(ob) {
+	 if (!ob.value.match(/^\d*?\.?\d*?$/)) ob.value = ob.t_value; else ob.t_value = ob.value; if (ob.value.match(/^(\d+(?:\.\d+)?)?$/)) ob.o_value = ob.value;
+	}
+	function keyUp(ob) {
+	 if (!ob.value.match(/^\d*?\.?\d*?$/)) ob.value = ob.t_value; else ob.t_value = ob.value; if (ob.value.match(/^(\d+(?:\.\d+)?)?$/)) ob.o_value = ob.value;
+	        }
+</script> 
+
+</block>

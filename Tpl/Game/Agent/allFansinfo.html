@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>我的</title>
+<include file="./Tpl/head.html" />
+<!--<meta name="viewport"
+	content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">-->
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=no, maximum-scale=1.0" />
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<!--标准mui.css-->
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/mui.min.css">
+<link rel="stylesheet" href="__CSS__/font.css" />
+<!--App自定义的css-->
+<link rel="stylesheet" href="__CSS__/bootstrap/css/bootstrap.min.css" />
+
+<style>
+body {
+	background-color: #EFEFF3 !important;
+}
+
+.oa-contact-cell.mui-table .mui-table-cell {
+	padding: 11px 0;
+	vertical-align: middle;
+}
+
+.oa-contact-avatar img {
+	border-radius: 50%;
+}
+
+.oa-contact-name, oa-contact-position {
+	float: left;
+}
+
+ul, li {
+	margin: 0;
+	padding: 0;
+}
+
+.swiper-slide img {
+	height: 180px;
+	min-width: 100%;
+}
+
+body {
+	padding-bottom: 50px;
+	font-size: 14px;
+}
+
+.hideDiv {
+	display: none;
+}
+
+._dian {
+	background: url(__IMG__/dianjia_logo.png) center no-repeat;
+	width: 25px;
+	background-size: 25px;
+}
+
+p, ul, li, h1, h2, input, select, hr {
+	background: none;
+}
+
+#max_lists li {
+	width: 25%;
+	over-flow: hidden;
+	line-height: 80px;
+	height: 80px;
+}
+
+#max_lists ul li img {
+	padding-top: 10px;
+}
+
+#lists li {
+	height: 55px;
+}
+
+.lh35 {
+	height: 35px;
+	line-height: 35px;
+	text-align: center;
+}
+
+.price p {
+	height: 15px;
+	line-height: 15px;
+}
+
+input[placeholder], [placeholder], *[placeholder] {
+	color: #ccc;
+	font-size: 90%;
+}
+
+::-webkit-input-placeholder {
+	color: #ccc;
+	font-size: 90%;
+}
+
+._imgWidth img {
+	height: 93px;
+	overflow: hidden;
+}
+
+.mui-icon {
+	color: white;
+}
+
+.mui-icon-black {
+	color: black;
+	-ms-transform: rotate(180deg); /* IE 9 */
+	-moz-transform: rotate(180deg); /* Firefox */
+	-webkit-transform: rotate(180deg); /* Safari 和 Chrome */
+	-o-transform: rotate(180deg); /* Opera */
+	transform: rotate(180deg);
+}
+
+.row-topheight {
+	height: 25%;
+}
+
+.box-shadow-1 {
+	-webkit-box-shadow: 1px 1px #ffffff;
+	-moz-box-shadow: 1px 1px #ffffff;
+	box-shadow: 1px 1px #ffffff;
+	background: #ffffff;
+}
+
+.row-top-border-right {
+	border-right: 1px #D5D7DB solid
+}
+
+.row-top-text-size {
+	font-size: 1.5em;
+}
+
+.row-top-text-color {
+	color: #FF9C00;
+}
+
+.ba-m-t {
+	height: 1em;
+}
+
+.row-h3-p7 {
+	height: 3em;
+	padding: 0.7em;
+}
+
+.row-top-text-size {
+	font-size: 1.5em;
+}
+
+.l-h1 {
+	line-height: 1px;
+}
+
+.pHeight {
+	text-align: right;
+}
+
+.img {
+	max-width: 55px;
+	min-width: 35px;
+}
+
+.bg-white {
+	background-color: white;
+}
+
+.text-color-orange {
+	color: #FF9C00;
+}
+
+.text-color-red {
+	color: red;
+}
+
+.text-position-right {
+	position: absolute;
+	right: 0;
+}
+
+.list-group {
+	margin-bottom: 0.7em;
+}
+
+.text-order-color {
+	color: #FF0000;
+}
+
+.right-icon {
+	position: absolute;
+	right: 1em;
+	top: 2em;
+}
+
+.text-order-color {
+	color: #FF0000;
+}
+
+.text-price-color {
+	color: #00B4FF;
+}
+
+.more, .noMore {
+	margin: 0 auto;
+	margin-top: 20px;
+	display: block;
+	text-align: center;
+	width: 50%;
+	background-color: #ddd;
+	color: #666;
+	border-radius: 3px;
+	padding: 5px;
+}
+.container{
+	max-width: 800px;
+}
+header{
+	max-width: 800px;
+	margin: 0 auto;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+
+<body>
+	<header class="mui-bar mui-bar-nav" style="background: #f4e600;">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"
+			ontouchend="history.go(-1)"></a>
+		<!--<h1 class="mui-title" style="background: none; color: #323232">{$title}</h1>-->
+        <!--
+        @author peng
+        @date 2017-01
+        @descreption 
+        -->
+		<h1 class="mui-title" style="background: none; color: #323232">我的会员</h1>
+	</header>
+
+	<div class="container">
+
+		<div class="row">
+			<div class="list-group">
+
+				<!--          <volist name="list" id="vo">
+
+
+           <button  type="button" class="list-group-item" style="display: block"    ontouchend="javascript:window.location.href='/Wx/Agent/allFansorder/userId/{$vo.userName}'">
+                <div class="col-xs-3">
+                    <img class="img" src="{$vo.userPhoto|default='__IMG__/member.jpg'}">
+                </div>
+                <div class="col-xs-7">
+                    <div>会员名称：<span>{$vo.loginName}</span></div>
+                    <div>订单数量：<span class="text-order-color">{$vo.count|default='0'}</span></div>
+                    <div>提成金额：<span class="text-price-color">￥{$vo.price|default='0'}</span></div>
+
+                </div>
+                    <span  class="glyphicon glyphicon-menu-right right-icon"></span>
+            </button>
+            </volist>-->
+
+
+			</div>
+		</div>
+
+
+
+	</div>
+	<script src="__JS__/jquery2.1.1.min.js"></script>
+	<script src="__JS__/layer1.7/layer.js"></script>
+	<script>
+
+
+    (function(){
+        var  headerHeight =  document.querySelector("header").clientHeight;
+        document.querySelector(".container").style.marginTop=headerHeight+'px';
+
+    })();
+function goToUrl(url){
+  window.location.href="/Game/Agent/allFansorder/userId/"+url;
+}
+
+    $(function(){
+        var level = '{$level}';
+
+        getData.init(level);
+    });
+
+    var getData = {
+        init:function(level){
+            layer.open({type: 2});
+            $.getJSON('/Game/Agent/allFansinfo', {level: level}, function(json, textStatus) {
+                /*optional stuff to do after success */
+                //  console.log(json[1]);
+                var html = '';
+                for (var i in json) {
+                    if (json.hasOwnProperty(i) && typeof json[i]==='object') {
+                        //  console.log(json[i]);
+
+                        html+= "<button  type='button' class='list-group-item' style='display: block'    onclick=goToUrl('"+json[i].userId+"')>";
+                        html+= "<div class='col-xs-3'>";
+                        html+= "<img class='img' src='";
+
+                        if(json[i].userPhoto){
+                            html+=""+json[i].userPhoto;
+                        }else{
+                            html+= "__IMG__/member.jpg";
+                        }
+
+                        html+= "'/>";
+                        html+= "</div>";
+
+                        html+= "<div class='col-xs-7'>";
+                        var name="匿名";
+                        if(json[i].userName!=null){
+                        	name=json[i].userName;
+                        }
+                        html+= "<div>会员名称：<span>"+name+"</span></div>";
+                        html+= "<div>订单数量：<span class='text-order-color'>";
+                        if(json[i].count){
+                            html+= json[i].count;
+                        }else{
+                            html+=0;
+                        }
+                        html+=  "</span></div>";
+                        html+= "<div>提成金额：<span class='text-price-color'>￥";
+                        if(json[i].price){
+                            html+= json[i].price;
+                        }else{
+                            html+= 0;
+                        }
+                        html+="</span></div>";
+                        html+= "</div>";
+
+                        html+= "<span  class='glyphicon glyphicon-menu-right right-icon'></span>";
+                        html+="</button>";
+
+
+
+
+                    }
+                }
+
+                html+="<button class='noMore'>没有更多</button>";
+                $('.list-group').html(html);
+
+                layer.closeAll('loading'); //关闭加载层
+
+            });
+
+
+        },
+        count:function(object){
+            var count = 0;
+            for(i in object){
+                count++;
+            }
+
+            return count;
+        }
+
+
+}
+
+
+
+
+</script>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+</html>

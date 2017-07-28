@@ -1,0 +1,67 @@
+<volist name="messInfo" id="vo"> <a
+		href="{:U('Orders/orderDetail',array('id'=>$vo['orderId']))}">
+		<div class="messList <?php if($vo['isRead']==0) echo 'notRead'; ?>">
+			<div class="ub list">
+				<div class="shopImg">
+					<img src="/{$vo.goodsThums}" />
+				</div>
+				<div class="ub-f1 shopContent">
+					<div class='shopName'>{$vo.type}-{$vo.goodsName}</div>
+					<div class="fw">{$vo.gameName}/{$vo.vName}</div>
+					<div class="sl">
+						<span class="col-9">总计：</span><span style="font-size: 16px;">￥{$vo.needPay}</span>
+					</div>
+				</div>
+				<div class="right_arrows arrowsMy"></div>
+			</div>
+			<if condition="$vo['fahuo']">
+			<div class="account">
+				<volist name="vo['fahuo']" id="vos">
+				<div class="messContent col-9">
+					<span class="col-9" style="color: #ff4045;">{$vos.area}</span> 帐号：<span
+						class="col-9" style="color: #ff4045;">{$vos.account}</span> 密码：<span
+						class="col-9" style="color: #ff4045;">{$vos.password}</span>
+                        
+                        <!-- @author peng start -->
+                        <div class="fahuo-top">温馨提示：为了您的账号安全，请尽快登录游戏修改密码。</div>
+                        <!-- end -->
+				</div>
+				</volist>
+			</div>
+			<elseif condition="$vo.orderStatus eq -9 " />
+				<div class="account">
+					<div class="messContent">
+					<span class="col-9" style="color: #ff4045;">
+						订单失效
+					</span>
+					</div>
+				</div>
+				<else/>
+			<div class="account">
+				<div class="messContent">
+                
+					<span class="col-9" style="color: #ff4045;">
+                    <?php if($vo['orderStatus'] == -7){?>
+                    商家取消订单
+                    <?php } else if($vo['orderStatus'] == 1){ ?>
+                    待发货
+                     <?php } else if($vo['orderStatus'] == -2){ ?>
+                    待支付
+                    <?php } else if($vo['orderStatus'] == -4){ ?>
+                     取消订单
+                    <?php  }else if($vo['orderStatus'] == 2){ ?>
+                    已发货
+                    <?php }?>
+						<!-- <if condition="$vo.orderStatus eq -7">
+							商家取消订单
+      	                 <elseif condition="$vo.orderStatus eq 1">
+                            待发货
+							<else />
+							已发货
+						</if>-->
+					</span>
+				</div>
+			</div>
+			</if>
+		</div>
+	</a> </volist>

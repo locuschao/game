@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>我的</title>
+<include file="./Tpl/head.html" />
+<!--<meta name="viewport"
+	content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">-->
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=no, maximum-scale=1.0" />
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<!--标准mui.css-->
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/mui.min.css">
+<link rel="stylesheet" href="__CSS__/font.css" />
+<!--App自定义的css-->
+<link rel="stylesheet" href="__CSS__/bootstrap/css/bootstrap.min.css" />
+
+<style>
+body {
+	background-color: #EFEFF3 !important;
+}
+header{
+	max-width: 800px;
+	margin: 0 auto;
+}
+.container{
+	max-width: 800px;
+}
+
+.oa-contact-cell.mui-table .mui-table-cell {
+	padding: 11px 0;
+	vertical-align: middle;
+}
+
+.oa-contact-avatar img {
+	border-radius: 50%;
+}
+
+.oa-contact-name, oa-contact-position {
+	float: left;
+}
+
+ul, li {
+	margin: 0;
+	padding: 0;
+}
+
+.swiper-slide img {
+	height: 180px;
+	min-width: 100%;
+}
+
+body {
+	padding-bottom: 50px;
+	font-size: 14px;
+}
+
+.hideDiv {
+	display: none;
+}
+
+._dian {
+	background: url(__IMG__/dianjia_logo.png) center no-repeat;
+	width: 25px;
+	background-size: 25px;
+}
+
+p, ul, li, h1, h2, input, select, hr {
+	background: none;
+}
+
+#max_lists li {
+	width: 25%;
+	over-flow: hidden;
+	line-height: 80px;
+	height: 80px;
+}
+
+#max_lists ul li img {
+	padding-top: 10px;
+}
+
+#lists li {
+	height: 55px;
+}
+
+.lh35 {
+	height: 35px;
+	line-height: 35px;
+	text-align: center;
+}
+
+.price p {
+	height: 15px;
+	line-height: 15px;
+}
+
+input[placeholder], [placeholder], *[placeholder] {
+	color: #ccc;
+	font-size: 90%;
+}
+
+::-webkit-input-placeholder {
+	color: #ccc;
+	font-size: 90%;
+}
+
+._imgWidth img {
+	height: 93px;
+	overflow: hidden;
+}
+
+.mui-icon {
+	color: white;
+}
+
+.mui-icon-black {
+	color: black;
+	-ms-transform: rotate(180deg); /* IE 9 */
+	-moz-transform: rotate(180deg); /* Firefox */
+	-webkit-transform: rotate(180deg); /* Safari 和 Chrome */
+	-o-transform: rotate(180deg); /* Opera */
+	transform: rotate(180deg);
+}
+
+.row-topheight {
+	height: 25%;
+}
+
+.box-shadow-1 {
+	-webkit-box-shadow: 1px 1px #ffffff;
+	-moz-box-shadow: 1px 1px #ffffff;
+	box-shadow: 1px 1px #ffffff;
+	background: #ffffff;
+}
+
+.row-top-border-right {
+	border-right: 1px #D5D7DB solid
+}
+
+.row-top-text-size {
+	font-size: 1.5em;
+}
+
+.row-top-text-color {
+	color: #FF9C00;
+}
+
+.ba-m-t {
+	height: 1em;
+}
+
+.row-h3-p7 {
+	height: 3em;
+	padding: 0.7em;
+}
+
+.row-top-text-size {
+	font-size: 1.5em;
+}
+
+.l-h1 {
+	line-height: 1px;
+}
+
+.pHeight {
+	text-align: right;
+}
+
+.img {
+	width: 34px;
+}
+
+.bg-white {
+	background-color: white;
+}
+
+.text-color-orange {
+	color: #FF9C00;
+}
+
+.text-color-red {
+	color: red;
+}
+
+.text-position-right {
+	position: absolute;
+	right: 0;
+}
+
+.list-group {
+	margin-bottom: 0.7em;
+}
+
+.no-p {
+	padding: 0;
+	overflow: hidden;
+	white-space: nowrap;
+	height: 100%;
+	line-height: 3.5em;
+	font-size: 0.9em;
+	text-overflow: ellipsis; /* IE/Safari */
+	-ms-text-overflow: ellipsis;
+	-o-text-overflow: ellipsis; /* Opera */
+}
+
+.no-pp {
+	padding-left: 0;
+	padding-right: 0;
+}
+
+.h-1em {
+	height: 3em;
+}
+
+.text-order-color {
+	color: #AAE6FF;
+}
+
+.text-price {
+	color: #ff0000;
+}
+
+.more, .noMore {
+	margin: 0 auto;
+	margin-top: 20px;
+	display: block;
+	text-align: center;
+	width: 50%;
+	background-color: #ddd;
+	color: #666;
+	border-radius: 3px;
+	padding: 5px;
+}
+.list-group-item div{
+	
+}
+.list-group-item div.orderNorCol{
+	
+	word-break: break-all;
+	
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+
+<body>
+	<header class="mui-bar mui-bar-nav" style="background: #f4e600;">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"
+			ontouchend="history.go(-1)"></a>
+		<h1 class="mui-title" style="background: none; color: #323232;">订单列表</h1>
+	</header>
+
+	<div class="container">
+
+		<div class="row bg-white" style="height: 3em;">
+			<div class="col-xs-4 no-p text-center">订单号</div>
+			<div class="col-xs-2 no-p text-center">金额</div>
+			<!--<div class="col-xs-2 no-p text-center">比例</div>-->
+			<div class="col-xs-2 no-p text-center">分成金额</div>
+			<div class="col-xs-2  no-p text-center">状态</div>
+		</div>
+
+
+
+
+		<div class="row">
+			<ul class="list-group">
+				<!-- <volist name="list" id="vo">
+
+            <li class="list-group-item h-1em" >
+
+
+                <div class="col-xs-2 no-pp text-left">{$vo.orderId}</div>
+                <div class="col-xs-2 text-order-color no-pp text-center">{$vo.agentPrice}</div>
+                <div class="col-xs-2 no-pp text-center">{$vo.bili}</div>
+                <div class="col-xs-4 text-price  no-pp text-center">{$vo.gain_price}</div>
+                <div class="col-xs-2  no-pp text-center">已清算</div>
+            </li>
+            </volist> -->
+			</ul>
+		</div>
+
+	</div>
+	<script src="__JS__/jquery2.1.1.min.js"></script>
+	<script src="__JS__/layer1.7/layer.js"></script>
+
+	<script>
+		//        console.log(document.querySelector("header").clientHeight);
+		(function() {
+			var headerHeight = document.querySelector("header").clientHeight;
+
+			document.querySelector(".container").style.marginTop = headerHeight
+					+ 'px';
+		})();
+
+		$(function() {
+			var userId = '{$userId}';
+			var limit = 0;
+			getData.init(userId, limit);
+		});
+
+		var getData = {
+			init : function(userId, limit) {
+				layer.open({
+					type : 2
+				});
+				$
+						.getJSON(
+								//'/Game/Agent/allFansOrder',
+								'/Game/Agent/getFenchengList',
+								{
+									userId : userId,
+									limit : limit
+								},
+								function(object, textStatus) {
+									/*optional stuff to do after success */
+									var html = '';
+									// console.log(object);
+									for ( var i in object) {
+
+										if (object.hasOwnProperty(i)
+												&& typeof object[i] === 'object') {
+											try {
+												if (isDefine(object[i]["orderNo"])) {
+													html += '<li class="list-group-item clearfix" >';
+													html += '<div class="col-xs-4 no-pp text-center orderNorCol" >'
+															+ object[i]["orderNo"]
+															+ '</div>';
+													html += '<div class="col-xs-2 text-order-color no-pp text-center">'
+															//+ object[i].agentPrice
+                                                            + object[i].needPay
+															+ '</div>';
+													/*html += '<div class="col-xs-2 no-pp text-center">'
+															+ object[i].bili
+															+ '</div>';*/
+													html += '<div class="col-xs-2 text-price  no-pp text-center">'
+															+ object[i].gain_price
+															+ '</div>';
+													html += '<div class="col-xs-2  no-pp text-center">已清算</div>';
+													html += '</li>';
+												}
+											} catch (err) {
+
+											}
+
+										}
+
+									}
+									var userId = '{$userId}';
+									//  console.log(getData.count(object) );
+									if (getData.count(object) > 2) {
+										$('.more').remove();
+										html += "<button class='more' onclick=getData.init('"
+												+ userId
+												+ "','"
+												+ object['limit']
+												+ "')>加载更多</button>";
+									} else {
+										$('.more').remove();
+										html += "<button class='noMore'>没有更多</button>";
+									}
+									$('.list-group').append(html);
+
+									layer.closeAll('loading'); //关闭加载层
+
+								});
+
+			},
+			count : function(obj) {
+				var count = 0;
+				for (i in obj) {
+					count++;
+				}
+
+				return count;
+			}
+		}
+
+		function isDefine(value) {
+			if (value === null || value === "" || value === "undefined"
+					|| value === undefined || value === "null"
+					|| value === "(null)" || value === 'NULL'
+					|| typeof (value) === 'undefined') {
+				return false;
+			} else {
+				value = value + "";
+				value = value.replace(/\s/g, "");
+				if (value === "") {
+					return false;
+				}
+				return true;
+			}
+		}
+	</script>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+</html>

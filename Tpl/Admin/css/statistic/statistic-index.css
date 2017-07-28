@@ -1,0 +1,17 @@
+.wrap{
+    padding-left:10px;
+    padding-top:20px;
+}
+input.date{
+    width:100px !important;
+}
+.pager{
+    width:90%;
+    margin:0 auto;
+}
+.mid-text{
+    padding:0 10px;
+}
+.data-table{
+    margin-top:10px;
+}

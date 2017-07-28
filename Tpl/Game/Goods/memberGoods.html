@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>游戏列表</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<link rel="stylesheet" href="__CSS__/member-goods.css" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/base.js"></script>
+<script src="__JS__/goods/member-goods.js"></script>
+<style>
+
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<div class="_top" style="z-index: 999">
+		<div class="_left_top" onclick='location.href="/Game/Index/index"'></div>
+		<div class="_title_top ub txt-c box-align">
+			<div class="ub box-center">
+				<div data-type="sc" class="tab <if condition="$_GET['type'] eq 'sc' ">
+					tab_active
+					</if>
+					">首充号
+				</div>
+				<div data-type="dc" class="tab  <if condition="$_GET['type'] eq 'dc' ">
+					tab_active
+					</if>
+					">首充号代充
+				</div>
+			</div>
+		</div>
+		<div class="_right_top mess"
+			onclick="location.href='/Game/Mess/mess/r/Goods_memberGoods'"></div>
+	</div>
+	<div class="lh45"></div>
+	<form action="{:U('memberGoods')}" method="get" id="shopSearch">
+		<div class="lh35  back-ff ub " style="padding: 10px 0px;">
+			<div class="ub-f1 margin_left10">
+				<input type="text" name="key" value="{$_GET['key']}"
+					placeholder="请输入游戏名" />
+			</div>
+			<div class="margin_right10 search">搜索</div>
+		</div>
+		<input type="hidden" name="letter" id="letter"
+			value="{$_GET['letter']}"> <input type="hidden" name="type"
+			id="type" value="{$_GET['type']}">
+	</form>
+	<div class="lh45  back-ff">
+		<div class="bor"
+			style="width: 90%; margin: 0 auto; margin-top: 10px; height: 44px;">选择游戏</div>
+	</div>
+	<div class="back-ff padd nav">
+		<a data-letter="Hot">热</a> <a data-letter="A">A</a> <a data-letter="B">B</a>
+		<a data-letter="C">C</a> <a data-letter="D">D</a> <a data-letter="E">E</a>
+		<a data-letter="F">F</a> <a data-letter="G">G</a> <a data-letter="H">H</a>
+		<a data-letter="I">I</a> <a data-letter="J">J</a> <a data-letter="K">K</a>
+		<a data-letter="L">L</a> <a data-letter="M">M</a> <a data-letter="N">N</a>
+		<a data-letter="O">O</a> <a data-letter="P">P</a> <a data-letter="Q">Q</a>
+		<a data-letter="R">R</a> <a data-letter="S">S</a> <a data-letter="T">T</a>
+		<a data-letter="U">U</a> <a data-letter="V">V</a> <a data-letter="W">W</a>
+		<a data-letter="X">X</a> <a data-letter="Y">Y</a> <a data-letter="Z">Z</a>
+	</div>
+	<div style="margin-top: 10px; text-align: left;"
+		class="back-ff goodsList">
+        <!--	<volist name="goodsInfo" id='vo'> <if condition="$_GET['type'] eq 'sc'"><a href="{:U('memberGoodsList',array('gameId'=>$vo['id'],'o'=>1))}" class="goods"><else /><a href="{:U('Validatadc/yanzhen',array('gameId'=>$vo['id'],'o'=>2,'goodsType'=>1))}" class="goods"></if>
+		<div class="gameImg">
+			<img src="/{$vo.gameIco}" />
+		</div>
+		<div class="gameName">{$vo.gameName}</div></a>
+		</volist>-->
+	</div>
+	<div class="ub lh45"></div>
+	<div class=" lh45 txt-c back-ff loadMore"
+		style="position: fixed; bottom: 0; left: 0; width: 100%; display: none;">加载更多</div>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script>
+var page=1;
+
+var letter="{$_GET['letter']}";
+$(function(){
+	if(isDefine(letter)){
+		var a=$('.nav a')
+		$.each(a,function(){
+			if($(this).attr('data-letter')==letter){
+				$(this).addClass('active');
+			}
+		})
+	}
+})
+
+/**
+ * @author peng
+ * @copyright 2016
+ * @remark 注释
+ */
+//$(function(){
+//	var ww=$(document).width()-30;
+//	var w=ww/4;
+//	$('.goods').css('width',w+'px');
+//})
+//
+//$('body').on('click','.search',function(){
+//	$('#shopSearch').submit();
+//})
+//
+//$('body').on('click','.nav a',function(){
+//	var letter=$(this).attr('data-letter');
+//	$('#letter').val(letter);
+//	$('#shopSearch').submit();
+//})
+
+$('body').on('click','.tab',function(){
+	var type=$(this).attr('data-type');
+	$('.tab').removeClass('tab_active');
+	$(this).addClass('tab_active');
+	$('#type').val(type);
+	$('#shopSearch').submit();
+})
+
+$(window).scroll(function(){
+	// 当滚动到最底部以上100像素时， 加载新内容
+	if ($(document).height() - $(this).scrollTop() - $(this).height()<100) {
+		$('.loadMore').fadeIn();
+	}else{
+		$('.loadMore').fadeOut();
+	}
+})
+
+$('body').on('click','.loadMore',function(){
+	var key="{$_GET['key']}";
+	var letter="{$_GET['letter']}";
+	var type="{$_GET['type']}"
+	$.ajax({
+		type:'POST',
+		dataType:'json',
+		data:{
+			page:page,letter:letter,type:type,key:key
+		},
+		url:"{:U('Goods/memberGoods')}",
+		success:function(data){
+			if(isDefine(data)){
+					page++;
+					var html='';
+					for(var i=0;i<data.length;i++){
+						html+='	<a href="/Game/Goods/goodsList/gameId/'+data[i].id+'/o/'+scopeId+'" class="goods">';
+						html+='<div class="gameImg"><img src="/'+data[i].gameIco+'"/></div>';
+						html+='<div class="gameName">'+data[i].gameName+'</div></a>';
+					}
+				$('.goodsList').append(html);
+			}else{
+				$('.loadMore').text('没有更多了');
+				setTimeout(function(){
+					$('.loadMore').text('加载更多');
+					},2000);
+				}
+		}
+	})
+})
+
+
+
+
+</script>
+</html>

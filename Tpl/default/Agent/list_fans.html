@@ -1,0 +1,88 @@
+<extend name="Users:layout" />
+<block name="content">
+<link rel="stylesheet" type="text/css"
+	href="__CSS__/bootstrap/css/bootstrap.min.css">
+
+<link rel="stylesheet" type="text/css"
+	href="__CSS__/datatable/dataTables.bootstrap.min.css">
+
+<script src="__JS__/datatable/jquery.dataTables.js"></script> <script
+	src="__JS__/datatable/dataTables.bootstrap.min.js"></script>
+<style>
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover,
+	.pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover
+	{
+	background-color: #e23c3d;
+	border-color: #e23c3d;
+}
+</style>
+<script>
+
+    $.get('fansinfo',function(data){
+
+        var data=eval(data);
+        $('#fans').DataTable(
+                {"deferRender": true,
+                    data:data,
+                    columns: [
+                        { data: 'level' },
+                        { data: 'loginName' },
+                        { data: 'partnerName' }
+
+                    ],
+                    "language": {
+                        "sProcessing": "处理中...",
+                        "sLengthMenu": "显示 _MENU_ 项结果",
+                        "sZeroRecords": "没有匹配结果",
+                        "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                        "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                        "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                        "sInfoPostFix": "",
+                        "sSearch": "搜索:",
+                        "sUrl": "",
+                        "sEmptyTable": "表中数据为空",
+                        "sLoadingRecords": "载入中...",
+                        "sInfoThousands": ",",
+                        "oPaginate": {
+                            "sFirst": "首页",
+                            "sPrevious": "上页",
+                            "sNext": "下页",
+                            "sLast": "末页"
+                        },
+                        "oAria": {
+                            "sSortAscending": ": 以升序排列此列",
+                            "sSortDescending": ": 以降序排列此列"
+                        }
+                    },
+
+                });
+    })
+
+
+
+
+</script>
+<div class="wst-body">
+	<div class='wst-page-header'>买家中心 > 我的粉丝</div>
+	<div class='wst-page-content'>
+		<div style="padding-bottom: 4px;"></div>
+		<div class='wst-page-content'>
+			<table id="fans" class="table table-striped table-bordered"
+				cellspacing="0" width="100%">
+				<thead>
+					<tr>
+						<th>级别</th>
+						<th>用户名</th>
+						<th>推荐人</th>
+					</tr>
+				</thead>
+				<tbody>
+
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<script>
+
+	</script>
+</block>

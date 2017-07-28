@@ -1,0 +1,111 @@
+<extend name="Base:common" />
+<block name="static">
+<link rel="stylesheet" type="text/css" href="__CSS__/share.css" />
+</block>
+<block name="body"> <script>
+window.onload = function(){
+var oBox = document.getElementById('box');
+var aDiv =  oBox.getElementsByTagName('div');
+function setPos(arr){
+var aCon = arr;
+var aRowHeight = [0,0,0,0];
+var width = aCon[0].offsetWidth;
+aCon[0].parentNode.style.position = 'relative';
+for(var i=0;i<aCon.length;i++){
+aCon[i].style.position = 'absolute';
+aCon[i].style.margin = 0;
+}
+for(var i=0;i<aCon.length;i++){
+var min = findmin(aRowHeight)
+aCon[i].style.left = (min*width+(min+1)*15)+'px';
+aCon[i].style.top = (aRowHeight[min]+15)+'px';
+aRowHeight[min] += aCon[i].offsetHeight+15;
+}
+var max = findMax(aRowHeight);
+oBox.style.height = aRowHeight[max]+'px';
+}
+
+function findmin(arr){
+var rowHeight = arr;
+var min = 0;
+for(var i=0;i<rowHeight.length;i++){
+if(rowHeight[i]<rowHeight[min]){
+min = i
+}
+}
+return min;
+}
+function findMax(arr){
+var rowHeight = arr;
+var min = 0;
+for(var i=0;i<rowHeight.length;i++){
+if(rowHeight[i]>rowHeight[min]){
+min = i
+}
+}
+return min;
+}
+setPos(aDiv);
+}
+</script>
+<div class="share_main">
+	<div class="Current_nav">
+		<a href="{:U('Home/Index/index')}">首页</a> &gt; 晒单分享
+	</div>
+	<div id="current" class="share_Curtit">
+		<h1 class="fl">晒单分享</h1>
+		<span id="spTotalCount">(共<em class="orange">{$counts}</em>个晒单)
+		</span>
+	</div>
+	<div id="loadingPicBlock" class="share_list">
+		<div class="goods_share_listC" id="box">
+			<volist name="sharedata" id="vo">
+			<div class="share_list_content">
+				<dl>
+					<dt>
+						<a target="_blank"
+							href="{:U('Home/Share/detailshare/',array('id'=>$vo['id']))}"><img
+							src="{$vo.shareImg1}"></a>
+					</dt>
+					<dd class="share-name gray02">
+						<a href="" class="name-img"> <img id="imgUserPhoto"
+							src="/{$vo.userPhoto}" width="50" height="50" border="0" />
+						</a>
+					<dd class="share-name-r">
+						<span class="gray03"> <a href="" class="blue">{$vo.userId}</a>{$vo.shareTime}
+						</span>
+
+					</dd>
+					</dd>
+					<dd>
+						<a class="Fb gray01" href="" target="_blank">{$vo.shareTitle}</a>
+					</dd>
+					<dd class="share_info gray01">
+						<p>{$vo.shareContent}</p>
+					</dd>
+					<dd class="message hidden" style="display: block;">
+						<span class="smile gray03"><b>羡慕(<em num="1282">{$vo.envy}</em>)
+						</b></span> <span class="much"><a target="_blank"
+							href="{:U('Home/Share/detailshare/',array('id'=>$vo['id']))}"
+							class="gray03"><i></i>评论<em>({$vo.comments})</em></a></span>
+					</dd>
+					<volist name="vo['comments_content']" id="oo">
+					<dd class="text_message gray02 hidden" style="display: block;">
+						<a href="" target="_blank" class="name-img"> <img
+							id="imgUserPhoto" src="/{$oo.userPhoto}" width="50" height="50"
+							border="0" />
+						</a>
+						<p>
+							<a href="#" class="blue"></a>:&nbsp;<span>{$oo.commentsContents}</span>
+						</p>
+					</dd>
+					</volist>
+				</dl>
+				<p class="text-h10"></p>
+			</div>
+			</volist>
+		</div>
+		<div class="pages">{$show}</div>
+	</div>
+</div>
+</block>

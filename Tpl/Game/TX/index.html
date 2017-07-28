@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>申请提现</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/layer.min.js"></script>
+<style>
+body {
+	background: #efeff4;
+}
+
+.bor {
+	border-bottom: #d5d7dc solid 1px;
+}
+
+#bank {
+	border: none;
+	width: 90%;
+	height: 45px;
+	line-height: 45px;
+	background: transparnet;
+	background: url(__IMG__/down_ico.png) right center no-repeat;
+	background-size: 12px;
+}
+
+input[type=text] {
+	width: 90%;
+	height: 45px;
+	line-height: 45px;
+	background: transparent;
+	border: none;
+}
+
+.btn {
+	width: 70%;
+	margin: 0 auto;
+	text-align: center;
+	margin: 20px auto 10px auto;
+	padding: 15px 0;
+	background: #00b4ff;
+	border-radius: 4px;
+	color: #fff;
+}
+
+.ft12 {
+	font-size: 120%;
+	font-weight: bold;
+}
+
+.col-b {
+	color: #00b4ff;
+}
+
+.col-a {
+	color: #ffae00;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<div class="_top">
+		<div class="_left_top" onclick="history.go(-1)"></div>
+		<div class="_title_top">申请提现</div>
+		<div class="_right_top no-bg mess"></div>
+	</div>
+	<div class="lh45"></div>
+	<div class="lh45 bor ti10 back-ff col-9">
+		提现金额<span class="col-32">￥999.00</span>
+	</div>
+	<div class="lh45 bor ti10 back-ff ub" style="margin: 10px 0px;">
+		<div class="ub-f1">常用卡号</div>
+		<div class="right_arrows arrowsMy"></div>
+	</div>
+	<div class="ub back-ff lh45 ti10 bor">
+		<div class="col-9">选择银行：</div>
+		<div class="ub-f1">
+			<select id="bank"><option>中国工商银行</select>
+		</div>
+	</div>
+	<div class="ub back-ff lh45 ti10 bor">
+		<div class="col-9">开户支行：</div>
+		<div class="ub-f1">
+			<input type="text" name="bankName" value="" placeholder="请输入开户支行名称" />
+		</div>
+	</div>
+	<div class="ub back-ff lh45 ti10 bor">
+		<div class="col-9">银行卡号：</div>
+		<div class="ub-f1">
+			<input type="text" name="bankNumber" value="" placeholder="请输入银行卡号" />
+		</div>
+	</div>
+	<div class="ub back-ff lh45 ti10 bor">
+		<div class="col-9">真实姓名：</div>
+		<div class="ub-f1">
+			<input type="text" name="trueName" value="" placeholder="请输入您的真实姓名" />
+		</div>
+	</div>
+	<div class="btn ">提交申请</div>
+	<div class="lh45 back-ff txt-c bor">申请记录</div>
+
+	<div class="ub back-ff lh45">
+		<div class="ub-f1 pos-r">
+			<div class="pos-a txt-c ft12">订单号</div>
+		</div>
+		<div class="ub-f1 pos-r">
+			<div class="pos-a txt-c ft12">金额</div>
+		</div>
+		<div class="ub-f1 pos-r">
+			<div class="pos-a txt-c ft12">时间</div>
+		</div>
+		<div class="ub-f1 pos-r">
+			<div class="pos-a txt-c ft12">状态</div>
+		</div>
+	</div>
+	<div class="ub back-ff lh35 bor">
+		<div class="ub-f1 pos-r">
+			<div class="pos-a txt-c  col-9">335577</div>
+		</div>
+		<div class="ub-f1 pos-r">
+			<div class="pos-a txt-c col-32">￥1377.9</div>
+		</div>
+		<div class="ub-f1 pos-r">
+			<div class="pos-a txt-c col-6">2016/3/1</div>
+		</div>
+		<div class="ub-f1 pos-r">
+			<div class="pos-a txt-c col-b">待处理</div>
+		</div>
+	</div>
+	<div class="ub back-ff lh35 bor">
+		<div class="ub-f1 pos-r">
+			<div class="pos-a txt-c  col-9">335577</div>
+		</div>
+		<div class="ub-f1 pos-r">
+			<div class="pos-a txt-c col-32">￥1377.9</div>
+		</div>
+		<div class="ub-f1 pos-r">
+			<div class="pos-a txt-c col-6">2016/3/1</div>
+		</div>
+		<div class="ub-f1 pos-r">
+			<div class="pos-a txt-c col-a">处理中</div>
+		</div>
+	</div>
+	<div class="ub back-ff lh35 bor">
+		<div class="ub-f1 pos-r">
+			<div class="pos-a txt-c  col-9">335577</div>
+		</div>
+		<div class="ub-f1 pos-r">
+			<div class="pos-a txt-c col-32">￥1377.9</div>
+		</div>
+		<div class="ub-f1 pos-r">
+			<div class="pos-a txt-c col-6">2016/3/1</div>
+		</div>
+		<div class="ub-f1 pos-r">
+			<div class="pos-a txt-c col-9">已完成</div>
+		</div>
+	</div>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+</html>

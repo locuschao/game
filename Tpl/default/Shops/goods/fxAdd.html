@@ -1,0 +1,418 @@
+<extend name="Shops:layout" />
+<block name="content"> <script
+	src="__PUBLIC__/plugins/kindeditor/kindeditor.js"></script> <script
+	src="__PUBLIC__/plugins/kindeditor/lang/zh_CN.js"></script>
+
+<link rel="stylesheet" type="text/css"
+	href="__PUBLIC__/plugins/webuploader/style.css" />
+<link rel="stylesheet" type="text/css"
+	href="__PUBLIC__/plugins/webuploader/webuploader.css" />
+<script type="text/javascript"
+	src="__PUBLIC__/plugins/webuploader/webuploader.js"></script> <script
+	type="text/javascript" src="__JS__/goodsbatchupload.js"></script> <script
+	type="text/javascript" src="__JS__/layer.js"></script> <script
+	type="text/javascript" src="__JS__/jquery-1.8.3.min.js"></script> <script
+	type="text/javascript" src="__PUBLIC__/plugins/jeDate/jedate.js"></script>
+
+<style>
+.datainp {
+	width: 150px;
+}
+
+.bor tr td, th {
+	border: #efefef solid 1px;
+}
+
+.tableinput input {
+	width: 60px;;
+}
+
+.add {
+	padding: 5px 10px;
+	border-radius: 4px;
+	background: #ab774b;
+	color: #fff;
+	text-align: center;
+	cursor: pointer;
+}
+
+.jian {
+	padding: 5px 10px;
+	border-radius: 4px;
+	background: #ab774b;
+	color: #fff;
+	text-align: center;
+	cursor: pointer;
+}
+</style>
+<script>
+	$(function() {
+		$('#tab').TabPanel({
+			tab : 0
+		});
+		$.formValidator.initConfig({
+			theme : 'Default',
+			mode : 'AutoTip',
+			formID : "myform",
+			debug : true,
+			submitOnce : true,
+			onSuccess : function() {
+				editGoodsTest(1);
+				return;
+				editGoods('{$umark}');
+				return false;
+			},
+			onError : function(msg) {
+			}
+		});
+	});
+
+	var filetypes = [ "gif", "jpg", "png", "jpeg" ];
+
+	$('body').on(
+			'change',
+			'#game',
+			function() {
+				var gameId = $(this).val();
+				if (gameId == 0) {
+					layer.msg('请选择所属游戏');
+					return;
+				}
+				$.ajax({
+					type : "POST",
+					url : '{:U("Goods/getGameVersions")}',
+					data : {
+						gameId : gameId
+					},
+					dataType : "json",
+					success : function(data) {
+						var html = '';
+						html += '	<option value="0">--请选择--</option>';
+						if (data.length > 0) {
+							for (var i = 0; i < data.length; i++) {
+								html += '<option value="'+data[i].id+'">'
+										+ data[i].vName + '</option>';
+							}
+							$('#versions').html(html);
+						}
+					}
+				});
+			})
+
+	function keyupFun(_this) {
+		$(_this).val($(_this).val().replace(/[\|\;\D]/g, ''));
+	}
+
+	$('body').on('click', '.add', function() {
+		addHtml();
+	})
+
+	function addHtml() {
+		var html = '<tr class="lists"><th>充值面额<font color="red">*</font>：</th>';
+		html += '<td ><input onkeypress="keyPress(this)" onblur="onBlur(this)" onkeyup="keyUp(this)" type="text" id="shopPrice" name="shopPrice" /> </td>';
+		html += '<td >首充号折后金额<input onkeypress="keyPress(this)" onblur="onBlur(this)" onkeyup="keyUp(this)"  type="text" id="shouChong" name="shouChong" /> </td>';
+		html += '<td >首充号代充折后金额 <input onkeypress="keyPress(this)" onblur="onBlur(this)" onkeyup="keyUp(this)"  type="text" id="daiChong" name="daiChong" /></td>';
+		html += '	<td>分佣价格<input onkeypress="keyPress(this)" <if condition="!$agentStatus"> readonly="readonly" placeholder="0 请联系平台开启分销"<else/>value="0"</if>onblur="onBlur(this)" onkeyup="keyUp(this)" type="text" id="agentPrice" name="agentPrice" /><span class="jian">-</span>	</td></tr>';
+		$('#insertMoney').after(html);
+	}
+
+	$('body').on('click', '.jian', function() {
+		$(this).parent().parent().remove();
+	})
+</script>
+<div class="wst-body">
+	<div class='wst-page-header'>卖家中心 > 新增会员商品</div>
+	<div class='wst-page-content'>
+		<div id='tab' class="wst-tab-box">
+			<ul class="wst-tab-nav">
+				<li>商品信息</li>
+				<!-- 	<li>属性</li> -->
+				<!--   <li>商品相册</li>
+	        <li>团购信息</li>
+			<li>秒杀信息</li> -->
+			</ul>
+			<div class="wst-tab-content" style='width: 99%; margin-bottom: 10px;'>
+				<!-- 商品基础信息 -->
+				<div class='wst-tab-item' style="position: relative;">
+					<iframe name="upload" style="display: none"></iframe>
+					<!--表单提交部分-->
+					<form name="myform" method="post" id="myform" autocomplete="off">
+						<table
+							class="table table-hover table-striped table-bordered wst-list wst-form">
+                             <!--
+                            @author peng
+                            @date 2016
+                            @descreption 还没有此功能
+                             -->
+                            
+							<!--<tr>
+								<th width='120'>是否秒充商品<font color='red'>*</font>：
+								</th>
+								<td colspan='4'><label> <input type='radio'
+										id='isMiao' name='isMiao'
+									<if condition="$object['isMiao'] ==1 ">checked</if>
+										value='1'/>是
+								</label> <label> <input type='radio' id='isMiao' name='isMiao'
+									<if condition="$object['isMiao'] ==0 ">checked</if>
+										value='0'/>否
+								</label></td>
+							</tr>-->
+                            <tr id="isMiaoTr">
+								<th width='120'>是否秒充商品<font color='red'>*</font>：
+								</th>
+								<td colspan='4'><label> <input type='radio'
+										id='isMiao' name='isMiao' disabled="disabled"
+									<if condition="$object['isMiao'] ==1 ">checked</if>
+										value='1'/>是
+								</label> <label> <input type='radio' id='isMiao' name='isMiao' disabled="disabled"
+									<if condition="$object['isMiao'] ==0 ">checked</if>
+										value='0'/>否
+								</label><label style="color: red;">（仅支持手游狗、TT版本的部分游戏）</label></td>
+							</tr>
+							<tr>
+								<th>适应系统<font color='red'>*</font>：
+								</th>
+								<php>$_appTo=explode(',',$object['applyTo']);</php>
+								<td colspan='4'><label><input name="applyTo"
+										class="applyTo"
+									<if condition="in_array('苹果',$_appTo)">checked</if>
+										type="checkbox" value="苹果" />苹果 </label> <label><input
+										class="applyTo"
+									<if condition="in_array('安卓',$_appTo)">checked</if>
+										name="applyTo" type="checkbox" value="安卓" />安卓 </label></td>
+							</tr>
+							<tr>
+								<th>选择游戏<font color='red'>*</font>：
+								</th>
+								<td colspan='4'><select name="game" id="game"<if
+											condition="$object['goodsId'] gt 0"> disabled=true</if>>
+										<option value="0">--请选择--</option>
+										<volist name="game" id="vo">
+										<option value="{$vo.id}"<if
+												condition="$object['gameId'] eq $vo['id']">selected</if>
+											>{$vo.gameName}
+										</option>
+										</volist>
+								</select>
+									<input type="text" id="gameName" placeholder="请输入游戏名并搜索">
+									<button class='wst-btn-query' type="button" onclick="gameSearch()">搜索</button>
+									<br /></td>
+							</tr>
+							<tr>
+								<th>游戏版本<font color='red'>*</font>：
+								</th>
+								<td colspan='4'><select name="versions" id="versions">
+										<option value="0">--请选择--</option>
+								</select>
+									<br /></td>
+							</tr>
+							<tr id="insertMoney" class="lists">
+								<th>充值面额<font color='red'>*</font>：
+								</th>
+								<td><input onkeypress="keyPress(this)"
+									onblur="onBlur(this)" onkeyup="keyUp(this)" type='text'
+									id='shopPrice' name='shopPrice' /></td>
+								<td>首充号折后金额<input onkeypress="keyPress(this)"
+									onblur="onBlur(this)" onkeyup="keyUp(this)" type='text'
+									id='shouChong' name='shouChong' />
+								</td>
+								<td>首充号代充折后金额 <input onkeypress="keyPress(this)"
+									onblur="onBlur(this)" onkeyup="keyUp(this)" type='text'
+									id='daiChong' name='daiChong' /></td>
+
+							<!--
+                            	<td>分佣价格<input onkeypress="keyPress(this)"
+								<if condition="!$agentStatus"> readonly="readonly"
+									placeholder="0 请联系平台开启分销"<else /> value="0"</if>
+									onblur="onBlur(this)" onkeyup="keyUp(this)" type='text'
+									id='agentPrice' name='agentPrice' /><span class="add">+</span>
+								</td>-->
+
+							</tr>
+                            <!--
+                            @author peng
+                            @date 2017-01
+                            @descreption 不同会员价钱不一样
+                            -->
+                            <tr>
+								<th></th>
+								<td></td>
+								<td><label>低级会员优惠价格</label><input  type='text' 
+									id="low_member_price" name='low_member_price[]' onkeypress="keyPress(this)"
+									onblur="onBlur(this)" onkeyup="keyUp(this)"/>
+								</td>
+								<td><label>低级会员优惠价格</label><input  type='text'
+								id='low_member_price1'	 name='low_member_price[]' onkeypress="keyPress(this)"
+									onblur="onBlur(this)" onkeyup="keyUp(this)"/></td>
+
+							</tr>
+                            <tr>
+								<th></th>
+								<td></td>
+								<td>中级会员优惠价格<input  type='text'
+								id="mid_member_price"	 name='mid_member_price[]' onkeypress="keyPress(this)"
+									onblur="onBlur(this)" onkeyup="keyUp(this)"/>
+								</td>
+								<td>中级会员优惠价格<input type='text' id="mid_member_price1" name='mid_member_price[]' onkeypress="keyPress(this)"
+									onblur="onBlur(this)" onkeyup="keyUp(this)"/></td>
+
+							</tr>
+                            <tr>
+								<th></th>
+								<td></td>
+								<td>高级会员优惠价格<input type='text'
+								id="heigh_member_price"	 name='heigh_member_price[]' onkeypress="keyPress(this)"
+									onblur="onBlur(this)" onkeyup="keyUp(this)"/>
+								</td>
+								<td>高级会员优惠价格<input type='text'
+								id="heigh_member_price1"   name='heigh_member_price[]' onkeypress="keyPress(this)"
+									onblur="onBlur(this)" onkeyup="keyUp(this)"/></td>
+
+							</tr>
+                            
+                            
+							<tr>
+								<td colspan='5' style='padding-left: 320px;'>
+									<button class='wst-btn-query' type="submit">保&nbsp;存</button> <if
+										condition="$umark !='toEdit' ">
+									<button class='wst-btn-query' type="button"
+										onclick='javascript:location.href="__ROOT__/index.php/Home/Goods/queryOnSaleByPage"'>返&nbsp;回</button>
+									</if>
+								</td>
+							</tr>
+						</table>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div style='clear: both;'></div>
+</div>
+<script>
+	/**
+	 * 魏永就
+	 * 函数名 gameSearch
+	 * 对用户输入的游戏名进行搜索，目的是判断游戏是否存在
+	 */
+	function gameSearch() {
+		var gameName = $('#gameName').val();
+		$.ajax({
+			url:'__CONTROLLER__/gameSearch',
+			type : "POST",
+			data:{gameName:gameName},
+			dataType:'json',
+			success:function (msg) {
+				if(msg.status == 0)
+				{
+					$('#game').find('option').removeAttr('selected');
+					$('#game').find('option[value='+msg.msg+']').attr('selected','selected');
+
+					var gameId = $('#game').find('option[selected=selected]').attr('value');
+					if (gameId == 0) {
+						layer.msg('请选择所属游戏');
+						return;
+					}
+					$.ajax({
+						type : "POST",
+						url : '{:U("Goods/getGameVersions")}',
+						data : {
+							gameId : gameId
+						},
+						dataType : "json",
+						success : function(data) {
+							var html = '';
+							html += '	<option value="0">--请选择--</option>';
+							if (data.length > 0) {
+								for (var i = 0; i < data.length; i++) {
+									html += '<option value="'+data[i].id+'">'
+											+ data[i].vName + '</option>';
+								}
+								$('#versions').html(html);
+							}
+						}
+					});
+
+				}else{
+					WST.msg(msg.msg, {icon: 5});
+				}
+			}
+		});
+	}
+
+	function isDefine(value) {
+		if (value === null || value === "" || value === "undefined"
+				|| value === undefined || value === "null"
+				|| value === "(null)" || value === 'NULL'
+				|| typeof (value) === 'undefined') {
+			return false;
+		} else {
+			value = value + "";
+			value = value.replace(/\s/g, "");
+			if (value === "") {
+				return false;
+			}
+			return true;
+		}
+	}
+
+	function keyPress(ob) {
+		if (!ob.value.match(/^\d*?\.?\d*?$/)) {
+			ob.value = ob.t_value;
+		} else {
+			ob.t_value = ob.value;
+		}
+		if (ob.value.match(/^(\d+(?:\.\d+)?)?$/)) {
+			ob.o_value = ob.value;
+		}
+	}
+	function keyUp(ob) {
+
+		if (!ob.value.match(/^\d*?\.?\d*?$/)) {
+			ob.value = ob.t_value;
+		} else {
+			ob.t_value = ob.value;
+		}
+		if (ob.value.match(/^(\d+(?:\.\d+)?)?$/)) {
+			ob.o_value = ob.value;
+		}
+
+	}
+
+	function onBlur(ob) {
+		var id = $(ob).attr('id');
+		var agentPrice = Number($(ob).parent().parent().find('#agentPrice')
+				.val());
+		if (!isDefine(agentPrice)) {
+			agentPrice = 0;
+		}
+
+		var shouChong = Number($(ob).parent().parent().find('#shouChong').val());
+		var daiChong = Number($(ob).parent().parent().find('#daiChong').val());
+
+		if (!ob.value.match(/^\d*?\.?\d*?$/)) {
+			ob.value = ob.t_value;
+		} else {
+			ob.t_value = ob.value;
+		}
+		if (ob.value.match(/^(\d+(?:\.\d+)?)?$/)) {
+			ob.o_value = ob.value;
+		}
+		if (id == 'agentPrice' || agentPrice > 0) {
+
+			if (!isDefine(shouChong) || !isDefine(daiChong)) {
+				$(ob).parent().parent().find('#agentPrice').val(0);
+				layer.msg('请先填写首充和代充价格！');
+				return;
+			}
+
+			var minPrice = shouChong > daiChong ? daiChong : shouChong;
+			if (minPrice < agentPrice) {
+				$(ob).parent().parent().find('#agentPrice').val(0);
+				layer.msg('分佣价格不能大于折后价格！');
+				return;
+			}
+		}
+	}
+</script> 
+<script src="__JS__/validateGame.js"></script>
+</block>

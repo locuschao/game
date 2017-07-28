@@ -1,0 +1,218 @@
+body {
+	background: #efeff4
+}
+
+.padd {
+	padding: 10px;
+}
+
+.padd-b {
+	padding: 10px;
+	padding-top: 0px;
+}
+
+.ft9 {
+	font-size: 90%;
+}
+
+.shouchong {
+	width: 90%;
+	margin: 8px auto;
+	text-align: left;
+	background: #fffdd9;
+	color: #8a500b;
+	padding: 5px;
+	border: #dc9320 solid 1px;
+	font-size: 90%;
+}
+
+.list {
+	width: 49.6%
+}
+
+.list:nth-child(odd) {
+	float: left;
+	border-right: #d5d7dc solid 1px;
+}
+
+.list:nth-child(even) {
+	float: left;
+}
+
+.list1 {
+	width: 90%;
+	margin: 0 auto;
+	padding: 8px;
+	background: #fff;
+	border-bottom: #d5d7dc solid 1px;
+}
+
+.shopImg img {
+	width: 60px;
+	height: 60px;
+}
+
+.ms {
+	margin-left: 5px;
+	line-height: 20px;
+}
+
+.ms, .title, .mc {
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.title {
+	font-size: 16px;
+	height: 20px;
+}
+
+.select {
+	width: 20px;
+	background: url(/Tpl/Game/image/select_f.png) top center no-repeat;
+	background-size: 18px;;
+}
+
+.mc {
+	background: #e50f12;
+	font-size: 12px;
+	padding: 1px 5px;
+	color: #fff;
+	height: 15px;
+	line-height: 15px;
+	width: 25px;
+	border-radius: 2px;
+}
+
+.da {
+	color: #333333;
+	font-size: 18px;
+}
+
+.lh20 {
+	padding: 10px 0px;
+	background: #fff;
+}
+
+.jiathis_style_24x24 {
+	background: #fff;
+	clear: borth;
+	color: #999;
+	font-size: 12px;
+	height: 35px;
+	line-height: 35px;
+	padding: 5px;
+}
+
+#num {
+	background: transparent;
+	border: none;
+	width: 100%;
+	text-align: center;
+	height: 30px;
+	line-height: 30px
+}
+
+.jian {
+	background: url(/Tpl/Game/image/down.png) center no-repeat;
+	background-size: contain;
+}
+
+.jia {
+	background: url(/Tpl/Game/image/add.png) center no-repeat;
+	background-size: contain;
+}
+
+.lh30 {
+	height: 30px;
+	line-height: 30px;
+	padding-bottom: 10px;
+}
+
+.shopImg img {
+	width: 60px;
+	height: 60px;
+	border-radius: 4px;
+}
+
+.shopContent {
+	margin-left: 5px;
+}
+
+.shopName {
+	font-size: 120%;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	height: 25px;
+	line-height: 25px;
+	over-flow: hidden;
+}
+
+.fw {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	height: 20px;
+	line-height: 20px;
+	font-size: 90%;
+}
+
+.btn {
+	width: 80%;
+	margin: 0 auto;
+	text-align: center;
+	background: #fff600;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+#totalMoney {
+	color: #323232;
+	font-size: 18px;
+}
+
+.select, .jian, .jia {
+	cursor: pointer
+}
+/**
+ * @author peng	
+ * @date 2017-01
+ * @descreption 
+ */
+.price-tip{
+    display:inline-block;
+    color:red;
+    text-indent: 10px;
+}
+.joinBtn{
+    color:blue;
+    background:#fff;
+    margin-left:5px;
+}
+/**
+ * @author peng
+ * @date 2017-01
+ * @descreption 
+ */
+.voucher-block{
+    max-width:800px;margin:0 auto;
+    margin-top:15px;
+    background:#fff;
+}
+.voucher-block .row:first-child {
+    color: red;
+}
+.voucher-block .row{
+    border-bottom:1px solid #ddd;
+    padding:20px;
+}
+.form-control{
+    display:inline-block;
+    margin-right:10px;
+}
+.member-zhekou {
+    padding-left:2px;
+    color:#999;
+    font-size:12px;
+}

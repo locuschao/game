@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link href="/Public/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/Tpl/Admin/css/page.css" rel="stylesheet">
+    <script src="__PUBLIC__/js/jquery.min.js"></script>
+    <style>
+        .form_submit tr td {
+            padding-right: 10px;
+        }
+        .form_submit{
+            margin-top:10px;
+            margin-bottom: 10px;
+        }
+    </style>
+    <script>
+       function deleteData(goodsId,t) {
+            if(!confirm('你确定要删除ID为'+goodsId+'这个商品吗？'))
+                    return;
+           $.ajax({
+               url:'__CONTROLLER__/delAction',
+               type:'post',
+               dataType:'json',
+               data:{goodsId:goodsId},
+               success:function (res) {
+                   if(res.status == 0)
+                           $(t).parents('td').html('<font color=red>已删除</font>');
+                   else
+                           alert(res.msg);
+               }
+           })
+       }
+        function addSale(goodsId,type,t) {
+            $.ajax({
+                url:'__CONTROLLER__/onSale',
+                type:'post',
+                data:{goodsId:goodsId,type:type},
+                dataType:'json',
+                success:function (res) {
+                    if(res.status == 0)
+                    {
+                        location.reload();
+                    }
+                    else
+                            alert(res.msg);
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <form action="" method="post">
+                <table class="form_submit">
+                    <tr><td>商品名：</td><td><input class="form-control" name="name" value="{$_POST['name']}"></td><td><button class="btn btn-primary">搜索</button> </td></tr>
+                </table>
+            </form>
+            <table class="list_tab">
+                <tr><th>商品ID</th><th>图片</th><th>商品名</th><th>金额</th><th>代金券</th><th>添加人</th><th>等级</th><th>添加时间</th>
+                    <th>操作</th></tr>
+                <volist name="goodsArr" id="vo">
+                    <tr><td>{$vo.id}</td><td><img src="/{$vo.pictureUrl}" width="45px"></td><td>{$vo.name}</td><td>{$vo.price}</td><td>
+                        <volist name="vo.voucher" id="v">
+                            {$v.name}&nbsp;&nbsp;&nbsp;&nbsp;
+                        </volist>
+                    </td><td>{$vo.loginName}</td>
+                        <td>
+                            <switch name="vo.rank">
+                                <case value="3">低级</case>
+                                <case value="2">中级</case>
+                                <case value="1">高级</case>
+                            </switch>
+                        </td>
+                    <td>{$vo.add_time|date="Y-m-d H:i:s",###}</td>
+                        <td>
+                            <a href="javascript:;" onclick="deleteData({$vo.id},this)">删除</a>
+                            <a href="__CONTROLLER__/editGoods/goodsId/{$vo.id}">修改</a>
+                           <if condition="$vo.isSale eq 0">
+                               <a href="javascript:;" onclick="addSale({$vo.id},1,this)">上架</a>
+                               <else/>
+                               <a href="javascript:;" onclick="addSale({$vo.id},0,this)"><font color="red">下架</font></a>
+                           </if>
+                        </td>
+                    </tr>
+                </volist>
+            </table>
+            <div class="page_nav">
+                {$page}
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

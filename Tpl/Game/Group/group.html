@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>订单详情</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+
+<style>
+.li_ {
+	background: url('__IMG__/li_.png') center no-repeat;
+	width: 1px;
+	background-size: contain;
+	height: 25px;
+	margin-top: 9px;
+}
+
+.hei100 {
+	height: 100px;
+	width: 94%;
+	padding: 3%;
+}
+
+.img_left img {
+	max-height: 100px;
+	width: 90%;
+}
+
+.menu_li {
+	width: 100%;
+	position: absolute;;
+	top: 90px;
+	z-index: 9999;
+}
+
+.menu_li ul li {
+	height: 45px;
+	line-height: 45px;
+	text-indent: 10px;
+	background: #fff;
+	text-align: left;
+	border-bottom: #d5d7dc solid 1px;
+}
+
+#area, #sort, #smart, #filter {
+	display: none;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<script>
+$(function() {
+    $('.nav_').on('click', function() {
+        $('.nav_').removeClass('col_red');
+        var id=$(this).attr('data-id');
+        var status = $(this).attr('data-status');
+        $('.nav_').not('#'+id).attr('data-status',0);
+        if (status == 0) {
+            $(this).attr('data-status', 1);
+            $(this).addClass('col_red');
+            $('.li_menu').hide();
+            $('#'+id).show();
+        } else {
+            $(this).attr('data-status', 0);
+            $('.li_menu').hide();
+          
+            $('#'+id).hide();
+        }
+
+    })
+    $('.li_menu li').on('click',function(){
+      $('.nav_').attr('data-status',0);
+      $('.li_menu').hide();
+    });
+})
+</script>
+
+<body>
+	<div class="menu_li">
+		<ul class="li_menu" id="area">
+			<li>全国地区</li>
+			<li>全国地区</li>
+			<li>全国地区</li>
+		</ul>
+		<ul class="li_menu" id="sort">
+			<li>全部分类</li>
+			<li>全部分类</li>
+			<li>全部分类</li>
+		</ul>
+		<ul class="li_menu" id="smart">
+			<li>智能排序</li>
+			<li>智能排序</li>
+			<li>智能排序</li>
+		</ul>
+		<ul class="li_menu" id="filter">
+			<li>筛选</li>
+			<li>筛选</li>
+			<li>筛选</li>
+		</ul>
+	</div>
+	<div class="_top" style="z-index: 999">
+		<div class="_left_top" onclick='javascript:window.location.href="{:U('
+			wx/index/index',array('r'=>'index'))}"'></div>
+		<div class="_title_top">今日团购</div>
+		<div class="_right_top "></div>
+	</div>
+	<div class="_content">
+		<div class="ub lh45 back-ff  bor_b">
+			<div class="ub-f1 text-c pos-r area nav_" data-status="0"
+				data-id="area">
+				<div class="pos-a  ">全部商区</div>
+			</div>
+			<div class="li_"></div>
+			<div class="ub-f1 text-c pos-r sort nav_" data-status="0"
+				data-id="sort">
+				<div class="pos-a ">全部分类</div>
+			</div>
+			<div class="li_"></div>
+			<div class="ub-f1 text-c pos-r smart nav_" data-status="0"
+				data-id="smart">
+				<div class="pos-a ">智能排序</div>
+			</div>
+			<div class="li_"></div>
+			<div class="ub-f1 text-c pos-r filter nav_" data-status="0"
+				data-id="filter">
+				<div class="pos-a ">筛选</div>
+			</div>
+		</div>
+		<div class="ub  back-ff margin_top10 back-ff border_bottom1  hei100">
+			<div class="ub-f1 pos-r  back-ff">
+				<div class="back-ff pos-a img_left">
+					<img src="__IMG__/cs_sp1.png" alt="">
+				</div>
+			</div>
+			<div class="ub-f1 pos-r back-ff margin_right10">
+				<div class=" pos-a ub b-v ">
+					<div class="ub-f1 pos-r ac ">
+						<div class="pos-a overH">衣锦 2015冬装新款羽绒服 奢华大毛领韩中长款金色..</div>
+					</div>
+					<div class="ub-f1  pos-r">
+						<div class="pos-a height35 col_red font110">￥297</div>
+					</div>
+					<div class="ub-f1  pos-r">
+						<div class="pos-a  height35 ">
+							<span class="col_9">￥698</span><span class="col_9">|</span>537人已买
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="ub  back-ff back-ff border_bottom1  hei100">
+			<div class="ub-f1 pos-r  back-ff">
+				<div class="back-ff pos-a img_left">
+					<img src="__IMG__/cs_sp1.png" alt="">
+				</div>
+			</div>
+			<div class="ub-f1 pos-r back-ff margin_right10">
+				<div class=" pos-a ub b-v ">
+					<div class="ub-f1 pos-r ac ">
+						<div class="pos-a overH">衣锦 2015冬装新款羽绒服 奢华大毛领韩中长款金色..</div>
+					</div>
+					<div class="ub-f1  pos-r">
+						<div class="pos-a height35 col_red font110">￥297</div>
+					</div>
+					<div class="ub-f1  pos-r">
+						<div class="pos-a  height35 ">
+							<span class="col_9">￥698</span><span class="col_9">|</span>537人已买
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script>
+</script>
+
+</html>

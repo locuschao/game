@@ -1,0 +1,60 @@
+<extend name="Shops:layout" />
+<block name="content">
+<div class="wst-body">
+	<div class='wst-page-header'>
+		卖家中心 >
+		<if condition="$object['id'] ==0 ">新增<else />编辑</if>
+		物流信息
+	</div>
+	<div class='wst-page-content'>
+		<form name="myform" method="post" id="myform" autocomplete="off">
+			<input type='hidden' id='id' value='{$object.id}' />
+			<table
+				class="table table-hover table-striped table-bordered wst-form">
+				<tr>
+					<th width='120' align='right'>物流名称<font color='red'>*</font>：
+					</th>
+					<td><input type='text' id='expressCompany'
+						class="form-control wst-ipt" value='{$object.expressCompany}'
+						maxLength='25' size='40' /></td>
+				</tr>
+				<tr>
+					<th width='120' align='right'>查询电话<font color='red'>*</font>：
+					</th>
+					<td><input type='text' id='telephone'
+						class="form-control wst-ipt" value='{$object.telephone}'
+						maxLength='25' size='40' /></td>
+				</tr>
+				<tr>
+					<th width='120' align='right'>官方网址<font color='red'>*</font>：
+					</th>
+					<td><input type='text' id='website'
+						class="form-control wst-ipt" value='{$object.website}'
+						maxLength='25' size='40' /></td>
+				</tr>
+				<tr>
+					<th width='120' align='right'>物流状态<font color='red'>*</font>：
+					</th>
+					<td><label><input type='radio' id='isShow'
+							name='isShow' value='1'
+						<if condition="$object['isShow'] ==1 ">checked</if>/>启用</label> <label><input
+							type='radio' id='isShow' name='isShow' value='0'
+						<if condition="$object['isShow'] ==0 ">checked</if>/>禁用</label></td>
+				</tr>
+				<tr>
+					<td colspan='2' style='padding-left: 100px;'>
+						<button class='wst-btn-query' type="button"
+							onclick='javascript:editExpress(0,"{$umark}")'>保&nbsp;存</button>
+						<if condition="$object['id']  eq 0 ">
+						<button class='wst-btn-query' style='width: 120px;'
+							onclick='javascript:editExpress(1,"{$umark}")' type="button">保存并继续新增</button>
+						</if>
+						<button class='wst-btn-query' type="button"
+							onclick='javascript:location.href="{:U('Home/Express/index')}"'>返&nbsp;回</button>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+</block>

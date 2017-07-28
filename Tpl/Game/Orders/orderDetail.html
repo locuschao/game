@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>订单详情</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/layer.min.js"></script>
+<style>
+.inputList {
+	width: 95%;
+	margin: 0 auto;
+}
+
+.inputStyle {
+	width: 80%;
+	border: #00b4ff solid 1px;
+	border-radius: 2px;
+	height: 25px;
+	line-height: 25px;
+	text-indent: 10px;
+}
+
+
+.col-6 {
+	color: #666666;
+}
+
+.mar-l {
+	margin-left: 10px;
+}
+
+.inputList div:first-child {
+	width: 60px;
+}
+
+.goodsImg img {
+	width: 40px;
+	height: 40px;
+	padding: 10px;
+	border-radius: 4px;
+}
+
+.goodsName {
+	color: #323232;
+	font-size: 18px;
+	line-height: 60px;
+	text-align: left;
+	text-overflow: ellipsis;
+	over-flow: hidden;
+	white-space: nowrap;
+}
+
+.detailList div:first-child {
+	width: 80px;
+	padding-left: 10px;
+	text-align: left;
+	font-size: 98%;
+}
+
+.detailList div:nth-child(2) {
+	font-size: 98%;
+}
+
+.btn {
+	border-radius: 4px;
+	margin: 0 auto;
+	text-align: center;
+	color: #fff;
+	background: #38aaff;
+	height: 40px;
+	line-height: 40px;
+	width: 90%;
+}
+/* 二次开发 添加*/
+body{
+	max-width: 800px;
+}
+._top{
+	max-width: 800px;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<div class="_top">
+		<div class="_left_top" style="cursor: pointer"
+			onclick='location.href="<?php 
+            if(strpos($_SERVER['HTTP_REFERER'],'Mess')!==false) echo '/Game/Mess/mess/r/Index_index';
+            else echo '/Game/Index/index/r/order/o/'.$_GET["o"]; 
+            ?>"'></div>
+		<div class="_title_top">订单详情</div>
+		<div class="_right_top nobackground"></div>
+	</div>
+	<div class="_content">
+		<div class="_son_title ub lh45">
+			<div class=" text-l ub-f1" style="color: #222">
+			<?php  if(!$orderInfo['orderStatus']) exit('<div style="text-align:center;">该订单不存在！</div>'); ?>
+				订单状态:
+				<if condition="$orderInfo['orderStatus'] eq -2"> 待支付 <elseif
+					condition="$orderInfo['orderStatus'] eq 1" /> 待发货 <elseif
+					condition="$orderInfo['orderStatus'] eq -4" /> 买家取消订单 <elseif
+					condition="$orderInfo['orderStatus'] eq -3" /> 退款中 <elseif
+					condition="$orderInfo['orderStatus'] eq -5" /> 退款成功 <elseif
+					condition="$orderInfo['orderStatus'] eq -6" /> 商家拒绝退款 <elseif
+					condition="$orderInfo['orderStatus'] eq 3 " /> 已完成 <elseif
+					condition="$orderInfo['orderStatus'] eq 2 " /> 已发货 <elseif
+					condition="$orderInfo['orderStatus'] eq -7 "/> 商家取消订单<elseif
+					condition="$orderInfo['orderStatus'] eq -8 "/> 平台拒绝退款<elseif
+						condition="$orderInfo['orderStatus'] eq -9 "/> 订单无效</if>
+			</div>
+		</div>
+	</div>
+    
+	<div class="ub lh35  back-ff detailList">
+		<div class="col-9">订单号：</div>
+		<div class="ub-f1 ">{$orderInfo.orderNo}</div>
+	</div>
+	<div class="ub   back-ff detailList" style="line-height:auto;padding:10px 0px;">
+		<div class="col-9">商品名称：</div>
+		<div class="ub-f1  " >
+			<p style="">{$orderInfo.goodsName}</p>
+		</div>
+	</div>
+    <?php if($orderInfo['shopId']): ?>
+	<div class="ub lh35  back-ff detailList">
+		<div class="col-9">游戏区服：</div>
+		<div class="ub-f1 ">{$orderInfo.userAddress}</div>
+	</div>
+    <?php endif;?>
+    <?php if($orderInfo['shopId']): ?>
+	<div class="ub lh35  back-ff detailList">
+		<div class="col-9">商品类别：</div>
+		<div class="ub-f1 ">{$orderInfo.type}</div>
+	</div>
+     <?php endif;?>
+	<div class="ub lh35  back-ff detailList">
+		<div class="col-9">下单时间：</div>
+		<div class="ub-f1 ">{$orderInfo.createTime}</div>
+	</div>
+	<div class="ub lh35  back-ff detailList">
+		<div class="col-9">购买数量：</div>
+		<div class="ub-f1 ">{$orderInfo.goodsNums}</div>
+	</div>
+    <?php if($orderInfo['shopId']): ?>
+	<div class="ub lh35  back-ff detailList">
+		<div class="col-9">充值面额：</div>
+		<div class="ub-f1 ">{$orderInfo.totalMoney}</div>
+	</div>
+     <?php endif;?>
+	<div class="ub lh35  back-ff detailList">
+		<div class="col-9">应付金额：</div>
+		<div class="ub-f1 " style="font-size: 18px;">{$orderInfo.needPay}</div>
+	</div>
+	<if condition="$orderInfo['kfQQ']">
+	<div class="ub lh35  back-ff detailList">
+		<div class="col-9">客服QQ：</div>
+		<div class="ub-f1 " style="font-size: 18px;">{$orderInfo.kfQQ}</div>
+	</div>
+	</if>
+	<if condition="$orderInfo['fahuo']">
+	<div class="lh35    back-ff ">
+		<volist name="orderInfo['fahuo']" id="vos">
+		<div class="col-9" style="width: 90%; margin: 0 auto;">
+			<span class="col-9" style="color: #ff4045;">{$vos.area}</span> 帐号：<span
+				class="col-9" style="color: #ff4045;">{$vos.account}</span> 密码：<span
+				class="col-9" style="color: #ff4045;">{$vos.password}</span>
+		</div>
+		</volist>
+	</div>
+	</if>
+	<div class="lh35"></div>
+	<div class="ub">
+		<if condition="$orderInfo['orderStatus'] eq -2">
+		<div class="ub-f1" style="cursor: pointer">
+			<a
+				href="{:U('Orders/caretePayInfo',array('ids'=>$orderInfo['orderId']))}"><div
+					class="btn">去支付</div></a>
+		</div>
+			<div class="ub-f1">
+				<div class="btn cancelOrder1" style="cursor: pointer">取消订单</div>
+			</div>
+		<elseif condition="$orderInfo['orderStatus'] eq 1" />
+		<div class="ub-f1">
+			<div class="btn cancelOrder" style="cursor: pointer">取消订单</div>
+		</div>
+		<elseif condition="$orderInfo['orderStatus'] eq -4" /> <elseif
+			condition="$orderInfo['orderStatus'] eq -3" /> <elseif
+			condition="$orderInfo['orderStatus'] eq -5" /> <elseif
+			condition="$orderInfo['orderStatus'] eq -6" /> <if
+			condition="$orderInfo['complain'] eq 1">
+		<div class="ub-f1">
+			<a href="{:U('Orders/complain',array('id'=>$orderInfo['orderId']))}"><div
+					class="btn complain">订单投诉</div></a>
+		</div>
+		</if> <elseif condition="$orderInfo['orderStatus'] eq 3" /> <if
+			condition="$orderInfo['complain'] eq 1 ">
+
+				<div class="ub-f1">
+			<a href="{:U('Orders/complain',array('id'=>$orderInfo['orderId']))}"><div
+					class="btn complain">订单投诉</div></a>
+		</div>
+
+		</if> <elseif condition="$orderInfo['orderStatus'] eq 2" />
+			<div class="ub-f1">
+				<div class="btn confirmGoods" style="cursor: pointer">确认收货</div>
+			</div>
+		<div class="ub-f1">
+			<a href="{:U('Orders/refund',array('id'=>$orderInfo['orderId']))}"><div
+					class="btn complain">申请退款</div></a>
+		</div>
+		<else /> </if>
+	</div>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script>
+//取消订单
+ var orderId="{$_GET['id']}";
+  $('body').on('click','.cancelOrder',function(){
+	  layer.confirm('确定取消此订单吗？', {icon: 3, title:'取消订单'}, function(index){
+		  $.ajax({
+			  type:'post',
+			  url:'{:U("Orders/cancelOrder")}',
+			  data:{orderId:orderId},
+			  dataType:'json',
+			  success:function(data){
+				layer.msg(data.mes);
+				setTimeout(function(){
+					location.reload();
+				},1000);
+			  }
+		  });
+		  layer.close(index);
+		});
+	
+  })
+
+$('body').on('click','.cancelOrder1',function(){
+	layer.confirm('确定取消此订单吗？', {icon: 3, title:'取消订单'}, function(index){
+		$.ajax({
+			type:'post',
+			url:'{:U("Orders/cancelOrder1")}',
+			data:{orderId:orderId},
+			dataType:'json',
+			success:function(data){
+				layer.msg(data.mes);
+				setTimeout(function(){
+					location.reload();
+				},1000);
+			}
+		});
+		layer.close(index);
+	});
+
+})
+$('body').on('click','.confirmGoods',function(){
+		$.ajax({
+			type:'post',
+			url:'{:U("Orders/confirmGoods")}',
+			data:{orderId:orderId},
+			dataType:'json',
+			success:function(res){
+				if(res.status == 0)
+				{
+					layer.msg(res.msg);
+					setTimeout(function(){
+						location.reload();
+					},1000);
+				}else{
+					layer.msg(res.msg);
+					setTimeout(function(){
+						location.reload();
+					},1000);
+				}
+			}
+		});
+})
+</script>
+
+</html>

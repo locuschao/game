@@ -1,0 +1,267 @@
+<extend name="Shops:layout" />
+<block name="content">
+<style type="text/css">
+.wst-pagination {
+	margin-top: 10px;
+	text-align: center;
+	height: 25px;
+	line-height: 25px;
+}
+
+.wst-current {
+	background-color: rgb(226, 62, 61);
+	color: #fff;
+	padding: 0 12px;
+	border-radius: 2px;
+	height: 26px;
+	line-height: 26px;
+	display: inline-block;
+	vertical-align: top;
+	font-size: 12px;
+}
+
+.wst-num {
+	background-color: #f1eff0;
+	padding: 0 12px;
+	border-radius: 2px;
+	margin: 0 3px 6px;
+	height: 26px;
+	line-height: 26px;
+	text-decoration: none;
+	color: #666;
+	display: inline-block;
+	vertical-align: top;
+	font-size: 12px;
+}
+
+.wst-next, .wst-prev {
+	background-color: #f1eff0;
+	padding: 0 12px;
+	border-radius: 2px;
+	height: 26px;
+	line-height: 26px;
+	text-decoration: none;
+	color: #666;
+	display: inline-block;
+	vertical-align: top;
+	font-size: 12px;
+}
+
+.anniu {
+	border: 1px solid #ffffff;
+	height: 25px;
+	width: 100px;
+	background-color: #e23e3d;
+	color: #ffffff;
+	cursor: pointer;
+	text-align: center;
+	line-height: 25px;
+}
+
+.searchsn {
+	width: 300px;
+	margin: 0 auto;
+	padding: 40px 0;
+}
+
+.searchsn input {
+	height: 20px;
+	line-height: 20px;
+	vertical-align: middle;
+}
+
+.searchsn button {
+	height: 35px;
+	vertical-align: middle;
+	color: #ffffff;
+	border: 1px solid #e23e3d;
+	background: none repeat scroll 0 0 #e23e3d;
+}
+</style>
+<script src="__PUBLIC__/plugins/plugins/plugins.js"></script> <script>
+     $(function(){
+     layer.config({
+                extend: 'extend/layer.ext.js'
+      });
+  })
+   </script> <script>
+   function del(id){
+  layer.confirm("您确定要删除该中奖纪录吗",{icon: 3, title:'系统提示'},function(tips){
+    $.post(Think.U('Home/Ggk/delcheat'),{id:id},function(data,textStatus){
+      layer.close(tips);
+        var json = WST.toJson(data);
+        if(json.status=='1'){
+          WST.msg('操作成功！', {icon: 1},function(){
+            location.reload();
+          });
+        }else{
+          WST.msg('操作失败', {icon: 5});
+        }
+    });
+  });
+}
+  function runcheat(id){ 
+  layer.confirm("寄送奖品还是其他方式发奖？",{icon: 3, title:'系统提示',btn: ['寄送', '其他'],btn2:function(){
+    $.post(Think.U('Home/Ggk/sendstutas'),{id:id},function(data,textStatus){
+        if(data.status=='1'){
+          WST.msg('操作成功！', {icon: 1,time:2000},function(){
+            location.reload();
+          });
+        }else{
+          WST.msg('操作失败', {icon: 5});
+        }
+    });
+  }
+},
+    function(){
+      var ressId= $('#ressId'+id).attr('value');
+
+        if (ressId=='0') {
+          layer.msg('该用户没有选择收货地址',{icon:2});
+          return;
+        }
+      var str = "<table id='kdtable' class='wst-list'><tr><td id='wuliutd' colspan='2'></td></tr><tr><td id='zjid' value="+id+">快递单号：</td><td><input tyoe='text' name='kdnum' ></td></tr><tr><td colspan='2'><button style='width=100px;display:block;margin:0 auto;' type='button' onclick='sendallid();'>确认发奖</button></td></tr></table>";
+      layer.open({
+          title:"填写快递单号",
+          type: 1,
+          skin: 'layui-layer-rim', //加上边框
+          area: ['600px', '200px'], //宽高
+          content: str,
+        });
+      getwuliu();
+  });
+}
+  function searchsn(){
+     $('#out').empty();
+    var sn=$('input[name="sn"]').val();
+    if (sn==='') {
+      layer.msg("你没有填写中奖码");
+      return;
+    }
+
+    $.ajax({
+      url:"/Home/Ggk/checksnlist.html",
+      data:{
+        sn:sn
+       },
+      beforeSend:function(){
+        layer.load();
+      },
+      success:function(data){
+        layer.closeAll();
+        var json = WST.toJson(data);
+          if (json.status===1) {
+            $('#out').html(data.srt);
+            return;
+          }
+          if (json.status===2) {
+            layer.closeAll();
+            layer.msg('查询不到此中奖码。');
+          }
+        },
+      error:function(data){
+        layer.closeAll();
+        layer.msg('出现错误，请稍后再试。');
+      }
+    })
+  }
+
+  function getwuliu(id){
+      $.post("/Home/Ggk/getwuliu.html",function(data){
+        if (data.status==1) {
+          var strtop = "选择物流公司：<select id='wuliu'><option value='kong'>选择物流</option>";
+          var strfooter = "</select>";
+          var strcon='';
+          var json = eval(data.str);
+          $.each(json,function(key,value){
+            strcon+="<option value='"+value.id+"'>"+value.expressCompany+"</option>";
+          })
+          var str = strtop+strcon+strfooter;
+        }else{
+          var str = "<b>您没有设置物流</b><input type='hidden' id='wuliu' value='kong'>";
+        }
+        $('#wuliutd').append(str);
+      })
+  }
+
+  function sendallid(){
+    var wuliu = $('#wuliu').val();
+    if (wuliu=='kong') {
+      layer.msg('您没有选择物流公司');
+      return false;
+    }else{
+      var kddh=[];
+      var zjid=[];
+      var r=0;
+      $('#kdtable input').each(function(){
+        if (!$(this).val()) {
+           r=r+1;
+        }
+        kddh.push($(this).val());
+      })
+
+      if (r>0) {
+        layer.msg('有快递单号为空');
+        return;
+      }
+      $('#kdtable #zjid').each(function(){
+        zjid.push($(this).attr('value'));
+      })
+
+      $.ajax({
+        url:"/Home/Ggk/kdsendstutas.html",
+        data:{
+          id:zjid,
+          kdnum:kddh,
+          wuliu:wuliu
+        },type:'post',
+        beforeSend:function(){
+          layer.load();
+        },
+        success:function(data){
+          layer.closeAll();
+          if (data.status==1) {
+            layer.msg('提交成功',{icon:1});
+            location.reload();
+          }else{
+            layer.msg('出现错误,请稍后再试',{icon:2});
+          }
+        }
+
+      })
+    }
+  }
+
+   </script> <script type="text/javascript" language=JavaScript charset="UTF-8">
+      document.onkeydown=function(event){
+            var e = event || window.event || arguments.callee.caller.arguments[0];
+             if(e && e.keyCode==13){ 
+              searchsn();
+            }
+        }; 
+</script>
+<div class="wst-body">
+	<div class='wst-page-header'>卖家中心 > SN（中奖码查询）</div>
+	<div class='wst-page-content'>
+		<div class="searchsn">
+			<input type="text" name="sn">
+			<button name="getsn" id="getsn" onclick="javascript:searchsn();">搜索中奖码</button>
+		</div>
+		<table class='wst-list' style="margin: 0 auto;">
+			<thead>
+				<tr>
+					<th width="30">序号</th>
+					<th width='200'>SN码（中奖码）</th>
+					<th width="100">奖项</th>
+					<th width="100">是否已发奖品</th>
+					<th width="100">奖品发送时间</th>
+					<th width="100">用户名称</th>
+					<th width='200' style="text-align: center;">操作</th>
+				</tr>
+			</thead>
+			<tbody id="out">
+			</tbody>
+		</table>
+
+	</div>
+</block>

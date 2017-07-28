@@ -1,0 +1,87 @@
+<extend name="Users:layout" />
+<block name="content"> <script>
+
+</script>
+<div class="wst-body">
+	<div class='wst-page-header'>买家中心 > 我参与的拍卖</div>
+	<div class='wst-page-content'>
+
+		<div class='wst-page-content'>
+			<table class='wst-list' style="font-size: 13px;">
+				<thead>
+					<tr>
+						<th width='70'>商品信息</th>
+						<th width='*'>商品名称</th>
+						<th width='100'>店铺名称</th>
+						<th width='100'>活动状态</th>
+						<th width='125'>结束时间</th>
+						<th width='60'>我的叫价</th>
+						<th width='120'>叫价时间</th>
+						<th width='100'>是否中拍</th>
+					</tr>
+				</thead>
+				<tbody>
+					<volist name="record['root']" id="v" key='k'>
+					<tr>
+						<td><a
+							href="{:U('Home/Auction/getGoodsDetails/',array('goodsId'=>$v['goodsId']))}">
+								<img src="__ROOT__/{$v['goodsThums']}" height="50" width="50"
+								class='wst-goods-tb' />
+						</a></td>
+						<td>{$v['goodsName']}</td>
+						<td>{$v['shopName']}</td>
+						<td><switch name="v['isDeal']"> <case value="1">已开奖</case>
+							<default />进行中 </switch></td>
+						<td><php>echo date('Y-m-d H:i:s',$v['auctionEndTime'])</php></td>
+						<td>{$v['joinPrice']}</td>
+						<td><php>echo date('Y-m-d H:i:s',$v['actCreateTime'])</php></td>
+						<td>{$v['isWin']}</td>
+					</tr>
+					</volist>
+					<if condition="$record['totalPage'] gt 1">
+					<tfoot>
+						<tr>
+							<td colspan='8' align='center'
+								style="height: 30px; border-bottom: 0px;">
+								<div class="wst-page"
+									style="float: right; padding-bottom: 10px;">
+									<div id="wst-page-items"></div>
+								</div>
+							</td>
+						</tr>
+					</tfoot>
+					</if>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<script>
+    <if condition="$record['totalPage'] gt 1">
+    $(document).ready(function(){
+		laypage({
+		    cont: 'wst-page-items',
+		    pages: {$record['totalPage']}, //总页数
+		    skip: true, //是否开启跳页
+		    skin: '#e23e3d',
+		    groups: 3, //连续显示分页数
+		    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
+		        var page = location.search.match(/pcurr=(\d+)/);
+		        return page ? page[1] : 1;
+		    }(), 
+		    jump: function(e, first){ //触发分页后的回调
+		        if(!first){ //一定要加此判断，否则初始时会无限刷新
+		        	var nuewurl = WST.splitURL("pcurr");
+		        	var ulist = nuewurl.split("?");
+		        	if(ulist.length>1){
+		        		location.href = nuewurl+'&pcurr='+e.curr;
+		        	}else{
+		        		location.href = '?pcurr='+e.curr;
+		        	}
+		            
+		        }
+		    }
+		});
+    });
+	</if>
+	</script>
+</block>

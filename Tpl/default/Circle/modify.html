@@ -1,0 +1,226 @@
+<extend name="Shops:layout" />
+<block name="content">
+<link rel="stylesheet" type="text/css"
+	href="__CSS__/bootstrap/css/bootstrap.min.css">
+<style>
+a {
+	color: black;
+}
+</style>
+
+<js href="__PUBLIC__/js/ueditor/ueditor.config.js" /> <js
+	href="__PUBLIC__/js/ueditor/ueditor.all.min.js" />
+
+<div class="wst-body">
+	<div class='wst-page-header'>
+		卖家中心 >圈子管理->
+		<if condition="$Circle['circle']['id']!=''">编辑<else />新增</if>
+	</div>
+	<div>
+		<div class='wst-tbar-group' style='text-align: left'>
+			<a href='{:U("Home/Circle/index")}' class="btn btn-info">列表</a> <a
+				href='{:U("Home/Circle/modify")}' class="btn btn-success">新增</a>
+
+		</div>
+	</div>
+	<div style="height: 100%; width: 100%;">
+		<script>
+                var filetypes = ["gif","jpg","png","jpeg"];
+            </script>
+		<input type="hidden" id="circleId"
+			value="{$Circle['circle']['id']|default ='-1'}">
+		<!--<input type="hidden" id="shopId" value="{$shopId}">-->
+		<input type="hidden" id="shopId" value="{$Circle['shopId']}">
+		<input type="hidden" id="userId" value="{$Circle['userId']}">
+		<div class="form-group">
+			<label for="circleTitle">圈子标题</label> <input
+				value="{$Circle['circle']['title']}" type="text"
+				class="form-control" id="circleTitle" placeholder="请输入圈子的标题">
+		</div>
+		<div>
+			缩略图：
+			<iframe name="upload" style="display: none"></iframe>
+			<div id="preview_Filedata">
+				<img id='goodsImgPreview' src='<if condition="$Circle['
+					circle']['imgThums'] =='' ">__ROOT__/{$CONF['goodsImg']}
+				<else />
+				__ROOT__/{$Circle['circle']['imgThums']}
+				</if>
+				' height='152'/><br />
+			</div>
+			<form id="uploadform_Filedata" autocomplete="off"
+				enctype="multipart/form-data" method="POST" target="upload"
+				action="{:U('Home/Shops/uploadPic')}">
+				<div style="position: relative;">
+					<input id="goodsImg" name="goodsImg" type="text"
+						value="{$Circle['circle']['imgThums']}" readonly
+						style="margin-right: 4px; float: left; margin-left: 8px; width: 140px;" />
+					<div class="div1">
+						<div class="div2">浏览</div>
+						<input type="file" class="inputstyle" id="Filedata"
+							name="Filedata" onchange="updfile('Filedata');">
+					</div>
+					<div style="clear: both;"></div>
+
+					<div>&nbsp;图片大小:150 x 120 (px)(格式为 gif, jpg, jpeg, png)</div>
+					<input type="hidden" name="dir" value="goods"> <input
+						type="hidden" name="width" value="500"> <input
+						type="hidden" name="folder" value="Filedata"> <input
+						type="hidden" name="sfilename" value="Filedata"> <input
+						type="hidden" name="fname" value="goodsImg"> <input
+						type="hidden" id="s_Filedata" name="s_Filedata" value="">
+
+				</div>
+			</form>
+		</div>
+		<div style="height: 100%; width: 100%;">
+			<script id="container" name="content" type="text/plain"></script>
+		</div>
+		<div>
+			圈子商品： <select id="goodsId">
+				<volist name="Circle['goods']" id="vo">
+				<option value="{$vo.goodsId}"<if
+						condition="$vo.goodsId eq $Circle['circle']['goodsId']">
+					selected='selected'</if>>{$vo.goodsName}
+				</option>
+				</volist>
+			</select>
+		</div>
+
+		<button type="submit" class="btn btn-default btn-block">
+			<if condition="$Circle['circle']['id']">保存</if>
+			提交
+		</button>
+	</div>
+</div>
+<script>
+
+
+
+        $(function(){
+            /*    */
+            var ue = UE.getEditor('container',{
+                serverUrl :"{:U('Api/Ueditor/Ueditor')}"
+            });
+
+
+            ue.addListener( 'ready', function( editor ) {
+                var content = '{$Circle['circle']['content']|default ='请添加内容'}';
+                ue.setContent(content);
+            } );
+
+
+            $('button').on('click',function(){
+                getData.check();
+
+            });
+
+        });
+
+
+
+
+
+
+        var getData = {
+            data:{},
+            circleId:function(){
+                var circleId = $('#circleId').attr('value');
+                if(Number(circleId)!=-1){
+                    this.data.circleId    =  circleId;
+                    this.data.status='edit';
+                }else{
+                    this.data.status ="add";
+                }
+
+                return true;
+            },
+            shopId:function(){
+                var shopId = $('#shopId').val();
+//               console.log($('#shopId'));
+                if(shopId.length<1){
+                    return false;
+                }
+                this.data.shopId = shopId;
+
+                return true;
+            },
+            title:function(){
+                var tmp = $('#circleTitle').val();
+                var  title = tmp.trim();
+                if(title.length<1){
+                    this.error='标题';
+                    return false;
+                }
+                this.data.title = title;
+
+                return true;
+            },
+            content:function(){
+                var content = UE.getEditor('container').getContent();
+
+                this.data.content = content;
+                return true;
+            },
+            goodsId:function(){
+                var goodsId = $('#goodsId option:selected').val();
+
+
+                this.data.goodsId = goodsId;
+                return true;
+            },
+            imgThums:function(){
+                var imgThums = $('#goodsImg').val();
+                if(imgThums.length<1){
+                    this.error='缩略图';
+                    return false;
+                }
+
+                this.data.imgThums = imgThums;
+                return true;
+            }
+            ,check:function(){
+
+                for(var i in getData){
+                    if(typeof getData[i] =='function' && i!='check'){
+                        if(!getData[i]()){
+                            var error = this.error+'不能为空';
+
+                            layer.msg(error, {icon: 5});
+                            break;
+                        }
+                    }
+
+                }
+            },
+            send:function(){
+                $.ajax({
+                    url:Think.U('Home/Circle/modify'),
+                    data:{
+                        data:this.data
+                    },
+                    type:"post",
+                    success:function(data){
+
+                        if(data){
+                            layer.msg('提交成功,返回列表');
+                            setTimeout(function(){
+                                window.location.href= Think.U('Home/Circle/index');
+                            },2000)
+
+                        }else{
+                            layer.msg('提交失败', {icon: 5});
+                        }
+
+
+                    }
+
+
+                });
+
+
+                return true;
+            }
+
+        };
+    </script> </block>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>兑换详情</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<link rel="stylesheet" href="__CSS__/font.css" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/layer.min.js"></script>
+<style>
+.r_arrows {
+	background: none;
+	width: 30px;;
+}
+
+.li {
+	height: 100px;
+}
+
+.l_img {
+	padding: 10px;
+	width: 100px;
+	height: 80px;
+	background: url(__IMG__/sp_5.png) center no-repeat;;
+	background-size: 100px 80px;
+}
+
+.title_ {
+	height: 25px;
+	line-height: 20px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.score_ {
+	height: 25px;
+	line-height: 25px;
+}
+
+.success_ {
+	height: 25px;
+	line-height: 25px;
+}
+
+.padd_10 {
+	padding: 10px 0px;
+}
+
+.lis {
+	padding: 10px;
+}
+
+.padd_3 {
+	padding: 3px 0px;
+}
+
+.list {
+	margin: 0 auto;
+	padding: 10px;
+}
+
+.list p {
+	padding: 5px 0px;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<div class="_top">
+		<php> $url=explode('_',$_GET['ref']); $a=$url[0]; $m=$url[1];
+		$p=$url[2]; $refUrl=U("$a/$m",array('id'=>$p)); </php>
+		<div class="_left_top"
+			onclick='javascript:window.location.href="<php>echo $refUrl;</php>"'></div>
+		<div class="_title_top">兑换详情</div>
+		<div class="_right_top nobackground"></div>
+	</div>
+	<div class="_content">
+		<div class="ub bg-ff bor_b li">
+			<div class="l_img"
+				style="background: url(/{$orderList.goodsThums}) center no-repeat;; background-size: 100px 80px;"></div>
+			<div class="ub-f1 ">
+				<div class="padd_10">
+					<div class="col-6 title_  ub-f1">{$orderList.goodsName}</div>
+					<div class="col-9 score_">{$orderList.score}积分</div>
+					<div class="col-red success_">兑换成功</div>
+				</div>
+			</div>
+			<div class="r_arrows no-bg"></div>
+		</div>
+	</div>
+	<div class="ub lh45 bg-ff bor_b">
+		<div class="ti10 col-6">兑换时间</div>
+		<div class="ub-f1 ti10" style="color: #00baff;">{$orderList.time|date="Y年m月d日
+			H:i:s",###}</div>
+	</div>
+	<div class="ub  bg-ff bor_b mar-t10 lh45">
+		<div class="ti10 col-6">兑换码</div>
+		<div class="ub-f1 ti10 col-9">{$orderList.orderNo}</div>
+	</div>
+	<div class=" bg-ff bor_b mar-t10 lis">
+		<div class=" col-3 padd_3">收货人：{$orderList.userName}
+			{$orderList.userPhone}</div>
+		<div class=" col-3 padd_3">
+			收货地址：<span class="col-red">{$orderList.userAddress} 07室</span> 
+		</div>
+	</div>
+	<div class=" bg-ff bor_b mar-t10 lis">
+		<div class=" col-3 padd_3">物流公司：{$info.expressCompany|default="无"}</div>
+		<div class=" col-3 padd_3">物流订单号：{$info.trackNumber|default="无"}</div>
+	</div>
+	<if condition="$expressInfo['data'][0]['ftime']">
+	<div class="list">
+		<volist name="expressInfo['data']" id="ex">
+		<p>{$ex.context} {$ex.time}</p>
+		</volist>
+	</div>
+	</if>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+
+</html>

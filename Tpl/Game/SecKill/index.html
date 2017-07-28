@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>天天秒杀</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/jquery.downCount.js"></script>
+<script src="__JS__/layer.min.js"></script>
+<style>
+body {
+	background: #efeff4;
+}
+
+.li_one span {
+	height: 22px;
+	height: 15px;
+	line-height: 15px;
+	display: block;
+	text-align: center;
+}
+
+.li_one span:first-child {
+	margin-top: 7px;
+}
+
+.countDwon_ico {
+	width: 20px;
+	background: url(__IMG__/Countdown.png) center 8px no-repeat;
+	background-size: 14px
+}
+
+.hei100 {
+	height: 100px;
+}
+
+.img_left img {
+	max-height: 100px;
+	width: 90%;
+}
+
+.line-h20 {
+	line-height: 20px;
+}
+
+.btn_qg {
+	width: 80%;
+	float: right;
+	background: #ffac1b;
+	border-radius: 4px;
+	display: block;;
+	text-align: center;
+	color: #fff;
+}
+
+.btn_qg_over {
+	width: 80%;
+	float: right;
+	background: #e2e2e2;
+	border-radius: 4px;
+	display: block;;
+	text-align: center;
+	color: #999999;
+}
+
+.line-15 {
+	line-height: 15px;
+}
+
+.line-30 {
+	height: 30px;
+	line-height: 30px;
+}
+
+.jian {
+	background: url(__IMG__/jian.png) center no-repeat;
+	background-size: 25px;
+}
+
+.jia {
+	background: url(__IMG__/jia.png) center no-repeat;
+	background-size: 25px;
+}
+
+.col-32 {
+	color: #323232
+}
+
+.li_mini {
+	background: url(__IMG__/li_mini.png) center no-repeat;
+	width: 1px;
+	background-size: contain
+}
+
+.col-red {
+	color: #ff4045
+}
+
+.active {
+	border-bottom: #ff4045 solid 2px;
+}
+
+.progress-bar {
+	margin-top: 5px;
+	position: relative;
+	width: 100%;
+	height: 12px;
+	background: url(__IMG__/pro_bg.png) center repeat-x;
+	border-radius: 6px;
+	background-size: contain;
+}
+
+.percent {
+	width: 60%;
+	height: 12px;
+	position: absolute;
+	background: url(__IMG__/pro.png) center repeat-x;
+	z-index: 99;
+	border-radius: 6px;
+}
+
+.tab {
+	display: none;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<script>
+$(function(){
+	$('.parentMenu').removeClass('active');
+	oneTime();
+ 	twoTime();
+	threeTime();
+	fourTime();
+	fiveTime(); 
+	$('body').on('click','.parentMenu',function(){
+		var tab=$(this).attr('data-tab');
+		$('.parentMenu').removeClass('active');
+		$('.tab').hide();
+		$(this).addClass('active');
+		$('#'+tab).show();
+	})
+})
+
+//倒计时1
+function oneTime(){
+	var star={$oneStarTime};
+	var end={$ondEndTime};
+	var now={:time()};
+	$('.one_menu_color').removeClass('col-red');
+	$('.one_menu_color').removeClass('col_9');
+	$('.one_menu_color').removeClass('col-32');
+	if(end<now){
+		$('.one_menu_color').addClass('col_9');
+		$('.one_menu_text').text('秒杀结束');
+		$('.one_time').html('本场已结束');
+		return;
+	}else if(end>now&&now>star){
+		$('#one').show();
+		$('.one_menu_color').addClass('active');
+		$('.one_menu_color').addClass('col-red');
+		$('.one_menu_text').text('进行中');
+		$('.oneTimeText').text('距离本场结束还剩：');
+		$('#oneTime').downCount({
+			date: '{$ondEndTime|date='m/d/Y H:i:s',###}',
+			offset: +10
+		}, function () {
+			location.reload([true]);
+		});
+	}else if(star>now){
+		$('.one_menu_color').addClass('col-32');
+		$('.one_menu_text').text('等待开始');
+		$('.oneTimeText').text('距离本场开始还剩：');
+		var time="{:date('m/d/Y')}"+' 20:00:00';
+		$('#oneTime').downCount({
+			date: '{$oneStarTime|date='m/d/Y H:i:s',###}',
+			offset: +10
+		}, function () {
+			location.reload([true]);
+		});
+	}
+}
+//倒计时2
+function twoTime(){
+	var star={$twoStarTime};
+	var end={$twoEndTime};
+	var now={:time()};
+	$('.two_menu_color').removeClass('col-red');
+	$('.two_menu_color').removeClass('col_9');
+	$('.two_menu_color').removeClass('col-32');
+	if(end<now){
+		$('.two_menu_color').addClass('col_9');
+		$('.two_menu_text').text('秒杀结束');
+		$('.two_time').html('本场已结束');
+		return;
+	}else if(end>now&&now>star){
+		$('#two').show();
+		$('.two_menu_color').addClass('active');
+		$('.two_menu_color').addClass('col-red');
+		$('.two_menu_text').text('进行中');
+		$('.twoTimeText').text('距离本场结束还剩：');
+		$('#twoTime').downCount({
+			date: '{$twoEndTime|date='m/d/Y H:i:s',###}',
+			offset: +10
+		}, function () {
+			location.reload([true]);
+		});
+	}else if(star>now){
+		$('.two_menu_color').addClass('col-32');
+		$('.two_menu_text').text('等待开始');
+		$('.twoTimeText').text('距离本场开始还剩：');
+		$('#twoTime').downCount({
+			date: '{$twoStarTime|date='m/d/Y H:i:s',###}',
+			offset: +10
+		}, function () {
+			location.reload([true]);
+		});
+	}
+}
+//倒计时3
+function threeTime(){
+	var star={$threeStarTime};
+	var end={$threeEndTime};
+	var now={:time()};
+	$('.three_menu_color').removeClass('col-red');
+	$('.three_menu_color').removeClass('col_9');
+	$('.three_menu_color').removeClass('col-32');
+	if(end<now){
+		$('.three_menu_color').addClass('col_9');
+		$('.three_menu_text').text('秒杀结束');
+		$('.three_time').html('本场已结束');
+		return;
+	}else if(end>now&&now>star){
+		$('#three').show();
+		$('.three_menu_color').addClass('active');
+		$('.three_menu_color').addClass('col-red');
+		$('.three_menu_text').text('进行中');
+		$('.threeTimeText').text('距离本场结束还剩：');
+		var time="{:date('m/d/Y')}"+' 20:00:00';
+		$('#threeTime').downCount({
+			date: '{$threeEndTime|date='m/d/Y H:i:s',###}',
+			offset: +10
+		}, function () {
+			location.reload([true]);
+		});
+	}else if(star>now){
+		$('.three_menu_color').addClass('col-32');
+		$('.three_menu_text').text('等待开始');
+		$('.threeTimeText').text('距离本场开始还剩：');
+		$('#threeTime').downCount({
+			date: '{$threeStarTime|date='m/d/Y H:i:s',###}',
+			offset: +10
+		}, function () {
+			location.reload([true]);
+		});
+	}
+}
+//倒计时4
+function fourTime(){
+	var star={$fourStarTime};
+	var end={$fourEndTime};
+	var now={:time()};
+	$('.four_menu_color').removeClass('col-red');
+	$('.four_menu_color').removeClass('col_9');
+	$('.four_menu_color').removeClass('col-32');
+	if(end<now){
+		$('.four_menu_color').addClass('col_9');
+		$('.four_menu_text').text('秒杀结束');
+		$('.four_time').html('本场已结束');
+		return;
+	}else if(end>now&&now>star){
+		$('#four').show();
+		$('.four_menu_color').addClass('active');
+		$('.four_menu_color').addClass('col-red');
+		$('.four_menu_text').text('进行中');
+		$('.fourTimeText').text('距离本场结束还剩：');
+		var time="{:date('m/d/Y')}"+' 20:00:00';
+		$('#fourTime').downCount({
+			date: '{$fourEndTime|date='m/d/Y H:i:s',###}',
+			offset: +10
+		}, function () {
+			location.reload([true]);
+		});
+	}else if(star>now){
+		$('.four_menu_color').addClass('col-32');
+		$('.four_menu_text').text('等待开始');
+		$('.fourTimeText').text('距离本场开始还剩：');
+		$('#fourTime').downCount({
+			date: '{$fourStarTime|date='m/d/Y H:i:s',###}',
+			offset: +10
+		}, function () {
+			location.reload([true]);
+		});
+	}
+}
+//倒计时5
+function fiveTime(){
+	var star={$fiveStarTime};
+	var end={$fiveEndTime};
+	var now={:time()};
+	$('.five_menu_color').removeClass('col-red');
+	$('.five_menu_color').removeClass('col_9');
+	$('.five_menu_color').removeClass('col-32');
+	if(end<now){
+		$('.five_menu_color').addClass('col_9');
+		$('.five_menu_text').text('秒杀结束');
+		$('.five_time').html('本场已结束');
+		return;
+	}else if(end>now&&now>star){
+		$('#five').show();
+		$('.five_menu_color').addClass('active');
+		$('.five_menu_color').addClass('col-red');
+		$('.five_menu_text').text('进行中');
+		$('.fiveTimeText').text('距离本场结束还剩：');
+		var time="{:date('m/d/Y')}"+' 20:00:00';
+		$('#fiveTime').downCount({
+			date: '{$fiveEndTime|date='m/d/Y H:i:s',###}',
+			offset: +10
+		}, function () {
+			location.reload([true]);
+		});
+	}else if(star>now){
+		$('.five_menu_color').addClass('col-32');
+		$('.five_menu_text').text('等待开始');
+		$('.fiveTimeText').text('距离本场开始还剩：');
+		
+		$('#fiveTime').downCount({
+			date: '{$fiveStarTime|date='m/d/Y H:i:s',###}',
+			offset: +10
+		}, function () {
+			location.reload([true]);
+		});
+	}else{
+		
+	}
+}
+</script>
+<body>
+	<div class="_top">
+		<php> $refUrl='history.back(-1);'; if($_GET['r']){
+		$refUrl="location.href='".U('Index/index',array('r'=>'my'))."'"; } </php>
+		<div class="_left_top" onclick=
+			<php>echo $refUrl;</php>
+			>
+		</div>
+		<div class="_title_top">天天秒杀</div>
+		<div class="_right_top "
+			onclick="location.href='{:U('Index/index',array('r'=>'car'))}'"></div>
+	</div>
+	<div class="_content">
+		<div class="ub back-ff  col_9 bor_b one_menu_color"
+			style="height: 45px; line-height: 45px;">
+			<div class="ub-f1 pos-r  parentMenu " data-tab="one">
+				<div class="pos-a li_one ">
+					<span class="font110 ">20:00</span> <span
+						class="font90 one_menu_text">秒杀结束</span>
+				</div>
+			</div>
+			<div class="li_mini"></div>
+			<div class="ub-f1 pos-r active col-red parentMenu two_menu_color"
+				data-tab="two">
+				<div class="pos-a li_one ">
+					<span class="font110">00:00</span> <span
+						class="font90 two_menu_text">正在进行</span>
+				</div>
+			</div>
+			<div class="li_mini"></div>
+			<div class="ub-f1 pos-r col-32 parentMenu three_menu_color"
+				data-tab="three">
+				<div class="pos-a li_one">
+					<span class="font110">08:00</span> <span
+						class="font90 three_menu_text">即将开始</span>
+				</div>
+			</div>
+			<div class="li_mini"></div>
+			<div class="ub-f1 pos-r col-32 parentMenu four_menu_color "
+				data-tab="four">
+				<div class="pos-a li_one">
+					<span class="font110">12:00</span> <span
+						class="font90 four_menu_text">即将开始</span>
+				</div>
+			</div>
+			<div class="li_mini"></div>
+			<div class="ub-f1 pos-r col-32 parentMenu five_menu_color"
+				data-tab="five">
+				<div class="pos-a li_one">
+					<span class="font110">16:00</span> <span
+						class="font90 five_menu_text">即将开始</span>
+				</div>
+			</div>
+		</div>
+		<div class="tab" id="one">
+			<div class="ub height35 text-c bc pc one_time "
+				style="background: none;">
+				<div class="countDwon_ico">&nbsp;</div>
+				<div id="oneTime">
+					<span class="col-666 oneTimeText">距离本场结束还剩：</span> <span
+						class="days"></span> <span class="hours"></span> : <span
+						class="minutes"></span> : <span class="seconds"></span>
+				</div>
+			</div>
+			<volist name="one" id="fr">
+			<div
+				class="ub  back-ff border_bottom1  hei100 padding_top10 padding_bottom10">
+				<div class="ub-f1 pos-r  back-ff margin_left10">
+					<div class="back-ff pos-a img_left">
+						<img src="/{$fr.goodsThums}" alt="">
+					</div>
+				</div>
+				<div class="ub-f1 pos-r back-ff margin_right10">
+					<div class=" pos-a ub b-v ">
+						<div class="ub-f1 pos-r ac line-30">
+							<div class="pos-a overH  line-15">{$fr.goodsName}</div>
+						</div>
+						<div class="ub-f1 height20  pos-r">
+							<div class="pos-a  col_9  font90 height20 ">
+								<div class="ub">
+									<div class="ub-f1  pos-r">
+										<div class="pos-a">
+											<span>已抢购{$fr.percent}%</span>
+										</div>
+									</div>
+									<div class="ub-f1 pos-r">
+										<div class="pos-a">
+											<div class="progress-bar">
+												<div class="percent" style="width: {$fr.percent"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="ub-f1  height20 pos-r">
+							<div class="pos-a  col_red font110">
+								￥{$fr.seckillPrice} <span class="col_9 font90"><s>￥{$fr.marketPrice}</s></span>
+							</div>
+						</div>
+						<div class="ub-f1 line-30  pos-r">
+							<div class="pos-a  ub ">
+								<div class="ub-f1 pos-r">
+									<div class="pos-a">
+										<div class="ub  line-30">
+											<div class="ub-f1 pos-r down" id="{$fr.goodsId}">
+												<div class="pos-a jian"></div>
+											</div>
+											<div class="ub-f1 pos-r">
+												<div class="pos-a text-c" id="num_{$fr.goodsId}"
+													totalStock="{$fr.goodsStock}" status="{$fr.status}"
+													max={$fr.seckillMaxCount}>1</div>
+											</div>
+											<div class="ub-f1 pos-r add" id="{$fr.goodsId}">
+												<div class="pos-a jia"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="ub-f1 pos-r">
+									<div class="pos-a goto" id="go_{$fr.goodsId}"
+										data-goodsId="{$fr.goodsId}">
+										<span class="<if condition=" $fr.goodsStock gt 0 &&$fr.statuseq 1">btn_qg<else />btn_qg_over</if>">马上抢
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			</volist>
+		</div>
+
+		<!-- ---第二场----- -->
+
+		<div class="tab" id="two">
+			<div class="ub height35 text-c bc pc two_time"
+				style="background: none;">
+				<div class="countDwon_ico">&nbsp;</div>
+				<div id="twoTime">
+					<span class="col-666 twoTimeText">距离本场结束还剩：</span> <span
+						class="days"></span> <span class="hours"></span> : <span
+						class="minutes"></span> : <span class="seconds"></span>
+				</div>
+			</div>
+			<volist name="two" id="fr">
+			<div
+				class="ub  back-ff border_bottom1  hei100 padding_top10 padding_bottom10">
+				<div class="ub-f1 pos-r  back-ff margin_left10">
+					<div class="back-ff pos-a img_left">
+						<img src="/{$fr.goodsThums}" alt="">
+					</div>
+				</div>
+				<div class="ub-f1 pos-r back-ff margin_right10">
+					<div class=" pos-a ub b-v ">
+						<div class="ub-f1 pos-r ac line-30">
+							<div class="pos-a overH  line-15">{$fr.goodsName}</div>
+						</div>
+						<div class="ub-f1 height20  pos-r">
+							<div class="pos-a  col_9  font90 height20 ">
+								<div class="ub">
+									<div class="ub-f1  pos-r">
+										<div class="pos-a">
+											<span>已抢购{$fr.percent}%</span>
+										</div>
+									</div>
+									<div class="ub-f1 pos-r">
+										<div class="pos-a">
+											<div class="progress-bar">
+												<div class="percent" style="width: {$fr.percent"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="ub-f1  height20 pos-r">
+							<div class="pos-a  col_red font110">
+								￥{$fr.seckillPrice} <span class="col_9 font90"><s>￥{$fr.marketPrice}</s></span>
+							</div>
+						</div>
+						<div class="ub-f1 line-30  pos-r">
+							<div class="pos-a  ub ">
+								<div class="ub-f1 pos-r">
+									<div class="pos-a">
+										<div class="ub  line-30">
+											<div class="ub-f1 pos-r down" id="{$fr.goodsId}">
+												<div class="pos-a jian"></div>
+											</div>
+											<div class="ub-f1 pos-r">
+												<div class="pos-a text-c" id="num_{$fr.goodsId}"
+													totalStock="{$fr.goodsStock}" status="{$fr.status}"
+													max={$fr.seckillMaxCount}>1</div>
+											</div>
+											<div class="ub-f1 pos-r add" id="{$fr.goodsId}">
+												<div class="pos-a jia"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="ub-f1 pos-r">
+									<div class="pos-a goto" id="go_{$fr.goodsId}"
+										data-goodsId="{$fr.goodsId}">
+										<span class="<if condition=" $fr.goodsStock gt 0 &&$fr.statuseq 1">btn_qg<else />btn_qg_over</if>">马上抢
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			</volist>
+		</div>
+
+		<!-- ------------第三场------------------ -->
+
+		<div class="tab" id="three">
+			<div class="ub height35 text-c bc pc three_time"
+				style="background: none;">
+				<div class="countDwon_ico">&nbsp;</div>
+				<div id="threeTime">
+					<span class="col-666 threeTimeText">距离本场结束还剩：</span> <span
+						class="days"></span> <span class="hours"></span> : <span
+						class="minutes"></span> : <span class="seconds"></span>
+				</div>
+			</div>
+			<volist name="three" id="fr">
+			<div
+				class="ub  back-ff border_bottom1  hei100 padding_top10 padding_bottom10">
+				<div class="ub-f1 pos-r  back-ff margin_left10">
+					<div class="back-ff pos-a img_left">
+						<img src="/{$fr.goodsThums}" alt="">
+					</div>
+				</div>
+				<div class="ub-f1 pos-r back-ff margin_right10">
+					<div class=" pos-a ub b-v ">
+						<div class="ub-f1 pos-r ac line-30">
+							<div class="pos-a overH  line-15">{$fr.goodsName}</div>
+						</div>
+						<div class="ub-f1 height20  pos-r">
+							<div class="pos-a  col_9  font90 height20 ">
+								<div class="ub">
+									<div class="ub-f1  pos-r">
+										<div class="pos-a">
+											<span>已抢购{$fr.percent}%</span>
+										</div>
+									</div>
+									<div class="ub-f1 pos-r">
+										<div class="pos-a">
+											<div class="progress-bar">
+												<div class="percent" style="width: {$fr.percent"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="ub-f1  height20 pos-r">
+							<div class="pos-a  col_red font110">
+								￥{$fr.seckillPrice} <span class="col_9 font90"><s>￥{$fr.marketPrice}</s></span>
+							</div>
+						</div>
+						<div class="ub-f1 line-30  pos-r">
+							<div class="pos-a  ub ">
+								<div class="ub-f1 pos-r">
+									<div class="pos-a">
+										<div class="ub  line-30">
+											<div class="ub-f1 pos-r down" id="{$fr.goodsId}">
+												<div class="pos-a jian"></div>
+											</div>
+											<div class="ub-f1 pos-r">
+												<div class="pos-a text-c" id="num_{$fr.goodsId}"
+													totalStock="{$fr.goodsStock}" status="{$fr.status}"
+													max={$fr.seckillMaxCount}>1</div>
+											</div>
+											<div class="ub-f1 pos-r add" id="{$fr.goodsId}">
+												<div class="pos-a jia"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="ub-f1 pos-r">
+									<div class="pos-a goto" id="go_{$fr.goodsId}"
+										data-goodsId="{$fr.goodsId}">
+										<span class="<if condition=" $fr.goodsStock gt 0 &&$fr.statuseq 1">btn_qg<else />btn_qg_over</if>">马上抢
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			</volist>
+		</div>
+
+		<!-- ------------第三场结束------------------ -->
+		<!-- ------------第四场------------------ -->
+
+		<div class="tab" id="four">
+			<div class="ub height35 text-c bc pc four_time"
+				style="background: none;">
+				<div class="countDwon_ico">&nbsp;</div>
+				<div id="fourTime">
+					<span class="col-666 fourTimeText">距离本场结束还剩：</span> <span
+						class="days"></span> <span class="hours"></span> : <span
+						class="minutes"></span> : <span class="seconds"></span>
+				</div>
+			</div>
+			<volist name="four" id="fr">
+			<div
+				class="ub  back-ff border_bottom1  hei100 padding_top10 padding_bottom10">
+				<div class="ub-f1 pos-r  back-ff margin_left10">
+					<div class="back-ff pos-a img_left">
+						<img src="/{$fr.goodsThums}" alt="">
+					</div>
+				</div>
+				<div class="ub-f1 pos-r back-ff margin_right10">
+					<div class=" pos-a ub b-v ">
+						<div class="ub-f1 pos-r ac line-30">
+							<div class="pos-a overH  line-15">{$fr.goodsName}</div>
+						</div>
+						<div class="ub-f1 height20  pos-r">
+							<div class="pos-a  col_9  font90 height20 ">
+								<div class="ub">
+									<div class="ub-f1  pos-r">
+										<div class="pos-a">
+											<span>已抢购{$fr.percent}%</span>
+										</div>
+									</div>
+									<div class="ub-f1 pos-r">
+										<div class="pos-a">
+											<div class="progress-bar">
+												<div class="percent" style="width: {$fr.percent"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="ub-f1  height20 pos-r">
+							<div class="pos-a  col_red font110">
+								￥{$fr.seckillPrice} <span class="col_9 font90"><s>￥{$fr.marketPrice}</s></span>
+							</div>
+						</div>
+						<div class="ub-f1 line-30  pos-r">
+							<div class="pos-a  ub ">
+								<div class="ub-f1 pos-r">
+									<div class="pos-a">
+										<div class="ub  line-30">
+											<div class="ub-f1 pos-r down" id="{$fr.goodsId}">
+												<div class="pos-a jian"></div>
+											</div>
+											<div class="ub-f1 pos-r">
+												<div class="pos-a text-c" id="num_{$fr.goodsId}"
+													totalStock="{$fr.goodsStock}" status="{$fr.status}"
+													max={$fr.seckillMaxCount}>1</div>
+											</div>
+											<div class="ub-f1 pos-r add" id="{$fr.goodsId}">
+												<div class="pos-a jia"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="ub-f1 pos-r">
+									<div class="pos-a goto" id="go_{$fr.goodsId}"
+										data-goodsId="{$fr.goodsId}">
+										<span class="<if condition=" $fr.goodsStock gt 0 &&$fr.statuseq 1">btn_qg<else />btn_qg_over</if>">马上抢
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			</volist>
+		</div>
+
+		<!-- ------------第四场结束------------------ -->
+		<!-- ------------第五场------------------ -->
+
+		<div class="tab" id="five">
+			<div class="ub height35 text-c bc pc five_time"
+				style="background: none;">
+				<div class="countDwon_ico">&nbsp;</div>
+				<div id="fiveTime">
+					<span class="col-666 fiveTimeText">距离本场结束还剩：</span> <span
+						class="days"></span> <span class="hours"></span> : <span
+						class="minutes"></span> : <span class="seconds"></span>
+				</div>
+			</div>
+			<volist name="five" id="fr">
+			<div
+				class="ub  back-ff border_bottom1  hei100 padding_top10 padding_bottom10">
+				<div class="ub-f1 pos-r  back-ff margin_left10">
+					<div class="back-ff pos-a img_left">
+						<img src="/{$fr.goodsThums}" alt="">
+					</div>
+				</div>
+				<div class="ub-f1 pos-r back-ff margin_right10">
+					<div class=" pos-a ub b-v ">
+						<div class="ub-f1 pos-r ac line-30">
+							<div class="pos-a overH  line-15">{$fr.goodsName}</div>
+						</div>
+						<div class="ub-f1 height20  pos-r">
+							<div class="pos-a  col_9  font90 height20 ">
+								<div class="ub">
+									<div class="ub-f1  pos-r">
+										<div class="pos-a">
+											<span>已抢购{$fr.percent}%</span>
+										</div>
+									</div>
+									<div class="ub-f1 pos-r">
+										<div class="pos-a">
+											<div class="progress-bar">
+												<div class="percent" style="width: {$fr.percent"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="ub-f1  height20 pos-r">
+							<div class="pos-a  col_red font110">
+								￥{$fr.seckillPrice} <span class="col_9 font90"><s>￥{$fr.marketPrice}</s></span>
+							</div>
+						</div>
+						<div class="ub-f1 line-30  pos-r">
+							<div class="pos-a  ub ">
+								<div class="ub-f1 pos-r">
+									<div class="pos-a">
+										<div class="ub  line-30">
+											<div class="ub-f1 pos-r down" id="{$fr.goodsId}">
+												<div class="pos-a jian"></div>
+											</div>
+											<div class="ub-f1 pos-r">
+												<div class="pos-a text-c" id="num_{$fr.goodsId}"
+													totalStock="{$fr.goodsStock}" status="{$fr.status}"
+													max={$fr.seckillMaxCount}>1</div>
+											</div>
+											<div class="ub-f1 pos-r add" id="{$fr.goodsId}">
+												<div class="pos-a jia"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="ub-f1 pos-r">
+									<div class="pos-a goto" id="go_{$fr.goodsId}"
+										data-goodsId="{$fr.goodsId}">
+										<span class="<if condition=" $fr.goodsStock gt 0 &&$fr.statuseq 1">btn_qg<else />btn_qg_over</if>">马上抢
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			</volist>
+		</div>
+	</div>
+	<!-- ------------第五场结束------------------ -->
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script>
+//数量相减
+$('body').on('click','.down',function(){
+	var goodsId=$(this).attr('id');
+	var num=$('#num_'+goodsId).text();
+	var status=$('#num_'+goodsId).attr('status');
+	if($('#go_'+goodsId).find('span').hasClass('btn_qg_over')){
+		return;
+	}
+	if(status==0){
+		return;
+	}
+	if(num<=1){
+		layer.msg('最少数量为1');
+		return;
+	}
+	$('#num_'+goodsId).text(--num);
+})
+//数量相加
+$('body').on('click','.add',function(){
+	var goodsId=$(this).attr('id');
+	var num=Number($('#num_'+goodsId).text());
+	if($('#go_'+goodsId).find('span').hasClass('btn_qg_over')){
+		return;
+	}
+	var status=$('#num_'+goodsId).attr('status');
+	if(status==0){
+		return;
+	}
+	var max=Number($('#num_'+goodsId).attr('max'));
+	if(num>=max){
+		layer.msg('商品限购'+max+'份');
+		return;
+	}
+	var stock=Number($('#num_'+goodsId).attr('totalstock'));
+	if(num>=stock){
+		layer.msg('库存最多为'+stock+'份');
+		return;
+	}
+	++num;
+	$('#num_'+goodsId).text(num);
+	
+})
+
+$('body').on('click','.goto',function(){
+	var goodsId=$(this).attr('data-goodsid');
+	var num=Number($('#num_'+goodsId).text());
+	if($('#go_'+goodsId).find('span').hasClass('btn_qg_over')){
+		return;
+	}
+	var status=$('#num_'+goodsId).attr('status');
+	if(status==0){
+		return;
+	}
+	location.href="Index/goodsDetail/id/"+goodsId+'/secKill/1/num/'+num+'.html';
+	})
+</script>
+</html>

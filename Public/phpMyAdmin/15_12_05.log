@@ -1,0 +1,15 @@
+[ 2015-12-05T23:01:29+08:00 ] 127.0.0.1 /index.php/Admin/images/top_loader.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000806s ]
+
+[ 2015-12-05T23:05:27+08:00 ] 127.0.0.1 /index.php/Admin/images/top_loader.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000019s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000799s ]
+
+[ 2015-12-05T23:05:27+08:00 ] 127.0.0.1 /index.php/Admin/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000024s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000896s ]
+

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>我的积分</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/layer.min.js"></script>
+<style>
+body {
+	padding-bottom: 0;
+}
+
+.trsp {
+	background-color: transparent;
+	width: 100%;
+	height: 100%;
+	text-indent: 20px;
+	margin: 0 auto;
+	border: none;
+	height: 35px;
+	line-height: 35px;
+	background-size: 12px;
+}
+
+.password_ico {
+	background: url(__IMG__/ico_s.png) 5px center no-repeat;
+	background-size: 12px;
+}
+
+.login_btn {
+	display: block;
+	width: 80%;
+	height: 40px;
+	line-height: 40px;
+	margin: 0 auto;
+	background: #48b2f2;
+	border-radius: 4px;
+	text-align: center;
+	color: #fff;
+}
+
+.submit {
+	position: fixed;
+	bottom: 50px;
+}
+
+.mar_t45 {
+	margin-top: 45px;
+}
+
+.mar_r10 {
+	margin-right: 10px;
+}
+
+.col-red {
+	color: #ff4045
+}
+
+.ps p {
+	background: #fff;
+	height: 25px;
+	line-height: 25px;
+	text-indent: 10px;
+}
+
+.lh50 {
+	height: 50px;
+	line-height: 50px;
+}
+
+.sm a {
+	display: block;
+	width: 100%;
+	height: 100%;
+	text-align: right;
+	color: #00aeff
+}
+
+.lh45 {
+	height: 45px;
+	line-height: 45px;
+}
+
+.txt-c {
+	text-align: center;
+}
+
+.col-6 {
+	color: #666
+}
+
+.btn {
+	height: 60px;
+	background: #fff;
+	width: 100%;
+	padding-top: 20px;
+	border-bottom: #d5d7dc solid 1px;
+}
+
+.btn span {
+	display: block;
+	margin: 0 auto;
+	width: 50%;
+	color: #fff;
+	border-radius: 4px;
+	background: #00b4ff;
+	padding: 10px;
+	text-align: center;
+}
+
+.font120 {
+	font-size: 120%;
+}
+
+.con {
+	width: 100%;
+	height: 100%;
+	background: #fff;
+}
+
+.h60 {
+	height: 60px;
+	line-height: 60px;
+	border-bottom: #d5d7dc solid 1px;
+}
+
+.plis p {
+	text-indent: 10px;
+	color: #323232;
+}
+
+.plis p:first-child {
+	height: 20px;
+	padding-top: 10px;
+	line-height: 20px;
+}
+
+.plis p:last-child {
+	height: 20px;
+	padding-bottom: 10px;
+	line-height: 20px;
+}
+
+p {
+	background: none;
+}
+
+.mar_r10 {
+	margin-right: 10px;
+}
+
+.col-a {
+	color: #04aa00
+}
+
+.col-d {
+	color: #ff1f1f
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+
+<body>
+	<div class="_top">
+		<div class="_left_top"
+			onclick="location.href='{:U('Index/index',array('r'=>'my'))}' "></div>
+		<div class="_title_top">我的积分</div>
+		<div class="_right_top no-bg"></div>
+	</div>
+	<div class="ub lh50 bg-ff mar_t45">
+		<div class="ub-f1 ps">
+			<p class="col-6">当前积分</p>
+			<p class="col-red">{$score}</p>
+		</div>
+		<div class="ub-f1 txt-r mar_r10 sm">
+			<a href="{:U('Score/explain')}">积分说明</a>
+		</div>
+	</div>
+	<div class="btn">
+		<a href="{:U('Index/index',array('r'=>'score'))}"><span>积分兑换商品</span></a>
+	</div>
+	<div class="lh45 txt-c col-6 font120">
+		<span>最近30天积分记录</span>
+	</div>
+	<div class="con">
+		<volist name="scoreList" id="sl">
+		<div class="ub bg-ff  h60">
+			<div class="ub-f1 plis">
+				<p>
+					<switch name="sl['type']"> <case value="1">商城购物</case> <case
+						value="2">取消订单</case> <case value="3">平台充值</case> <case value="4">无效订单</case>
+					<case value="5">商城活动</case> <case value="6">评价订单</case> <case
+						value="7">积分兑换</case> <default />其它 </switch>
+				</p>
+				<p>{$sl.time|date="Y-m-d",###}</p>
+			</div>
+			<div
+				class="mar_r10 <if condition='$sl.IncDec'>col-a<else/>col-d</if> ">
+				<if condition='$sl.IncDec '>+<else />-</if>
+				{$sl.score}
+			</div>
+		</div>
+		</volist>
+	</div>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+</html>

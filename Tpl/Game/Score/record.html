@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>兑换记录</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<link rel="stylesheet" href="__CSS__/font.css" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/layer.min.js"></script>
+<style>
+.r_arrows {
+	background: url(__IMG__/youjiantou.png) center no-repeat;
+	width: 30px;
+	background-size: 9px 14px;
+}
+
+.li {
+	height: 100px;
+}
+
+.l_img {
+	padding: 10px;
+	width: 100px;
+	height: 80px;
+	background: url(__IMG__/sp_5.png) center no-repeat;;
+	background-size: 100px 80px;
+}
+
+.title_ {
+	height: 25px;
+	line-height: 20px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.score_ {
+	height: 25px;
+	line-height: 25px;
+}
+
+.success_ {
+	height: 25px;
+	line-height: 25px;
+}
+
+.padd_10 {
+	padding: 10px 0px;
+}
+
+.no-bg {
+	background: none;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<div class="_top">
+		<php> $url=explode('_',$_GET['ref']); $a=$url[0]; $m=$url[1];
+		$p=$url[2]; $refUrl=U("$a/$m",array('r'=>$_GET['r'])); </php>
+		<div class="_left_top" onclick='javascript:window.location.href="{:U('
+			Index/Index',array('r'=>'score'))}"'></div>
+		<div class="_title_top">兑换记录</div>
+		<div class="_right_top nobackground"></div>
+	</div>
+	<div class="_content">
+
+		<volist name="orderList" id="ol">
+		<div class="ub bg-ff bor_b li"
+			onclick='javascript:window.location.href="{:U('
+			Score/convertDetail',array('ref'=>
+			'Score_record','id'=>$ol['orderId']))}"'>
+			<div class="l_img"
+				style="background: url({$ol.goodsThums}) center no-repeat;; background-size: 100px 80px;"></div>
+			<div class="ub-f1 ">
+				<div class="padd_10">
+					<div class="col-6 title_  ub-f1">{$ol.goodsName}</div>
+					<div class="col-9 score_">{$ol.score}积分</div>
+					<div class="col-red success_">兑换成功</div>
+				</div>
+			</div>
+			<div class="r_arrows"></div>
+		</div>
+		</volist>
+	</div>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+
+</html>

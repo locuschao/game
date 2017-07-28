@@ -1,0 +1,235 @@
+<extend name="Base:common" />
+<block name="static">
+<link rel="stylesheet" href="__CSS__/goodslist.css" />
+</block>
+<block name="body">
+<style>
+.detailed {
+	float: left;
+	margin: 10px;
+}
+
+button {
+	display: inline-block;
+	outline: none;
+	cursor: pointer;
+	text-align: center;
+	text-decoration: none;
+	font: 12px/100% Arial, Helvetica, sans-serif;
+	padding: .5em 2em .55em;
+	-webkit-border-radius: .5em;
+	-moz-border-radius: .5em;
+	border-radius: .5em;
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+}
+
+button:hover {
+	background: #E23C3D;
+	background: -webkit-gradient(linear, left top, left bottom, from(#E23C3D),
+		to(#E23C3D));
+	background: -moz-linear-gradient(top, #E23C3D, #E23C3D);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#E23C3D',
+		endColorstr='#E23C3D');
+}
+
+.time {
+	float: right;
+	margin: 10px;
+}
+
+.time option {
+	height: 20px;
+}
+
+.wst-goods-page {
+	width: 900px;
+	margin: 0 auto;
+}
+
+table, th, td {
+	border: 1px solid #E23C3D;
+	margin: 10px auto;
+	text-align: center;
+}
+
+table {
+	width: 900px;
+}
+
+th {
+	background-color: #E6126A;
+	color: white;
+	font-size: 15px;
+	height: 35px;
+}
+
+td {
+	font-size: 13px;
+	height: 35px;
+	color: black;
+}
+
+#question {
+	width: 900px;
+	margin: 0 auto;
+}
+
+#question h4 {
+	margin-top: 10px;
+}
+</style>
+<script>
+	function timeRecord(pay){
+		var lastTime = $('#liveTime').val();
+		location.href = Think.U('Home/integral/exchangeRecord','lastTime='+lastTime+'&pay='+pay);
+	}
+</script> <!----加载商品楼层start---->
+<div class="wst-container">
+	<!-------------用户信息---------------->
+	<div class="wst-goods-search" style="">
+		<div class="search-panel">
+			<div class="search-box">
+				<div class="search-items">
+					<div class="items-title">
+						<a href="{:U('Home/Orders/queryByPage')}"><img width="80"
+							height="80" src="/{$user['userPhoto']}" /></a>
+					</div>
+					<div class="items-title" style="width: 160px">
+						<div style="margin: 20px 10px; width: 180px; font-size: 14px">
+							用户名：{$user['loginName']}<br /> 昵称：{$user['userName']}
+						</div>
+					</div>
+					<div class="items-title">
+						<div style="margin: 18px 200px; width: 300px; font-size: 16px">
+							<span>积分余额：</span><span style="color: #E23C3D; font-size: 20px">{$user['userScore']}</span><br />
+							<span>可用积分：</span><span style="color: #E23C3D; font-size: 20px">{$user['userScore']}</span>
+						</div>
+					</div>
+					<div class="items-title">
+						<div style="margin: 13px 450px; width: 300px; font-size: 14px;">
+							<a href="{:U('Home/Integral/exchangeRecord/')}"
+								style="text-decoration: none"><img src="__IMG__/integ01.jpg"><br />兑换记录</a>
+						</div>
+					</div>
+					<div class="items-title">
+						<div style="margin: 13px 450px; width: 300px; font-size: 14px;">
+							<a href="{:U('Home/Orders/queryByPage')}"
+								style="text-decoration: none"><img src="__IMG__/integ04.jpg"><br />买家中心</a>
+						</div>
+					</div>
+					<div class="items-title">
+						<div style="margin: 13px 450px; width: 300px; font-size: 14px;">
+							<a href="{:U('Home/Favorites/queryByPage')}"
+								style="text-decoration: none"><img src="__IMG__/integ03.jpg"><br />我的关注</a>
+						</div>
+					</div>
+					<div class="wst-clear"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-----------------------兑换记录---------------------------->
+	<div class="wst-goods-list">
+		<div class="wst-goods-page">
+			<div class="detailed ">
+				<button type="button" onclick="javascrip:timeRecord(0)"
+					<if condition="$pay eq 0">style="background-color:#fe3689;"</if>
+					>积分明细
+				</button>
+				<button type="button" onclick="javascrip:timeRecord(1)"
+					<if condition="$pay eq 1">style="background-color:#fe3689;"</if>
+					>收入积分
+				</button>
+				<button type="button" onclick="javascrip:timeRecord(-1)"
+					<if condition="$pay eq -1">style="background-color:#fe3689;"</if>
+					>支出积分
+				</button>
+			</div>
+			<div class="time">
+				<select id="liveTime" onchange="timeRecord({$pay})">
+					<option value="0"<if condition="$lastTime eq 0">selected="selected"</if>>最近三个月积分记录
+					</option>
+					<option value="1"<if condition="$lastTime eq 1">selected="selected"</if>>最近半年积分记录
+					</option>
+					<option value="2"<if condition="$lastTime eq 2">selected="selected"</if>>最近一年积分记录
+					</option>
+				</select>
+			</div>
+			<table id="record-table">
+				<tr>
+					<th width='30%'>日期</th>
+					<th width='15%'>收入/支出</th>
+					<th width='15%'>剩余积分</th>
+					<th width='40%'>详细说明</th>
+				</tr>
+				<volist name="pages['root']" key="key" id="record">
+				<tr>
+					<td><php>echo date('Y-m-d H:i:s',$record['time'])</php></td>
+					<td><if condition="$record['IncDec'] eq -1">
+						<span style="color: red">-{$record['score']}</span>
+						<else />
+						<span style="color: green">+{$record['score']}</span></if></td>
+					<td>{$record['totalscore']}</td>
+					<td><if condition='$record["type"] eq 1'>购买商品成功 <elseif
+							condition='$record["type"] eq 2' />取消订单 <elseif
+							condition='$record["type"] eq 3' />充值 <elseif
+							condition='$record["type"] eq 4' />订单无效 <elseif
+							condition='$record["type"] eq 5' />活动 <elseif
+							condition='$record["type"] eq 6' />评价订单 <elseif
+							condition='$record["type"] eq 7' />兑换积分商品 </if>
+						(订单号:{$record['orderNo']})</td>
+				</tr>
+				</volist>
+			</table>
+			<div class="wst-clear"></div>
+			<div class="wst-page" style="text-align: right;">
+				<div id="wst-page-items"></div>
+			</div>
+			<div class="wst-clear"></div>
+		</div>
+		<div id='question'>
+			<h1>积分使用常见问题</h1>
+			<h4>1. 积分用来做什么</h4>
+			<p>在积分商城兑换各种礼品。</p>
+			<h4>2. 积分的兑换比例</h4>
+			<p>积分和人民币兑换比例是100:1，即100积分相当于人民币1元。</p>
+			<h4>3. 积分如何获取</h4>
+			<p>通过非兑换积分商品可以获得等值的积分。</p>
+		</div>
+	</div>
+</div>
+<script src="__PUBLIC__/plugins/layer/layer.min.js"></script> <script
+	src="__JS__/goods.js"></script> <script>
+	<if condition="$bs eq 1">
+		$("#wst-brand-tp").click();
+	</if>
+	<if condition="$pages['totalPage'] gt 1">
+	
+	laypage({
+	    cont: 'wst-page-items',
+	    pages: {$pages["totalPage"]}, //总页数
+	    skip: true, //是否开启跳页
+	    skin: '#e23e3d',
+	    groups: 3, //连续显示分页数
+	    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
+	        var page = location.search.match(/pcurr=(\d+)/);
+	        return page ? page[1] : 1;
+	    }(), 
+	    jump: function(e, first){ //触发分页后的回调
+	        if(!first){ //一定要加此判断，否则初始时会无限刷新
+	        	var nuewurl = WST.splitURL("pcurr");
+	        	var ulist = nuewurl.split("?");
+	        	if(ulist.length>1){
+	        		location.href = nuewurl+'&pcurr='+e.curr;
+	        	}else{
+	        		location.href = '?pcurr='+e.curr;
+	        	}
+	            
+	        }
+	    }
+	});
+	</if>
+	
+	</script> </block>

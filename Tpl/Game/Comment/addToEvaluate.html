@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>追加晒图</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<link rel="stylesheet" href="__CSS__/font.css" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/layer.min.js"></script>
+<script type="text/javascript" src="__JS__/ajaxupload.js"></script>
+<style>
+.star {
+	width: 130px;
+}
+
+.star ul li {
+	background-color: none;
+	width: 20px;
+	text-align: right;
+	margin-left: 5px;
+	background: url(__IMG__/star_d.png) center no-repeat;
+	background-size: 20px;
+	height: 25px;
+	line-height: 25px;
+	float: left;
+}
+
+.img {
+	width: 80px;
+	margin-left: 10px;
+}
+
+.img img {
+	width: 70px;
+	height: 70px;
+}
+
+.padd_top10 {
+	padding: 10px 0px 10px 0;
+}
+
+.con {
+	width: 100%;
+	height: 120px;
+	background: #fff;
+}
+
+.textarea {
+	background: none;
+	width: 90%;
+	height: 120px;
+	margin: 0 auto;
+}
+
+.textarea textarea {
+	width: 100%;
+	height: 120px;
+	border: none;
+}
+
+textarea {
+	outline: none;
+}
+
+.upImg {
+	width: 100%;
+	background: #fff;
+	padding: 10px 0;
+}
+
+.upImg span {
+	display: block;
+	margin: 0 auto;
+	width: 100px;
+	padding: 0px 10px 0px 40px;
+	border-radius: 4px;
+	height: 40px;
+	line-height: 40px;
+	border: #ff4045 solid 1px;
+	color: #ff4045;
+	background: url(__IMG__/uploadImg_ico.png) 10px center no-repeat;
+	background-size: 20px;
+	border: #ff4045 solid 1px;
+	border-radius: 4px;
+}
+
+.mui-checkbox input[type=checkbox]:before, .mui-radio input[type=radio]:before
+	{
+	font-size: 24px;
+}
+
+.btns {
+	width: 100%;
+	padding: 20px 0px;
+}
+
+.btns span {
+	display: block;
+	width: 130px;
+	height: 40px;
+	line-height: 40px;
+	background: #ff4045;
+	border-radius: 4px;
+	color: #fff;
+	text-align: center;
+	margin: 0 auto;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<div class="_top">
+		<php> $url=explode('_',$_GET['ref']); $a=$url[0]; $m=$url[1];
+		$p=$url[2]; $refUrl=U("$a/$m",array('id'=>$p)); </php>
+		<div class="_left_top"
+			onclick='javascript:window.location.href="<php>echo $refUrl;</php>"'></div>
+		<div class="_title_top">追加晒图</div>
+		<div class="_right_top nobackground"></div>
+	</div>
+	<div class="_content">
+		<div class="ub bg-ff padd_top10">
+			<div class="img">
+				<img src="/{$goodsInfo.goodsThums}" />
+			</div>
+			<div class="ub-f1">
+				<div class="text-l col-6 lh35">{$goodsInfo.goodsName}</div>
+				<div class="text-r margin_right10 star one" data-type="0">
+					<ul>
+						<li></li>
+						<li></li>
+						<li></li>
+						<li></li>
+						<li></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="con">
+			<div class="textarea">
+				<!-- 长度在1-500个字之间,写下购买体会或使用过程中带来的帮助,可以为其他小伙伴提供参考~~ -->
+				<textarea rows="3" cols="20" readonly="readonly" id="content"
+					placeholder="">{$comment.content}</textarea>
+			</div>
+		</div>
+		<div class="upImg col-9 bor_b" id=unloadPic>
+			<span id="textTip">添加晒单图片</span>
+		</div>
+		<div class="ub lh45">
+			<div class="mui-input-row mui-checkbox  margin_left10 margin_top5">
+				<input type="checkbox" class="chkall" id="" name="" value="0" />匿名评价
+			</div>
+		</div>
+	</div>
+	<div class="btns">
+		<span id="subMit">提交评价</span>
+	</div>
+	<input type="hidden" id="pack" name="pack" value="" />
+	<input type="hidden" id="orderId" name="orderId" value="{$_GET['oid']}" />
+	<input type="hidden" id="goodsId" name="goodsId" value="{$_GET['gid']}" />
+	<input id="upLoadimg" type="hidden" name="upLoadimg" value="" />
+	<input type="hidden" id="isrepeat" name="pack" value="0" />
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script>
+	$('body').on('click','#subMit',function(){
+		if($('#isrepeat').val()==1){
+			layer.msg('请不要重复提交');
+		}
+		var isImg=$.trim($('#upLoadimg').val());
+		if(isImg.length<5){
+			layer.msg('请先上传图片');
+			return;
+		}
+		
+		var anonymity=0;
+		 if($(".chkall").prop("checked")){
+			 anonymity=1;
+		 }
+		 var content=$.trim($('#content').val());
+		 var img=$('#upLoadimg').val();
+		 var star=$('#pack').val();
+		 var goodsId=$('#goodsId').val();
+		 var orderId=$('#orderId').val();
+		 $('#isrepeat').val(1);
+	        $.ajax({
+	            type: "POST",
+	            url: "{:U('Comment/addToEvaluateHandle')}",
+	            data: {
+	            	anonymity:anonymity,
+	            	content:content,
+	            	img:img,
+	            	goodsId:goodsId,
+	            	orderId:orderId
+	            },
+	            dataType: "json",
+	            success: function(data){
+	                try{
+	                    if(data.status==0){
+	                        layer.msg('晒单成功！');
+	                        setTimeout(function(){
+	                            window.location.href="<php>echo $refUrl;</php>";
+	                        },2000)
+	                    }else if(data.status==-2){
+	                    	  layer.msg('已经追加过了');
+	                    }else if(data.status==-3){
+	                    	  layer.msg('请先登录');
+	                    }else if(data.status==-4){
+	                    	  layer.msg('请先上传图片');
+	                    }
+	                }catch(err){
+
+	                }
+	                console.log(data);
+	            }
+	        });
+	})
+	
+	window.onload = function() {
+		
+		//读取星星
+		
+	   var Index = {$comment.goodsScore};
+		for (var i = 0; i <= Index; i++) {
+			$('.one ul li').eq(i).css({
+				'background' : 'url(__IMG__/star_a.png) center no-repeat',
+				'background-size' : '20px',
+			});
+		}
+		for (var j = 4; j > Index; j--) {
+			$('.one ul li').eq(j).css({
+				'background' : 'url(__IMG__/star_d.png) center no-repeat',
+				'background-size' : '20px',
+			});
+		}
+		
+		//星星评分
+		
+		
+		var oBtn = document.getElementById("unloadPic");
+		new AjaxUpload(oBtn, {
+			action : "{:U('Comment/evaluateUploadImg')}",
+			name : "upload",
+			onSubmit : function(file, ext) {
+				if (ext && /^(jpg|jpeg|png|gif)$/.test(ext)) {
+					//ext是后缀名
+					if($('#isrepeat').val()==1){
+						layer.msg('请不要重复提交');
+						return false;
+					}
+					var img = $.trim($('#upLoadimg').val());
+					var arr = img.split('|');
+					if (arr.length >= 3) {
+						$('#textTip').text('已上传3张图片');
+						layer.msg('最多上传3张图片');
+						return false;
+					}
+					oBtn.disabled = "disabled";
+				} else {
+					layer.msg('仅支持.png .jpg .jpeg的图片');
+					return false;
+				}
+			},
+			onComplete : function(file, response) {
+				if (response != "success") {
+					if (response == '2') {
+						layer.msg('图片格式错误');
+					} else {
+						if (response.length > 45) {
+							layer.msg('上传失败');
+						} else {
+							layer.msg('上传完成');
+							var temp = $('#upLoadimg').val();
+							$('#textTip').text('再上传一张图片');
+							if ($('#upLoadimg').val() == '') {
+								$('#upLoadimg').val(response);
+							} else {
+								$('#upLoadimg').val(temp + '|' + response);
+							}
+							var img = $.trim($('#upLoadimg').val());
+							var arr = img.split('|');
+							if (arr.length >= 3) {
+								$('#textTip').text('已上传3张图片');
+								layer.msg('已上传3张图片');
+								return false;
+							}
+						}
+					}
+				}
+			}
+		});
+	};
+
+</script>
+</html>

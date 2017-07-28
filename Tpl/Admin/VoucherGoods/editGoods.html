@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link href="/Public/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/Tpl/Admin/css/page.css" rel="stylesheet">
+    <script src="__PUBLIC__/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/Tpl/Game/js/ajaxupload.js"></script>
+    <script src="/Tpl/Game/js/layer.min.js"></script>
+    <style>
+        .addGoodsList{
+            margin-top:30px;
+        }
+        .addGoodsList1{
+            margin-top:30px;
+        }
+        .goods_picture{
+            float: left;
+        }
+        .picture{
+            margin: 30px;
+        }
+        .picture img{
+            margin-left: 30px;
+        }
+    </style>
+    <script>
+        var tableId = 1;
+        var size = {$size};
+        var count = 0;
+        $(function () {
+            $('.page_nav .wst-pagination a').click(function (e) {
+                e.preventDefault();
+                var num = $(this).html();
+                if(num == '&gt;&gt;')
+                {
+                    $('.addGoodsList table[table-id='+tableId+']').css({'display':'none'});
+                    $('.page_nav .wst-pagination a').eq(tableId - 1).css('background','');
+                    if(tableId == size)
+                    {
+                        tableId = 1;
+                    }else{
+                        tableId++;
+                    }
+                    $('.page_nav .wst-pagination a').eq(tableId - 1).css('background','rgb(27,154,247)');
+                    $('.addGoodsList table[table-id='+tableId+']').css({'display':''});
+                    return;
+                }
+                if(num == tableId)
+                    return;
+                $('.page_nav .wst-pagination a').css('background','');
+                $(this).css('background','rgb(27,154,247)');
+                $('.addGoodsList table[table-id='+num+']').css({'display':''});
+                $('.addGoodsList table[table-id='+tableId+']').css({'display':'none'});
+                tableId = num;
+            });
+            $('#voucherCar').find('tr').eq(1).find('td').eq(1).find('button').click(function () {
+                if(count == 0)
+                {
+                    alert('您还未添加代金券');
+                    return;
+                }
+                var idArr = new Array();
+                for(var i=0;i<count;i++)
+                {
+                    idArr[i] = $('#voucherCar').find('tr').eq(i+2).find('td').eq(0).html();
+                }
+                var tdObj = $('#voucherCar').find('tr').eq(1).find('td').eq(0);
+                var goodsName = tdObj.find('input[type=text]').val();
+                var money = tdObj.find('input[type=number]').val();
+                if(goodsName == '')
+                {
+                    alert('商品名未写');
+                    return;
+                }
+                var rank = tdObj.find('select').val();
+                if(rank == 0)
+                {
+                    alert('商品等级未选择');
+                    return;
+                }
+                var pictureUrl = $('.picture img').attr('src').match(/\/(\S*)/)[1];
+                $.ajax({
+                    url:'__CONTROLLER__/saveAction',
+                    data:{idArr:idArr,goodsName:goodsName,rank:rank,money:money,id:$('#goodsId').val(),pictureUrl:pictureUrl},
+                    type:'post',
+                    dataType:'json',
+                    success:function (res) {
+                        if(res.status == 0)
+                        {
+                            alert(res.msg);
+                            location.href='__CONTROLLER__/goodsList';
+                        }
+                        else
+                            alert(res.msg);
+                    }
+                })
+            })
+        });
+        //上传文件
+        //上传文件
+        $(function(){
+            var fileType = "pic",fileNum = "one";
+            new AjaxUpload('#avator',{
+                action: "{:U('VoucherGoods/uploadImg')}",
+                name: 'images',
+                responseType: 'json',
+                onSubmit : function(file, ext){
+                    if(fileType == "pic")
+                    {
+                        if (ext && /^(jpg|png|jpeg|gif|JPG)$/.test(ext)){
+                            this.setData({
+                                'info': '文件类型为图片'
+                            });
+                        } else {
+                            layer.msg('仅支持.png .jpg .jpeg的图片');
+                            return false;
+                        }
+                    }
+                    layer.msg('文件上传中');
+                    if(fileNum == 'one')
+                        this.disable();
+                },
+                onComplete: function(file, response){
+                    if(response.status == 0)
+                    {
+                        layer.msg('上传完成');
+                        $('.picture').find('img').attr('src',response.picUrl);
+                    }else{
+                        layer.msg(response.msg);
+                    }
+                }
+            });
+        })
+
+        function addData(voucherId,t) {
+            var voucherName = $(t).parents('tr').find('td').eq(1).html();
+            $('#voucherCar').append('<tr><td>'+voucherId+'</td>'+'<td>'+voucherName+'</td><td><a href="javascript:;" onclick="deleteData('+voucherId+',this)">删除</a> </td></tr>');
+            $(t).parents('td').html('已添加');
+            count++;
+        }
+        function deleteData(voucherId,t) {
+            $('.addGoodsList').find('table tr[data-id='+voucherId+']').find('td').eq(2).html('<a href="javascript:;" onclick="addData('+voucherId+',this)">添加</a>');
+            $(t).parents('tr').remove();
+            count--;
+        }
+        function init(voucherId,voucherName,validTime) {
+            $('#voucherCar').append('<tr><td>'+voucherId+'</td>'+'<td>'+voucherName+'('+validTime+'天有效)</td><td><a href="javascript:;" onclick="deleteData('+voucherId+',this)">删除</a> </td></tr>');
+            count++;
+            $('.addGoodsList').find('table tr[data-id='+voucherId+']').find('td').eq(2).html('已添加');
+        }
+        $(function () {
+            <volist name="voucherArr" id="vo">
+                init({$vo.id},'{$vo.name}',{$vo.validTime});
+            </volist>
+        })
+
+    </script>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-5">
+            <div class="addGoodsList">
+                <volist name="list" id="v" key="k">
+                    <table table-id="{$k}" class="list_tab" style="display: <if condition='$k neq 1'>none</if> ">
+                        <tr><th>代金券ID</th><th>代金券名字</th><th>操作</th></tr>
+                        <volist name="v" id="vo">
+                            <tr data-id="{$vo.id}"><td>{$vo.id}</td><td><b>{$vo.name}({$vo.validTime}天有效)</b></td><td><a href="javascript:;" onclick="addData({$vo.id},this)">添加</a></td></tr>
+                        </volist>
+                    </table>
+                </volist>
+
+            </div>
+            <div class="page_nav">
+                <div class="wst-pagination">
+                    <for start="1" end="$size+1">
+                        <if condition="$i eq 1">
+                            <a href="" style="background:rgb(27,154,247)">1</a>
+                            <else />
+                            <a href="">{$i}</a>
+                        </if>
+                    </for>
+                    <a href="">>></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="addGoodsList1">
+                <table class="list_tab" id="voucherCar">
+                    <input type="hidden" id="goodsId" value="{$goodsArr['id']}">
+                    <tr><th colspan="2">添加商品</th><th>操作</th></tr>
+                    <tr><td colspan="2"><input type="text"  style="width: 250px"  placeholder="商品名" value="{$goodsArr['name']}">
+                        <input type="number"  placeholder="&nbsp;&nbsp;&nbsp;&nbsp;金额" value="{$goodsArr['price']}">
+                        <select>
+                            <option value="0">请选择等级</option>
+                            <option value="3" <if condition="$goodsArr['rank'] eq 3">selected</if> >低级</option>
+                            <option value="2" <if condition="$goodsArr['rank'] eq 2">selected</if>  >中级</option>
+                            <option value="1" <if condition="$goodsArr['rank'] eq 1">selected</if>  >高级</option>
+                        </select>
+                    </td><td><button class="btn btn-primary">添加商品</button></td></tr>
+                </table>
+                <div id="avator" class="picture">
+                    <div class="goods_picture"> 商品图片：<br>(点击添加)</div><img width="120px" src="/{$goodsArr['pictureUrl']}">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+</div>
+
+</body>
+</html>

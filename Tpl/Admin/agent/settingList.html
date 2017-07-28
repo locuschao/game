@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{$CONF['mallTitle']}后台管理中心</title>
+<link href="__PUBLIC__/plugins/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+<link href="__CSS__/AdminLTE.css" rel="stylesheet" type="text/css" />
+<!--[if lt IE 9]>
+      <script src="__PUBLIC__/js/html5shiv.min.js"></script>
+      <script src="__PUBLIC__/js/respond.min.js"></script>
+      <![endif]-->
+<script src="__PUBLIC__/js/jquery.min.js"></script>
+<script src="__PUBLIC__/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="__PUBLIC__/js/common.js"></script>
+<script src="__PUBLIC__/plugins/plugins/plugins.js"></script>
+</head>
+<script>
+   function toggleIsShow(t,v){
+	   Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
+	   $.post("{:U('Admin/agent/settingEditIsShow')}",{id:v,status:t},function(data,textStatus){
+			var json = WST.toJson(data);
+			if(json.status=='1'){
+				Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
+				    location.reload();
+				}});
+			}else{
+				Plugins.closeWindow();
+				Plugins.Tips({title:'信息提示',icon:'error',content:'操作失败!',timeout:1000});
+			}
+	   });
+   }
+
+   </script>
+<body class='wst-page'>
+	<div class="wst-body">
+		<table class="table table-hover table-striped table-bordered wst-list">
+			<thead>
+				<tr>
+					<th width='40'>序号</th>
+					<th>返利级数</th>
+					<th>返利比例</th>
+					<th>提现最小金额</th>
+					<th>提现最大金额</th>
+					<th>申请间隔天数</th>
+
+					<th>提现密码</th>
+					<th style="display: none">自动分佣</th>
+					<th width='50'>状态</th>
+					<th width='80'>分销模块</th>
+					<th width='100'>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<volist name="Page['root']" id="vo" key='i'>
+				<tr>
+					<td>{$i}</td>
+					<td>{$vo['agentLevel']}</td>
+					<td>{$vo['agentProportion']}</td>
+					<td>{$vo['minApplyPrice']}</td>
+					<td>{$vo['maxApplyPrice']}</td>
+					<td>{$vo['applyDay']}</td>
+
+					<td><if condition="$vo['applyPw']==1 "> <span
+							class='label label-success'>需要</span> <else /> <span
+							class='label label-primary'>不需要</span> </if></td>
+					<td style="display: none"><if
+							condition="$vo['agentLogStatus']==1 "> <span
+							class='label label-success'>开启</span> <else /> <span
+							class='label label-primary'>关闭</span> </if></td>
+					<td><if condition="$vo['status']==1 "> <span
+							class='label label-success'>开启</span> <else /> <span
+							class='label label-danger'>关闭</span> </if></td>
+					<td>
+						<div class="dropdown">
+							<if condition="$vo['status']==0 ">
+							<button class="btn btn-danger dropdown-toggle wst-btn-dropdown"
+								type="button" data-toggle="dropdown">
+								关闭 <span class="caret"></span>
+							</button>
+							<else />
+							<button class="btn btn-success dropdown-toggle wst-btn-dropdown"
+								type="button" data-toggle="dropdown">
+								开启 <span class="caret"></span>
+							</button>
+							</if>
+							<php>if(in_array('fxsz_00',$WST_STAFF['grant'])){</php>
+							<ul class="dropdown-menu" role="menu">
+								<li role="presentation"><a role="menuitem" tabindex="-1"
+									href="javascript:toggleIsShow(1,{$vo['status']})">开启</a></li>
+								<li role="presentation"><a role="menuitem" tabindex="-1"
+									href="javascript:toggleIsShow(0,{$vo['status']})">关闭</a></li>
+							</ul>
+							<php>}</php>
+						</div>
+					</td>
+					<td><php>if(in_array('fxsz_00',$WST_STAFF['grant'])){</php> <a
+						class="btn btn-default glyphicon glyphicon-pencil"
+						href="{:U('Admin/Agent/settingtoEdit',array('id'=>$vo['communityId']))}"">修改</a>
+						<php>}</php></td>
+				</tr>
+				</volist>
+			<tr>
+				<td colspan="10" align="center"><a href="__CONTROLLER__/settingExp"><button type="button" class="btn btn-primary">导出分销设置数据</button></a></td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

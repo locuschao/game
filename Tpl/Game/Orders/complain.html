@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>投诉反馈</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/layer.min.js"></script>
+<script src="__JS__/base.js"></script>
+<style>
+.inputList {
+	width: 95%;
+	margin: 0 auto;
+}
+
+.inputStyle {
+	width: 80%;
+	border: #00b4ff solid 1px;
+	border-radius: 2px;
+	height: 25px;
+	line-height: 25px;
+	text-indent: 10px;
+}
+
+.col-6 {
+	color: #666666;
+}
+
+.mar-l {
+	margin-left: 10px;
+}
+
+.inputList div:first-child {
+	width: 60px;
+}
+
+.goodsImg img {
+	width: 40px;
+	height: 40px;
+	padding: 10px;
+	border-radius: 4px;
+}
+
+.goodsName {
+	color: #323232;
+	font-size: 18px;
+	line-height: 60px;
+	text-align: left;
+	text-overflow: ellipsis;
+	over-flow: hidden;
+	white-space: nowrap;
+}
+
+.detailList div:first-child {
+	width: 80px;
+	padding-left: 10px;
+	text-align: left;
+	font-size: 98%;
+}
+
+.detailList div:nth-child(2) {
+	font-size: 98%;
+}
+
+.btn {
+	border-radius: 4px;
+	margin: 0 auto;
+	text-align: center;
+	color: #fff;
+	background: #38aaff;
+	height: 40px;
+	line-height: 40px;
+	width: 90%;
+	cursor:pointer;
+}
+
+.check {
+	cursor:pointer;
+	width: 80px;
+	background: url(__IMG__/check_false.png) center no-repeat;
+	background-size: 22px;
+}
+
+.check_true {
+	cursor:pointer;
+	width: 80px;
+	background: url(__IMG__/check_true.png) center no-repeat;
+	background-size: 22px;
+}
+
+.contnet {
+	height: 60px;
+	width: 90%;
+	margin: 0 auto;
+	margin-bottom: 10px;
+}
+
+.contnet textarea {
+	width: 90%;
+	height: 60%;
+	line-height: 1;
+	background: #eeeeee;
+	border-radius: 2px;
+	border: none;
+	outline: none;
+	padding: 10px;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<div class="_top">
+		<div class="_left_top" onclick='history.go(-1)'></div>
+		<div class="_title_top">投诉反馈</div>
+		<div class="_right_top nobackground"></div>
+	</div>
+	<div class="_content">
+
+		<div class="ub lh45 bor_b">
+			<div class="ub-f1 ti10">商家已确定，但没有送达</div>
+			<div class="check" data-type="1"></div>
+		</div>
+		<div class="bor_b">
+			<div class="ub lh45 ">
+				<div class="ub-f1 ti10">其它</div>
+				<div class="check" data-type="0"></div>
+			</div>
+			<div class="contnet" style="display: none;">
+				<textarea id="content" placeholder="请输入您要投诉的内容" rows="3" cols="20"></textarea>
+			</div>
+		</div>
+		<div class="lh35"></div>
+		<div class="ub-f1">
+			<div class="btn complain">提交</div>
+		</div>
+	</div>
+	<input type="hidden" id="type" value="" />
+	<input type="hidden" id="orderId" value="{$_GET['id']}" />
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script>
+//取消订单
+ var orderId="{$_GET['id']}";
+  $('body').on('click','.cancelOrder',function(){
+	  layer.confirm('确定取消此订单吗？', {icon: 3, title:'取消订单'}, function(index){
+		  $.ajax({
+			  type:'post',
+			  url:'{:U("Orders/cancelOrder")}',
+			  data:{orderId:orderId},
+			  dataType:'json',
+			  success:function(data){
+				layer.msg(data.mes);
+				setTimeout(function(){
+					location.reload();
+				},1000);
+			  }
+		  })
+		  layer.close(index);
+		});
+  })
+  
+  $('body').on('click','.check',function(){
+	  $('.check').removeClass('check_true');
+	  $(this).addClass('check_true');
+	  var type=$(this).attr('data-type');
+	  $('#type').val(type);
+	  if(type==0){
+		  $('.contnet').show();
+	  }else{
+		  $('.contnet').hide();
+	  }
+  })
+  
+  $('body').on('click','.complain',function(){
+	 var type=$('#type').val();
+	 var orderId="{$_GET['id']}";
+	 if(!isDefine(type)){
+		 layer.msg('请选择投诉类型');
+		 return;
+	 }
+	 var content=$('#content').val();
+	  layer.confirm('确定投诉此订单吗？', {icon: 3, title:'投诉订单'}, function(index){
+		  $.ajax({
+			  type:'post',
+			  url:'{:U("Orders/applyComplain")}',
+			  data:{orderId:orderId,type:type,content:content},
+			  dataType:'json',
+			  success:function(data){
+				layer.msg(data.mes);
+				setTimeout(function(){
+					self.location=document.referrer;
+				},1000);
+			  }
+		  })
+		  layer.close(index);
+		});
+  })
+  
+
+</script>
+
+</html>

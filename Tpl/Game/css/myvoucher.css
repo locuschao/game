@@ -1,0 +1,97 @@
+.footerNav{cursor:pointer;}
+.titleNav{display:none;}
+.nav_tuijia_img{text-align:left;}
+.nav_tuijia_img{min-height:100px; clear:both;}
+.nav_tuijia_img a{display:inline-block;width:25%;text-align:center;}
+.orderMenu,.del{cursor:pointer;}
+/* 二次开发  start */
+.logo {
+	position: relative;
+	left: 10px;
+	top: -5px;
+}
+body{
+	max-width: 800px;
+}
+.header {
+	max-width: 800px;
+}
+.footer{
+	max-width: 800px;
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+}
+.ps_or_login{
+	margin-right:10px;
+}
+.ps_or_login img{
+	cursor: pointer;
+	margin-top: 13px;
+	width: 22px;
+}
+/*二次开发 end */
+
+/**
+ * @author peng
+ * @date 2017-01
+ * @descreption 
+ */
+ a.turnback{
+    display: inline-block;
+    color: #746969;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 0 20px;
+    position: absolute;
+    left: 0;
+ }
+ a.turnback:hover{
+    background:#d2d569;
+ }
+ .header{
+    background:#eae31d !important;
+ }
+.orderList .row{
+    padding:10px;
+    background:#fff;
+    border-bottom:1px solid #ddd;
+}
+.orderList .title {
+    font-size: 13px;
+    color: #2D2828;
+}
+.orderList .title span{
+    padding-left:10px;
+}
+.orderList .title b{
+    color:red;
+    padding-right:5px;
+}
+.orderList .expire {
+    margin-top: 4px;
+    color: #817b7b;
+    font-size: 12px;
+}
+.contentLeft .remark{
+    margin-top:6px;
+    color:#686464;
+    font-size:12px;
+}
+.loadmore{
+    border-radius: 4px;
+    height: 10px;
+    line-height: 10px;
+    text-align: center;
+    background: #b4b453;
+    padding: 10px 0;
+    color: #fff;
+    margin-top: 10px;
+    cursor:pointer;
+}
+.pos-a {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    
+}

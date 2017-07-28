@@ -1,0 +1,44 @@
+.wrap_full {
+	width: 1210px;
+	margin: 0 auto;
+	padding: 10px;
+}
+
+.wrap_name {
+	font-size: 19px;
+	margin-bottom: 15px;
+	border-bottom: 3px solid #E971D6;
+	width: 135px;
+	line-height: 19px;
+	height: 23px;
+}
+
+.ggk_box {
+	display: inline-block;
+}
+
+.list {
+	font-size: 17px;
+	margin-bottom: 15px;
+	border-bottom: 2px #787070 dotted;
+	padding-bottom: 10px;
+}
+
+.list p {
+	font-size: 17px;
+	padding-bottom: 10px;
+}
+
+.list span {
+	background: #F54C92;
+	color: #ffffff;
+	font-size: 13px;
+	padding: 2px 3px;
+}
+
+.list a {
+	font-size: 17px;
+	color: #F54C92;
+	font-weight: bold;
+	text-decoration: none;
+}

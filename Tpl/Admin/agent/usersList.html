@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{$CONF['mallTitle']}后台管理中心</title>
+<link href="__PUBLIC__/plugins/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+<link href="__CSS__/AdminLTE.css" rel="stylesheet" type="text/css" />
+<!--[if lt IE 9]>
+      <script src="__PUBLIC__/js/html5shiv.min.js"></script>
+      <script src="__PUBLIC__/js/respond.min.js"></script>
+      <![endif]-->
+<script src="__PUBLIC__/js/jquery.min.js"></script>
+<script src="__PUBLIC__/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="__PUBLIC__/js/common.js"></script>
+<script src="__PUBLIC__/plugins/plugins/plugins.js"></script>
+	<!--  二次开发 引入时间插件-->
+	<script type="text/javascript" src="__PUBLIC__/js/jedate.js"></script>
+	<style>
+		/*二次开发 新增样式 start*/
+		.dataExp{
+			margin-bottom: 10px;
+			margin-top: 10px;
+		}
+		.dataExp table tr td{
+			padding-right: 5px;
+		}
+		/*二次开发 新增样式 end*/
+	</style>
+	<script>
+		/*二次开发  添加的js --start*/
+		$(function () {
+			$('.datainp').click(function () {
+				if($(this).attr('id') != 'datebut')
+				{
+					$('#datebut').attr('id','datebut1');
+					$(this).attr('id','datebut');
+
+				}
+				jeDate({dateCell:'#datebut',isTime:true,format:'YYYY-MM-DD hh:mm:ss'});
+			});
+		});
+		/*二次开发 添加的js  --end  */
+	</script>
+</head>
+
+<body class='wst-page'>
+	<form method='post' action='{:U("Admin/Agent/usersIndex")}'>
+		<div class='wst-tbar'>
+			会员账号：<input type='text' id='loginName' name='loginName'
+				class='form-control wst-ipt-10' value='{$loginName}' /> 手机号码：<input
+				type='text' id='userPhone' name='userPhone'
+				class='form-control wst-ipt-10' value='{$userPhone}' />
+			<button type="submit"
+				class="btn btn-primary glyphicon glyphicon-search">查询</button>
+		</div>
+	</form>
+	<!--二次开发 --start-->
+	<div class="dataExp">
+		<form action="__CONTROLLER__/userListExp" method="post" id="timeForm">
+			<table>
+				<tr>
+					<td>
+						注册时间段：
+					</td>
+					<td><input class="datainp" name="timeStart"  id="datebut" type="text" placeholder="请选择" value="2016-01-01 00:00:00"  readonly ></td>
+					<td>：</td>
+					<td><input class="datainp" name="timeEnd" id="datebut1" type="text" placeholder="请选择" value="2016-01-01 00:00:00"  readonly ></td>
+					<td><button type="submit" class="btn btn-primary">导出订单数据</button></td>
+					<td id="timeMsg">{$msg}</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+	<!-- 二次开发 --end -->
+	<div class="wst-body">
+		<table class="table table-hover table-striped table-bordered wst-list">
+			<thead>
+				<tr>
+					<th width='30'>id</th>
+					<th width='80'>账号</th>
+					<th width='80'>用户名</th>
+					<th width='60'>手机号码</th>
+					<th width='60'>粉丝数量</th>
+					<th width='60'>推荐人</th>
+					<th width='60'>总佣金</th>
+					<th width='60'>可提现</th>
+					<th width='60'>申请中</th>
+					<th width='60'>已提现</th>
+					<th width='130'>注册时间</th>
+					<th width='35'>状态</th>
+					<th width='130'>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<volist name="Page['root']" id="vo" key='i'>
+				<tr>
+					<td>{$vo['userId']}</td>
+					<td>{$vo['loginName']}</td>
+					<td>{$vo['userName']}&nbsp;</td>
+					<td>{$vo['userPhone']}&nbsp;</td>
+					<td>{$vo['fansCount']}&nbsp;</td>
+					<td>{$vo['partnerId']}&nbsp;</td>
+					<td>{$vo['agentTotalPrice']}</td>
+					<td>{$vo['agentBalance']}</td>
+					<td>{$vo['agentWaitPrice']}</td>
+					<td>{$vo['agentPayPrice']}</td>
+					<td>{$vo['createTime']}&nbsp;</td>
+					<td><if condition="$vo['userStatus']==0 "> <span
+							class='label label-danger wst-label'> 停用 </span> <else /> <span
+							class='label label-success wst-label'> 启用 </span> </if></td>
+					<td><php>if(in_array('hylb_02',$WST_STAFF['grant'])){</php> <a
+						class="btn btn-default glyphicon glyphicon-pencil"
+						href="{:U('Admin/agent/usersEdit',array('id'=>$vo['userId']))}">修改</a>&nbsp;
+						<php>}</php> <php>if(in_array('hylb_03',$WST_STAFF['grant'])){</php>
+						<a class="btn btn-default glyphicon glyphicon-eye-open"
+						href="{:U('Admin/agent/usersMoreInfo',array('id'=>$vo['userId']))}">粉丝详情</a>
+						<!--<button type="button" class="btn btn-default glyphicon glyphicon-trash" onclick="javascript:del({$vo['userId']},{$vo['userType']})">刪除</buttona>-->
+						<php>}</php></td>
+				</tr>
+				</volist>
+				<tr>
+					<td colspan='11' align='center'>{$Page['pager']}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

@@ -1,0 +1,297 @@
+.sort_row {
+	height: 30px;
+	border: 1px solid #ddd;
+	background: #fff;
+	margin: 15px auto;
+	width: 1100px;
+}
+
+.sort_row ul li {
+	float: left;
+	display: block;
+	border-right: 1px solid #ddd;
+	cursor: pointer;
+}
+
+.sort_row ul li.anode a {
+	float: left;
+	display: block;
+	line-height: 30px;
+	padding: 0px 20px;
+	position: relative;
+	color: #666;
+	text-decoration: none;
+}
+
+.sort_row ul li.current_r {
+	border-bottom: 2px solid #FE3689;
+}
+
+.sort_row ul li.current_r2 {
+	border-top: 2px solid #FE3689;
+}
+
+.sort_row ul li.anode.current_r a {
+	line-height: 28px;
+	color: #FE3689;
+}
+
+.sort_row ul li.anode.current_r2 a {
+	line-height: 28px;
+	color: #FE3689;
+}
+
+.wrap_full {
+	width: 1100px;
+	height: auto;
+	margin: 0 auto;
+}
+
+.wrap_left {
+	float: left;
+}
+
+.youhui_box {
+	margin-bottom: 10px;
+	padding: 10px 0;
+	border: 1px dashed #ccc;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+/*清除浮动*/
+.clearfix:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+
+.youhui_box_img {
+	float: left;
+	margin-top: 13px;
+	margin-left: 15px;
+}
+
+.youhui_box_commet {
+	float: right;
+	margin-left: 15px;
+	width: 259px;
+}
+
+.youhui_box_commet dl dd font {
+	color: #e64d5e;
+	font-family: "Microsoft YaHei", Verdana;
+	padding: 0 3px;
+	font-size: 14px;
+}
+
+.wrap_buttun {
+	float: right;
+	margin-top: 70px;
+	cursor: pointer;
+	margin-left: 140px;
+	margin-right: 25px;
+}
+
+.wrap_buttun a {
+	color: #fff;
+	font-size: 18px;
+	text-decoration: none;
+	padding: 20px 30px;
+	background: #db3752;
+	border: 2px solid #db3752;
+	-moz-border-radius: 15px; /* Gecko browsers */
+	-webkit-border-radius: 15px; /* Webkit browsers */
+	border-radius: 15px; /* W3C syntax */
+}
+
+.youhui_box_commet h3 {
+	color: #666666;
+	font-size: 20px;
+	font-weight: bold;
+	line-height: 25px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.youhui_box_commet h3 a {
+	font-size: 20px;
+}
+
+.youhui_box_commet p {
+	color: #999999;
+	padding: 5px 0;
+	word-wrap: break-word;
+	word-break: normal;
+	width: 234px;
+}
+
+.youhui_box dl dd {
+	overflow: hidden;
+	position: relative;
+	padding-top: 9px;
+	font-size: 13px;
+}
+
+.type {
+	background: #FE3689;
+	color: #fff;
+	padding: 5px;
+	font-size: 13px;
+	line-height: 13px;
+	cursor: default;
+}
+
+/*右侧边栏*/
+.wrap_right {
+	float: right;
+	width: 290px;
+	padding: 5px 10px;
+	border: 4px solid #eee;
+}
+
+.youhui_hot {
+	color: #333;
+	font-weight: bold;
+	font-size: 15px;
+	line-height: 30px;
+}
+
+.current_r ul li h4 {
+	padding: 5px 0;
+	font-size: 16px;
+	color: #666;
+	margin-bottom: 5px;
+}
+
+.current_r ul li h4 i {
+	color: #ffffff;
+	background: #FF0000;
+	padding: 1px 5px;
+	border: 1px solid #FF0000;
+	-moz-border-radius: 15px;
+	-webkit-border-radius: 15px;
+	border-radius: 5px;
+	margin-right: 6px;
+	font-size: 14px;
+}
+
+.current_r ul li {
+	border-bottom: 1px solid #eee;
+	padding: 10px 0;
+}
+
+.current_img {
+	float: left;
+}
+
+.current_commet {
+	float: right;
+	margin-right: 45px;
+	margin-top: 5px;
+}
+
+.current_commet p {
+	padding-bottom: 9px;
+}
+
+.current_commet i a {
+	background: #FE3689;
+	color: #ffffff;
+	padding: 4px;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+#btnclose {
+	background: url('/Tpl/default/images/92-cross.png');
+	width: 25px;
+	background-size: 25px;
+	height: 25px;
+	background-repeat: no-repeat;
+	cursor: pointer;
+	position: absolute;
+	right: 8px;
+	top: 8px;
+}
+
+.hiddendiv {
+	display: none;
+	position: fixed;
+	top: 25%;
+	left: 22%;
+	width: 53%;
+	height: auto;
+	padding: 8px;
+	border: 8px solid #E8E9F7;
+	background-color: white;
+	z-index: 1002;
+	overflow: auto;
+}
+
+.getyhdiv {
+	padding: 6px 5px;
+	cursor: pointer;
+	text-align: center;
+	line-height: 25px;
+	background: #2af;
+	color: #ffffff;
+	margin-bottom: 8px;
+}
+
+.hiddendiv ul li {
+	font-size: 18px;
+}
+
+.hiddendduan {
+	float: left;
+	padding-right: 15px;
+	padding-bottom: 20px;
+	padding-top: 10px;
+}
+
+.hiddencduan {
+	
+}
+
+.hiddendiv ul li a {
+	font-size: 18px;
+	border-bottom: 2px solid #bbb;
+	padding-bottom: 13px;
+	display: inherit;
+	margin-bottom: 10px;
+}
+
+.page {
+	width: 100%;
+	margin: 0 auto;
+	height: 20px;
+}
+
+.page div {
+	margin: 0 auto;
+	height: 20px;
+	width: 100%;
+	text-align: center;
+}
+
+.current {
+	color: #ffffff;
+	background: #FE3689;
+	text-decoration: none;
+}
+
+.current, .next, .num, .prev {
+	font-size: 15px;
+	padding: 2px 5px;
+	border: 1px dashed #ccc;
+	margin-right: 3px;
+	text-decoration: none;
+}
+
+.next:hover, .num:hover, .prev:hover {
+	color: #ffffff;
+	background: #FE3689;
+	text-decoration: none;
+}

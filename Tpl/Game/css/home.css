@@ -1,0 +1,281 @@
+body {
+	float: left;
+	margin: 0;
+	padding: 0 0 20px 0;
+	width: 100%;
+	height: 100%;
+	background-color: #f2f2f2
+}
+
+.a {
+	background-color: #eee !important;
+}
+
+#banner {
+	border-bottom: 1px solid #ccc;
+}
+
+#banner, #banner ul {
+	float: left;
+	width: 100%;
+	background-color: #fff;
+}
+
+#banner li {
+	background-size: 30px;
+	width: 25%;
+	font-size: 0.8em;
+	float: left;
+	text-align: center;
+	background-repeat: no-repeat;
+	background-color: #fff;
+	padding: 10px 0;
+}
+
+#banner li img {
+	width: 45%;
+	margin: 0 auto;
+	display: block;
+	margin-bottom: 8px;
+}
+
+#ttms {
+	float: left;
+	margin-top: 10px;
+	background-color: #fff;
+	width: 100%;
+}
+
+.min-title {
+	height: 50px;
+	line-height: 50px;
+	font-size: 0.9em;
+	border-bottom: 1px solid #eee;
+}
+
+.neirong {
+	height: 120px;
+}
+
+.neirong ul {
+	float: left;
+	width: 100%;
+	height: 130px;
+	overflow: hidden;
+}
+
+.neirong li {
+	float: left;
+	height: 130px;
+	width: 100px;
+	text-align: center;
+}
+
+.neirong li img {
+	height: 80px;
+	width: 80px;
+	display: block;
+	margin: 0 auto;
+	margin: 10px 10px 5px 10px;
+}
+
+.neirong .a1 {
+	display: block;
+	font-size: 1em;
+	height: 15px;
+}
+
+.neirong .a2 {
+	display: block;
+	font-size: 0.8em;
+	color: #CCC;
+	height: 15px;
+	text-decoration: line-through;
+}
+
+.t1 {
+	margin-left: 10px;
+	color: #555;
+	float: left;
+}
+
+.t2 {
+	color: #ff3c3c;
+	float: right;
+}
+
+.t3 {
+	background-image: url('../image/youjiantou.png');
+	background-repeat: no-repeat;
+	background-size: 10px 18px;
+	background-position: 0px 16px;
+	height: 50px;
+	width: 10px;
+	margin: 0 10px;
+	float: right;
+}
+
+.tu-title {
+	float: left;
+	margin-top: 10px;
+	background-color: #fff;
+	width: 100%;
+	height: 50px;
+	line-height: 50px;
+	font-size: 0.9em;
+	border-bottom: 1px solid #eee;
+}
+
+#tu-list {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	width: 100%;
+	height: 120px;
+	float: left;
+	border-bottom: 1px solid #eee;
+	margin-top: 10px;
+	background-color: #fff;
+}
+
+#tu-list .t-l-1 {
+	-webkit-box-flex: 1;
+	-webkit-flex: 1;
+	flex: 1;
+}
+
+#tu-list .t-l-2 {
+	width: 1px;
+	background-color: #ccc;
+}
+
+#tu-list .t-l-3 {
+	-webkit-box-flex: 1;
+	-webkit-flex: 1;
+	flex: 1;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-flex-flow: column;
+	flex-flow: column;
+}
+
+#tu-list .t-l-3 .t-l-31 {
+	-webkit-box-flex: 1;
+	-webkit-flex: 1;
+	flex: 1;
+}
+
+#tu-list .t-l-3 .t-l-32 {
+	height: 1px;
+	background-color: #ccc;
+}
+
+#tu-list .t-l-3 .t-l-33 {
+	-webkit-box-flex: 1;
+	-webkit-flex: 1;
+	flex: 1;
+}
+
+.tt1 {
+	background-image: url('../image/huo.png');
+	background-size: 15px 18px;
+	background-repeat: no-repeat;
+	background-position: 0px 16px;
+	height: 50px;
+	width: 15px;
+	float: left;
+	margin: 0 10px;
+}
+
+#tu-one {
+	height: 100px;
+	width: 100%;
+	margin-top: 10px;
+	float: left;
+	background-color: #fff;
+}
+
+.title-list {
+	float: left;
+	margin-top: 10px;
+	padding-bottom: 10px;
+	background-color: #fff;
+	width: 100%;
+}
+
+.t4 {
+	margin-left: 10px;
+	color: #000;
+	float: left;
+}
+
+.t5 {
+	color: #999;
+	float: right;
+	font-size: 0.8em;
+	margin-right: 10px;
+}
+
+.t6 {
+	background-image: url('../image/huanyizu.png');
+	background-repeat: no-repeat;
+	background-size: 15px 15px;
+	background-position: 0px 16px;
+	height: 50px;
+	width: 15px;
+	margin: 0 10px;
+	float: right;
+}
+
+.ty {
+	float: right;
+	background-color: #fff;
+}
+
+.neirong2 {
+	height: 120px;
+}
+
+.neirong2 ul {
+	float: left;
+	width: 100%;
+	height: 130px;
+	overflow: hidden;
+}
+
+.neirong2 li {
+	float: left;
+	height: 130px;
+	width: 33%;
+	text-align: center;
+}
+
+.neirong2 li img {
+	height: 80px;
+	width: 80px;
+	display: block;
+	margin: 0 auto;
+	margin: 10px 10px 5px 10px;
+}
+
+.neirong2 .a1 {
+	display: block;
+	font-size: 14px;
+	display: block;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 20px;
+	line-height: 20px;
+	padding: 0 8px;
+}
+
+.neirong2 .a2 {
+	display: block;
+	font-size: 0.8em;
+	color: red;
+	text-align: left;
+	padding: 0 10px;
+}

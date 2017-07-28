@@ -1,0 +1,140 @@
+<extend name="Users:layout" />
+<block name="content"> <script>
+   $(function () {
+	   $.formValidator.initConfig({
+		   theme:'Default',mode:'AutoTip',formID:"myform",debug:true,submitOnce:true,onSuccess:function(){
+			   editPass();
+			   return false;
+			},onError:function(msg){
+		}}); 
+   });
+    var statusMark = 0;
+    $(function () {
+      $('#tab').TabPanel({tab:statusMark,callback:function(tab){
+        statusMark = tab;
+        if(statusMark==0){
+           $("#oldPass").formValidator({onShow:"",onFocus:"",onCorrect:"输入正确"}).inputValidator({min:6,max:20,onError:"密码长度为6到20位"});
+           $("#newPass").formValidator({onShow:"",onFocus:"",onCorrect:"输入正确"}).inputValidator({min:6,max:20,onError:"新密码长度为6到20位"});
+           $("#reNewPass").formValidator({onShow:"",onFocus:"",onCorrect:"输入正确"}).inputValidator({min:6,max:20,onError:"新密码长度为6到20位"}).compareValidator({desID:"newPass",operateor:"=",onError:"2次密码不一致,请确认"}); 
+        }else{ 
+           $("#passPay").formValidator({onShow:"",onFocus:"6位数字",onCorrect:"输入正确"}).regexValidator({ regExp: "num", dataType: "enum", onError: "只能输入数字" }).inputValidator({min:6,max:6,onError:"新支付密码长度为6位"});
+           $("#rePassPay").formValidator({onShow:"",onFocus:"6位数字",onCorrect:"输入正确"}).regexValidator({ regExp: "num", dataType: "enum", onError: "只能输入数字" }).inputValidator({min:6,max:6,onError:"新支付密码长度为6位"}).compareValidator({desID:"passPay",operateor:"=",onError:"2次密码不一致,请确认"}); 
+
+           $("#oldPassPay").formValidator({onShow:"",onFocus:"6位数字",onCorrect:"输入正确"}).regexValidator({ regExp: "num", dataType: "enum", onError: "只能输入数字" }).inputValidator({min:6,max:6,onError:"新支付密码长度为6位"});
+           $("#newPassPay").formValidator({onShow:"",onFocus:"6位数字",onCorrect:"输入正确"}).regexValidator({ regExp: "num", dataType: "enum", onError: "只能输入数字" }).inputValidator({min:6,max:6,onError:"新支付密码长度为6位"});
+           $("#reNewPassPay").formValidator({onShow:"",onFocus:"6位数字",onCorrect:"输入正确"}).regexValidator({ regExp: "num", dataType: "enum", onError: "只能输入数字" }).inputValidator({min:6,max:6,onError:"新支付密码长度为6位"});     
+        }
+      }});
+    });
+</script>
+<div class="wst-body">
+	<div class='wst-page-header'>买家中心 > 修改密码</div>
+	<div class='wst-page-content'>
+		<div id='tab' class="wst-tab-box">
+			<ul class="wst-tab-nav">
+				<li id="wst-msg-li-0">登陆密码<span style="display: none;"
+					class="wst-order-tips-box"></span></li>
+				<li id="wst-msg-li-1">支付密码<span style="display: none;"></span></li>
+			</ul>
+			<div class="wst-tab-content"
+				style='width: 98%; padding: 0px 5px 5px 5px;'>
+				<!-- 登陆密码 -->
+				<div class='wst-tab-item'>
+					<div class='wst-list-content'>
+						<form name="myform" method="post" id="myform" autocomplete="off">
+							<table
+								class="table table-hover table-striped table-bordered wst-form">
+								<tr>
+									<th align='right'>原始密码 <font color='red'>*</font>：
+									</th>
+									<td><input type='password' id='oldPass' name='oldPass'
+										style='width: 250px;' maxLength='16' /></td>
+								</tr>
+								<tr>
+									<th align='right'>新密码 <font color='red'>*</font>：
+									</th>
+									<td><input type='password' id='newPass' name='newPass'
+										style='width: 250px;' maxLength='16' /></td>
+								</tr>
+								<tr>
+									<th align='right'>再次确认密码 <font color='red'>*</font>：
+									</th>
+									<td><input type='password' id='reNewPass' name='reNewPass'
+										style='width: 250px;' maxLength='16' /></td>
+								</tr>
+								<tr>
+									<td colspan='2' style='padding-left: 250px;'>
+										<button class='wst-btn-query' type="submit">保&nbsp;存</button>
+										<button class='wst-btn-query' type="reset">重&nbsp;置</button>
+									</td>
+								</tr>
+							</table>
+						</form>
+					</div>
+				</div>
+				<!-- 支付密码 -->
+				<input type="hidden" id="payPwd" value="{$payPwd}">
+				<div class='wst-tab-item' style="display: none;">
+					<div class='wst-list-content'>
+						<if condition="$payPwd eq 1">
+						<table
+							class="table table-hover table-striped table-bordered wst-form">
+							<tr>
+								<th align='right'>原始支付密码 <font color='red'>*</font>：
+								</th>
+								<td><input type='password' id='oldPassPay'
+									name='oldPassPay' autocomplete='off' style='width: 250px;'
+									maxLength='16' /></td>
+							</tr>
+							<tr>
+								<th align='right'>新支付密码 <font color='red'>*</font>：
+								</th>
+								<td><input type='password' id='newPassPay'
+									name='newPassPay' autocomplete='off' style='width: 250px;'
+									maxLength='16' /></td>
+							</tr>
+							<tr>
+								<th align='right'>再次确认支付密码 <font color='red'>*</font>：
+								</th>
+								<td><input type='password' id='reNewPassPay'
+									name='reNewPassPay' autocomplete='off' style='width: 250px;'
+									maxLength='16' /></td>
+							</tr>
+							<tr>
+								<td colspan='2' style='padding-left: 250px;'>
+									<button class='wst-btn-query' onclick="editPassPay()">保&nbsp;存</button>
+									<button class='wst-btn-query' type="reset">重&nbsp;置</button>
+								</td>
+							</tr>
+						</table>
+						<else /> <span style="color: #F0A869">设置支付密码</span>
+						<table
+							class="table table-hover table-striped table-bordered wst-form">
+							<tr>
+								<th align='right'>支付密码 <font color='red'>*</font>：
+								</th>
+								<td><input type='password' id='passPay' name='passPay'
+									autocomplete='off' style='width: 250px;' maxLength='16' /></td>
+							</tr>
+							<tr>
+								<th align='right'>确认支付密码 <font color='red'>*</font>：
+								</th>
+								<td><input type='password' id='rePassPay' name='rePassPay'
+									autocomplete='off' style='width: 250px;' maxLength='16' /></td>
+							</tr>
+							<tr>
+								<td colspan='2' style='padding-left: 250px;'>
+									<button class='wst-btn-query' onclick="editPassPay()">保&nbsp;存</button>
+									<button class='wst-btn-query' type="reset">重&nbsp;置</button>
+								</td>
+							</tr>
+						</table>
+						</if>
+						</if>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="__JS__/users/edit_pass.js" type="text/javascript"></script>
+</block>

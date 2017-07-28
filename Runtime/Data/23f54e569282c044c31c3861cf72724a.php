@@ -1,0 +1,4 @@
+<?php
+//000000000000a:29:{s:11:"mallLicense";N;s:8:"mallName";s:0:"";s:9:"mallTitle";s:30:"手游狗 - Powered By o2omall";s:8:"mallDesc";s:0:"";s:12:"mallKeywords";s:0:"";s:13:"isGoodsVerify";s:0:"";s:11:"defaultCity";s:0:"";s:8:"mallLogo";s:0:"";s:8:"goodsImg";s:0:"";s:10:"mallFooter";s:108:"CROPYRIGHT2015-2016 版权所有  
+             手游狗愿与更多中小公会一起努力，一起成功";s:15:"visitStatistics";s:0:"";s:7:"phoneNo";s:0:"";s:4:"qqNo";s:0:"";s:10:"hotSearchs";a:1:{i:0;s:0:"";}s:13:"captcha_model";s:11:"0,1,2,3,4,5";s:11:"captcha_len";s:1:"4";s:13:"captcha_width";s:2:"85";s:14:"captcha_height";s:2:"25";s:12:"captcha_show";s:1:"0";s:8:"mailSmtp";s:0:"";s:8:"mailPort";s:0:"";s:8:"mailAuth";s:0:"";s:11:"mailAddress";s:0:"";s:12:"mailUserName";s:0:"";s:12:"mailPassword";s:0:"";s:13:"mailSendTitle";s:0:"";s:6:"smsKey";s:0:"";s:7:"smsPass";s:0:"";s:8:"smsLimit";s:0:"";}
+?>

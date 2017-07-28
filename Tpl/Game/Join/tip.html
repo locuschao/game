@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<!--申请入驻成功的提醒页面-->
+<head>
+<meta charset="utf-8">
+<title>系统提示</title>
+<include file="./Tpl/head.html" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<link rel="stylesheet" href="__CSS__/font.css" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/layer.min.js"></script>
+<style>
+.middle {
+	width: 100%;
+	text-align: center;
+	vertical-align: middle;
+	margin-top: 45%;
+	background: #a7a7aa;
+}
+
+.middle a {
+	text-align: center;
+	display: block;
+	margin: 0 auto;
+	color: #9d9d9d;
+	margin-top: 10px
+}
+
+h1, form {
+	margin: 0;
+	padding: 0;;
+}
+
+.mui-title, .mui-icon {
+	color: #fff;
+}
+
+.mui-title {
+	line-height: 48px;
+}
+
+body {
+	background: #a7a7aa;
+}
+
+.mui-input-row label {
+	width: auto;
+	padding-left: 0px;
+	padding-right: 0px;
+	text-align: left;
+	text-indent: 5%;
+	line-height: inherit;
+}
+
+.mui-input-row label ~input, .mui-input-row label ~select,
+	.mui-input-row label ~ textarea {
+	width: auto;
+}
+
+.mui-input-row input {
+	background: url(images/lgoin_user_ico.png) 10px center no-repeat;
+	background-size: 15px;
+}
+
+.login_pwd input {
+	background: url(images/login_pwd_ico.png) 10px center no-repeat;
+	background-size: 15px;
+}
+
+.avator {
+	width: 80px;
+	height: 80px;
+	-webkit-border-radius: 200px;
+	overflow: hidden;
+	margin: 0 auto;
+	text-align: center;
+	margin: 20px auto;
+}
+
+.avator img {
+	max-width: 200px;
+}
+
+.forgetpwd {
+	width: 100%;
+	text-align: right;
+	margin: 0 atuo;
+	display: block;
+	padding: 10px 10px;
+}
+
+.forgetpwd a {
+	color: #909090;
+}
+
+.mui-btn-blue, .mui-btn-primary, input[type=submit] {
+	color: #fff;
+	width: 90%;
+	border: 1px solid #48b2f2;
+	background-color: #48b2f2;
+	padding: 10px;
+}
+
+ul {
+	margin: 0;
+	padding: 0;;
+}
+
+.mui-bar-nav {
+	top: 0;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+
+<body>
+
+	<div class="_top">
+		<div class="_left_top"
+			onclick="location.href='{:U('Wx/Index/index',array('r'=>'my'))}' "></div>
+		<div class="_title_top">系统提示</div>
+		<div class="_right_top no-bg"></div>
+	</div>
+	<div class="mui-content" style="background: #a7a6ab">
+		<div class="middle"
+			style="width: 90%; padding: 20px 0px; background: #fafafa; margin-left: auto; margin-right: auto; border-radius: 0.5em;">
+			<a href="{:U('Index/index',array('r'=>'my'))}"
+				style="border-bottom: #d4d7dc solid 1px; display: block; height: 4em;">{$info}</a>
+			<a style="display: block; height: 20px; line-height: 20px;"
+				href="{:U('Index/index',array('r'=>'my'))}"
+				style="color: #469ae0; margin-top: 20px;">返回</a>
+		</div>
+	</div>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script>
+
+</script>
+</html>

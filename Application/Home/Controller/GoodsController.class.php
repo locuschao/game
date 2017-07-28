@@ -1,0 +1,775 @@
+<?php
+namespace Home\Controller;
+
+/**
+ * 商品控制器
+ */
+class GoodsController extends BaseController
+{
+
+    /**
+     * 商品列表
+     */
+    public function getGoodsList()
+    {
+        $mgoods = D('Home/Goods');
+        $mareas = D('Home/Areas');
+        $mcommunitys = D('Home/Communitys');
+        // 获取默认城市及县区
+        $areaId2 = $this->getDefaultCity();
+        $districts = $mareas->getDistricts($areaId2);
+        // 获取社区
+        $areaId3 = (int) I("areaId3");
+        $communitys = array();
+        if ($areaId3 > 0) {
+            $communitys = $mcommunitys->getByDistrict($areaId3);
+        }
+        $this->assign('communitys', $communitys);
+        
+        // 获取商品列表
+        $obj["areaId2"] = $areaId2;
+        $obj["areaId3"] = $areaId3;
+        $rslist = $mgoods->getGoodsList($obj);
+        $brands = $rslist["brands"];
+        $pages = $rslist["pages"];
+        $goodsNav = $rslist["goodsNav"];
+        $this->assign('goodsList', $rslist);
+        // 动态划分价格区间
+        $maxPrice = $mgoods->getMaxPrice($obj);
+        $minPrice = 0;
+        $pavg5 = ($maxPrice / 5);
+        $prices = array();
+        $price_grade = 0.0001;
+        for ($i = - 2; $i <= log10($maxPrice); $i ++) {
+            $price_grade *= 10;
+        }
+        // 区间跨度
+        $span = ceil(($maxPrice - $minPrice) / 8 / $price_grade) * $price_grade;
+        if ($span == 0) {
+            $span = $price_grade;
+        }
+        for ($i = 1; $i <= 8; $i ++) {
+            $prices[($i - 1) * $span . "_" . ($span * $i)] = ($i - 1) * $span . "-" . ($span * $i);
+            if (($span * $i) > $maxPrice)
+                break;
+        }
+        if (count($prices) < 5) {
+            $prices = array();
+            $prices["0_100"] = "0-100";
+            $prices["100_200"] = "100-200";
+            $prices["200_300"] = "200-300";
+            $prices["300_400"] = "300-400";
+            $prices["400_500"] = "400-500";
+        }
+        $this->assign('c1Id', I("c1Id"));
+        $this->assign('c2Id', I("c2Id"));
+        $this->assign('c3Id', I("c3Id"));
+        $this->assign('bs', I("bs", 0));
+        $this->assign('msort', I("msort", 0));
+        $this->assign('sj', I("sj", 0));
+        $this->assign('stime', I("stime")); // 上架开始时间
+        $this->assign('etime', I("etime")); // 上架结束时间
+        
+        $this->assign('areaId3', I("areaId3", 0));
+        $this->assign('communityId', I("communityId", 0));
+        
+        $pricelist = explode("_", I("prices"));
+        $this->assign('sprice', $pricelist[0]);
+        $this->assign('eprice', $pricelist[1]);
+        
+        $this->assign('brandId', I("brandId", 0));
+        $this->assign('keyWords', urldecode(I("keyWords")));
+        $this->assign('brands', $brands);
+        $this->assign('goodsNav', $goodsNav);
+        $this->assign('pages', $pages);
+        $this->assign('prices', $prices);
+        $priceId = $prices[I("prices")];
+        $this->assign('priceId', (strlen($priceId) > 1) ? I("prices") : '');
+        $this->assign('districts', $districts);
+        $this->display('goods_list');
+    }
+
+    /**
+     * *
+     * 新增普通商品2016.7.5
+     */
+    public function addGoods()
+    {
+        
+        $m = D('Home/Goods');
+        $rs = array();
+        $rs = $m->addGoods();
+        $this->ajaxReturn($rs);
+    }
+
+    /**
+     * *
+     * 新增分销商品2016.7.5
+     */
+    public function fxAddGoods()
+    {
+        $this->isShopLogin();
+        $m = D('Home/Goods');
+        $rs = array();
+        $rs = $m->addFxGoods();
+        $this->ajaxReturn($rs);
+    }
+
+    /**
+     * 查询商品详情
+     */
+    public function getGoodsDetails()
+    {
+        $goods = D('Home/Goods');
+        $kcode = I("kcode");
+        $scrictCode = base64_encode(md5("o2omall" . date("Y-m-d")));
+        // 查询商品详情
+        $goodsId = (int) I("goodsId");
+        $this->assign('goodsId', $goodsId);
+        $obj["goodsId"] = $goodsId;
+        $goodsDetails = $goods->getGoodsDetails($obj);
+        if ($kcode == $scrictCode || ($goodsDetails["isSale"] == 1 && $goodsDetails["goodsStatus"] == 1)) {
+            if ($kcode == $scrictCode) { // 来自后台管理员
+                $this->assign('comefrom', 1);
+            }
+            
+            $shopServiceStatus = 1;
+            if ($goodsDetails["shopAtive"] == 0) {
+                $shopServiceStatus = 0;
+            }
+            $goodsDetails["serviceEndTime"] = str_replace('.5', ':30', $goodsDetails["serviceEndTime"]);
+            $goodsDetails["serviceEndTime"] = str_replace('.0', ':00', $goodsDetails["serviceEndTime"]);
+            $goodsDetails["serviceStartTime"] = str_replace('.5', ':30', $goodsDetails["serviceStartTime"]);
+            $goodsDetails["serviceStartTime"] = str_replace('.0', ':00', $goodsDetails["serviceStartTime"]);
+            $goodsDetails["shopServiceStatus"] = $shopServiceStatus;
+            $goodsDetails['goodsDesc'] = htmlspecialchars_decode($goodsDetails['goodsDesc']);
+            
+            $areas = D('Home/Areas');
+            $shopId = intval($goodsDetails["shopId"]);
+            $obj["shopId"] = $shopId;
+            $obj["areaId2"] = $this->getDefaultCity();
+            $obj["attrCatId"] = $goodsDetails['attrCatId'];
+            $shops = D('Home/Shops');
+            $shopScores = $shops->getShopScores($obj);
+            $this->assign("shopScores", $shopScores);
+            
+            $shopCity = $areas->getDistrictsByShop($obj);
+            $this->assign("shopCity", $shopCity[0]);
+            
+            $shopCommunitys = $areas->getShopCommunitys($obj);
+            $this->assign("shopCommunitys", json_encode($shopCommunitys));
+            
+            $this->assign("goodsImgs", $goods->getGoodsImgs());
+            $this->assign("hotgoods", $goods->getHotGoods($goodsDetails['shopId']));
+            $this->assign("relatedGoods", $goods->getRelatedGoods($goodsId));
+            $this->assign("goodsNav", $goods->getGoodsNav());
+            // 获取商品属性价格并累加,商品属性库存取最小值
+            $price = 0.0;
+            $stock = array();
+            $goodsAttrId = array();
+            foreach ($goods->getAttrs($obj) as $k => $v) {
+                if ($k == 'priceAttrs') {
+                    foreach ($v as $key => $value) {
+                        foreach ($value as $ks => $vs) {
+                            if (is_numeric($ks) && $vs['isRecomm'] == 1) {
+                                $price += $vs['attrPrice'];
+                                $stock[] = $vs['attrStock'];
+                                $goodsAttrId[] = $vs['id'];
+                            }
+                        }
+                    }
+                }
+            }
+            $stocks = min($stock);
+            
+            if ($stocks != 0) {
+                $goodsDetails['goodsStock'] = $stocks;
+            }
+            if ($price != 0) {
+                $goodsDetails['shopPrice'] = $price;
+            }
+            $goodsDetails['goodsAttrId'] = $goodsAttrsId;
+            $this->assign("goodsAttrs", $goods->getAttrs($obj));
+            $this->assign("goodsDetails", $goodsDetails);
+            $viewGoods = cookie("viewGoods");
+            $sql = "select id,attrPrice,attrStock from  __PREFIX__goods_attributes where goodsId=" . $goodsId;
+            if (! in_array($goodsId, $viewGoods)) {
+                $viewGoods[] = $goodsId;
+            }
+            if (! empty($viewGoods)) {
+                cookie("viewGoods", $viewGoods, 25920000);
+            }
+            // 获取关注信息
+            $m = D('Home/Favorites');
+            $this->assign("favoriteGoodsId", $m->checkFavorite($goodsId, 0));
+            $m = D('Home/Favorites');
+            $this->assign("favoriteShopId", $m->checkFavorite($shopId, 1));
+            // 客户端二维码
+            $this->assign("qrcode", base64_encode("{type:'goods',content:'" . $goodsId . "',key:'wstmall'}"));
+            $this->display('goods_details');
+        } else {
+            $this->display('goods_notexist');
+        }
+    }
+
+    /**
+     * 获取商品库存
+     */
+    public function getGoodsStock()
+    {
+        $data = array();
+        $data['goodsId'] = (int) I('goodsId');
+        $data['isBook'] = (int) I('isBook');
+        $data['goodsAttrId'] = (int) I('goodsAttrId');
+        $data['isGroup'] = (int) I('isGroup');
+        $data['isSeckill'] = (int) I('isSeckill');
+        $goods = D('Home/Goods');
+        $goodsStock = $goods->getGoodsStock($data);
+        echo json_encode($goodsStock);
+    }
+
+    /**
+     * 获取服务社区
+     */
+    public function getServiceCommunitys()
+    {
+        $areas = D('Home/Areas');
+        $serviceCommunitys = $areas->getShopCommunitys();
+        echo json_encode($serviceCommunitys);
+    }
+
+    /**
+     * 分页查询-出售中的商品
+     */
+    public function queryOnSaleByPage()
+    {
+        $this->isShopLogin();
+        $USER = session('WST_USER');
+        
+        $m = D('Home/Goods');
+        $page = $m->queryOnSaleByPage($USER['shopId']);
+        
+        $pager = new \Think\Page($page['total'], $page['pageSize']);
+        $page['pager'] = $pager->show();
+        $this->assign('Page', $page);
+        $this->assign("umark", "queryOnSaleByPage");
+        $this->assign('shopName', I('shopName'));
+        $this->assign('goodsSn', I('goodsSn'));
+        $this->assign('starDay', I('starDay'));
+        $this->assign('endDay', I('endDay'));
+        $this->assign('gameName', I('gameName'));
+        $this->assign('vName', I('vName'));
+        $this->assign('scope', I('scope'));
+        $this->assign('goodsName', I('goodsName'));
+        $this->assign('isAdminRecom', I('isAdminRecom', - 1));
+        $this->display("Shops/goods/list_onsale");
+    }
+
+    /**
+     * 分页查询-通过审核的商品
+     */
+    public function queryPassGoodsByPage()
+    {
+        $this->isShopLogin();
+        $USER = session('WST_USER');
+        // 获取商家商品分类
+        $m = D('Home/ShopsCats');
+        $this->assign('shopCatsList', $m->queryByList($USER['shopId'], 0));
+        $m = D('Home/Goods');
+        $page = $m->queryPassGoodsByPage($USER['shopId']);
+        $pager = new \Think\Page($page['total'], $page['pageSize']);
+        $page['pager'] = $pager->show();
+        $this->assign('Page', $page);
+        $this->assign("umark", "queryPassGoodsByPage");
+        $this->assign('shopName', I('shopName'));
+        $this->assign('goodsSn', I('goodsSn'));
+        $this->assign('starDay', I('starDay'));
+        $this->assign('endDay', I('endDay'));
+        $this->assign('gameName', I('gameName'));
+        $this->assign('vName', I('vName'));
+        $this->assign('goodsName', I('goodsName'));
+        $this->assign('isAdminRecom', I('isAdminRecom', - 1));
+        $this->display("Shops/goods/list_passGoods");
+    }
+
+    /**
+     * 分页查询-仓库中的商品
+     */
+    public function queryUnSaleByPage()
+    {
+        $this->isShopLogin();
+        $USER = session('WST_USER');
+        // 获取商家商品分类
+        $m = D('Home/ShopsCats');
+        $this->assign('shopCatsList', $m->queryByList($USER['shopId'], 0));
+        $m = D('Home/Goods');
+        $page = $m->queryUnSaleByPage($USER['shopId']);
+        $pager = new \Think\Page($page['total'], $page['pageSize']);
+        $page['pager'] = $pager->show();
+        $this->assign('Page', $page);
+        $this->assign('shopName', I('shopName'));
+        $this->assign('goodsSn', I('goodsSn'));
+        $this->assign('starDay', I('starDay'));
+        $this->assign('endDay', I('endDay'));
+        $this->assign('gameName', I('gameName'));
+        $this->assign('vName', I('vName'));
+        $this->assign('goodsName', I('goodsName'));
+        $this->assign('isAdminRecom', I('isAdminRecom', - 1));
+        $this->display("Shops/goods/list_unsale");
+    }
+
+    /**
+     * 分页查询-在审核中的商品
+     */
+    public function queryPenddingByPage()
+    {
+        $this->isShopLogin();
+        $USER = session('WST_USER');
+        // 获取商家商品分类
+        $m = D('Home/ShopsCats');
+        $this->assign('shopCatsList', $m->queryByList($USER['shopId'], 0));
+        $m = D('Home/Goods');
+        $page = $m->queryPenddingByPage($USER['shopId']);
+        $pager = new \Think\Page($page['total'], $page['pageSize']);
+        $page['pager'] = $pager->show();
+        $this->assign('Page', $page);
+        $this->assign('shopName', I('shopName'));
+        $this->assign('goodsSn', I('goodsSn'));
+        $this->assign('starDay', I('starDay'));
+        $this->assign('endDay', I('endDay'));
+        $this->assign('gameName', I('gameName'));
+        $this->assign('vName', I('vName'));
+        $this->assign('goodsName', I('goodsName'));
+        $this->assign('isAdminRecom', I('isAdminRecom', - 1));
+        $this->display("Shops/goods/list_pendding");
+    }
+    
+    // 新增普通商品，2016.7.4
+    public function add()
+    {
+        
+        $this->isShopLogin();
+        $USER = session('WST_USER');
+        $m = D('Home/Goods');
+        
+        $agent = D('Home/Agent');
+        $agentStatus = $agent->getShopAgent();
+        
+        $this->assign('game', M('game')->order('CONVERT( gameName USING gbk ) COLLATE gbk_chinese_ci ASC')->select());
+        $this->assign('agentStatus', $agentStatus);
+        
+        $this->display("Shops/goods/add");
+    }
+    /**
+     * 魏永就
+     * 函数名  gameSearch
+     * 对用户输入的游戏名进行搜索，目的是判断游戏名是否存在
+     */
+    public function gameSearch()
+    {
+        if(IS_AJAX)
+        {
+            $gameName = I('post.gameName');
+            $gameModel = M('game');
+            $ressult = $gameModel->where('gameName='."'$gameName'")->find();
+            if($ressult)
+            {
+                $relyMsg = array(
+                    'status' => 0,
+                    'msg' => $ressult['id']
+                );
+            }else{
+                $relyMsg = array(
+                    'status' => 1,
+                    'msg' => "“{$gameName}”游戏不存在"
+                );
+            }
+            $this->ajaxReturn($relyMsg);
+        }
+    }
+    // 新增分销商品，2016.7.5
+    public function fxAdd()
+    {
+        $this->isShopLogin();
+        $USER = session('WST_USER');
+        $m = D('Home/Goods');
+        $agent = D('Home/Agent');
+        $agentStatus = $agent->getShopAgent();
+        $this->assign('game', M('game')->order('CONVERT( gameName USING gbk ) COLLATE gbk_chinese_ci ASC')->select());
+        $this->assign('agentStatus', $agentStatus);
+        $this->display("Shops/goods/fxAdd");
+    }
+
+    /**
+     * 跳到新增/编辑商品
+     */
+    public function toEdit()
+    {
+        $this->isShopLogin();
+        $USER = session('WST_USER');
+        
+        $m = D('Home/Goods');
+        
+        $agent = D('Home/Agent');
+        $agentStatus = $agent->getShopAgent();
+        $object = array();
+        
+        if (I('id', 0) > 0) {
+            $object = $m->get();
+        } else {
+            $object = $m->getModel();
+        }
+        
+        $this->assign('gameName', M('game')->find($object['gameId'])['gameName']);
+        $this->assign('game', M('game')->select());
+        $this->assign('agentStatus', $agentStatus);
+        $this->assign('object', $object);
+        $this->assign("umark", I('umark'));
+        $this->display("Shops/goods/edit");
+    }
+    
+    // 获取游戏版本
+    public function getGameVersions()
+    {
+        $id = I('gameId');
+        $re = array(
+            'status' => - 1
+        );
+        if (! $id) {
+            $this->ajaxReturn($re);
+            exit();
+        }
+        $info = D('Home/Goods')->getGameVersions();
+        $this->ajaxReturn($info);
+    }
+
+    /**
+     * 跳到新增/编辑拍卖商品
+     */
+    public function toEditAuctionGoods()
+    {
+        $this->isShopLogin();
+        $USER = session('WST_USER');
+        // 获取商品分类信息
+        $m = D('Home/GoodsCats');
+        $this->assign('goodsCatsList', $m->queryByList());
+        // 获取商家商品分类
+        $m = D('Home/ShopsCats');
+        $this->assign('shopCatsList', $m->queryByList($USER['shopId'], 0));
+        
+        // 获取商品类型
+        $m = D('Home/AttributeCats');
+        $this->assign('attributeCatsCatsList', $m->queryByList());
+        $m = D('Home/Goods');
+        
+        $agent = D('Home/Agent');
+        $agentStatus = $agent->getShopAgent();
+        $object = array();
+        
+        if (I('id', 0) > 0) {
+            $object = $m->getAuctionGoods();
+        } else {
+            $object = $m->getModel();
+        }
+        $this->assign('agentStatus', $agentStatus);
+        $this->assign('object', $object);
+        $this->assign("umark", I('umark'));
+        $this->display("Shops/goods/editAuction");
+    }
+
+    /**
+     * 新增商品
+     */
+    public function edit()
+    {
+        $this->isShopLogin();
+        $m = D('Home/Goods');
+        $rs = array();
+        
+        if ((int) I('id', 0) > 0) {
+            $rs = $m->edit();
+        } else {
+            $rs = $m->insert();
+        }
+        $this->ajaxReturn($rs);
+    }
+
+    /**
+     * 新增商品
+     */
+    public function editAuctionGoods()
+    {
+        $this->isShopLogin();
+        $m = D('Home/Goods');
+        $rs = array();
+        if ((int) I('id', 0) > 0) {
+            $rs = $m->editAuctionGoods();
+        } else {
+            // $rs = $m->insert();
+        }
+        $this->ajaxReturn($rs);
+    }
+
+    /**
+     * 删除商品
+     */
+    public function del()
+    {
+        $this->isShopLogin();
+        $m = D('Home/Goods');
+        $rs = $m->del();
+        $this->ajaxReturn($rs);
+    }
+    
+    //author: peng descreption:
+    public function getLogicValue($db_value,$post_value) {
+        switch($db_value){
+            case 0:
+                return $post_value;
+            case 1:
+                if($post_value == 1){
+                    return 0;
+                }else{
+                    return 2;
+                }
+            case 2:
+                if($post_value == 1){
+                    return false;
+                }else{
+                    return 1;
+                }
+        }
+        
+    }
+   
+    /**
+     * @author peng
+     * @date 2017-06
+     * @descreption 商品操作
+     */
+    public function opGoods() {
+        $post = I('post.');
+        $info = M('goods')->where([
+            'goodsId'=>intval($post['goodsId'])
+        ])->find();
+        $error_msg = '特别热门,特别推荐,火爆只能选其一';
+        if($post['shop_recommend']){
+            if($info['hot'] == 2 || $info['is_huobao'] == 1){
+                $this->error($error_msg);
+            }
+            $re_value = $this->getLogicValue($info['shop_recommend'],$post['shop_recommend']);
+            if($re_value === false){
+                $this->error('已经是推荐');
+            }
+            $save_arr['shop_recommend'] = $re_value;
+        }
+        if($post['hot']){
+            if($info['shop_recommend'] == 2 || $info['is_huobao'] == 1){
+                $this->error($error_msg);
+            }
+            $hot_value = $this->getLogicValue($info['hot'],$post['hot']);
+            if($hot_value === false){
+                $this->error('已经是热门');
+            }
+            $save_arr['hot'] = $hot_value;
+        }
+        if($post['is_huobao']){
+            if($info['shop_recommend'] == 2 || $info['hot'] == 2){
+                $this->error($error_msg);
+            }
+            $save_arr['is_huobao'] = $info['is_huobao']?0:1;;
+        }
+       
+        if(M('goods')->where([
+            'goodsId'=>intval($post['goodsId']),
+            'shopPrice'=>0,
+            'shopId'=>$_SESSION['oto_mall']['WST_USER']['shopId']
+        ])->save($save_arr)){
+            $this->success('成功');
+        }else{
+            $this->error('失败');
+        }
+    }
+    /**
+     * 批量设置商品状态
+     */
+    public function goodsSet()
+    {
+        $this->isShopLogin();
+        $m = D('Home/Goods');
+        $rs = $m->goodsSet();
+        $this->ajaxReturn($rs);
+    }
+
+    /**
+     * 批量删除商品
+     */
+    public function batchDel()
+    {
+        $this->isShopLogin();
+        $m = D('Home/Goods');
+        $rs = $m->batchDel();
+        $this->ajaxReturn($rs);
+    }
+
+    /**
+     * 修改商品上架/下架状态
+     */
+    public function sale()
+    {
+        $this->isShopLogin();
+        $m = D('Home/Goods');
+        $rs = $m->sale();
+        $this->ajaxReturn($rs);
+    }
+
+    /**
+     * 核对商品信息
+     */
+    public function checkGoodsStock()
+    {
+        $m = D('Home/Goods');
+        $totalMoney = 0;
+        $shopcart = session("WST_CART") ? session("WST_CART") : array();
+        $catgoods = array();
+        foreach ($shopcart as $key => $cgoods) {
+            $temp = explode('_', $key);
+            // 获取团购标志
+            $isGroup = $temp[count($temp) - 1];
+            // 去除末尾团购标志
+            array_pop($temp);
+            $goodsAttrIds = array();
+            foreach ($temp as $k => $v) {
+                if ($k == 0) {
+                    $goodsId = (int) $v;
+                } else {
+                    $goodsAttrIds[] = (int) $v;
+                }
+            }
+            $goodsAttrId = implode(',', $goodsAttrIds);
+            $goods = $m->getGoodsInfo((int) $temp[0], $goodsAttrId, $isGroup);
+            if ($goods["isBook"] == 1) {
+                $goods["goodsStock"] = $goods["goodsStock"] + $goods["bookQuantity"];
+            }
+            $goods["cnt"] = $cgoods["cnt"];
+            $totalMoney += $goods["cnt"] * $goods["shopPrice"];
+            $catgoods[] = $goods;
+        }
+        $this->ajaxReturn($catgoods);
+    }
+
+    /**
+     * 获取验证码
+     */
+    public function getGoodsVerify()
+    {
+        $data = array();
+        $data["status"] = 1;
+        $verifyCode = base64_encode(md5("o2omall" . date("Y-m-d")));
+        $data["verifyCode"] = $verifyCode;
+        $this->ajaxReturn($data);
+    }
+
+    /**
+     * 查询商品属性价格及库存
+     */
+    public function getPriceAttrInfo()
+    {
+        $goods = D('Home/Goods');
+        $rs = $goods->getPriceAttrInfo();
+        $this->ajaxReturn($rs);
+    }
+    // 秒杀专用 0506
+    public function getPriceAttrInfoSk()
+    {
+        $goods = D('Home/Goods');
+        $rs = $goods->getPriceAttrInfoSk();
+        $this->ajaxReturn($rs);
+    }
+
+    /**
+     * 修改商品库存
+     */
+    public function editStock()
+    {
+        $this->isShopLogin();
+        $m = D('Home/Goods');
+        $rs = $m->editStock();
+        $this->ajaxReturn($rs);
+    }
+
+    /**
+     * 修改商品库存,商品编号,价格
+     */
+    public function editGoodsBase()
+    {
+        $this->isShopLogin();
+        $m = D('Home/Goods');
+        $rs = $m->editGoodsBase();
+        $this->ajaxReturn($rs);
+    }
+
+    /**
+     * 获取商品搜索提示列表
+     */
+    public function getKeyList()
+    {
+        $m = D('Home/Goods');
+        $rs = $m->getKeyList();
+        $this->ajaxReturn($rs);
+    }
+
+    /**
+     * 修改 推荐/精品/新品/热销/上架
+     */
+    public function changSaleStatus()
+    {
+        $this->isShopLogin();
+        $m = D('Home/Goods');
+        $rs = $m->changSaleStatus();
+        $this->ajaxReturn($rs);
+    }
+
+    /**
+     * 上传商品数据
+     */
+    public function importGoods()
+    {
+        $this->isShopLogin();
+        $config = array(
+            'maxSize' => 0, // 上传的文件大小限制 (0-不做限制)
+            'exts' => array(
+                'xls',
+                'xlsx',
+                'xlsm'
+            ), // 允许上传的文件后缀
+            'rootPath' => './Upload/', // 保存根路径
+            'driver' => 'LOCAL', // 文件上传驱动
+            'subName' => array(
+                'date',
+                'Y-m'
+            ),
+            'savePath' => I('dir', 'uploads') . "/"
+        );
+        $upload = new \Think\Upload($config);
+        $rs = $upload->upload($_FILES);
+        $rv = array(
+            'status' => - 1
+        );
+        if (! $rs) {
+            $rv['msg'] = $upload->getError();
+        } else {
+            $m = D('Home/Goods');
+            $rv = $m->importGoods($rs);
+        }
+        $this->ajaxReturn($rv);
+    }
+    /**
+    * @author peng
+    * @date 2017-01
+    * @descreption 验证是否是代理游戏列表
+    */
+    public function checkGame(){
+        echo D('Home/AgentGame')->checkGame(I('app_name'),I('chooseVersion'));   
+    }
+}

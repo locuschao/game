@@ -1,0 +1,49 @@
+<?php
+/**
+ * @author peng	
+ * @date 2016-12-28
+ * @descreption 一个计划任务
+ */
+namespace Api\Controller;
+use Think\Controller;
+class StatisticsCronController extends Controller {
+    
+    #每天凌晨开始统计昨天的支付总额和成功总额
+    public function countPayAmount(){
+        $this->checkAuth();
+        if(!$pay_day){
+            $pay_day=date('Y-m-d',strtotime('-1 day'));
+        }
+        $info=M('orders')->field('sum(needPay) pay_amount,
+    	sum(
+            if (orderStatus =- 4, needPay,"")
+    	) fail_amount,
+    	sum(
+            if (orderStatus =- 4,"",needPay)
+    	) success_amount
+        
+    ')->where([
+            'paytime'=>[['lt',strtotime('1 day',strtotime($pay_day))],['egt',strtotime($pay_day)]]#小于支付时间明天的凌晨,大于支付时间的凌晨
+            
+            ])->find();
+        $user_pay_amount=M('user_pay_amount');   
+        if(!$user_pay_amount->where(['pay_day'=>$pay_day])->find())
+        $user_pay_amount->add([
+            'pay_amount'=>number_format($info['pay_amount'],2),
+            'fail_amount'=>number_format($info['fail_amount'],2),
+            'success_amount'=>number_format($info['success_amount'],2),
+            'pay_day'=>$pay_day,
+            'add_time'=>time()
+        ]);
+        else echo '已存在';
+        
+    }
+    public function checkAuth(){
+        $get=I('get.');
+        if(date('YmdH',$get['timestamp'])!=date('YmdH'))
+        exit('timestamp wrong');
+        if(D('Common/Util')->createSignture($get['nonce'],$get['timestamp'])!=$get['sign'])
+        exit('sign wrong');
+    	
+    }
+}

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>会员等级商品</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<link rel="stylesheet" href="__CSS__/user-goods-level.css" />
+
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<div class="_top" style="z-index: 999">
+		<div class="_left_top" onclick='history.go(-1)'></div>
+		<div class="_title_top">
+			会员等级商品
+		</div>
+		<div class="_right_top" style="visibility: hidden;"></div>
+	</div>
+    <div class="goods-block">
+    <?php
+    
+     $goods_type_arr=[1=>'首充号',2=>'代充号'];
+     $goods_rank_arr=[1=>'高级',2=>'中级',3=>'低级'];
+     #$rank=$_SESSION['oto_mall']['oto_userInfo']['rank'];
+     $rank=M('users')->find($_SESSION['oto_mall']['oto_userInfo']['userId'])['rank'];
+     
+     function has_buy($rank,$goods_rank){
+        switch($rank){
+            case 0 : return false;
+            case 1 : return true;
+            case 2 : return !($goods_rank<2); 
+            case 3 : return !($goods_rank<3);
+        }
+     }
+     
+     foreach($goods_list as $row) :
+     
+     
+     ?>
+        <a class="goods-list <?php if(has_buy($rank,$row['member_rank'])) echo 'has-buy';?> clearfix" 
+        <?php if ($row['scopeId'] == 1) :?>
+        href="<?=U('Game/Goods/index',['id'=>$row['goodsId']])?>"
+        <?php else : ?>
+        href="<?=U('Game/Validatadc/yanzhen',['id'=>$row['goodsId'],'goodsType'=>0])?>"
+        <?php endif; ?>
+        >
+            
+            <img src="/{$row.goodsThums}"/>
+            
+                <div class="goods-de"><div class="goods-name"><span class="type">【<?=$goods_type_arr[$row['scopeId']]?>】</span>{$row.goodsName}</div>
+                <div class="goods-tip">购买成为<?=$goods_rank_arr[$row['member_rank']]?>会员</div>
+                <div class="price">￥<?=$row['shopPrice']?> </div>
+            </div>
+        </a>
+    <?php endforeach;?>
+    </div>
+</body>
+</html>

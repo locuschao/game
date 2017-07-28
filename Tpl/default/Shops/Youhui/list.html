@@ -1,0 +1,164 @@
+<extend name="Shops:layout" />
+<block name="content">
+<style type="text/css">
+.wst-pagination {
+	margin-top: 10px;
+	text-align: center;
+	height: 25px;
+	line-height: 25px;
+}
+
+.wst-current {
+	background-color: rgb(226, 62, 61);
+	color: #fff;
+	padding: 0 12px;
+	border-radius: 2px;
+	height: 26px;
+	line-height: 26px;
+	display: inline-block;
+	vertical-align: top;
+	font-size: 12px;
+}
+
+.wst-num {
+	background-color: #f1eff0;
+	padding: 0 12px;
+	border-radius: 2px;
+	margin: 0 3px 6px;
+	height: 26px;
+	line-height: 26px;
+	text-decoration: none;
+	color: #666;
+	display: inline-block;
+	vertical-align: top;
+	font-size: 12px;
+}
+
+.wst-next, .wst-prev {
+	background-color: #f1eff0;
+	padding: 0 12px;
+	border-radius: 2px;
+	height: 26px;
+	line-height: 26px;
+	text-decoration: none;
+	color: #666;
+	display: inline-block;
+	vertical-align: top;
+	font-size: 12px;
+}
+</style>
+<script src="__PUBLIC__/plugins/plugins/plugins.js"></script> <script>
+$(document).ready(function(){
+    <notempty name='shopCatId1'>
+    getShopCatListForAppraises('{$shopCatId1}','{$shopCatId2}');
+    </notempty>
+});
+</script> <script type="text/javascript">
+  $(function(){
+    var val_r={$return};
+    switch(val_r){
+      case 1: 
+        layer.msg('添加成功，请等候管理员审核', {icon: 1});
+        break;
+      case 2: 
+        layer.msg('修改成功，请等候管理员审核', {icon: 1});
+        break;
+      case 3: 
+        layer.msg('操作失败，请稍后再试或联系管理员',{icon:5});
+        break;
+    }
+  })
+</script> <script>
+    function down_youhui(id){
+  layer.confirm("管理员通过后将删除所有有关该优惠券的记录，用户也将无法使用。您确定要下架该优惠券？",{icon: 3, title:'系统提示'},function(tips){
+    $.post(Think.U('Home/Youhui/down_youhui'),{id:id},function(data,textStatus){
+      layer.close(tips);
+        var json = WST.toJson(data);
+        if(json.status=='1'){
+          WST.msg('操作成功！等待管理员审核。', {icon: 1},function(){
+            location.reload();
+          });
+        }else{
+          WST.msg('操作失败', {icon: 5});
+        }
+    });
+  });
+}
+
+</script>
+<div class="wst-body">
+	<div class='wst-page-header'>卖家中心 > 优惠券列表</div>
+	<div class='wst-page-content'>
+
+		<button
+			style="border: 1px solid #ffffff; height: 35px; width: 120px; background-color: #e23e3d; color: #ffffff; cursor: pointer; float: right;"
+			onclick='javascript:window.location.href="{:U('Home/Youhui/youhui_log')}"'>审核记录</button>
+
+		<button
+			style="border: 1px solid #ffffff; height: 35px; width: 120px; background-color: #e23e3d; color: #ffffff; cursor: pointer; float: right;"
+			onclick='javascript:window.location.href="{:U('Home/Youhui/add')}"'>发布新的优惠券</button>
+
+		<button
+			style="border: 1px solid #ffffff; height: 35px; width: 60px; background-color: #e23e3d; color: #ffffff; cursor: pointer; float: left;"
+			onclick="window.location.href='/Home/Youhui/shopindex'">全部</button>
+
+		<button
+			style="border: 1px solid #ffffff; height: 35px; width: 60px; background-color: #e23e3d; color: #ffffff; cursor: pointer; float: left;"
+			onclick="window.location.href='/Home/Youhui/shopindex?val=2'">有效</button>
+
+		<button
+			style="border: 1px solid #ffffff; height: 35px; width: 60px; background-color: #e23e3d; color: #ffffff; cursor: pointer; float: left;"
+			onclick="window.location.href='/Home/Youhui/shopindex?val=3'">已领完</button>
+
+		<button
+			style="border: 1px solid #ffffff; height: 35px; width: 60px; background-color: #e23e3d; color: #ffffff; cursor: pointer; float: left;"
+			onclick="window.location.href='/Home/Youhui/shopindex?val=4'">已失效</button>
+
+
+		<table class='wst-list' style="margin: 0 auto;">
+			<thead>
+				<tr>
+					<th width='50' align='center'>序号</th>
+					<th width='200'>标题</th>
+					<th width="100">有效性</th>
+					<th>优惠券属性</th>
+					<th>折扣/减免额度</th>
+					<th>消费金额</th>
+					<th style="text-align: right; padding-right: 60px;">开始/结束时间</th>
+					<th style="text-align: center;">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<volist name='list' id='vo'>
+				<tr>
+					<td>{$vo['id']}</td>
+					<td>{$vo['name']}<img src="{$vo['icon']}"
+						style="width: 60px; padding-left: 20px; display: inline-block;"></td>
+					<td><switch name="vo['is_effect']"> <case value="0">无效</case>
+						<case value="1">有效</case> <case value="2">已领完</case> </switch></td>
+					<td><switch name="vo['youhui_type']"> <case
+							value="0">
+						<span class="type">减免券</case> <case value="1">
+						<span class="type">折扣券</case> </switch></td>
+					<td><switch name="vo['youhui_type']"> <case
+							value="0">{$vo['breaks_menoy']}元</case> <case value="1">{$vo['breaks_menoy']}折</case>
+						</switch></td>
+					<td>{$vo['total_fee']}元</td>
+					<td style="text-align: right; padding-right: 50px;">{$vo['begin_time']}
+						<p style="line-height: 5px; padding-right: 50px;">/</p>{$vo['end_time']}
+					</td>
+					<td style="width: 150px; text-align: center; font-size: 15px;"><a
+						style="font-size: 15px;"
+						href="{:U('Home/Youhui/updata',array('id'=>$vo['id']))}">[修改]</a>|<a
+						style="font-size: 15px; cursor: pointer;"
+						onclick="javascript:down_youhui({$vo['id']})">[删除]</a></td>
+				</tr>
+				</volist>
+				<tr>
+					<td colspan='8' class="nav_down">{$show}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+</block>

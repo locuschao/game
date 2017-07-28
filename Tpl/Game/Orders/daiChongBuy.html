@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>购买商品</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/base.js"></script>
+<script src="__JS__/layer.min.js"></script>
+
+<style>
+body {
+	background: #efeff4
+}
+
+.inputList {
+	width: 95%;
+	margin: 0 auto;
+}
+
+.inputStyle {
+	width: 80%;
+	border: #00b4ff solid 1px;
+	border-radius: 2px;
+	height: 25px;
+	line-height: 25px;
+	text-indent: 10px;
+}
+
+.col-6 {
+	color: #666666;
+}
+
+.mar-l {
+	margin-left: 10px;
+}
+
+.inputList div:first-child {
+	width: 60px;
+}
+
+.goodsImg img {
+	width: 40px;
+	height: 40px;
+	padding: 10px;
+	border-radius: 4px;
+}
+
+.goodsName {
+	color: #323232;
+	font-size: 18px;
+	text-align: left;
+	padding:15px 5px;
+}
+
+.detailList div:first-child {
+	width: 80px;
+	text-indent: 10px;
+	font-size: 98%;
+}
+
+.detailList div:nth-child(2) {
+	font-size: 98%;
+}
+
+.btn {
+	border-radius: 4px;
+	margin: 0 auto;
+	text-align: center;
+	color: #fff;
+	background: #38aaff;
+	height: 40px;
+	line-height: 40px;
+	width: 90%;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<div class="_top" style="z-index: 999">
+		<div class="_left_top" onclick='history.go(-1)'></div>
+		<div class="_title_top">购买商品</div>
+		<div class="_right_top mess"
+			onclick="location.href='/Game/Mess/mess/r/Orders_buy'"></div>
+	</div>
+	<div class="lh45"></div>
+	<form action="{:U('Orders/submitDaichongOrder')}" method="post"
+		id="buyGoods">
+		<input type="hidden" name="id" value="{$post.goodsId}" /> <input
+			type="hidden" name="orderType" value="{$goodsInfo['scopeId']}" /> <input
+			type="hidden" name="num" value="{$post.num}" /> <input type="hidden"
+			name="vid" value="{$_GET['v']}" />
+		<if condition="$post['attrid'] gt 0"> <input type="hidden"
+			name="attrid" value="{$post.attrid}" /> </if>
+		<div style="width: 100%; padding-top: 10px; background: #fff;"
+			class="bor">
+			<div class="ub lh35  back-ff inputList">
+				<div class="col-6">填写区服</div>
+				<div class="ub-f1 mar-l">
+					<input class="inputStyle" type="text" name="area"
+						value="{$daichong.area}" placeholder=""  <?php if(!session('validateGoods.vName')) echo 'readonly="readonly"';?> /> <font
+						style="padding: 0px 10px" color='red' ></font>
+				</div>
+			</div>
+			<div class="ub lh35  back-ff inputList">
+				<div class="col-6">游戏帐号</div>
+				<div class="ub-f1 mar-l">
+					<input  class="inputStyle" type="text"
+						name="account" value="{$daichong.account}" placeholder=""   readonly="readonly" /> <font
+						style="padding: 0px 10px" color='red'>*</font>
+				</div>
+			</div>
+			<div class="ub lh35  back-ff inputList" id="pwdRow">
+				<div class="col-6">登录密码</div>
+				<div class="ub-f1 mar-l">
+					<input class="inputStyle" type="text" name="password" value=""
+						placeholder="" /><font style="padding: 0px 10px" color='red'>*</font>
+				</div>
+			</div>
+			<div class="ub lh35  back-ff inputList">
+				<div class="col-6">游戏版本</div>
+				<div class="ub-f1 mar-l">
+					<input   readonly="readonly"  class="inputStyle" type="text"
+						name="vName" value="{$daichong.vName}" placeholder="" />
+				</div>
+			</div>
+			<div class="ub lh35  back-ff inputList">
+				<div class="col-6">角色名称</div>
+				<div class="ub-f1 mar-l">
+					<input class="inputStyle" type="text" name="roleName" value=""
+						placeholder="" />
+				</div>
+			</div>
+			<div class="ub lh35  back-ff inputList">
+				<div class="col-6">手机号码</div>
+				<div class="ub-f1 mar-l">
+					<input onkeyup="this.value=this.value.replace(/\D/g,'')"
+						onafterpaste="this.value=this.value.replace(/\D/g,'')"
+						class="inputStyle" type="text" name="mobile" value=""
+						placeholder="" />
+				</div>
+			</div>
+			<div class="ub lh35  back-ff inputList">
+				<div class="col-6">联系QQ</div>
+				<div class="ub-f1 mar-l">
+					<input onkeyup="this.value=this.value.replace(/\D/g,'')"
+						onafterpaste="this.value=this.value.replace(/\D/g,'')"
+						class="inputStyle" type="text" name="qq" value="" placeholder="" />
+				</div>
+			</div>
+			<div class="ub lh35  back-ff inputList">
+				<div class="col-6">职业</div>
+				<div class="ub-f1 mar-l">
+					<input class="inputStyle" type="text" name="profession" value=""
+						placeholder="" />
+				</div>
+			</div>
+			<div class="ub lh35  back-ff inputList">
+				<div class="col-6">特殊备注</div>
+				<div class="ub-f1 mar-l">
+					<input class="inputStyle" type="text" name="orderRemarks" value=""
+						placeholder="" />
+				</div>
+			</div>
+          
+           <!--
+                         * @author peng
+                         * @date 2017-01
+                         * @descreption 
+                        -->
+                        <input autocomplete="off" type="hidden" id="vouchers" name="vouchers" value="<?=I('vouchers')?>" />
+	</form>
+	<div class="ub">
+		<div class="goodsImg">
+			<img src="/{$goodsInfo.goodsThums}" />
+		</div>
+		<div class="ub-f1 goodsName" style="word-break:break-all;word-wrap:break-word;">{$goodsInfo.goodsName}</div>
+	</div>
+	<div class="ub lh35  back-ff detailList">
+		<div class="col-9">所属游戏：</div>
+		<div class="ub-f1 ">
+			{$game}
+			<if condition="$post['attrid'] gt 0">({$attrInfo.vName})</if>
+		</div>
+	</div>
+	<div class="ub lh35  back-ff detailList">
+		<div class="col-9">商品类别：</div>
+		<div class="ub-f1 ">{$type}</div>
+	</div>
+	<div class="ub lh35  back-ff detailList">
+		<div class="col-9">购买数量：</div>
+		<div class="ub-f1 ">{$post.num}</div>
+	</div>
+	<div class="ub lh35  back-ff detailList">
+		<div class="col-9">商品单价：</div>
+		<div class="ub-f1 ">
+			<if condition="$post['attrid'] eq 0">{$goodsInfo.shopPrice}<else />{$attrInfo.attrPrice}</if>
+		</div>
+	</div>
+    <!--
+     * @author peng
+     * @date 2017-01
+     * @descreption 
+    -->
+    <?php  if($sum_voucher_price>0) : ?>
+    <div class="ub lh35  back-ff detailList">
+		<div class="col-9">抵消金额：</div>
+		<div class="ub-f1 ">
+			<?=number_format($sum_voucher_price,2)?>
+		</div>
+	</div>
+    <?php endif; ?>
+	<div class="ub lh35  back-ff detailList">
+		<div class="col-9">订单总额：</div>
+		<div class="ub-f1 ">
+			<php> if($post['attrid']>0){ echo
+			sprintf('%0.1f',$attrInfo['attrPrice']*$post['num']-$sum_voucher_price); }else{ echo
+			sprintf('%0.1f',$goodsInfo['shopPrice']*$post['num']-sum_voucher_price); } </php>
+		</div>
+	</div>
+	</div>
+	<div class="lh35"></div>
+	<div class="btn" style="cursor: pointer" onclick="subMit()">提交订单</div>
+	<div class="lh35"></div>
+	<input type="hidden" name="isRepeat" id="isRepeat" value="0" />
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script>
+
+/**
+ * @author peng
+ * @date 2017-01
+ * @descreption 
+ */
+ var vName=$('input[name=vName]').val();
+
+ if(vName=='手游狗版本' || vName.indexOf('TT')!=-1 || vName.indexOf('乐8')!=-1){
+   $('#pwdRow').remove();
+ }
+     
+ function subMit(){
+	 var isRepeat=$('#isRepeat').val();
+	 if(isRepeat==1){
+		 location.href="{:U('Index/index',array('r'=>'order'))}";
+		 return;
+	 }
+	  var area=$('input[name=area]').val();
+	  
+	  var account=$('input[name=account]').val();
+	  var password=$('input[name=password]').val();
+	  var vName=$('input[name=vName]').val();
+      
+	  if((vName!='手游狗版本' && vName.indexOf('TT')==-1 && vName.indexOf('乐8')==-1) && !isDefine(password)){
+  		  layer.msg('请填写登录密码');
+		  return;
+    }
+    
+		//检查库存及营业时间
+		var goodsId="{$post.goodsId}";
+		$.ajax({
+			type : 'post',
+			url : "{:U('Goods/stock')}",
+			dataType : 'json',
+			data : {
+				goodsId : goodsId
+			},
+			success : function(data) {
+				if (data.status == 0) {
+					 $('#isRepeat').val(1);
+				     $('#buyGoods').submit();
+				} else {
+					layer.msg(data.msg);
+					return;
+				}
+			}
+		})
+	
+ }
+
+</script>
+</html>

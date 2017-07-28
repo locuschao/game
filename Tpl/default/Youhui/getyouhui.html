@@ -1,0 +1,248 @@
+<extend name="Base:common" />
+<block name="static">
+<link rel="stylesheet" href="__CSS__/getyouhui.css" />
+<link rel="stylesheet" href="__CSS__/layer.css">
+<script type="text/javascript" src="__JS__/youhui.js"></script> <script
+	type="text/javascript" src="__JS__/layer.js"></script> <script
+	type="text/javascript" src="__JS__/layer.ext.js"></script>
+
+<style type="text/css">
+.wst-pagination {
+	margin-top: 10px;
+	text-align: center;
+	height: 25px;
+	line-height: 25px;
+}
+
+.wst-current {
+	background-color: rgb(226, 62, 61);
+	color: #fff;
+	padding: 0 12px;
+	border-radius: 2px;
+	height: 26px;
+	line-height: 26px;
+	display: inline-block;
+	vertical-align: top;
+	font-size: 12px;
+}
+
+.wst-num {
+	background-color: #f1eff0;
+	padding: 0 12px;
+	border-radius: 2px;
+	margin: 0 3px 6px;
+	height: 26px;
+	line-height: 26px;
+	text-decoration: none;
+	color: #666;
+	display: inline-block;
+	vertical-align: top;
+	font-size: 12px;
+}
+
+.wst-next, .wst-prev {
+	background-color: #f1eff0;
+	padding: 0 12px;
+	border-radius: 2px;
+	height: 26px;
+	line-height: 26px;
+	text-decoration: none;
+	color: #666;
+	display: inline-block;
+	vertical-align: top;
+	font-size: 12px;
+}
+</style>
+</block>
+<block name="body">
+<div class="sort_row">
+	<ul>
+		<li id="moren" class="anode current_r"><a
+			onclick="javascript:sort(1)">默认排序</a></li>
+		<li id="lingqu" class="anode"><a onclick="javascript:sort(2)">领取量</a></li>
+		<li id="jianmian" class="anode"><a onclick="javascript:sort(3)">减免券</a></li>
+		<li id="zhekou" class="anode"><a onclick="javascript:sort(4)">折扣卷</a></li>
+	</ul>
+</div>
+<div class="wrap_full main_layout clearfix">
+	<div class="wrap_right">
+		<h3 class="youhui_hot">热门优惠券</h3>
+		<div class="current_r">
+			<ul>
+				<volist name="hot" id="v_hot" key="k">
+				<li class="clearfix">
+					<h4>
+						<i>{$k}</i>{$v_hot['name']}
+					</h4>
+					<div class="current_commet">
+						<p>领取数：{$v_hot['user_count']}</p>
+						<p>有效期：{$v_hot['end_time']|date='Y.m.d H:i',###}</p>
+						<i><a
+							onclick="javascript:clickreceive({$v_hot['id']},{$v_hot['end_time']})">点击领取</a></i>
+					</div>
+					<div class="current_img">
+						<img src="{$v_hot['icon']}" width="80" height="80" alt="">
+					</div>
+				</li>
+				</volist>
+			</ul>
+		</div>
+	</div>
+
+	<div class="wrap_left">
+		<volist name='list' id='v'>
+		<div class="youhui_box clearfix">
+			<div class="wrap_buttun">
+				<a onclick="javascript:clickreceive({$v['id']},{$v['end_time']})">点击领取</a>
+			</div>
+			<div class="youhui_box_img">
+				<img src="{$v['icon']}" width="180" alt="">
+				<p style="word-wrap: break-word; word-break: normal;">
+					{$v['youhui_scp']}</p>
+			</div>
+			<div class="youhui_box_commet">
+				<h3>{$v['name']}</h3>
+				<p>{$v['list_brief']}</p>
+				<dl>
+					<dd>
+						<span class="type">商家：{$v['shopname']['shopName']}</span>&nbsp;
+						<switch name="v['youhui_type']"> <case value="0">
+						<span class="type">减免券</span></case> <case value="1">
+						<span class="type">折扣券</span></case> </switch>
+					</dd>
+					<dd>
+						<switch name="v['youhui_scope']"> <case value="1">
+						<span class="type">全店通用</span>
+						<span style="margin-left: 6px;" class="type"><a
+							style='color: #fff;'
+							href="/Home/Shops/toShopHome/shopId/{$v['supplier_id']}.html">进入店铺</a></span></case>
+						<case value="2">
+						<span class="type">该店 {$v['youhui_cat']['catName']} 分类可用</span></case> <case
+							value="3">
+						<span class="type">该店部分商品可用</span> <span
+							onclick="javascript:showdiv({$v['id']})" style="cursor: pointer;"
+							class="type">查看优惠商品</span> </case> <case value="4">
+						<span class="type">该店部分品牌可用</span> <span
+							onclick="javascript:showdiv({$v['id']})" style="cursor: pointer;"
+							class="type">查看优惠品牌</span></case> <case value="5">
+						<span class="type">该店部分商城分类可用</span> <span
+							onclick="javascript:showdiv({$v['id']})" style="cursor: pointer;"
+							class="type">查看优惠商城分类</span></case> </switch>
+					</dd>
+					<dd>
+						<switch name="v['youhui_type']"> <case value="0">
+						<span class="type">满{$v['total_fee']}元
+							减免{$v['breaks_menoy']}元</span></case> <case value="1">
+						<span class="type">满{$v['total_fee']}元
+							打{$v['breaks_menoy']}折</span></case> </switch>
+					</dd>
+					<!-- <dd>
+									<span class="type">
+										可用地区：{$v['areaName']}
+									</span>
+									</dd> -->
+					<dd>
+						已有<font>{$v['user_count']}</font>张被领取
+					</dd>
+					<dd>
+						还有<font>{$v['sy']}</font>张剩余
+					</dd>
+					<dd>有效期至{$v['end_time']|date='Y.m.d H:i',###}</dd>
+				</dl>
+			</div>
+		</div>
+		</volist>
+		<div class="page"
+			style="float: left; width: 100%; margin: 0 auto; height: 20px;">{$show}</div>
+	</div>
+</div>
+
+<volist name='list' id='v'> <switch name="v['youhui_scope']">
+<case value="2">
+<div
+	style="display: none; position: fixed; top: 0%; left: 0%; width: 100%; height: 100%; background-color: black; z-index: 1001; -moz-opacity: 0.7; opacity: .70; filter: alpha(opacity = 70);"
+	id="bg{$v['id']}"></div>
+<div class='hiddendiv' id="show{$v['id']}">
+	<span class="getyhdiv"
+		onclick="javascript:clickreceive({$v['id']},{$v['end_time']})">领取该优惠券</span>
+	<p style="margin-top: 8px; font-size: 15px;">该商店分类优惠券可在以下商店分类中使用：</p>
+	<div id="btnclose" onclick="hidediv({$v['id']});"></div>
+	<ul style="margin-top: 8px;">
+		<li class="hiddendduan">{$v["youhui_cat"]['catName']}</li>
+	</ul>
+</div>
+</case> <case value="3">
+<div
+	style="display: none; position: fixed; top: 0%; left: 0%; width: 100%; height: 100%; background-color: black; z-index: 1001; -moz-opacity: 0.7; opacity: .70; filter: alpha(opacity = 70);"
+	id="bg{$v['id']}"></div>
+<div class='hiddendiv' id="show{$v['id']}">
+	<span class="getyhdiv"
+		onclick="javascript:clickreceive({$v['id']},{$v['end_time']})">领取该优惠券</span>
+	<p style="margin-top: 8px; font-size: 15px;">该品牌优惠券可在以下商品中使用：</p>
+	<div id="btnclose" onclick="hidediv({$v['id']});"></div>
+	<ul
+		style="margin-top: 8px; overflow-y: auto; height: 250px; width: 100%; display: inline-block;">
+		<volist name='v["youhui_cat"]' id='vo'>
+		<li class="hiddencduan"><a target="_blank"
+			href="/Home/Goods/getGoodsDetails/goodsId/{$vo['goodsId']}.html">{$vo['goodsName']}</a></li>
+		</volist>
+	</ul>
+</div>
+</case> <case value="4">
+<div
+	style="display: none; position: fixed; top: 0%; left: 0%; width: 100%; height: 100%; background-color: black; z-index: 1001; -moz-opacity: 0.7; opacity: .70; filter: alpha(opacity = 70);"
+	id="bg{$v['id']}"></div>
+<div class='hiddendiv' id="show{$v['id']}">
+	<span class="getyhdiv"
+		onclick="javascript:clickreceive({$v['id']},{$v['end_time']})">领取该优惠券</span>
+	<p style="margin-top: 8px; font-size: 15px;">该品牌优惠券可在以下商户品牌中使用：</p>
+	<div id="btnclose" onclick="hidediv({$v['id']});"></div>
+	<ul style="margin-top: 8px;">
+		<volist name='v["youhui_cat"]' id='vo'>
+		<li class="hiddendduan">{$vo['brandName']}</li>
+		</volist>
+	</ul>
+</div>
+</case> <case value="5">
+<div
+	style="display: none; position: fixed; top: 0%; left: 0%; width: 100%; height: 100%; background-color: black; z-index: 1001; -moz-opacity: 0.7; opacity: .70; filter: alpha(opacity = 70);"
+	id="bg{$v['id']}"></div>
+<div class='hiddendiv' id="show{$v['id']}">
+	<span class="getyhdiv"
+		onclick="javascript:clickreceive({$v['id']},{$v['end_time']})">领取该优惠券</span>
+	<p style="margin-top: 8px; font-size: 15px;">该商城分类优惠券可在以下商城分类中使用：</p>
+	<div id="btnclose" onclick="hidediv({$v['id']});"></div>
+	<ul style="margin-top: 8px;">
+		<li class="hiddendduan">{$v["youhui_cat"]['catName']}</li>
+	</ul>
+</div>
+</case> </switch> </volist> <script language="javascript" type="text/javascript">
+					function showdiv(id) {       
+					            document.getElementById("bg"+id).style.display ="block";
+					            document.getElementById("show"+id).style.display ="block";
+							 }
+					function hidediv(id) {
+					            document.getElementById("bg"+id).style.display ='none';
+					            document.getElementById("show"+id).style.display ='none';
+					        }
+					</script> <script type="text/javascript">
+						$(function(){
+							var youhui_type = parseInt(request("youhui_type"));
+							var breaks = parseInt(request("breaks"));
+							switch(youhui_type){
+								case 1:
+								$('#moren').removeClass('current_r');
+								$('#jianmian').addClass('current_r');
+								break;
+								case 2:
+								$('#moren').removeClass('current_r');
+								$('#zhekou').addClass('current_r');	
+								break;
+							}
+							if (breaks==1) {
+								$('#moren').removeClass('current_r');
+								$('#lingqu').addClass('current_r');
+							}
+						})
+
+					</script> </block>

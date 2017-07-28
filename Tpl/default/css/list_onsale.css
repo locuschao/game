@@ -1,0 +1,83 @@
+#preview {
+	border: 1px solid #cccccc;
+	background: #CCC;
+	color: #fff;
+	padding: 5px;
+	display: none;
+	position: absolute;
+}
+.op_btn{
+    color:#fff;
+    border-radius: 6px;
+    cursor: pointer;
+    background: #3c8dbc;
+    padding: 5px 8px;
+    position: relative;
+    vertical-align: middle;
+}
+.op_btn:hover{
+    background:#235c7e;
+}
+.rmd_btn{
+    background: #3c8dbc;
+    
+}
+.rmd_btn:hover{
+    background: #285874;
+}
+.cancel_rmd_btn{
+    background: #9e9999;
+    display:none;
+}
+.cancel_rmd_btn:hover{
+    background: gray;
+}
+.rmdBlock{
+    display:inline-block;
+    margin-left:5px;
+}
+.cancel_status .cancel_rmd_btn{
+    display:inline;
+}
+.cancel_status .rmd_btn{
+    display:none;
+}
+.btn-group{
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+}
+.btn-group.open .dropdown-menu{
+    display:inline;
+}
+.dropdown-menu {
+    background-clip: padding-box;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    display: none;
+    float: left;
+    font-size: 14px;
+    left: 0;
+    list-style: outside none none;
+    margin: 2px 0 0;
+    min-width: 80px;
+    padding: 5px 2px;
+    position: absolute;
+    text-align: left;
+    top: 100%;
+    z-index: 1000;
+}
+.dropdown-menu li{
+    text-align: center;
+}
+.caret{
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px dashed;
+    display: inline-block;
+    height: 0;
+    margin-left: 2px;
+    vertical-align: middle;
+    width: 0;
+}

@@ -1,0 +1,678 @@
+<extend name="Shops:layout" />
+<block name="content"> <script
+	src="__PUBLIC__/plugins/kindeditor/kindeditor.js"></script> <script
+	src="__PUBLIC__/plugins/kindeditor/lang/zh_CN.js"></script>
+
+<link rel="stylesheet" type="text/css"
+	href="__PUBLIC__/plugins/webuploader/style.css" />
+<link rel="stylesheet" type="text/css"
+	href="__PUBLIC__/plugins/webuploader/webuploader.css" />
+<script type="text/javascript"
+	src="__PUBLIC__/plugins/webuploader/webuploader.js"></script> <script
+	type="text/javascript" src="__JS__/goodsbatchupload.js"></script> <!--时间日历插件-->
+<script type="text/javascript" src="__PUBLIC__/plugins/jeDate/jedate.js"></script>
+<style>
+.datainp {
+	width: 150px;
+}
+</style>
+<script>
+$(function () {
+	   $('#tab').TabPanel({tab:0});
+	   $.formValidator.initConfig({
+		   theme:'Default',mode:'AutoTip',formID:"myform",debug:true,submitOnce:true,onSuccess:function(){
+               editAuctionGoods('{$umark}');
+			       return false;
+			},onError:function(msg){
+		}});
+	   $("#goodsSn").formValidator({onShow:"",onFocus:"",onCorrect:"输入正确"}).inputValidator({min:1,max:50,onError:"请输入商品编号"});
+	   $("#goodsName").formValidator({onShow:"",onFocus:"",onCorrect:"输入正确"}).inputValidator({min:1,max:200,onError:"请输入商品名称"});
+	   $("#marketPrice").formValidator({onShow:"",onFocus:"",onCorrect:"输入正确"}).inputValidator({min:1,max:50,onError:"请输入市场价格"});
+	   $("#shopPrice").formValidator({onShow:"",onFocus:"",onCorrect:"输入正确"}).inputValidator({min:1,max:50,onError:"请输入店铺价格"});
+	   $("#goodsStock").formValidator({onShow:"",onFocus:"",onCorrect:"输入正确"}).inputValidator({min:1,max:50,onError:"请输入库存"});
+	   $("#goodsUnit").formValidator({onShow:"",onFocus:"",onCorrect:"输入正确"}).inputValidator({min:1,max:50,onError:"请输入商品单位"});
+	   $("#goodsCatId3").formValidator({onFocus:"请选择商城分类"}).inputValidator({min:1,onError: "请选择完整商城分类"});
+	   $("#shopCatId2").formValidator({onFocus:"请选择本店分类"}).inputValidator({min:1,onError: "请选择完整本店分类"});
+    $("#levelScore").formValidator({onShow:"",onFocus:"",onCorrect:"输入正确"}).inputValidator({min:1,max:50,onError:"请输入赠送等级积分"});
+    $("#costScore").formValidator({onShow:"",onFocus:"",onCorrect:"输入正确"}).inputValidator({min:1,max:50,onError:"请输入赠送消费积分"});
+    $("#commission").formValidator({onShow:"",onFocus:"",onCorrect:"输入正确"}).inputValidator({min:1,max:50,onError:"请输入分成金额"});
+
+    KindEditor.ready(function(K) {
+			editor1 = K.create('textarea[name="goodsDesc"]', {
+				height:'250px',
+				width:"800px",
+				allowFileManager : false,
+				allowImageUpload : true,
+				items:[
+				        'source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', 'cut', 'copy', 'paste',
+				        'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+				        'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+				        'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen', '/',
+				        'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+				        'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|','image','multiimage','table', 'hr', 'emoticons', 'baidumap', 'pagebreak',
+				        'anchor', 'link', 'unlink', '|', 'about'
+				],
+				afterBlur: function(){ this.sync(); }
+			});
+		});
+	   KindEditor.ready(function(K) {
+			editor1 = K.create('textarea[name="groupDesc"]', {
+				height:'250px',
+				width:"800px",
+				allowFileManager : false,
+				allowImageUpload : true,
+				items:[
+				        'source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', 'cut', 'copy', 'paste',
+				        'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+				        'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+				        'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen', '/',
+				        'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+				        'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|','image','multiimage','table', 'hr', 'emoticons', 'baidumap', 'pagebreak',
+				        'anchor', 'link', 'unlink', '|', 'about'
+				],
+				afterBlur: function(){ this.sync(); }
+			});
+		});
+		
+	   <if condition="$object['goodsId'] !=0 ">
+	   	getCatListForEdit("goodsCatId2",{$object.goodsCatId1},0,{$object.goodsCatId2});
+	   	getCatListForEdit("goodsCatId3",{$object.goodsCatId2},1,{$object.goodsCatId3});
+	   	getShopCatListForEdit({$object.shopCatId1},{$object.shopCatId2});
+	   </if>
+	
+});
+
+function imglimouseover(obj){
+	if(!$(obj).find('.file-panel').html()){
+		$(obj).find('.setdel').addClass('trconb');
+		$(obj).find('.setdel').css({"display":""});
+	}
+}
+
+function imglimouseout(obj){
+	
+	$(obj).find('.setdel').removeClass('trconb');
+	$(obj).find('.setdel').css({"display":"none"});
+}
+
+function imglidel(obj){
+	if (confirm('是否删除图片?')) {
+		$(obj).parent().remove("li");
+		return;
+	}
+}
+
+function imgmouseover(obj){
+	$(obj).find('.wst-gallery-goods-del').show();
+}
+function imgmouseout(obj){
+	$(obj).find('.wst-gallery-goods-del').hide();
+}
+function delImg(obj){
+	   $(obj).parent().remove();
+}
+
+var filetypes = ["gif","jpg","png","jpeg"];
+</script>
+<div class="wst-body">
+	<div class='wst-page-header'>
+		卖家中心 >
+		<if condition="$object['goodsId'] ==0 ">新增<else />编辑</if>
+		拍卖商品资料
+	</div>
+	<div class='wst-page-content'>
+		<div id='tab' class="wst-tab-box">
+			<ul class="wst-tab-nav">
+				<li>商品信息</li>
+				<li>属性</li>
+				<li>商品相册</li>
+				<li>拍卖信息</li>
+			</ul>
+			<div class="wst-tab-content" style='width: 99%; margin-bottom: 10px;'>
+
+
+				<!-- 商品基础信息 -->
+				<div class='wst-tab-item' style="position: relative;">
+					<iframe name="upload" style="display: none"></iframe>
+
+					<!--卖家商品添加，图片上传【疑点】-->
+					<form id="uploadform_Filedata" autocomplete="off"
+						style="position: absolute; top: 155px; left: 417px; z-index: 10;"
+						enctype="multipart/form-data" method="POST" target="upload"
+						action="{:U('Home/Shops/uploadPic')}">
+						<div style="position: relative;">
+							<input id="goodsImg" name="goodsImg" type="text"
+								value="{$object.goodsImg}" readonly
+								style="margin-right: 4px; float: left; margin-left: 8px; width: 140px;" />
+							<div class="div1">
+								<div class="div2">浏览</div>
+								<input type="file" class="inputstyle" id="Filedata"
+									name="Filedata" onchange="updfile('Filedata');">
+							</div>
+							<div style="clear: both;"></div>
+
+							<div>&nbsp;图片大小:150 x 120 (px)(格式为 gif, jpg, jpeg, png)</div>
+							<input type="hidden" name="dir" value="goods"> <input
+								type="hidden" name="width" value="500"> <input
+								type="hidden" name="folder" value="Filedata"> <input
+								type="hidden" name="sfilename" value="Filedata"> <input
+								type="hidden" name="fname" value="goodsImg"> <input
+								type="hidden" id="s_Filedata" name="s_Filedata" value="">
+
+						</div>
+					</form>
+
+					<!--表单提交部分-->
+					<form name="myform" method="post" id="myform" autocomplete="off">
+						<input type='hidden' id='id' value='{$object.goodsId}' /> <input
+							type='hidden' id='goodsThumbs' value='{$object.goodsThums}' />
+						<table class="wst-form">
+							<tr>
+								<th width='120'>商品编号<font color='red'>*</font>：
+								</th>
+								<td width='300'><input type='text' id='goodsSn'
+									name='goodsSn' class="form-control wst-ipt"
+									value='{$object.goodsSn}' maxLength='25' /></td>
+								<td rowspan='7' valign='top'>
+									<div id="preview_Filedata">
+										<img id='goodsImgPreview' src='<if condition="$object['
+											goodsImg'] =='' ">__ROOT__/{$CONF['goodsImg']}
+										<else />
+										__ROOT__/{$object['goodsImg']}
+										</if>
+										' height='152'/><br />
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th width='120'>商品名称<font color='red'>*</font>：
+								</th>
+								<td><input type='text' id='goodsName' name='goodsName'
+									class="form-control wst-ipt" value='{$object.goodsName}'
+									maxLength='100' /></td>
+							</tr>
+							<tr>
+								<th width='120'>市场价格<font color='red'>*</font>：
+								</th>
+								<td><input type='text' id='marketPrice' name='marketPrice'
+									class="form-control wst-ipt" value='{$object.marketPrice}'
+									onkeypress="return WST.isNumberdoteKey(event)"
+									onkeyup="javascript:WST.isChinese(this,1)" maxLength='10' /></td>
+							</tr>
+							<tr>
+								<th width='120'>店铺价格<font color='red'>*</font>：
+								</th>
+								<td><input type='text' id='shopPrice' name='shopPrice'
+									class="form-control wst-ipt" value='{$object.shopPrice}'
+									onkeypress="return WST.isNumberdoteKey(event)"
+									onkeyup="javascript:WST.isChinese(this,1)" maxLength='10' /></td>
+							</tr>
+							<PHP>if($agentStatus){</PHP>
+							<tr>
+								<th width='120'>分佣价格<font color='red'>*</font>：
+								</th>
+								<td><input type='text' id='agentPrice' name='agentPrice'
+									class="form-control wst-ipt" value='{$object.agentPrice}'
+									onkeypress="return WST.isNumberdoteKey(event)"
+									onkeyup="javascript:WST.isChinese(this,1)" maxLength='10' /></td>
+							</tr>
+							<PHP>}</PHP>
+							<tr>
+								<th width='120'>商品库存<font color='red'>*</font>：
+								</th>
+								<td><input type='text' id='goodsStock' name='goodsStock'
+									class="form-control wst-ipt" value='{$object.goodsStock}'
+									onkeypress="return WST.isNumberKey(event)"
+									onkeyup="javascript:WST.isChinese(this,1)" maxLength='25'</td>
+							</tr>
+							<tr>
+								<th width='120'>单位<font color='red'>*</font>：
+								</th>
+								<td><input type='text' id='goodsUnit' name='goodsUnit'
+									class="form-control wst-ipt" value='{$object.goodsUnit}'
+									maxLength='25' /></td>
+							</tr>
+							<tr>
+								<th width='120'>商品SEO关键字：</th>
+								<td colspan='3'><input type='text' style="width: 788px"
+									id='goodsKeywords' name='goodsKeywords'
+									value='{$object.goodsKeywords}' maxlength="100"></td>
+							</tr>
+							<tr>
+								<th width='120'>赠送等级积分数<font color='red'>*</font>：
+								</td>
+								<td colspan='3'><input type='text' id='levelScore'
+									name='levelScore' class="form-control wst-ipt"
+								<if condition="$object['levelScore'] gt 0">value='{$object.levelScore}'<else />
+									value='-1' </if> maxLength='10'/> <span style="color: #9c9c9c;">(购买该商品时赠送消费积分数,-1表示按商品价格赠送)</span>
+								</td>
+							</tr>
+							<tr>
+								<th width='120'>赠送消费积分数<font color='red'>*</font>：
+								</td>
+								<td colspan='3'><input type='text' id='costScore'
+									name='costScore' class="form-control wst-ipt"
+								<if condition="$object['costScore'] gt 0">value='{$object.costScore}'<else />value='-1'</if>
+									maxLength='10'/> <span style="color: #9c9c9c;">(购买该商品时赠送等级积分数,-1表示按商品价格赠送)</span>
+								</td>
+							</tr>
+							<tr>
+								<th width='120'>商品信息：</th>
+								<td colspan='3'><textarea rows="2" style="width: 788px"
+										id='goodsSpec' name='goodsSpec'>{$object.goodsSpec}</textarea>
+								</td>
+							</tr>
+
+							<tr>
+								<th width='120'>商品状态<font color='red'>*</font>：
+								</th>
+								<td colspan='3'><label> <input type='radio'
+										id='isSale1' name='isSale'
+									<if condition="$object['isSale'] ==1 ">checked</if>
+										value='1'/>上架
+								</label> <label> <input type='radio' id='isSale0' name='isSale'
+									<if condition="$object['isSale'] ==0 ">checked</if>
+										value='0'/>下架
+								</label></td>
+							</tr>
+							<tr>
+								<th width='120'>商品属性：</th>
+								<td colspan='3'><label> <input type='checkbox'
+										id='isRecomm' name='isRecomm'
+									<if condition="$object['isRecomm'] ==1 ">checked</if>
+										value='1'/>推荐
+								</label> <label> <input type='checkbox' id='isBest'
+										name='isBest'
+									<if condition="$object['isBest'] ==1 ">checked</if>
+										value='1'/>精品
+								</label> <label> <input type='checkbox' id='isNew' name='isNew'
+									<if condition="$object['isNew'] ==1 ">checked</if>
+										value='1'/>新品
+								</label> <label> <input type='checkbox' id='isHot' name='isHot'
+									<if condition="$object['isHot'] ==1 ">checked</if>
+										value='1'/>热销
+								</label></td>
+							</tr>
+							<tr>
+								<th width='120'>商城分类<font color='red'>*</font>：
+								</th>
+								<td colspan='3'><select id='goodsCatId1'
+									onchange='javascript:getCatListForEdit("goodsCatId2",this.value,0)'>
+										<option value=''>请选择</option>
+										<volist name="goodsCatsList" id="vo">
+										<option value='{$vo['catId']}' <if
+												condition="$object['goodsCatId1'] == $vo['catId'] ">selected</if>>{$vo['catName']}
+										</option>
+										</volist>
+								</select> <select id='goodsCatId2'
+									onchange='javascript:getCatListForEdit("goodsCatId3",this.value,1);'>
+										<option value=''>请选择</option>
+								</select> <select id='goodsCatId3'>
+										<option value=''>请选择</option>
+								</select></td>
+							</tr>
+							<tr>
+								<th width='120'>本店分类<font color='red'>*</font>：
+								</th>
+								<td colspan='3'><select id='shopCatId1'
+									onchange='javascript:getShopCatListForEdit(this.value,"{$object['shopCatId2']}")'>
+										<option value='0'>请选择</option>
+										<volist name="shopCatsList" id="vo">
+										<option value='{$vo['catId']}' <if
+												condition="$object['shopCatId1'] == $vo['catId'] ">selected</if>>{$vo['catName']}
+										</option>
+										</volist>
+								</select> <select id='shopCatId2'>
+										<option value='0'>请选择</option>
+								</select></td>
+							</tr>
+							<tr>
+								<th width='120' align='right'>品牌：</th>
+								<td><select id='brandId' dataVal='{$object["brandId"]}'>
+										<option value='0'>请选择</option>
+								</select></td>
+							</tr>
+							<tr>
+								<th width='120'>商品描述<font color='red'>*</font>：
+								</th>
+								<td colspan='3'><textarea rows="2" cols="60" id='goodsDesc'
+										name='goodsDesc'>{$object.goodsDesc}</textarea></td>
+							</tr>
+							<tr>
+								<td colspan='3' style='padding-left: 320px;'>
+									<button class='wst-btn-query' type="submit">保&nbsp;存</button> <if
+										condition="$umark !='toEdit' ">
+									<button class='wst-btn-query' type="button"
+										onclick='javascript:location.href="__ROOT__/index.php/Home/Goods/{$umark}"'>返&nbsp;回</button>
+									</if>
+								</td>
+							</tr>
+						</table>
+					</form>
+				</div>
+
+				<div class='wst-tab-item'>
+					商品类型：<select id='attrCatId'
+						onchange='javascript:getAttrList(this.value)'>
+						<option value='0'>请选择</option>
+						<volist name="attributeCatsCatsList" id="vo">
+						<option value='{$vo["catId"]}'<if
+								condition="$object['attrCatId'] == $vo['catId'] ">selected</if>>{$vo["catName"]}
+						</option>
+						</volist>
+					</select>
+					<div>
+						<fieldset id='priceContainer' class='wst-goods-fieldset'
+							<if condition="count($object['priceAttrs']) gt 0">style='display:block'</if>
+							>
+							<legend>价格类型</legend>
+							<input type='hidden' class="hiddenPriceAttr"
+								dataId='{$object["priceAttrId"]}'
+								dataNo="{$object['priceAttrCount']}"
+								dataAll='{$object["priceAttrId"]}'
+								value='{$object["priceAttrName"]}' />
+							<table class="wst-form wst-goods-price-table">
+								<thead>
+									<tr>
+										<th>属性</th>
+										<th>规格</th>
+										<th>价格</th>
+										<th>推荐</th>
+										<th>库存</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody id="priceConent">
+									<?php $goodsPriceNo=1; ?>
+									<volist name="object['priceAttrs']" id="vo" key="key1">
+									<volist name="vo" id="vs">
+									<tr id="attr_<?php echo $goodsPriceNo;?>">
+										<td style="text-align: right">{$vs['attrName']}： <input
+											type="hidden" id="priceAttr_<?php echo $goodsPriceNo;?>"
+											value="{$vs['attrId']}" />
+										</td>
+										<td><input type="text"
+											id="price_name_{$vs['attrId']}_<?php echo $goodsPriceNo;?>"
+											value="{$vs['attrVal']}" /></td>
+										<td><input type="text"
+											id="price_price_{$vs['attrId']}_<?php echo $goodsPriceNo;?>"
+											value="{$vs['attrPrice']}"
+											onblur="checkAttPrice({$vs['attrId']},<?php echo $goodsPriceNo;?>);"
+											onipress="return WST.isNumberdotei(event)"
+											oniup="javascript:WST.isChinese(this,1)" maxLength="10" /></td>
+										<td><input type="radio"
+											id="price_isRecomm_{$vs['attrId']}_<?php echo $goodsPriceNo;?>"
+											name="price_isRecomm_{$vs['attrId']}"
+											onclick="checkAttPrice({$vs['attrId']},<?php echo $goodsPriceNo;?>);"
+										<if condition="$vs['isRecomm'] eq 1">checked</if>/></td>
+										<td><input type="text"
+											id="price_stock_{$vs['attrId']}_<?php echo $goodsPriceNo;?>"
+											onblur="getTstock({$vs['attrId']});"
+											value="{$vs['attrStock']}"
+											onblur="javascript:statGoodsStaock()"
+											onipress="return WST.isNumberdotei(event)"
+											oniup="javascript:WST.isChinese(this,1)" maxLength="10" /></td>
+										<td><if condition="$i == 1"> <a title="新增"
+												class="add btn"
+												href="javascript:addPriceAttr({$vs['attrId']},'{$vs['attrName']}',<?php echo $goodsPriceNo;?>)"></a>
+											<?php $k=$goodsPriceNo; ?> <else /> <a title="删除"
+												class="del btn"
+												href="javascript:delPriceAttr(<?php echo $goodsPriceNo;?>)"></a>
+											</if></td>
+									</tr>
+									<?php ++$goodsPriceNo;?> </volist> <input type="hidden"
+										id="priceattr_{$vs['attrId']}" value="{$i}" dataAll="{$key1}" />
+									</volist>
+									<input type="hidden" id="prcieattr" value="<?php echo $k;?>" />
+								</tbody>
+							</table>
+						</fieldset>
+						<fieldset id='attrContainer' class='wst-goods-fieldset'
+							<if condition="count($object['attrs']) gt 0">style='display:block'</if>
+							>
+							<legend>属性类型</legend>
+							<table class="wst-form" style='width: 100%'>
+								<tbody id='attrConent'>
+									<volist name="object['attrs']" id="vo" key='i'>
+									<tr>
+										<td style="width: 80px; text-align: right" nowrap>{$vo['attrName']}：</td>
+										<td><PHP>if($vo['attrType']==0){</PHP> <input type="text"
+											style='width: 70%;' class="attrList"
+											id="attr_name_{$vo['attrId']}_{$i}" value="{$vo['attrVal']}"
+											dataId="{$vo['attrId']}" /> <PHP>}else
+											if($vo['attrType']==2){</PHP> <select class="attrList"
+											id="attr_name_{$vo['attrId']}_{$i}" dataId="{$vo['attrId']}">
+												<volist name="vo['opts']['txt']" id="attrvo">
+												<option value='{$attrvo}'<if
+														condition="$attrvo == $vo['attrVal']">selected</if>
+													>{$attrvo}
+												</option>
+												</volist>
+										</select> <PHP> }else if($vo['attrType']==1){</PHP> <input
+											type='hidden' class="attrList" dataId='{$vo['
+											attrId']}' dataType="1" /> <volist name="vo['opts']['txt']"
+												id="attrvo"> <label><input type='checkbox'
+												name="attrTxtChk_{$vo['attrId']}" value="{$attrvo}"
+											<if condition="$vo['opts']['val'][$attrvo] == 1">checked</if>/>{$attrvo}</label>&nbsp;&nbsp;
+											</volist> <PHP>}</PHP></td>
+									</tr>
+									</volist>
+								</tbody>
+							</table>
+						</fieldset>
+						<div style='width: 100%; text-align: center;'>
+							<button class='wst-btn-query' type="button"
+								onclick='javascript:$("#myform").submit()'>保&nbsp;存</button>
+							<if condition="$umark !='toEdit' ">
+							<button class='wst-btn-query' type="button"
+								onclick='javascript:location.href="__ROOT__/index.php/Home/Goods/{$umark}"'>返&nbsp;回</button>
+							</if>
+						</div>
+					</div>
+				</div>
+
+				<!-- 相册 -->
+				<div class='wst-tab-item'>
+					<!-- 
+	       <div><input type='text' id='galleryImgUpload'/></div>
+	        -->
+					<div id='galleryImgs' class='wst-gallery-imgs'>
+						<div id="tt"></div>
+						<if condition="count($object['gallery']) eq 0">
+						<div id="wrapper">
+							<div id="container">
+								<!--头部，相册选择和格式选择-->
+								<div id="uploader">
+									<div class="queueList">
+										<div id="dndArea" class="placeholder">
+											<div id="filePicker"></div>
+										</div>
+										<ul class="filelist"></ul>
+									</div>
+									<div class="statusBar" style="display: none">
+										<div class="progress">
+											<span class="text">0%</span> <span class="percentage"></span>
+										</div>
+										<div class="info"></div>
+										<div class="btns">
+											<div id="filePicker2"
+												class="webuploader-containe webuploader-container"></div>
+											<div class="uploadBtn state-finish">开始上传</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<else />
+						<div id="wrapper">
+							<div id="container">
+								<div id="uploader">
+									<div class="queueList">
+										<div id="dndArea" class="placeholder element-invisible">
+											<div id="filePicker" class="webuploader-container"></div>
+										</div>
+										<ul class="filelist">
+											<volist name="object['gallery']" id="vo" key='i'>
+
+											<li style="border: 1px solid rgb(59, 114, 165)" order="100"
+												onmouseover="imglimouseover(this)"
+												onmouseout="imglimouseout(this)"><input type="hidden"
+												class="gallery-img" iv="{$vo.goodsThumbs}"
+												v="{$vo.goodsImg}" /> <img width="152" height="152"
+												src="__ROOT__/{$vo.goodsThumbs}"><span class="setdef"
+												style="display: none">默认</span><span class="setdel"
+												onclick="imglidel(this)" style="display: none">删除</span></li>
+
+											</volist>
+										</ul>
+									</div>
+									<div class="statusBar" style="">
+										<div class="progress">
+											<span class="text"></span> <span class="percentage"></span>
+										</div>
+										<div class="info"></div>
+										<div class="btns">
+											<div id="filePicker2"
+												class="webuploader-containe webuploader-container"></div>
+											<div class="uploadBtn state-finish">开始上传</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						</if>
+
+					</div>
+					<div style='clear: both;'></div>
+				</div>
+
+				<!--拍卖信息-->
+				<div class='wst-tab-item'>
+
+					<table class="wst-form">
+						<tr>
+							<th width='120'>起拍价：</th>
+							<td><input type='text' id='auctionLowPrice'
+								name='auctionLowPrice' class="form-control wst-ipt"
+								value='<if condition="$object.auctionLowPrice eq true">{$object.auctionLowPrice}<else/>0.0</if>'
+								onkeypress="return WST.isNumberdoteKey(event)"
+								onkeyup="javascript:WST.isChinese(this,1)" maxLength='10' /></td>
+						</tr>
+						<tr>
+							<th width='120'>递增价：</th>
+							<td><input type='text' id='auctionAddPrice'
+								name='auctionAddPrice' class="form-control wst-ipt"
+								value='<if condition="$object.auctionAddPrice eq true">{$object.auctionAddPrice}<else/>0.0</if>'
+								onkeypress="return WST.isNumberKey(event)"
+								onkeyup="javascript:WST.isChinese(this,1)" maxLength='25'></td>
+						</tr>
+						<tr>
+							<th width='120'>一口价：</th>
+							<td><input type='text' id='auctionMinPrice'
+								name='auctionMinPrice' class="form-control wst-ipt"
+								value='<if condition="$object.auctionMinPrice eq true">{$object.auctionMinPrice}<else/>0.0</if>'
+								onkeypress="return WST.isNumberKey(event)"
+								onkeyup="javascript:WST.isChinese(this,1)" maxLength='25'></td>
+						</tr>
+						<tr>
+							<th width='120'>保证金：</th>
+							<td><input type='text' id='auctionMarginMoney'
+								name='auctionMarginMoney' class="form-control wst-ipt"
+								value='<if condition="$object.auctionMarginMoney eq true">{$object.auctionMarginMoney}<else/>0.0</if>'
+								onkeypress="return WST.isNumberKey(event)"
+								onkeyup="javascript:WST.isChinese(this,1)" maxLength='25'></td>
+						</tr>
+
+						<tr>
+							<th width='120'>副标题：</th>
+							<td><input type='text' id='auctionSecondTitle'
+								name='auctionSecondTitle' class="form-control wst-ipt"
+								value='{$object.auctionSecondTitle}'></td>
+						</tr>
+						<tr>
+							<th width='120'>关键字：</th>
+							<td><input type='text' id='auctionLabel' name='auctionLabel'
+								class="form-control wst-ipt" value='{$object.auctionLabel}'></td>
+						</tr>
+						<tr>
+							<th width='120'>中标人数<font color='red'>*</font>：
+							</th>
+							<td><input type='text' id='auctionWinNum'
+								name='auctionWinNum' class="form-control wst-ipt"
+								value='<if condition="$object.auctionWinNum eq true">{$object.auctionWinNum}<else/>1</if>'
+								onkeypress="return WST.isNumberKey(event)"
+								onkeyup="javascript:WST.isChinese(this,1)" maxLength='25'></td>
+						</tr>
+
+						<tr>
+							<th width='120'>开始时间<font color='red'>*</font>：
+							</th>
+							<td><input class="datainp" id="auctionStartTime"
+								name='auctionStartTime' type="text" placeholder="请选择"
+								value='<if condition="$object.auctionStartTime eq true">{$object.auctionStartTime}</if>'
+								value='{$object.auctionStartTime}' readonly></td>
+						</tr>
+						<tr>
+							<th width='120'>结束时间<font color='red'>*</font>：
+							</th>
+							<td><input class="datainp" id="auctionEndTime"
+								name="auctionEndTime" type="text" placeholder="请选择"
+								value='<if condition="$object.auctionEndTime eq true">{$object.auctionEndTime}</if>'
+								readonly></td>
+						</tr>
+						<tr>
+							<th width='120'>活动状态<font color='red'>*</font>：
+							</th>
+							<td><if condition="$object['groupStatus'] eq 0">未开始</if> <if
+									condition="$object['groupStatus'] eq 1">进行中</if> <if
+									condition="$object['groupStatus'] eq 2">成功结束</if> <if
+									condition="$object['groupStatus'] eq 3">失败结束</if></td>
+						</tr>
+
+						<tr>
+							<th width='120'>活动说明<font color='red'>*</font>：
+							</th>
+							<td colspan='3'><textarea rows="2" cols="60"
+									id='auctionDesc' name='auctionDesc'>{$object.auctionDesc}</textarea></td>
+						</tr>
+						<tr>
+							<td colspan='3' style='padding-left: 320px;'>
+								<button class='wst-btn-query' type="button"
+									onclick='javascript:$("#myform").submit()'>保&nbsp;存</button> <if
+									condition="$umark !='toEdit' ">
+								<button class='wst-btn-query' type="button"
+									onclick='javascript:location.href="__ROOT__/index.php/Home/Goods/{$umark}"'>返&nbsp;回</button>
+								</if>
+							</td>
+						</tr>
+					</table>
+
+				</div>
+
+
+
+
+			</div>
+		</div>
+
+	</div>
+	<div style='clear: both;'></div>
+</div>
+<script type="text/javascript">
+    jeDate({
+		dateCell:"#auctionStartTime",
+		format:"YYYY-MM-DD hh:mm:ss",
+		isinitVal:false,
+		isTime:true, //isClear:false,
+		minDate:"2014-09-19 00:00:00",
+		okfun:function(val){}
+	})
+    jeDate({
+		dateCell:"#auctionEndTime",
+		format:"YYYY-MM-DD hh:mm:ss",
+		isinitVal:false,
+		isTime:true, //isClear:false,
+		minDate:"2014-09-19 00:00:00",
+		okfun:function(val){}
+	})
+</script> </block>

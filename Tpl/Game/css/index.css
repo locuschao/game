@@ -1,0 +1,395 @@
+body {
+	background: #efeff4;
+	padding-bottom: 50px;
+}
+
+a {
+	color: #666
+}
+
+.header {
+	height: 50px;
+	line-height: 50px;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	background: #fff600;
+	z-index: 9999;
+}
+
+.logo {
+	width: 60px;
+	background: url(../image/logo.png) center no-repeat;
+	background-size: 45px;
+}
+
+.search {
+	text-align: center;
+}
+
+.search input {
+	border: none;
+	background: #ede503;
+	border-radius: 4px;
+	padding: 8px 5px;
+	width: 90%;
+}
+
+.mess {
+	width: 60px;
+	background: url(../image/mess.png) center no-repeat;
+	background-size: 18px;
+}
+
+.swiper-wrapper {
+	height: 200px;
+}
+
+.swiper-slide img {
+	height: 200px;
+	text-align: center;
+}
+
+.nav {
+	height: 90px;
+	text-align: center;
+	background: #fff;
+	border-bottom: #d5d7dc solid 1px;
+}
+
+.nav_img img {
+	width: 50px;
+	height: 50px;
+	padding-top: 10px;
+	margin: 0 auto;
+}
+
+.nav_title {
+	height: 20px;
+	font-size:14px;
+	line-height: 20px;
+	text-align: center;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.tuijia {
+	background: #fff;
+	margin-top: 10px;
+}
+
+
+.tuijia_title {
+	text-indent:10px;
+	height: 35px;
+	line-height: 35px;
+	border-bottom: #eeeeee solid 1px;
+	font-size: 16px;
+}
+.tuijian_img{overflow:hidden; text-align:center;}
+.tuijian_img img {
+	width: 60px;
+	height: 60px;
+	padding: 10px 0px;
+}
+
+.right_arrows {
+	background: url(../image/youjiantou.png) center no-repeat;
+	width: 30px;
+	background-size: 10px;
+}
+
+.tuijin_first_label {
+	overflow: hidden;
+}
+
+.tuijin_first_label a {
+	display: inline-block;
+	margin-left: 5px;
+	padding: 2px 8px;
+	background: #fff;
+	border: #e3001d solid 1px;
+	border-radius: 2px;
+	color: #e3001d;
+	font-size: 12px;;
+	margin-top: 3px;
+	font-size: 12px;
+}
+
+.tuijin_first_title {
+	font-size: 18px;
+	height: 30px;
+	line-height: 30px;
+}
+
+.tuijin_first {
+	padding: 10px 0px 0px 5px;
+}
+
+.tuijian_img img {
+	width: 60px;
+	height: 60px;
+	padding-top: 5px;;
+}
+
+.nav_tuijia_img {
+	border: none;
+	border-top: #eeeeee solid 1px;
+	padding-top: 5px;
+}
+
+.searchShop {
+	padding: 10px;
+}
+
+#searchShop {
+	padding: 10px;
+	border-radius: 3px;
+	border: #dddddd solid 1px;
+	width: 90%;
+}
+
+.shopSearchBtn {
+	text-align: center;
+	color: #333;
+	background: #fef43f;
+	border-radius: 3px;
+	line-height: 35px;
+	padding: 0px 10px;
+	margin-left: 10px;
+	width: 60px;
+}
+
+.footer {
+	height: 45px;
+	line-height: 45px;
+	position: fixed;
+	width: 100%;
+	z-index: 9999;
+	bottom: 0;
+	left: 0;
+	background: #fff;
+	border-top: #d5d7dc solid 1px;
+	text-align: center;
+	height: 45px;
+}
+
+.footer_img {
+	padding-top: 5px;
+	height: 20px;
+	line-height: 20px;
+}
+
+.footer_img img {
+	wdith: 20px;
+	height: 20px;
+}
+
+.footer_title {
+	height: 20px;
+	line-height: 20px;
+	color: #999999;
+	font-size: 12px;
+}
+
+.hideDiv {
+	display: none;
+}
+
+#page2 {
+	background: #fff;
+}
+
+.orderNav {
+	color: #999999;
+	height: 45px;
+	line-height: 45px;
+	border-bottom: #d5d7dc solid 1px;
+}
+
+.br-r {
+	border-right: #eeeeee solid 1px;
+}
+
+.del {
+	cursor:pointer;
+	width: 60px;
+	background: url(../image/del.png)  center no-repeat;
+	height:35px;
+	line-height: 35px;
+	background-size: 15px 18px;
+}
+
+.orderTime {
+	font-size: 12px;
+	height: 35px;
+	line-height: 35px;
+	padding: 5px 0px 5px 10px;
+}
+
+.orderImgList {
+	border-bottom: #d5d7dc solid 1px;
+	padding: 0px 10px 10px 10px;
+}
+
+.orderImg img {
+	width: 60px;
+	height: 60px;
+}
+
+.order_title {
+	font-size: 16px;
+	color: #333333;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	height: 20px;
+}
+
+.order_type {
+	font-size: 12px;
+	height: 20px;
+	line-height: 20px;
+	color: #999;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	height: 20px;
+}
+
+.order_money {
+	height: 20px;
+	line-height: 20px;
+	color: #999;
+}
+
+.orderContent {
+	margin-left: 5px;
+}
+
+.zhongji {
+	color: #333;
+}
+
+.orderList {
+	display: none;
+}
+
+.avator {
+	width: 100%;
+	height: 120px;
+	background: url(../image/my_bg.png) center no-repeat;
+	background-size: 100% 100%;
+	padding-top: 20px;
+}
+
+.avator_img {
+	width: 80px;
+	height: 80px;
+	background: #f00;
+	border-radius: 50%;
+	margin: 0 auto;
+	text-align: center;
+	border: #f1d702 solid 2px;
+}
+
+.avator_img img {
+	width: 80px;
+	height: 80px;
+	border-radius: 50%;
+}
+
+.avator_phone {
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	color: #333;
+	font-size: 18px;
+}
+
+.myMoney {
+	height: 100px;
+	width: 100%;
+	background: #fff;
+	padding-top: 20px;
+	border-bottom: #d5d7dc solid 1px;
+}
+
+.money {
+	padding-top: 10px;
+	width: 100px;
+	height: 80px;
+	margin: 0 auto;
+	text-align: center;
+	background: url(../image/money_bg.png) center no-repeat;
+	background-size: 100% 100%;
+}
+
+.money p {
+	color: #333;
+}
+
+.money_num {
+	font-size: 18px;
+}
+
+.money_text {
+	font-size: 14px;
+}
+
+.myList {
+	background: #fff;
+	margin-top: 10px;
+}
+
+.myListText {
+	border-bottom: #d5d7dc solid 1px;
+	height: 30px;
+	line-height: 30px;
+	padding: 10px;
+	font-size: 16px;
+}
+
+.arrowsMy {
+	background-size: 8px;
+}
+
+.footer_title_active {
+	color: #333
+}
+
+.titleNav {
+	display: none;
+}
+
+.nobg {
+	background: none;
+}
+
+.back-ff {
+	background: #fff;
+}
+
+.bor-b {
+	border-bottom: #d5d7dc solid 1px;
+}
+
+.notice {
+	background: #fff url(../image/notice.png) 10px center no-repeat;
+	background-size: 20px;
+	text-indent: 40px;
+	font-weight: bold;
+}
+
+.txt-c {
+	text-align: center;
+}
+
+.notice_color {
+	color: #783500
+}
+
+.loadMoreNotice {
+	cursor: pointer;
+}

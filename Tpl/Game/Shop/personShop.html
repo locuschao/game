@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>{$shopInfo.shopName}</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<style>
+body {
+	background: #efeff4;
+	max-width: 800px;
+}
+
+.toubu {
+	width: 100%;
+	min-height: 140px;
+	background: url(__IMG__/my_bg.png) center no-repeat;
+	background-size: 100% 100%;
+}
+
+.shop {
+	width: 90%;
+	margin: 0 auto;
+	padding: 10px 0;
+}
+
+.shopImg img {
+	width: 60px;
+	height: 60px;
+	border-radius: 4px;
+}
+
+.shopName {
+	height: 20px;
+	line-height: 20px;
+	font-size: 120%;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.fw {
+	font-size: 90%;
+	/* text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden; 
+	height: 20px;*/
+	line-height: 20px;
+}
+
+.bor {
+	border-bottom: #d5d7dc solid 1px;
+}
+
+.bor-r {
+	border-right: #d5d7dc solid 1px;
+}
+
+.all, .cate {
+	height: 45px;
+	line-height: 45px;
+	width: 70px;
+	margin: 0 auto;
+	text-align: center;
+	padding-left: 20px;
+	background: url(__IMG__/all_goods.png) left center no-repeat;
+	background-size: 17px;
+	display: block;
+}
+
+.cate {
+	background: url(__IMG__/goodsCate.png) left center no-repeat;
+	background-size: 17px;
+}
+
+.mc {
+	background: #e50f12;
+	color: #fff;
+	width: 30px;
+	border-radius: 2px;
+	font-size: 12px;
+	text-align: center;
+	height: 18px;
+	line-height: 18px;
+    margin-left:10px;
+}
+
+.money {
+	font-size: 120%;
+}
+
+.type {
+	color: #783500
+}
+._top{
+	max-width: 800px;
+}
+.badge {
+	position: relative;
+	left: 33px;
+	top: -13px;
+	display: inline-block;
+	min-width: 10px;
+	padding: 3px 7px;
+	font-size: 12px;
+	font-weight: 700;
+	line-height: 1;
+	color: #fff;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: baseline;
+	background-color: red;
+	border-radius: 10px;
+}
+
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<div class="_top" style="z-index: 999">
+		<div class="_left_top" onclick='history.go(-1)'></div>
+		<div class="_title_top">{$shopInfo.shopName}</div>
+		<div class="_right_top mess"
+			onclick="location.href='/Game/Mess/mess/r/shop_personShop'"><if condition="$notReadCount neq 0"><span class="badge">{$notReadCount}</span></if></div>
+	</div>
+	<div class="lh45" style="height: 44px;"></div>
+	<div class="toubu">
+		<div class="shop ub">
+			<div class="shopImg">
+				<img src="/{$shopInfo.shopImg|default='__IMG__/shopImg.png'}" />
+			</div>
+			<div class=" ub-f1" style="margin-left: 5px;">
+				<div class="shopName">{$shopInfo.shopName}</div>
+				<div class="fw">经营范围：{$fanwei}</div>
+				<div class="xl">销量：
+                <?php if(I('id',0,'intval')==18):?>
+                {$sales+30000}
+                <?php else: ?>
+                {$sales|default=0}
+                <?php endif;?></div>
+			</div>
+		</div>
+		<div class="bor" style="width: 90%; margin: 0 auto;"></div>
+		<div class="lh35 txt-l ti10" style="padding-top: 10px;padding-bottom:10px;">
+			<p style="line-height: 20px;">营业时间：{$shopInfo.serviceStartTime} -
+				{$shopInfo.serviceEndTime}</p>
+			<p style="line-height: 20px;">开店时间：{$shopInfo.createTime}</p>
+		</div>
+	</div>
+	<!--<div class="lh45 back-ff ub txt-c bor">-->
+	<div class="">
+		<div class="ub-f1 bor-r">
+			<a href="{:U('Shop/goodsList',array('id'=>$shopInfo['shopId']))}"><span
+				class="all" style="background: #3385ff;
+    border-radius: 4px;
+    color: #fff;
+    display: block;
+    height: 30px;
+    line-height: 30px;
+    margin: 7px 0 0 5px;
+    padding: 0 10px;
+    text-align: left;">按类别查看</span></a>
+		</div>
+		<div class="ub-f1" style="display:none">
+			<a href="{:U('Shop/memberGoodsList',array('id'=>$shopInfo['shopId']))}">
+			
+				<span
+				class="cate">会员商品</span></a>
+		</div>
+	</div>
+	<div class="ub lh45 back-ff bor ti10" style="margin-top: 10px">首充号</div>
+	<volist name="shouChong" id="sc">
+	<div class="back-ff bor">
+		<a href="{:U('Goods/index',array('id'=>$sc['goodsId']))}">
+			<div class="shop ub ">
+				<div class="shopImg">
+					<img src="/{$sc.goodsThums|default='__IMG__/shopImg.png'}" />
+				</div>
+				<div class=" ub-f1" style="margin-left: 5px;">
+					<div class="shopName">
+						<span class="type">【首充号】</span>{$sc.goodsName}
+					</div>
+					<div class="fw col-9">{$sc.goodsSpec|default='&nbsp;'}</div>
+					<if condition="$sc['isMiao']">
+					<div class="mc">秒充</div>
+					</if>
+				</div>
+				<div style="text-align: center;">
+					<div class="col-9 lh20">
+						<s>￥{$sc.shopPrice}</s>
+					</div>
+					<div class="col-red lh20 money">￥{$sc.attrPrice}</div>
+				</div>
+			</div>
+		</a>
+	</div>
+	</volist>
+
+	<div class="ub lh45 back-ff bor ti10" style="margin-top: 10px">首充号代充</div>
+
+	<volist name="daiChong" id="sc">
+	<div class="back-ff bor">
+		<a href="{:U('Validatadc/yanzhen',array('id'=>$sc['goodsId'],'goodsType'=>0))}">
+			<div class="shop ub ">
+				<div class="shopImg">
+					<img src="/{$sc.goodsThums|default='__IMG__/shopImg.png'}" />
+				</div>
+				<div class=" ub-f1" style="margin-left: 5px;">
+					<div class="shopName">
+						<span class="type">【首充号代充】</span>{$sc.goodsName}
+					</div>
+					<div class="fw col-9">{$sc.goodsSpec|default='&nbsp;'}</div>
+					<if condition="$sc['isMiao']">
+					<div class="mc">秒充</div>
+					</if>
+				</div>
+				<div style="text-align: center;">
+					<div class="col-9 lh20">
+						<s>￥{$sc.shopPrice}</s>
+					</div>
+					<div class="col-red lh20 money">￥{$sc.attrPrice}</div>
+				</div>
+			</div>
+		</a>
+	</div>
+	</volist>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script>
+
+</script>
+</html>

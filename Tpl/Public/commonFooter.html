@@ -1,0 +1,38 @@
+<script>
+var is_login=<?=$_SESSION['oto_mall']['oto_userId']?1:0 ?>;
+
+</script>
+
+<script src="__JS__/index.js?20170303"></script>
+<?php
+if( (!in_array(CONTROLLER_NAME,['Login','Register','Agent','Confirm']) && !in_array(MODULE_NAME,['Home','Admin'])) || (CONTROLLER_NAME=='Register' && ACTION_NAME == 'register') ):
+?>
+<!--
+    @author peng
+    @date 2016-12-18
+    @descreption 换图标
+    -->
+    
+	<div class="footer ub">
+		<div class="ub-f1 pos-r footerNav goHome">
+			<div class="pos-a">
+				<div class="footer_img" data-default="__IMG__/home_normal.png" data-active="__IMG__/home_selected.png"><if condition="$index"><img src="__IMG__/home_selected.png"/><else/><img src="__IMG__/home_normal.png"/></if></div>
+				<div class="footer_title footer_title_active">首页</div>
+			</div>
+		</div>
+		<div class="ub-f1 pos-r footerNav">
+			<div class="pos-a">
+				<div class="footer_img" data-default="__IMG__/order_normal.png" data-active="__IMG__/order_selected.png"><if condition="$order"><img  src="__IMG__/order_selected.png"/><else/><img  src="__IMG__/order_normal.png"/></if></div>
+				<div class="footer_title ">订单</div>
+			</div>
+		</div>
+		<div class="ub-f1 pos-r footerNav">
+			<div class="pos-a">
+				<div class="footer_img" data-default="__IMG__/user_normal.png" data-active="__IMG__/user_selected.png"><if condition="$my"><img src="__IMG__/user_selected.png"/><else/><img src="__IMG__/user_normal.png"/></if></div>
+				<div class="footer_title">个人中心</div>
+			</div>
+		</div>
+	</div>
+<?php endif;?>
+
+    

@@ -1,0 +1,25 @@
+<extend name="Base:common" />
+<block name="static">
+<link rel="stylesheet" href="__CSS__/goodsdetails.css" />
+<script src="__PUBLIC__/js/jquery.min.js"></script> </block>
+<block name="body"> <input id="goodsId" type="hidden"
+	value="{$goodsDetails['goodsId']}" />
+<div class="wst-container">
+	<div class="wst-nvg-title" style='display: none;'></div>
+	<div class="wst-goods-details">
+		<if condition="$goodsDetails['goodsGroupStatus'] neq 1">
+		<div class="wst-goods-notext">团购活动未过审!</div>
+		<elseif condition="$goodsDetails['startTime'] gt $time" />
+		<div class="wst-goods-notext">团购活动未开始！</div>
+		<elseif condition="$goodsDetails['endTime'] lt $time" />
+		<div class="wst-goods-notext">团购活动已结束！</div>
+		</if>
+	</div>
+</div>
+</block>
+<block name="footer_static"> <script src="__JS__/goods.js"></script>
+</block>
+
+
+
+

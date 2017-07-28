@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<!--[if lt IE 9 ]>
+	<html lang="zh" class="no-js lt-ie10 lt-ie9">
+<![endif]-->
+<!--[if IE 9 ]>
+	<html lang="zh" class="no-js ie9 lt-ie10">
+<![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html lang="zh-cmn-Hans" class="no-js">
+<!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <include file="./Tpl/head.html" />
+    <script src="__JS__/flexible.js"></script>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    
+    <title>注册</title>
+    <link rel="stylesheet" href="__CSS__/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" href="__CSS__/base.css" />
+    <link rel="stylesheet" href="__CSS__/newRegister/page.min.css"/>
+    <link rel="stylesheet" href="__CSS__/newRegister/zoom.css?20170315"/>
+
+	<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+	<script src="__JS__/layer.min.js"></script>
+    <!--[if lt IE 9]>
+		<script src="http://libs.baidu.com/jquery/1.8.0/jquery.min.js"></script>
+		<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+		<script src="http://libs.useso.com/js/html5shiv/3.7/html5shiv.min.js"></script>
+	<![endif]-->
+    <!--<script src="__JS__/jquery.validate.js"></script>-->
+    <!--<script src="__JS__/shouyougou.js"></script>-->
+   	<script>
+		$(function () {
+			//$('.glyphicon-share').parent().attr('href','__CONTROLLER__/share?url=http://<?=$_SERVER['SERVER_NAME'].'partner='.urlencode($_GET['partner']).'nonce='.urlencode($_GET['nonce'])?>');
+			$('.glyphicon-share').parent().attr('href','__CONTROLLER__/share?url='+window.location.href);
+		})
+	</script>
+<style>
+.footer{
+    max-width: 650px!important;
+}
+.footer_title{
+    margin-top:5px;
+}
+</style>
+<include file="./Tpl/Public/commonHead.html" />
+</head>
+
+<body>
+<div id="zoom"
+		style="display: none; position: absolute; z-index: 999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); color: #fff;">
+		<div
+			style="float: right; margin-top: 10px; margin-right: 18px; background: url(__IMG__/share.png) no-repeat; background-size: 280px 100px; width: 280px; height: 100px;"></div>
+		<div class="share-block">
+			<div class="clear"></div>
+			<h3 style="color: #999; padding: 20px 0 10px 0; background: black;font-size:24px;">怎么赚钱？</h3>
+			<p style="color: #999; background: black">1、点击复制本页面的链接</p>
+			<p style="color: #999; background: black">2、然后发送给朋友或者点击&nbsp;<a href="__CONTROLLER__/share/url"> <span style="color: green" class="glyphicon glyphicon-share"></span>&nbsp;分享</a></p>
+			
+			<p style="color: #999; background: black">3、经您邀请的好友，成功交易，您可获得好友消费消费额相应的佣金奖励</p>
+		</div>
+	</div>
+    <div class="joinBlock">
+        <div class="hp-banner">
+            <img class="bg" src="__CSS__/newRegister/hp_img2.png"/>
+            <img class="font-img" src="__CSS__/newRegister/hp_img1.png"/>
+            <div class="text">
+            <span>千款手游	聚合市面上主流端口尊享市面上充值<em>最低折扣</em></span>
+            <span>24小时全自动充值为你<em>省时省力</em></span>
+            <span>推广员系统让你游戏中<em>玩乐赚钱</em></span>
+            </div>
+        </div>	
+        <div class="hp-input">
+            <img src="__CSS__/newRegister/hp_img3.png"/> 
+            <form action="" name="" id="my_form" class="my-form" method="post">
+            <input type="text" name="phone" id="phone" placeholder="请输入您的电话号码">
+            <input type="submit" value="立即加入" id="joinBtn" class="submit" />
+            </form>
+        </div>
+    </div>
+<input type="hidden" name="isrepeat" id="isrepeat" value="0" />
+<include file="./Tpl/Public/commonFooter.html" />
+</body>
+
+<script>
+    (function(){
+        var zoom = document.querySelector('#zoom');
+        var joinBlock = $('.joinBlock');
+        if({$status} ==true){
+            zoom.style.display='block';
+            joinBlock.hide();
+        }else if({$status} =='2'){
+			zoom.style.display='none';
+            joinBlock.show();
+		}
+//        zoom.addEventListener('touchend',function(){			//魏永就   注释掉的原因是避免用户点击“分享”跳回去而进不了分享页面
+//            history.go(-1);
+//        });
+    })();
+    
+    $('#joinBtn').click(function(){
+        checkPhone();
+        return false;
+    })
+    //检测手机号是否已经注册过
+    function checkPhone(){
+    	if($('#isrepeat').val()==1){
+			layer.msg('请勿重复提交');
+			return;
+		}
+		var phone = $('#phone').val();
+		var telReg = !!phone.match(/^1[3|7|4|5|8]{1}\d{9}$/);
+		if (telReg == false) {
+			layer.msg('手机格式不正确');
+			return;
+		}
+		$.ajax({
+			type : "POST",
+			url : "{:U('Register/checkPhone')}",
+			data : {
+				phone : phone
+			},
+			dataType : "json",
+			success : function(data) {
+					if(data.status==0){
+					   location.href="{:U('Register/register1')}";
+					}else if(data.status==-1){
+						layer.msg(data.msg);
+					}else if(data.status==-2){
+						layer.msg(data.msg);
+					}else{
+						layer.msg(data.msg);
+					}
+				}
+		})
+        
+    }
+    
+    
+</script>
+<include file="./Tpl/Public/commonFooter.html" />
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>绑定手机</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/layer.min.js"></script>
+<style>
+body {
+	background: #fff;
+}
+
+.trsp {
+	background-color: transparent;
+	width: 80%;
+	height: 100%;
+	margin: 0 auto;
+	border: none;
+	height: 35px;
+	line-height: 35px;
+	background-size: 12px;
+}
+
+.password_ico {
+	background: url(__IMG__/ico_s.png) 5px center no-repeat;
+	background-size: 12px;
+}
+
+.login_btn {
+	display: block;
+	width: 80%;
+	height: 40px;
+	line-height: 40px;
+	margin: 0 auto;
+	background: #48b2f2;
+	border-radius: 4px;
+	text-align: center;
+	color: #fff;
+}
+
+.ub {
+	border-bottom: #d5d7dc solid 1px;
+}
+
+.submit {
+	margin-top: 50px;
+}
+
+.ti-10 {
+	text-indent: 10px;
+}
+
+.getCode {
+	background: #ffbc1b;
+	color: #fff;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<form id="form1" name="form1" method="post" action="">
+		<div class="_top">
+			<div class="_left_top"
+				onclick="self.location=document.referrer;"></div>
+			<div class="_title_top">绑定手机</div>
+			<div class="_right_top no-bg"></div>
+		</div>
+		<div class="ub lh45 mr-t45">
+			<div class="ti-10">手机号</div>
+			<div class="ub-f1 txt-c">
+				<input class="trsp no-bg" type="text" name="phone" id="phone"
+					value="" placeholder="请输入你的手机号" />
+			</div>
+		</div>
+		<div class="ub lh45">
+			<div class="w20"></div>
+			<div class="ub-f1 ub br-b" style="border: none;">
+				<div class="mr-r10 ti-10">验证码</div>
+				<div class="ub-f1 txt-l">
+					<input class="trsp no-i" type="text" name="secCode" id="secCode"
+						value="" placeholder="请输入验证码" />
+				</div>
+				<div style="padding: 0 10px;" class="getCode" id="yanzhenma"
+					onclick="getCode()">获取验证码</div>
+			</div>
+		</div>
+		<div class="ub lh35 submit" style="border: none;">
+			<div class="ub-f1" onclick="save()">
+				<span class="login_btn"> 保存 </span>
+			</div>
+		</div>
+	</form>
+	<input type="hidden" id="isrepeat" value="0" />
+	<input type="hidden" id="sendStatus" value="0" />
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script>
+//60秒倒计时
+var countdown = 120;
+function settime(val) {
+	if(val==0){
+		countdown=0;
+		return;
+	}
+	if (countdown == 0) {
+		$('#sendStatus').val(0);
+		$('#yanzhenma').text('获取验证码');
+		countdown = 120;
+		return;
+	} else {
+		$('#sendStatus').val(1);
+		var val = "重新发送(" + countdown + ")";
+		$('#yanzhenma').text(val);
+		countdown--;
+	}
+	setTimeout(function() {
+		settime(val)
+	}, 1000)
+}
+
+//获取验证码
+function getCode() {
+	if ($('#sendStatus').val() == 1) {
+		layer.msg('请求过于频繁');
+		return;
+	}
+	var phone = $('#phone').val();
+	var telReg = !!phone.match(/^1[3|7|4|5|8]{1}\d{9}$/);
+	if (telReg == false) {
+		layer.msg('手机格式不正确');
+		return;
+	}
+	settime();
+	$.ajax({
+		type : "POST",
+		url : "{:U('Register/checkPhone',array('flag'=>1))}",
+		data : {
+			phone : phone
+		},
+		dataType : "json",
+		success : function(data) {
+				if(data.status!=0){
+					countdown=0;
+				}
+				layer.msg(data.msg);
+		}
+	});
+}
+
+
+	function save() {
+		var url = "{:U('Login/bindPhoneHandle')}"
+		var phone = $.trim($('#phone').val());
+		var code=$.trim($('#secCode').val());
+		var telReg = !!phone.match(/^1[3|7|4|5|8]{1}\d{9}$/);
+		if (telReg == false) {
+			layer.msg('手机格式不正确');
+			return;
+		}
+		if(code==''){
+			layer.msg('请输入验证码');
+			return;
+		}
+		$('#isrepeat').val(1);
+		$.ajax({
+			type : "POST",
+			url : url,
+			data : {
+				phone : phone,
+				code:code,
+			},
+			dataType : "json",
+			success : function(data) {
+				try {
+					if (data.status == 0) {
+						layer.msg('手机绑定成功');
+						setTimeout(function() {
+							//location.href = "{:U('Login/userInfo')}";
+							location.href = data.trunback_uri;
+						}, 2000);
+					} else{
+						$('#isrepeat').val(0);
+						layer.msg(data.msg);
+					}
+						
+				} catch (err) {
+
+				}
+			}
+		});
+	}
+</script>
+</html>

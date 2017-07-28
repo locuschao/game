@@ -1,0 +1,306 @@
+<extend name="Shops:layout" />
+<block name="content"> <script
+	src="__PUBLIC__/plugins/kindeditor/kindeditor.js"></script> <script
+	src="__PUBLIC__/plugins/kindeditor/lang/zh_CN.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="__PUBLIC__/plugins/webuploader/style.css" />
+<link rel="stylesheet" type="text/css"
+	href="__PUBLIC__/plugins/webuploader/webuploader.css" />
+<script type="text/javascript"
+	src="__PUBLIC__/plugins/webuploader/webuploader.js"></script> <script
+	type="text/javascript" src="__JS__/goodsbatchupload.js"></script>
+<link rel="stylesheet" href="__CSS__/jquery.datetimepicker.css">
+<link rel="stylesheet" href="__CSS__/layer.css">
+<script type="text/javascript" src="__JS__/layer.js"></script> <script
+	type="text/javascript" src="__JS__/layer.ext.js"></script> <script
+	src="__JS__/jquery.js"></script> <script
+	src="__JS__/jquery.datetimepicker.js"></script> <script
+	src="__PUBLIC__/plugins/plugins/youhui.js"></script> <script
+	type="text/javascript">
+  function layer_e(){
+        layer.config({
+              extend: 'extend/layer.ext.js'
+          });
+  }
+</script>
+<div class="wst-body">
+	<div class='wst-page-header'>
+		卖家中心 >
+		<?php if($whatpage=='x'){echo '修改';}else{echo '新增';} ?>
+		优惠券
+	</div>
+	<div class='wst-page-content'>
+		<form id="form_youhui" action="{$formurl}"
+			enctype="multipart/form-data" method="post">
+			<table
+				class="table table-hover table-striped table-bordered wst-form">
+				<tr>
+					<th width='200'>优惠券名称 <font color='red'>*</font>：
+					</th>
+					<td>
+						<?php if($formurl!='/Home/Youhui/updatarun.html'){ ?> <input
+						type='text' onchange="javascript:checkname(this.value);"
+						AutoComplete="off" value="{$return_data['name']}" name="name" /> <b
+						id="youhuiname"></b> <b id="checkT"></b> <b id="fileToUpimg"
+						value="{$return_data['icon']}"></b> <?php }else{ ?> <input
+						type='text' AutoComplete="off" value="{$return_data['name']}"
+						name="name" /> <b id="youhuiname" value="2"></b> <b id="checkT"
+						value="2"></b> <b id="fileToUpimg" value="2"></b> <?php } ?>
+					</td>
+				</tr>
+				<tr>
+					<th width='200' align='right'>优惠券图片 <font color='red'>*</font>：
+					</th>
+					<td><notempty name="return_data['icon']"> 图片已上传<input
+							type="hidden" name="img3" value="1"> </notempty> <input
+						id="fileToUpload1" type="file" size="20" name="fileToUpload1"
+						style="display: inline"></td>
+				</tr>
+				<tr>
+					<th width='200' align='right'>开始时间<font color='red'>*</font>：
+					</th>
+					<td><input onchange="javascript:checkedtime(this.value);"
+						type="text" AutoComplete="off"
+						value="{$return_data['begin_time']}" name="begin_time"
+						id="datetimepicker_mask" /><span
+						onclick="document.getElementById('datetimepicker_mask').value=''"
+						style="display: inline-block; width: 80px; color: #fff; text-align: center; margin-left: 10px; background: #666666; cursor: pointer">清空时间</span><b
+						id="bT" style="color: red; padding-left: 10px;">{$return_data['msg']}</b></td>
+				</tr>
+				<tr>
+					<th width='200' align='right'>结束时间<font color='red'>*</font>：
+					</th>
+					<td><input onchange="javascript:checkedtime(this.value);"
+						type="text" AutoComplete="off" name="end_time"
+						value="{$return_data['end_time']}" id="datetimepicker_mask2" /><span
+						onclick="document.getElementById('datetimepicker_mask2').value=''"
+						style="display: inline-block; width: 80px; color: #fff; text-align: center; margin-left: 10px; background: #666666; cursor: pointer">清空时间</span><b
+						id="eT" style="color: red; padding-left: 10px;">{$return_data['msg']}</b></td>
+				</tr>
+
+				<tr>
+					<th width='200' align='right'>优惠券类型<font color='red'>*</font>：
+					</th>
+					<td><label id="zhekou"><input type="radio"
+							name='youhui_type' value="1">折扣券</label> <label id="jianmian"><input
+							type="radio" name='youhui_type' checked="checked" value="0">减免券</label>
+					</td>
+				</tr>
+				<tr>
+					<th width='200' align='right'>折扣额度/减免额度<font color='red'>*</font>：
+					</th>
+					<td><input id="breaks_menoy" type="text" AutoComplete="off"
+						onchange='javascript:checkyouhui_type(this.value,this.id);'
+						name="breaks_menoy" value="{$return_data['breaks_menoy']}"
+						style="display: inline"><font color='Orange' id="edu"></font></td>
+				</tr>
+				<tr>
+					<th width='200' align='right'>消费金额<font color='red'>*</font>：
+					</th>
+					<td><input type="text" AutoComplete="off"
+						onchange='javascript:checkyouhui_type(this.value,this.id)'
+						value="{$return_data['total_fee']}" name="total_fee"
+						id="total_fee" style="display: inline"> <font
+						color='Orange'>设置消费多少金额可用（元）</font></td>
+				</tr>
+				<tr>
+					<th width='200' align='right'>优惠券总条数<font color='red'>*</font>：
+					</th>
+					<td><input type="text" AutoComplete="off"
+						onchange='javascript:checkyouhui_type(this.value,this.id)'
+						value="{$return_data['total_num']}" name="total_num"
+						id="total_num" style="display: inline"> <font
+						color='Orange'>设置优惠券条数</font></td>
+				</tr>
+				<tr>
+					<th width='200' align='right'>会员下载限制<font color='red'>*</font>：
+					</th>
+					<td><input type="text" AutoComplete="off"
+						onchange='javascript:checkyouhui_type(this.value,this.id)'
+						value="{$return_data['user_limit']}" name="user_limit"
+						id="user_limit" style="display: inline"><font
+						color='Orange'>设置每个会员的每天下载条数</font></td>
+				</tr>
+				<tr id="scopetr">
+					<th width='200' align='right'>优惠范围<font color='red'>*</font>：
+					</th>
+					<td><select name="youhui_scope" id="youhui_scope"
+						onchange="javascript:getscopesupplier()">
+							<option>请选择</option>
+							<option value='1'>全部商品</option>
+							<option value='2'>店铺分类</option>
+							<option value='3'>以下商品</option>
+							<option value='4'>以下品牌</option>
+							<option value='5'>以下分类</option>
+					</select> <span id="scopeval"> <volist id='v'
+								name="return_data['scopeval']"> {$v['check']} </volist>
+					</span></td>
+				</tr>
+				<input type="hidden" value="0" name="areaId1">
+				<!-- <tr>
+             <th width='200' align='right'>父级地区<font color='red'>*</font>：</th>
+             <td>
+             <select  id='areaId1' name="areaId1" onchange='javascript:getAreaList("areaId2",this.value,0)'>
+             <?php
+              if($return_data["areaparent"]){
+              echo "<option value='".$return_data["areaparent"]["areaid"]."'>".$return_data['areaparent']['areaName']."</option>";
+              }else if($return_data['areaid']==0){echo "<option value='0'>全国可用</option>";}else{
+              echo "<option value='".$return_data["areaid"]."'>".$return_data['areaName']."</option><option value='0'>全国可用</option>";
+              }
+             ?>
+               <volist name="areaList" id="vo">
+                  <option value="{$vo['areaId']}">{$vo['areaName']}</option>
+                  </volist>
+               </select>
+             <select id='areaId2' name="areaId2" onchange='javascript:getAreaList("areaId3",this.value,1);getCommunitys()'>
+             <?php
+              if($return_data["areaparent"]){
+              echo "<option value='".$return_data["areaid"]."'>".$return_data['areaName']."</option>";
+              }
+             ?>
+               <option value='0'>请选择</option>
+             </select>
+            </td>
+           </tr>
+           </tr> -->
+				<tr>
+					<th width='200' align='right'>状态<font color='red'>*</font>：
+					</th>
+					<td><label id="youxiao"><input type="radio"
+							name='is_effect' value="1">有效</label> <label id="wuxiao"><input
+							type="radio" name='is_effect' value="0">无效</label></td>
+				</tr>
+				<tr>
+					<th width='200' align='right'>优惠券列表简介<font color='red'>*</font>：
+					</th>
+					<td><textarea maxlength="50" name="list_brief"
+							style="display: inline; width: 342px; height: 92px;">{$return_data['list_brief']}</textarea><font
+						color='Orange'>最多输入五十个字符</font></td>
+				</tr>
+				<td colspan='2' style='padding: 20px 0; text-align: center;'><input
+					type="hidden" name="pub_by" value="1"> <input type="hidden"
+					name="id" value="{$return_data['id']}"> <input
+					type="hidden" name="icon" value="{$return_data['icon']}"> <input
+					type="hidden" name="publish_wait" value="1"> <input
+					type="hidden" name="biz_apply_status" value="{$biz_apply_status}">
+					<input type="hidden" name="admin_check_status" value="0"> <input
+					type="hidden" name="supplier_id"
+					value="{$return_data['supplier_id']}"></input>
+					<button type="button" id="tijiao" onclick="javascript:lastchecke()"
+						class=" wst-btn-query">保&nbsp;存</button>
+					<button type="button" class=" wst-btn-query"
+						onclick='javascript:location.href="{:U('Home/Youhui/shopindex')}"'>返&nbsp;回</button>
+				</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+	<div style='clear: both;'></div>
+</div>
+<script type="text/javascript">
+		$('#datetimepicker_mask').datetimepicker({
+      lang:"ch",           //语言选择中文
+      yearStart:2016,     //设置最小年份
+      yearEnd:2050        //设置最大年份
+		})
+		$('#datetimepicker_mask2').datetimepicker({
+      lang:"ch",           //语言选择中文
+      yearStart:2016,     //设置最小年份
+      yearEnd:2050,       //设置最大年份
+		})
+       </script> <script type="text/javascript">
+       var formurl='{$formurl}';
+   		$(document).ready(function(){
+          if ($("#jianmian input").is(':checked')) {$("#edu").html("填写减免额度，如减免50元填写50，减免100元填写100");}else{
+            $("#edu").html("填写折扣额度，如八折填写8，九点五折填写9.5");
+            
+          }
+        });
+        $("#zhekou").click(function(){
+        $("#edu").html("填写折扣额度，如八折填写8，九点五折填写9.5");
+        $("#breaks_menoy").val("");
+      })
+      $("#jianmian").click(function(){
+        $("#edu").html("填写减免额度，如减免50元填写50，减免100元填写100");
+        $("#breaks_menoy").val("");
+      })
+
+      var youhui_scope='{$return_data["youhui_scope"]}';
+          switch (youhui_scope){
+            case '1':
+              $("#youhui_scope").find("option:selected").html("全部商品");
+              $("#youhui_scope").find("option:selected").val('1');
+            break;
+            case '2':
+              $("#youhui_scope").find("option:selected").val('2');
+              $("#youhui_scope").find("option:selected").html("选择商户");
+            break;
+            case '3':
+              $("#youhui_scope").find("option:selected").val('3');
+              $("#youhui_scope").find("option:selected").html("以下商品");
+            break;
+            case '4':
+              $("#youhui_scope").find("option:selected").val('4');
+              $("#youhui_scope").find("option:selected").html("以下品牌");
+            break;
+            case '5':
+              $("#youhui_scope").find("option:selected").val('5');
+              $("#youhui_scope").find("option:selected").html("以下分类");
+            break;
+          }
+
+      var youhui_type="{$return_data['youhui_type']}";
+      if (youhui_type==1) {
+        $("#zhekou input").attr('checked','checked');
+      }else{
+        $("#jianmian input").attr('checked','checked');
+      }
+
+      var is_effect="{$return_data['is_effect']}";
+      if (is_effect==1) {
+        $("#youxiao input").attr('checked','checked');
+      }else{
+        $("#wuxiao input").attr('checked','checked');
+      }
+
+      var supplier_id="{$return_data['supplier_id']}";
+      var shop_name="{$return_data['shopname']}";
+      if (supplier_id) {
+        $('#shop_select').find("option").attr('value',supplier_id);
+        $('#shop_select').find("option").html(shop_name);
+      }
+
+      var deal_cate_id="{$return_data['deal_cate_id']}";
+      var deal_cate_name="{$return_data['deal_cate_name']}";
+      if (deal_cate_id) {
+        $('#shop_cat_id').find("option").attr('value',deal_cate_id);
+        $('#shop_cat_id').find("option").html(deal_cate_name);
+      }
+
+      var deal_cate_child_id="{$return_data['deal_cate_child_id']}";
+      var deal_cate_child_name="{$return_data['deal_cate_child_name']}";
+      if (deal_cate_child_id) {
+        $('#shop_cats_child').find("option").attr('value',deal_cate_child_id);
+        $('#shop_cats_child').find("option").html(deal_cate_child_name);
+      }
+
+      var city_parent_name="{$return_data['city_parent_name']}";
+      if (city_parent_name) {
+        $('#fuji').html(city_parent_name);
+      }
+
+      var city_id="{$return_data['city_id']}";
+      var city_name="{$return_data['city_name']}";
+      if (city_id) {
+        $('#areaId2').find("option").attr('value',city_id);
+        $('#areaId2').find("option").html(city_name);
+      }
+      
+
+      $("#fileToUpload1").click(function(){
+        $("input[name='img3']").val('0');
+      })
+
+      checktime();
+
+       </script> </block>

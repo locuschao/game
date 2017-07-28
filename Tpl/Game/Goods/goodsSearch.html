@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>游戏列表</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/base.js"></script>
+<style>
+body {
+	background: #efeff4
+}
+
+input[type=text] {
+	height: 30px;
+	line-height: 30px;
+	background: transparent;
+	border: #ccc solid 1px;
+	border-radius: 4px;
+	width: 95%;
+	text-indent: 10px;
+}
+
+.search {
+	background: #fff600;
+	height: 35px;
+	line-height: 35px;
+	border-radius: 4px;
+	padding: 0px 15px;
+	cursor: pointer
+}
+
+.list {
+	height: 60px;
+	padding: 10px;
+	background: #fff;
+	width: 85%;
+	margin: 10px auto 10px auto;
+	border-radius: 4px
+}
+
+.shopImg img {
+	width: 60px;
+	height: 60px;
+	border-radius: 4px;
+}
+
+.shopContent {
+	margin-left: 5px;
+	overflow: hidden;
+}
+
+.shopName {
+	font-size: 120%;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	height: 20px;
+	line-height: 20px;
+	over-flow: hidden;
+}
+
+.fw {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	height: 20px;
+	line-height: 20px;
+	font-size: 90%;
+}
+
+.sl {
+	overflow: hidden;;
+	text-align: center;
+	font-size: 12px;
+	color: #e50f12;
+	border: #e50f12 solid 1px;
+	border-radius: 2px;
+	display: inline-block;
+	margin-left: 2px;
+	margin-top: 1px;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<div class="_top" style="z-index: 999">
+		<div class="_left_top" onclick='history.go(-1)'></div>
+		<div class="_title_top">游戏列表</div>
+		<div class="_right_top mess"
+			onclick="location.href='/Game/Mess/mess/r/Goods_goodsSearch'"></div>
+	</div>
+	<div class="lh45"></div>
+	<form action="{:U('goodsSearch')}" method="get" id="shopSearch">
+		<div class="lh35  back-ff ub " style="padding: 10px 0px;">
+			<div class="ub-f1 margin_left10">
+				<input type="text" name="key" value="{$_GET['key']}"
+					placeholder="请输入游戏名" />
+			</div>
+			<div class="margin_right10 search">游戏搜索</div>
+		</div>
+	</form>
+
+	<div class="append">
+		<volist name="goodsList" id="sl"> <a
+			href="{:U('goodsList',array('gameId'=>$sl['gameId'],'o'=>1))}">
+			<div class="ub list">
+				<div class="shopImg">
+					<img src="/{$sl.gameIco|default='__IMG__/shopImg.png'}" />
+				</div>
+				<div class="ub-f1 shopContent">
+					<div class='shopName'>{$sl.gameName}</div>
+					<volist name="sl['type']" id='ty'>
+					<div class="sl">{$ty.type}</div>
+					</volist>
+				</div>
+				<div class="right_arrows arrowsMy"></div>
+			</div>
+		</a> </volist>
+	</div>
+	<div class=" lh45 txt-c back-ff loadMore"
+		style="position: fixed; bottom: 0; left: 0; width: 100%;; cursor: pointer; display: none;">加载更多</div>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script>
+var page=1;
+
+$('body').on('click','.search',function(){
+	$('#shopSearch').submit();
+})
+
+$(window).scroll(function(){
+	// 当滚动到最底部以上100像素时， 加载新内容
+	if ($(document).height() - $(this).scrollTop() - $(this).height()<100) {
+		$('.loadMore').fadeIn();
+	}else{
+		$('.loadMore').fadeOut();
+	}
+});
+
+$('body').on('click','.loadMore',function(){
+	var key="{$_GET['key']}";
+	$.ajax({
+		type:'POST',
+		dataType:'json',
+		data:{page:page,key:key},
+		url:"{:U('Goods/goodsSearch')}",
+		success:function(data){
+			if(isDefine(data)){
+					if(data.length==0){
+						$('.loadMore').text('暂无数据');return;
+					}
+					page++;
+					var html='';
+					for(var i=0;i<data.length;i++){
+							html+='<a href="/Game/Goods/goodsList/gameId/'+data[i].gameId+'">';
+							html+='	<div class="ub list">';
+							html+='<div class="shopImg"><img  src="/'+data[i].gameIco+'"/></div>';
+							html+='	<div class="ub-f1 shopContent">';
+								html+='<div class="shopName">'+data[i].gameName+'</div>';
+								for(var j=0;j<data[i]["type"];j++){
+									html+='<div class="sl">'+data[i]["type"][j].type+'</div>';
+								}
+						  	 html+='</div>';
+						   html+='<div class="right_arrows arrowsMy"></div>';
+						   html+='</div></a>';
+					}
+				$('.append').append(html);
+			}else{
+				$('.loadMore').text('没有更多了');
+			}
+		}
+	})
+})
+
+</script>
+</html>

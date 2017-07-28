@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{$CONF['mallTitle']}后台管理中心</title>
+<link href="__PUBLIC__/plugins/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+<link href="__CSS__/AdminLTE.css" rel="stylesheet" type="text/css" />
+<!--[if lt IE 9]>
+      <script src="__PUBLIC__/js/html5shiv.min.js"></script>
+      <script src="__PUBLIC__/js/respond.min.js"></script>
+      <![endif]-->
+<script src="__PUBLIC__/js/jquery.min.js"></script>
+<script src="__PUBLIC__/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="__PUBLIC__/js/common.js"></script>
+<script src="__PUBLIC__/plugins/plugins/plugins.js"></script>
+
+</head>
+<script>
+   function del(youhui_id,user_id){
+     Plugins.confirm({title:'信息提示',content:'您确定要删除该用户的优惠券的全部张数吗?如果只减少张数，可以点击“修改”进行减少。',okText:'确定',cancelText:'取消',okFun:function(){
+       Plugins.closeWindow();
+       Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
+       $.post("{:U('Admin/Youhui/deluseryouhui')}",
+        {
+          youhui_id:youhui_id,
+          user_id:user_id,
+
+        },
+        function(data,textStatus){
+          var json = WST.toJson(data);
+          if(json.status=='1'){
+            Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
+              location.reload();
+            }});
+          }else{
+            Plugins.closeWindow();
+            parent.showMsg({msg:'操作失败!',status:'danger'});
+          }
+        });
+        }});
+   }
+   </script>
+<body class='wst-page'>
+	<form method='get' action="{:U('Admin/Youhui/shopup_log')}">
+		<div class='wst-tbar'></div>
+	</form>
+	<div class='wst-body'>
+		<table class="table table-hover table-striped table-bordered wst-list">
+			<thead>
+				<tr>
+					<th width='100'>优惠券名称</th>
+					<th width='30'>会员名称</th>
+					<th width='60'>折扣/减免额度</th>
+					<th width='30'>需消费金额</th>
+					<th width='50'>商户名称</th>
+					<th width='30'>拥有张数</th>
+					<th width='80'>领取时间</th>
+					<th width='40'>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+
+				<volist name="list" id="vo">
+				<tr>
+					<td>{$vo['name']}</td>
+					<td>{$vo['loginName']}</td>
+					<td>{$vo['breaks_menoy']} <switch name="vo['youhui_type']">
+						<case value="0">元</case> <case value="1">折</case> </switch></td>
+					<td>{$vo['total_fee']}元</td>
+					<td>{$vo['supplier_id']}</td>
+					<td>{$vo['surplus']}</td>
+					<td>{$vo['get_time']|date="Y-m-d H:i",###}</td>
+					<td><a class="btn btn-default glyphicon glyphicon-pencil"
+						href="{:U('Admin/Youhui/userlistupdata',array('youhui_id'=>$vo['youhui_id'],'user_id'=>$vo['user_id']))}">修改</a>&nbsp;
+						<button type="button"
+							class="btn btn-default glyphicon glyphicon-trash"
+							onclick="javascript:del({$vo['youhui_id']},{$vo['user_id']})">
+							删除
+							</buttona></td>
+				</tr>
+				</volist>
+
+				<tr>
+					<td colspan='8' align="center">{$show}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

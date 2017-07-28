@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta http-equiv="Cache-control" content="no-cache"/>
+<meta http-equiv="Cache" content="no-cache"/>
+<title>分销设置</title>
+<link href="/Public/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="/Tpl/Admin/css/AdminLTE.css" rel="stylesheet"/>
+
+</head>
+<style>
+.wrap{
+    padding:10px 0 0 10px;
+}
+.data-table{
+    width:600px;
+}
+.btn-block{
+    text-align:center;
+}
+.data-table td,.data-table th{
+    text-align:center;
+}
+.form-block label{
+    display:inline-block;
+    
+    min-width:90px;
+}
+.form-control{
+    width:70px;
+}
+tr:nth-child(2),tr:nth-child(3),tr:nth-child(1),tr:nth-child(7),tr:nth-child(8),tr:nth-child(9)
+{
+    background:#f3f4f5;
+}
+</style>
+<div class="wrap">
+    <table class="table table-bordered data-table">
+    <thead>
+    <th><label>推广人等级</label></th>
+    <th><label>新会员等级</label></th>
+    <th><label>返利(单位元)</label></th>
+    <th style="width:150px;"><label>操作</label></th>
+    </thead>
+    <tbody>
+    <?php 
+    $level_text=[1=>'高',2=>'中',3=>'低'];
+    foreach($data as $row):
+       
+     ?>       
+     <tr><td><?=$level_text[$row['tg_level']]?></td>
+     <td><?=$level_text[$row['gm_level']]?></td>
+     <td><input type="text" disabled="true" class="form-control" autocomplete="off" value="<?=number_format($row['return_profit'],2)?>"/></td> 
+     <td><button class="btn btn-sm btn-primary edit-btn" >修改</button>
+     <button class="btn btn-sm btn-primary save-btn" style="display:none" data-id="{$row.id}">保存</button>
+     <button class="btn btn-sm btn-primary cancel-btn" style="display:none">取消</button>
+     </td>
+    <?php 
+    endforeach;
+    ?>
+    
+    </tbody>
+    </table>
+    
+</div>
+<script src="/Public/js/jquery.min.js"></script>
+</body>
+<script>
+$(function(){
+    $('body').on('click','.edit-btn',function(){
+        $(this).hide();
+        var parent_tr=$(this).closest('tr')
+        parent_tr.find('input').attr('disabled',false);
+        parent_tr.find('.save-btn,.cancel-btn').show();
+        
+    }).on('click','.save-btn',function(){
+        var parent_tr=$(this).closest('tr')
+        $.post('__URL__/setting',{id:$(this).data('id'),return_profit:parent_tr.find('input').val()},function(data){
+            alert(data.info)
+            if(data.status==1){
+                $('input').attr('disabled',true);
+                $('.save-btn,.cancel-btn').hide();
+                $('.edit-btn').show();
+            }
+        },'json')
+    }).on('click','.cancel-btn',function(){
+        var parent_tr=$(this).closest('tr')
+        parent_tr.find('input').attr('disabled',true);
+        parent_tr.find('.edit-btn').show();
+        parent_tr.find('.save-btn,.cancel-btn').hide();
+    })
+    
+	
+})
+</script>
+</html>

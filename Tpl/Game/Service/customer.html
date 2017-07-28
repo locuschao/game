@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>给我们建议</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/layer.min.js"></script>
+<style>
+body {
+	margin-top: 45px;
+}
+
+.mess {
+	background: url(__IMG__/mess.png) center no-repeat;
+	background-size: 18px;
+}
+
+.kefu {
+	color: #333;
+	width: 60%;
+	margin: 0 auto;
+	text-align: center;
+	padding: 10px;
+	margin-top: 10px;
+	background: url(__IMG__/gary_qq.png) 10% center no-repeat;
+	background-size: 20px;
+	border: #999999 dashed 1px;
+}
+
+.test {
+	-webkit-user-select: all;
+	-moz-user-select: all;
+	-o-user-select: all;
+	user-select: all;
+	-moz-user-select: all;
+	-o-user-select: all;
+	user-select: all;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<div class="_top">
+		<div class="_left_top"
+			onclick="location.href='{:U('Index/index',array('r'=>'my'))}' "></div>
+		<div class="_title_top">客服</div>
+		<div class="_right_top no-bg mess"
+			onclick="location.href='/Game/Mess/mess/r/Service_customer'"></div>
+	</div>
+	<div style="padding: 30px 20px">
+		平台已经分配了客服人员与你联系，请你耐心等候，你也可以主动添加此客服人员的QQ</div>
+	<div style="padding: 0px 20px;">
+		<volist name="qq" id="q"> <a
+			href="tencent://message/?uin={$q['qq']}&Site=Senlon.Net&Menu=yes">
+			<div class="kefu test">{$q.qq}</div>
+		</a> </volist>
+	</div>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script>
+	function suggest(){
+		if(	$('#isrepeat').val()==1){
+			layer.msg('请不要重复提交');
+			return;
+		}
+		var content=$.trim($('#content').val());
+		var phone=$('#phone').val();
+		var telReg = !!phone.match(/^1[3|7|4|5|8]{1}\d{9}$/);
+		if (telReg == false) {
+			layer.msg('手机格式不正确');
+			return;
+		}
+		if(content.length<10){
+			layer.msg('内容过少！');
+			return;
+		}
+		$('#isrepeat').val(1);
+		layer.msg('正在提交...',{icon:16});
+		$.ajax({
+			type : "POST",
+			url : "{:U('Wx/Service/suggestHandle')}",
+			data : {
+				phone : phone,
+				content : content
+			},
+			dataType : "json",
+			success : function(data) {
+				layer.closeAll();
+				try {
+					if(data.status==0){
+						layer.msg('已收到你的建议');
+						setTimeout(function(){
+							location.href="{:U('Service/index')}";
+						},2000);
+					}else{
+						layer.msg('提交失败');
+						$('#isrepeat').val(0);
+					}
+				} catch (err) {
+					$('#isrepeat').val(0);
+				}
+			}
+		});
+	}
+</script>
+</html>

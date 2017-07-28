@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{$CONF['shopTitle']['fieldValue']}后台管理中心</title>
+<link href="__PUBLIC__/plugins/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+<link href="__CSS__/AdminLTE.css" rel="stylesheet" type="text/css" />
+<link href="__CSS__/upload.css" rel="stylesheet" type="text/css" />
+
+<!--[if lt IE 9]>
+      <script src="__PUBLIC__/js/html5shiv.min.js"></script>
+      <script src="__PUBLIC__/js/respond.min.js"></script>
+      <![endif]-->
+<script src="__PUBLIC__/js/jquery.min.js"></script>
+<script src="__PUBLIC__/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="__PUBLIC__/js/common.js"></script>
+<script src="__PUBLIC__/plugins/plugins/plugins.js"></script>
+<script src="__PUBLIC__/js/layer.js"></script>
+
+</head>
+<style>
+img {
+	max-width: 100px;
+}
+
+.ATRoot {
+	height: 22px;
+	line-height: 22px;
+	margin-left: 5px;
+	clear: both;
+	cursor: pointer;
+}
+
+.ATNode {
+	margin-left: 5px;
+	line-height: 22px;
+	margin-left: 17px;
+	clear: both;
+	cursor: pointer;
+}
+
+.Hide {
+	display: none;
+}
+
+dl.areaSelect {
+	padding: 0 5px;
+	display: inline-block;
+	width: 100%;
+	margin-bottom: 0; /*border:1px solid #eee;*/
+}
+
+dl.areaSelect:hover {
+	border: 1px solid #E5CD29;
+}
+
+dl.areaSelect:hover dd {
+	display: block;
+}
+
+dl.areaSelect dd {
+	float: left;
+	margin-left: 20px;
+	cursor: pointer;
+}
+
+#preview {
+	width: 152px;
+	height: 152px;
+	max-width: 152px;
+}
+
+#preview_Filedata img {
+	width: 152px;
+	height: 152px;
+	max-width: 152px;
+}
+</style>
+<script>
+   var shopMap = null;
+   var toolBar = null;
+   var filetypes = ["gif","jpg","png","jpeg"];
+   var ThinkPHP = window.Think = {
+	        "ROOT"   : "__ROOT__"
+	}
+   $(function () {
+
+   });
+ 
+
+	//修改结束 2016.7.7
+   function add(){
+	  
+	  var allowIp=$('#allowIp').val();
+	   reg=/^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/;
+	   var params = {};
+	   params.ip =allowIp ;
+	   if(!reg.test(allowIp)){
+		   Plugins.Tips({title:'信息提示',icon:'error',content:'请填写正确IP地址!',timeout:1000});
+		   return;
+	   }
+
+	   Plugins.waitTips({title:'信息提示',content:'正在提交数据，请稍后...'});
+	   $.post("{:U('Admin/Iplogin/addIp')}",params,function(data,textStatus){
+			var json = WST.toJson(data);
+			if(json.status=='0'){
+				    Plugins.setWaitTipsMsg({ content:'操作成功',timeout:1000,callback:function(){
+				 	location.reload();
+				}});
+			}else{
+				Plugins.closeWindow();
+				Plugins.Tips({title:'信息提示',icon:'error',content:'操作失败!',timeout:1000});
+				location.reload();
+			}
+		});
+   }
+
+	//修改结束 2016.7.7
+   function save(){
+	  var allowIp=$.trim($('textarea').val());
+	  if(allowIp!=''){
+		  var arr=allowIp.split(",");
+	 	   for(var i=0;i<arr.length;i++){
+	 		  reg=/^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/;
+	 		   if(!reg.test(arr[i])){
+	 			   Plugins.Tips({title:'信息提示',icon:'error',content:'请填写正确IP地址!',timeout:1000});
+	 			   return;
+	 		   }
+	 	   }
+	  }
+ 	  var params = {};
+	   params.ip =allowIp ;
+	   Plugins.waitTips({title:'信息提示',content:'正在提交数据，请稍后...'});
+	   $.post("{:U('Admin/Iplogin/saveIp')}",params,function(data,textStatus){
+			var json = WST.toJson(data);
+			if(json.status=='0'){
+				    Plugins.setWaitTipsMsg({ content:'操作成功',timeout:1000,callback:function(){
+				 	location.reload();
+				}});
+			}else{
+				Plugins.closeWindow();
+				Plugins.Tips({title:'信息提示',icon:'error',content:'操作失败!',timeout:1000});
+				location.reload();
+			}
+		});
+   }
+
+	
+   </script>
+<body class="wst-page" style="position: relative;">
+
+	<form name="myform" method="post" id="myform" autocomplete="off">
+		<input type='hidden' id='id' value='{$object.id}' />
+		<table class="table table-hover table-striped table-bordered wst-form">
+			<tr>
+				<th width='100' align='right'>允许登录的IP<font color='red'>*</font>：
+				</th>
+				<td width='100'><input style="width: 200px;" type='text'
+					id='allowIp' name='allowIp' class="form-control wst-ipt" value='' /></td>
+				<td width='350'><textarea rows="5" cols="20"
+						style="width: 100%;">{$ip}</textarea> <br /> 多个IP之间必须用英文的逗号","分隔</td>
+			</tr>
+			<td colspan='2' style='padding-left: 250px;'>
+				<button type="button" onclick="add()" class="btn btn-success">添&nbsp;加</button>
+			</td>
+			<td colspan='1' style='padding-left: 250px;'>
+				<button type="button" onclick="save()" class="btn btn-success">修&nbsp;改</button>
+			</td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>买家中心</title>
+	<include file="./Tpl/homeHead.html" />
+<link rel="stylesheet" href="__CSS__/common.css" />
+<link rel="stylesheet" href="__CSS__/user.css">
+<style>
+.wst-odetal-box {
+	padding: 10px;
+	text-align: center;
+	background-color: #ffffff;
+}
+
+.wst-tab {
+	border-collapse: collapse;
+}
+
+.wst-tab-cpt {
+	text-align: left;
+	height: 30px;
+	font-weight: bold;
+}
+
+.wst-tab tr {
+	height: 30px;
+}
+
+.wst-tab tr td {
+	border: 1px solid #eeeeee;
+}
+
+.wst-td-title {
+	width: 100px;
+	text-align: right;
+}
+
+.wst-td-content {
+	padding-left: 6px;
+	text-align: left;
+}
+
+.wst-align-center {
+	text-align: center;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+
+<body style="background-color: #f5f5f5;">
+	<div style="text-align: center;">
+		<div class="wst-odetal-box">
+			<table cellspacing="0" cellpadding="0" class="wst-tab" width="920"
+				style="margin: 0 auto;">
+				<caption class="wst-tab-cpt">退款状态</caption>
+				<tbody style="float: left;">
+					<tr>
+						<td class="wst-td-title"
+							style="text-align: left; border: 0px solid #eeeeee; width: 300px; padding-left: 38px;">
+							<PHP> if($rs['order']["orderStatus"]==-3){ </PHP> <img
+							src="__IMG__/46459.png" width="20" height="20">用户拒收(等待商家处理)
+							<PHP>}else if($rs['order']["orderStatus"]==-6 ||
+							$rs['order']["orderStatus"]==-7){</PHP><img src="__IMG__/46459.png"
+							width="20" height="20">用户取消(等待商家处理) <PHP>}else
+							if($rs['order']["orderStatus"]==-4 &&
+							$rs['order']["isRefund"]==1){</PHP> <img src="__IMG__/46458.png"
+							width="20" height="20">商家同意退款(已退款) <PHP>}else
+							if($rs['order']["orderStatus"]==-4 &&
+							$rs['order']["isRefund"]==0){</PHP> <img src="__IMG__/46459.png"
+							width="20" height="20">商家同意退款(未退款) <PHP>}else
+							if($rs['order']["orderStatus"]==-5){</PHP> <img src="__IMG__/46457.png"
+							width="20" height="20">商家不同意退款 <PHP>}else
+							if($rs['order']["orderStatus"]==-1){</PHP> <img src="__IMG__/46459.png"
+							width="20" height="20">用户取消 <PHP>if($rs['order']["payType"]==1){</PHP>
+							<PHP>if($rs['order']["isRefund"]==1){</PHP> (已退款) <PHP>}else{</PHP>
+							(未退款) <PHP>}</PHP> <PHP>}</PHP> <PHP>}</PHP>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<br />
+		<br />
+		<div class="wst-odetal-box">
+			<table cellspacing="0" cellpadding="0" class="wst-tab" width="920"
+				style="border: 1px solid #eeeeee; margin: 0 auto;">
+				<caption class="wst-tab-cpt">退款申请</caption>
+				<tbody>
+
+					<tr>
+						<td class="wst-td-title">退款类型：</td>
+						<td class="wst-td-content">仅退款</td>
+					</tr>
+					<tr>
+						<td class="wst-td-title">退款金额：</td>
+						<td class="wst-td-content">{$rs['order']['needPay']}元</td>
+					</tr>
+					<tr>
+						<td class="wst-td-title">退款原因：</td>
+						<td class="wst-td-content">{$rs['refund']['reason']}</td>
+					</tr>
+					<tr>
+						<td class="wst-td-title">退款编号：</td>
+						<td class="wst-td-content">{$rs['refund']['id']}</td>
+					</tr>
+					<tr>
+						<td class="wst-td-title">申请时间：</td>
+						<td class="wst-td-content">{$rs['refund']['time']}</td>
+					</tr>
+					<tr>
+						<td class="wst-td-title">退款说明：</td>
+						<td class="wst-td-content"><if
+								condition="$rs['refund']['explain'] eq true">{$rs['refund']['explain']}<else />-</if></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+
+
+</html>

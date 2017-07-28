@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>评价中心</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/layer.min.js"></script>
+<style>
+.font90 {
+	font-size: 90%;
+}
+
+body {
+	padding-bottom: 50px;
+}
+._son_title ,.lh45 ,.ub ,.font90,.swi_title{
+	max-width: 800px;
+	left: 0;
+	right:0;
+	margin:0 auto;
+}
+.col-red {
+	color: #ff4045
+}
+
+.right_arrows {
+	background-size: 7px;
+}
+
+.imgwh img {
+	width: 72px;
+	height: 72px;
+}
+
+.padd-tb {
+	padding: 10px 0px;
+}
+
+.lh35 {
+	height: 35px;
+	line-height: 35px;
+}
+
+.bv {
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+}
+
+.titls {
+	line-height: 20px;
+}
+
+.lh20 {
+	height: 20px;
+	line-height: 20px;
+	color: #999;
+}
+
+.fw {
+	font-weight: 550;
+}
+
+.txt_title {
+	height: 40px;
+	line-height: 20px;
+}
+
+.pj, .pjok {
+	text-align: right;
+	height: 30px;
+	line-height: 30px;
+}
+
+.pj span {
+	padding: 5px 10px 5px 20px;
+	color: #ff4045;
+	border: #ff4045 solid 1px;
+	border-radius: 3px;
+	margin-right: 10px;
+	background: url(__IMG__/pen.png) 3px center no-repeat;
+	background-size: 14px;
+}
+
+.pjok span {
+	padding: 5px 10px 5px 20px;
+	color: #ff4045;
+	border: #ff4045 solid 1px;
+	border-radius: 3px;
+	margin-right: 10px;
+	background: url(__IMG__/look_ico.png) 3px center no-repeat;
+	background-size: 14px;
+}
+
+.swi span {
+	display: block;
+	height: 100%;
+	margin: 0 auto;
+}
+
+.bor_b2 {
+	border-bottom: #ff4045 solid 3px;
+}
+
+.hide {
+	display: none;
+}
+
+.triangle-up {
+	position: absolute;
+	left: 48%;
+	bottom: 0;
+	width: 0;
+	height: 0;
+	border-left: 2px solid transparent;
+	border-right: 2px solid transparent;
+	border-bottom: 3px solid red;
+}
+
+.swi_title {
+	position: fixed;
+	top: 42px;
+	left: 0;
+}
+
+._content {
+	margin-top: 87px;
+}
+
+.right_arrows {
+	background-size: 7px;
+}
+
+.imgwh img {
+	width: 72px;
+	height: 72px;
+}
+
+.padd-tb {
+	padding: 10px 0px;
+}
+
+.lh35 {
+	height: 35px;
+	line-height: 35px;
+}
+
+.bv {
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+}
+
+.titls {
+	line-height: 20px;
+}
+
+.car_ico {
+	background: url(__IMG__/car_ico.png) center no-repeat;
+	width: 30px;
+	background-size: 25px;
+	margin-left: 10px;
+	font-size: 80%;
+}
+
+.car_info {
+	font-size: 90%;
+	height: 30px;
+	line-height: 30px;
+}
+
+.lh20 {
+	height: 20px;
+	line-height: 20px;
+	color: #999;
+}
+
+.btn span {
+	border: #52c4ff solid 1px;
+	padding: 7px 10px;
+	border-radius: 2px;
+	color: #52c4ff
+}
+
+.btns span:last-child {
+	border: #ff4045 solid 1px;
+	padding: 7px 10px;
+	border-radius: 2px;
+	color: #ff4045
+}
+
+.fw {
+	font-weight: 550;
+}
+
+.imgw img {
+	width: 26px;
+	height: 26px;
+	margin-top: 10px;
+}
+
+.svpj span {
+	background: url(__IMG__/xin.png) 5px center no-repeat;
+	background-size: 20px;
+	display: block;
+	width: 60px;
+	float: right;
+	padding: 0px 20px 0px 20px;
+	border: #ff4045 solid 1px;
+	color: #ff4045;
+	border-radius: 4px;
+	height: 26px;
+	line-height: 26px;
+	margin-top: 8px;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<div class="_top">
+		<div class="_left_top" onclick='javascript:window.location.href="{:U('
+			wx/index/index',array('r'=>'my'))}"'></div>
+		<div class="_title_top">评价中心</div>
+		<div class="_right_top nobackground"></div>
+	</div>
+	<div class="_content">
+		<div class="_son_title lh45 ub font90 swi_title"
+			style="padding-bottom: 3px;">
+			<div class="  col-666  ub-f1 txt-c  pos-r">
+				<div class="triangle-up "></div>
+				<div class="pos-a swi bor_b2" data-id="0">
+					<span>商品评价({$needEvaluate})</span>
+				</div>
+			</div>
+			<div class="  col-666  ub-f1 txt-c  pos-r">
+				<div class="triangle-up hide"></div>
+				<div class="pos-a swi" data-id="1">
+					<span>追加晒单(<php>echo count($addInfo);</php>)
+					</span>
+				</div>
+			</div>
+			<div class="  col-666  ub-f1 txt-c  pos-r">
+				<div class="triangle-up hide"></div>
+				<div class="pos-a swi" data-id="2">
+					<span>晒单完成(<php>echo count($finish);</php>)
+					</span>
+				</div>
+			</div>
+			<div class="  col-666  ub-f1 txt-c  pos-r">
+				<div class="triangle-up hide"></div>
+				<div class="pos-a  swi" data-id="3">
+					<span>服务评价(<php>echo count($serviceInfo);</php>)
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="switch">
+			<volist name="evaluate" id="ev"> <volist name="ev['goods']"
+				id="eg">
+			<div class="ub padd-tb  bor_b bg-ff">
+				<div class="margin_left10 margin_right10 imgwh ">
+					<img style="height: 6rem;" src="/{$eg.goodsThums}" alt="">
+				</div>
+				<div class="ub-f1  ub bv bg-ff">
+					<div class="txt_title">{$eg.goodsName}</div>
+					<div class="pj">
+						<a
+							href="{:U('Comment/addEvaluate',array('ref'=>'Comment_evaluate','oid'=>$ev['orderId'],'gid'=>$eg['goodsId']))}">
+							<span>评价晒单</span>
+						</a>
+					</div>
+				</div>
+			</div>
+			</volist> </volist>
+		</div>
+		<div class="switch hide">
+
+			<volist name="addInfo" id="ai">
+			<div class="ub padd-tb  bor_b bg-ff">
+				<div class="margin_left10 margin_right10 imgwh ">
+					<img style="height: 6rem;" src="/{$ai.goodsThums}" alt="">
+				</div>
+				<div class="ub-f1  ub bv bg-ff">
+					<div class="txt_title">{$ai.goodsName}</div>
+					<div class="pj">
+						<a
+							href="{:U('Comment/addToEvaluate',array('ref'=>'Comment_evaluate','oid'=>$ai['orderId'],'gid'=>$ai['goodsId']))}">
+							<span>追加晒单</span>
+						</a>
+					</div>
+				</div>
+			</div>
+			</volist>
+		</div>
+		<div class="switch hide ">
+			<volist name="finish" id="fi">
+			<div class="ub padd-tb  bor_b bg-ff">
+				<div class="margin_left10 margin_right10 imgwh ">
+					<img style="height: 6rem;" src="/{$fi.goodsThums}" alt="">
+				</div>
+				<div class="ub-f1  ub bv bg-ff">
+					<div class="txt_title">{$fi.goodsName}</div>
+					<div class="pjok">
+						<span
+							style="float: left; background: none; border: none; padding: 0; <if condition="$fi['isShow'] eq -1" >color:#0096ff;<else />color:#999;
+							</if> "> <if condition="$fi['isShow'] eq 1">晒图已通过审核<elseif
+								condition="$fi['isShow'] eq 0" />等待审核<else />晒图未通过审核</if>
+						</span> <a
+							href="{:U('Comment/commentDetail',array('ref'=>'Comment_evaluate','oid'=>$fi['orderId'],'gid'=>$fi['goodsId']))}">
+							<span>查看晒单</span>
+						</a>
+					</div>
+				</div>
+			</div>
+			</volist>
+
+		</div>
+		<div class="switch hide" style="display: none;">
+			<volist name="serviceInfo" id="sv">
+			<div class="_son_title ub">
+				<div class="margin_left10 imgw ">
+					<img src="/{$sv.shopImg}" />
+				</div>
+				<div class=" text-l">
+					<a href="{:U('Shop/shop',array('id'=>$wr['shopId']))}">{$sv.shopName}</a>
+				</div>
+			</div>
+			<div class="ub padd-tb  bor_b "
+				onclick='javascript:window.location.href="{:U('
+				Index/goodsDetail',array('id'=>
+				$sv['goodsId'],'ref'=>'Comment_evaluate'))}"'>
+				<div class="margin_left10 margin_right10 imgwh ">
+					<img style="height: 6rem;" src="/{$sv.goodsThums}" alt="">
+				</div>
+				<div class="ub-f1 titls">{$sv.goodsName}</div>
+			</div>
+			<div class="_son_title lh45 ub font90  ub">
+				<div class="ub-f1 margin_right10 col-666  txt-r  svpj">
+					<a
+						href="{:U('Comment/serviceEvaluate',array('oid'=>$sv['orderId'],'gid'=>$sv['goodsId'],'ref'=>'Comment_evaluate'))}">
+						<span>服务评价</span>
+					</a>
+				</div>
+			</div>
+			</volist>
+		</div>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script>
+$(function(){
+    $(".swi").click(function(){
+        tabIndex = $(this).attr('data-id');
+        $('.swi').removeClass("bor_b2");
+        $(this).addClass("bor_b2");
+        $('.switch').hide();
+        $('.triangle-up').hide();
+        $('.triangle-up').eq(tabIndex).show();
+        $('.switch').eq(tabIndex).show();
+    });
+})
+</script>
+</html>

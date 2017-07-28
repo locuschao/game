@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>评价详情</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<link rel="stylesheet" href="__CSS__/font.css" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/layer.min.js"></script>
+<script type="text/javascript" src="__JS__/ajaxupload.js"></script>
+<style>
+.star {
+	width: 130px;
+}
+
+.star ul li {
+	background-color: none;
+	width: 20px;
+	text-align: right;
+	margin-left: 5px;
+	background: url(__IMG__/star_d.png) center no-repeat;
+	background-size: 20px;
+	height: 35px;
+	line-height: 35px;
+	float: left;
+}
+
+.avator img {
+	width: 40px;
+	height: 40px;
+	margin-top: 8px;
+}
+
+.lh60 {
+	height: 60px;
+	line-height: 60px;
+}
+
+.con {
+	padding: 10px 0px;
+	width: 100%;
+	background: #fff;
+	border-bottom: #d5d7dc solid 1px;
+}
+
+.showComment {
+	padding: 0 10px 5px 10px;
+}
+
+.showImg {
+	widht: 100%;
+	backgorund: #fff;
+	padding: 10px 0px;
+	margin-top: 10px;
+}
+
+.show {
+	width: 90%;
+	margin: 0 auto;
+}
+
+.show img {
+	max-width: 100%;
+	margin-top: 10px;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<div class="_top">
+		<php> $url=explode('_',$_GET['ref']); $a=$url[0]; $m=$url[1];
+		$p=$url[2]; $refUrl=U("$a/$m",array('id'=>$p)); </php>
+		<div class="_left_top"
+			onclick='javascript:window.location.href="<php>echo $refUrl;</php>"'></div>
+		<div class="_title_top">评价详情</div>
+		<div class="_right_top nobackground"></div>
+	</div>
+	<div class="_content">
+		<div class="ub lh60 bg-ff bor_b">
+			<div class="text-l avator">
+				<img src="/{$info[0].userPhoto}" />
+			</div>
+			<div class="text-l">{$info[0].userName}</div>
+			<div class="ub-f1 col-9 txt-r margin_right10">{$info[0].createTime}</div>
+		</div>
+		<div class="ub bg-ff padd_top10 lh35 ">
+			<div class="ub-f1">
+				<div class="text-r margin_right10 star one" data-type="0">
+					<ul>
+						<li></li>
+						<li></li>
+						<li></li>
+						<li></li>
+						<li></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="con">
+			<div class="showComment">画面太美不敢看~~~~</div>
+		</div>
+		<div class="showImg" style="background: #fff;">
+			<div class="show">
+				<if condition="$info[0]['shareImg1']">
+				<img src='/{$info[0][' shareImg1']}'/></if>
+				<if condition="$info[0]['shareImg2']">
+				<img src='/{$info[0][' shareImg2']}'/></if>
+				<if condition="$info[0]['shareImg3']">
+				<img src='/{$info[0][' shareImg3']}'/></if>
+				<if condition="$info[0]['shareImg4']">
+				<img src='/{$info[0][' shareImg4']}'/></if>
+			</div>
+
+		</div>
+		<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script>
+	$(function() {
+		var ww=window.screen.availWidth-20;
+		$(".show").find('img').css('max-width',ww+'px');
+		$('.show').css('width',ww+'px');
+			var Index ={$info[0].goodsScore};
+			for (var i = 0; i <= Index; i++) {
+				$('.one ul li').eq(i).css({
+					'background' : 'url(__IMG__/star_a.png) center no-repeat',
+					'background-size' : '20px',
+				});
+			}
+			for (var j = 4; j > Index; j--) {
+				$('.one ul li').eq(j).css({
+					'background' : 'url(__IMG__/star_d.png) center no-repeat',
+					'background-size' : '20px',
+				});
+			}
+	})
+</script>
+</html>

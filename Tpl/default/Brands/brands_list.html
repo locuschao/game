@@ -1,0 +1,62 @@
+<extend name="Base:common" />
+<block name="static">
+<link rel="stylesheet" href="__CSS__/brandslist.css" />
+</block>
+<block name="body">
+<div>
+	<div class="wst-brands-ads">
+		<volist name="ads" id="vo" key='i'> <if condition="$i eq 1">
+		<a
+			href="{:U('Home/Index/access/',array('id'=>$vo['adId'],'url'=>$vo['adURL']))}"
+			target="_blank"> <img src="__ROOT__/{$vo['adFile']}" width='1210'
+			height="350" title="{$vo['adName']}" />
+		</a> </if> </volist>
+	</div>
+</div>
+<div class="wst-shadow">
+	<div class="wst-brands-area">
+		<div style="float: left">
+			<div class="wst-brands-areaaaaaaa">
+				&nbsp;&nbsp;&nbsp;&nbsp;请选择品牌所在区域 <select id="areaId"
+					onchange="changeAreaBrands();">
+					<volist name="areaList" id="vo" key='i'>
+					<option<if condition="$areaId3 eq $vo['areaId']">selected="selected"</if>
+						value="{$vo['areaId']}">{$vo['areaName']}
+					</option>
+					</volist>
+				</select>
+			</div>
+		</div>
+		<div style="float: right;">
+			<div class='wst-brands-search'>
+				<input id="brandName" class='brands-ipt' placeholder="品牌名称"
+					autocomplete="off">
+				<div class='search' onclick="changeAreaBrands();">搜&nbsp;索</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--品牌-->
+<div class="wst-container">
+	<div>
+		<script id="tblist2" type="text/html">
+                {{# for(var i = 0; i < d.length; i++){ }}
+                <a href="{{ Think.U('Home/goods/getGoodsList','brandId='+d[i].brandId) }}">
+				    <li data="{{d[i].brandId}}" class="wst-brands" onmouseout="brandout(this)" onmouseover="brandsover(this)" style="opacity: 1;">
+				        <div style="wst-brands-items">
+                        <img width="188" class='lazyBrandImg' title="{{d[i].brandName}}" data-original="__ROOT__/{{d[i].brandIco}}" src="" style="display: inline;">
+                        </div>
+				    </li>
+				</a>
+                {{# } }}
+                </script>
+		<div class="wst-brands-box">
+			<div class="wst-clear"></div>
+		</div>
+
+	</div>
+
+</div>
+</block>
+<block name="footer_static"> <script src="__JS__/brandslist.js"></script>
+</block>

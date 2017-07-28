@@ -1,0 +1,221 @@
+<extend name="Base:common" />
+<block name="static">
+<link rel="stylesheet" type="text/css" href="__CSS__/share.css" />
+</block>
+<block name="body">
+<link rel="stylesheet" type="text/css" href="__CSS__/sharedetail.css" />
+<script src="__PUBLIC__/js/jquery1.11.1.min.js"></script> <script
+	type="text/javascript">
+		jQuery(function(){
+			$("#emHits").click(function(){
+				var shareId = parseInt( $(this). prev().val() );
+				var nu = parseInt( $("#nu").text() );
+				var userId = parseInt( $("#userId").val() );
+				$.ajax({
+						url:Think.U('Home/Share/addEnvy'),
+						dataType:'json',
+						data:{"shareId":shareId,"userId":userId},
+						type:"post",
+						success:function(data){
+								if(data=="请登录！"){
+									$("#nu").text(data);
+								}else{
+									if(data=="no"){
+										alert("已经羡慕了！");
+									}else{
+										$("#nu").text(nu+1);
+									}	
+
+								}
+						},
+						error:function(data){
+							alert("a");
+						}
+					});
+			});
+			$(".reply_unbotton").click(function(){
+				var params = {};
+				params.code = $('#verify').val();
+				params.shareId = $('#shareId').val();
+				params.commentsContents = $('.Comment-txt').val();
+				params.verify = $('#verify').val();
+				if(params.commentsContents==''){alert("请输入评论内容！");return;}
+				if(params.verify==''){alert("请输入验证码！");return;}
+				$.post(Think.U('Home/Share/addComments'),params,function(data,textStatus){
+					var json = WST.toJson(data);
+					if(json==1){
+						alert('评论成功！');
+						location.href= Think.U('Home/Share/detailshare','id='+$('#shareId').val());
+					}else if(json==-1){
+						alert('验证码错误！');
+					}
+				});
+			});
+		});
+	</script> <!--晒单详情-->
+<div class="Current_nav">
+	<a href="{:U('Home/Index/index')}">首页</a> &gt; <a
+		href="{:U('Home/Share/index')}">晒单分享</a> &gt; 晒单详请
+</div>
+<div class="share_box" id="loadingPicBlock">
+	<div id="DCMainLeft" class="share_box_left">
+		<div class="share_main">
+			<!--用户晒单部分-->
+			<div class="share_title">
+				<h3>{$sharedata[0].shareTitle}</h3>
+				<div class="share_time">
+					晒单时间：<span>{$sharedata[0].shareTime}</span>
+				</div>
+			</div>
+			<div class="share_content">
+				<p>{$sharedata[0].shareContent}</p>
+				<p>
+					<img width='300' height='300' src="{$sharedata[0].shareImg1}">
+				</p>
+				<p>
+					<img width='300' height='300' src="{$sharedata[0].shareImg2}">
+				</p>
+				<p>
+					<img width='300' height='300' src="{$sharedata[0].shareImg3}">
+				</p>
+			</div>
+			<!--用户晒单部分结束-->
+			<!-- 分享按钮 -->
+			<div class="mood">
+				<div class="moodwm">
+					<div class="moodm hidden" style="display: block;">
+						<input type="hidden" value="{$sharedata[0].id}"> <span
+							class="smile" id="emHits">羡慕嫉妒恨(<em id="nu">{$count}</em>)
+						</span> <span class="much"> <i></i>评论(<em id="emReplyCount">{$counts}</em>)
+						</span>
+					</div>
+					<div class="share">
+						<span class="fen">分享到：</span>
+						<!-- Baidu Button BEGIN -->
+						<div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare">
+							<a class="bds_qzone"></a> <a class="bds_tsina"></a> <a
+								class="bds_tqq"></a> <a class="bds_renren"></a> <a
+								class="bds_t163"></a> <span class="bds_more"></span>
+						</div>
+						<script type="text/javascript" id="bdshare_js"
+							data="type=tools&amp;uid=671207"></script>
+						<script type="text/javascript" id="bdshell_js"></script>
+						<script type="text/javascript">
+						document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)
+						</script>
+						<!-- Baidu Button END -->
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--判断用户是否登陆，已登陆显示回复框，未登陆显示登陆或注册-->
+		<if condition="$USER eq true">
+		<div id="bottomComment" class="qcomment_bottom_reply clearfix">
+			<div class="Comment_Reply clearfix">
+				<div class="Comment-pic">
+					<input type="hidden" id="userId" value="{$USER['userId']}">
+					<img id="imgUserPhoto" src="/{$USER['userPhoto']}" width="50"
+						height="50" border="0" /> {$USER['userName']}
+				</div>
+				<div class="Comment_form">
+					<div class="Comment_textbox">
+						<input type="hidden" id="shareId" value="{$sharedata[0].id}">
+						<textarea name="commentsContents" class="Comment-txt"></textarea>
+						<div class="item fore3" id="o-authcode">
+							<span style="font-size: 16px">验证码：</span><input id="verify"
+								style="ime-mode: disabled" name="verify" class="text text-1"
+								tabindex="6" autocomplete="off" maxlength="6" type="text" />
+							<div class="item-ifo">
+
+								<label class="img"> <img
+									style='vertical-align: middle; cursor: pointer; height: 39px;'
+									class='verifyImg' src='__IMG__/clickForVerify.png'
+									title='刷新验证码' onclick='javascript:getVerify()' />
+								</label> <label class="ftx23">&nbsp;<a
+									href="javascript:getVerify()" class="flk13">看不清？换一张</a></label>
+							</div>
+						</div>
+						<input type="button" value="发表评论" class="reply_unbotton">
+					</div>
+				</div>
+			</div>
+		</div>
+		<else />
+		<div id="bottomComment" class="qcomment_bottom_reply clearfix">
+			<div class="Comment_Reply clearfix">
+				<div class="Comment-pic">
+					<img
+						src="http://www.1yhlg.com/statics/templates/yungoucms/images/prmimg.jpg"
+						width="50" height="50" />
+				</div>
+				<div class="Comment_form">
+					<div class="Comment_textbox">
+						<div id="notLogin" name="replyLogin" class="Comment_login">
+							请您<a href="{:U('Home/Users/login')}" class="blue"
+								name="replyLoginBtn">登录</a> 或<a href="{:U('Home/Users/regist')}"
+								class="blue">注册</a>后再回复评论
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</if>
+		<!--结束判断-->
+
+		<!--用户评论列表开始-->
+		<div id="commentMain" class="qcomment_main">
+			<ul>
+				<li class="Comment_single"><volist name="commentsdata" id="vo">
+					<div class="Comment_box_con clearfix">
+						<div class="User_head">
+							<a href="" target="_blank"> <img id="imgUserPhoto"
+								src="/{$vo.userPhoto}" width="50" height="50" border="0" />
+							</a>
+						</div>
+						<div class="Comment_con">
+							<div class="Comment_User">
+								<span><a class="blue" href="#" target="_blank"></a></span>
+							</div>
+							<div class="C_summary">
+								{$vo.commentsContents}<br />
+								<span class="Summary-time">{$vo.commentsTime}</span>
+							</div>
+						</div>
+					</div>
+					</volist></li>
+			</ul>
+		</div>
+		<!--用户评论部分结束-->
+	</div>
+
+	<!--晒单左侧结束-->
+	<!--晒单右侧，最新晒单-->
+
+	<div class="Comment_right" id="PostDetailRight">
+		<div class="Comment_victory">
+			<div class="Comment_share">
+				<h4>最新晒单</h4>
+				<volist name="sharelist" id="vo">
+				<div class="New-single">
+					<p class="New-single-time">
+						<a class="blue" href="" target="_blank">{$vo.loginName}</a>{$vo.shareTime}
+					</p>
+					<p class="New-single-C">
+					<p>{$vo.shareContent}</p>
+					<div class="New-singleImg">
+						<div class="arrow arrow_Rleft">
+							<em>◆</em>
+						</div>
+						<a href="{:U('Home/Share/detailshare/',array('id'=>$vo['id']))}"
+							target="_blank"> <img border="0" src="{$vo.shareImg1}">
+						</a>
+					</div>
+				</div>
+				</volist>
+
+			</div>
+		</div>
+	</div>
+</div>
+</block>

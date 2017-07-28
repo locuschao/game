@@ -1,0 +1,74 @@
+<extend name="Shops:layout" />
+<block name="content">
+
+<link rel="stylesheet" type="text/css"
+	href="__CSS__/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css"
+	href="__CSS__/datatable/dataTables.bootstrap.min.css">
+
+<script src="__JS__/datatable/jquery.dataTables.js"></script> <script
+	src="__JS__/datatable/dataTables.bootstrap.min.js"></script>
+<style>
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover,
+	.pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover
+	{
+	background-color: #e23c3d;
+	border-color: #e23c3d;
+}
+
+a {
+	color: black;
+}
+
+.order_img {
+	width: 40px;
+}
+</style>
+<div class="wst-body">
+	<div class='wst-page-header'>卖家中心 > 圈子详情</div>
+	<div>
+		<div class='wst-tbar-group' style='text-align: left'>
+			<a href='{:U("Home/Circle/index")}' class="btn btn-info">列表</a> <a
+				href='{:U("Home/Circle/modify")}' class="btn btn-success">新增</a>
+		</div>
+
+	</div>
+
+	<div>
+		<div class="text-center">
+			<div class="col-ls-12">
+				<h1>{$look['circle']['title']}</h1>
+			</div>
+		</div>
+		<div class="text-center">
+			<div>
+				<img src="/{$look['circle']['imgThums']}">
+			</div>
+		</div>
+		<div>{$look['circle']['content']}</div>
+		<div>
+			<div
+				style="height: 200px; width: 100%; margin-top: 20px; position: relative; float: left; border: 3px dashed #e6e6e6">
+				<div style="float: left; width: 50%; height: 100%">
+					<a
+						href="{:U('Home/Goods/getGoodsDetails/',array('goodsId'=>$look['goods']['goodsId']))}">
+						<img src="/{$look['goods']['goodsImg']}"> 立即选购
+					</a>
+				</div>
+				<div style="float: left; width: 50%; height: 100%">
+					<a
+						href="{:U('Home/Shops/toShopHome/',array('shopId'=>$look['circle']['shopId']))}">
+						<img src="/{$look['shops']['shopImg']}"> 进入店铺
+					</a>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<script>
+
+</script>
+
+</div>
+
+</block>

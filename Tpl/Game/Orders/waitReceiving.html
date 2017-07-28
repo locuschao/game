@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>待收货</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/layer.min.js"></script>
+<style>
+.layui-layer-btn a {
+	font-weight: normal
+}
+
+.font90 {
+	font-size: 90%;
+}
+
+body {
+	padding-bottom: 50px;
+}
+
+.col-red {
+	color: #ff4045
+}
+
+.right_arrows {
+	background-size: 7px;
+}
+
+.imgwh img {
+	width: 72px;
+	height: 72px;
+}
+
+.padd-tb {
+	padding: 10px 0px;
+}
+
+.lh35 {
+	height: 35px;
+	line-height: 35px;
+}
+
+.bv {
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+}
+
+.titls {
+	line-height: 20px;
+}
+
+.car_ico {
+	background: url(__IMG__/car_ico.png) center no-repeat;
+	width: 30px;
+	background-size: 25px;
+	margin-left: 10px;
+	font-size: 80%;
+}
+
+.car_info {
+	font-size: 90%;
+	height: 30px;
+	line-height: 30px;
+}
+
+.lh20 {
+	height: 20px;
+	line-height: 20px;
+	color: #999;
+}
+
+.btn span {
+	border: #52c4ff solid 1px;
+	padding: 7px 10px;
+	border-radius: 2px;
+	color: #52c4ff
+}
+
+.btns span:last-child {
+	border: #ff4045 solid 1px;
+	padding: 7px 10px;
+	border-radius: 2px;
+	color: #ff4045
+}
+
+.fw {
+	font-weight: 550;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<div class="_top">
+		<div class="_left_top" onclick='javascript:window.location.href="{:U('
+			wx/index/index',array('r'=>'my'))}"'></div>
+		<div class="_title_top">待收货</div>
+		<div class="_right_top nobackground"></div>
+	</div>
+	<div class="_content">
+		<volist name="waitReceiving" id="wr"> <php>
+		if(empty($wr['shopImg'])&&$wr['shopId']==0){
+		$_shopImg=ltrim("__IMG__/".'shop_ico.png','/'); $_shopName='平台';
+		$_url="return false;"; }else{ $_shopImg=$wr['shopImg'];
+		$_shopName=$wr['shopName'];
+		$_url='window.location.href="'.U('Shop/shop',array('id'=>$wr['shopId'],'ref'=>'Orders_watiReceiving')).'"';
+		} </php>
+		<div class="_son_title ub">
+			<div onclick='javascript:{$_url}'
+				class="title_left_ico margin_left10 "
+				style="background: url(/{$_shopImg}) center no-repeat; background-size: 26px 26px; width: 26px;"></div>
+			<div onclick='javascript:{$_url}' class=" text-l">{$_shopName}</div>
+			<div class="right_arrows"></div>
+			<div class="ub-f1 txt-r margin_right10 col-red">等待收货</div>
+		</div>
+		<div class="ub lh45 bg-ff car_info">
+			<div class="car_ico"></div>
+			<div class="ub-f1 car_info">[广州天河分部]派件人：关羽 派件中 派件员电话</div>
+		</div>
+		<div class="car_info bg-ff ti10 lh20">2016-03-03 09:07:03</div>
+		<volist name="wr['goods']" id='go'>
+		<div class="ub padd-tb  bor_b "
+			onclick='javascript:window.location.href="{:U('
+			Orders/orderDetail',array('id'=>
+			$wr['orderId'],'ref'=>'Orders_waitReceiving'))}"'>
+			<div class="margin_left10 margin_right10 imgwh ">
+				<img style="height: 6rem;" src="/{$go.goodsThums}" alt="">
+			</div>
+			<div class="ub-f1 titls">{$go.goodsName}</div>
+		</div>
+	</div>
+	</volist>
+	<div class="_son_title lh45 ub font90">
+		<div class="ub-f1 ti10 font120 fw">实付款￥{$wr.needPay}</div>
+		<div class=" margin_right10 col-666 btn">
+			<span>查看物流</span>
+		</div>
+		<div class=" margin_right10 col-666 btns">
+			<a href="javascript:conFirmOrder({$wr.orderId})"><span>确认收货</span></a>
+		</div>
+	</div>
+	</volist>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script type="text/javascript">
+
+function conFirmOrder(oid){
+	layer.confirm('已经收到货，确认收货', {icon: 3, title:'确认收货'}, function(index){
+		 $.ajax({
+	         type: "POST",
+	         url: "{:U('Orders/confirmOrder')}",
+	         data: {oid:oid},
+	         dataType: "json",
+	         success: function(data){
+	        	 console.log(data);
+	       	  if(data.status==-2){
+	       		  layer.msg('操作失败');
+	       		  setTimeout(function(){
+	       			  location.href="{:U('Login/Login')}";
+	       		  },1000);
+	       		  return;
+	       	  }else if(data.status==-1){
+	       		  layer.msg('操作失败');
+	       		  return;
+	       	  }else if(data.status==0){
+	       		  layer.msg('确认收货完成');
+	       		  setTimeout(function(){
+	       			 location.reload([true]);
+	       		  },1000)
+	       		  return;
+	       	  }else if(data.status==-3){
+	       		  layer.msg('请不要重复提交');
+	       		  return;
+	       	  }
+	          }
+	     });
+		  layer.close(index);
+		});
+}
+</script>
+</html>

@@ -1,0 +1,157 @@
+<extend name="Users:layout" />
+<block name="content">
+<style type="text/css">
+.wst-pagination {
+	margin-top: 10px;
+	text-align: center;
+	height: 25px;
+	line-height: 25px;
+}
+
+.wst-current {
+	background-color: rgb(226, 62, 61);
+	color: #fff;
+	padding: 0 12px;
+	border-radius: 2px;
+	height: 26px;
+	line-height: 26px;
+	display: inline-block;
+	vertical-align: top;
+	font-size: 12px;
+}
+
+.wst-num {
+	background-color: #f1eff0;
+	padding: 0 12px;
+	border-radius: 2px;
+	margin: 0 3px 6px;
+	height: 26px;
+	line-height: 26px;
+	text-decoration: none;
+	color: #666;
+	display: inline-block;
+	vertical-align: top;
+	font-size: 12px;
+}
+
+.wst-next, .wst-prev {
+	background-color: #f1eff0;
+	padding: 0 12px;
+	border-radius: 2px;
+	height: 26px;
+	line-height: 26px;
+	text-decoration: none;
+	color: #666;
+	display: inline-block;
+	vertical-align: top;
+	font-size: 12px;
+}
+</style>
+<div class="wst-body">
+	<div class='wst-page-header'>买家中心 > 刮刮卡中奖纪录</div>
+	<div class='wst-page-content'>
+		<table class='wst-list' style="font-size: 13px; text-align: center;">
+			<thead>
+				<tr>
+					<th width='200'>活动名称</th>
+					<th width='150'>中奖码</th>
+					<th width="100">奖品</th>
+					<th width="150">中奖时间</th>
+					<th width="100">是否发奖</th>
+					<th width="150">发奖时间</th>
+					<th width="300">收货信息</th>
+					<th width="150">配送状态</th>
+				</tr>
+			</thead>
+			<tbody>
+
+				<volist name='list' id='vo'>
+				<tr>
+					<td>{$vo['title']}</td>
+					<td>{$vo['sn']}</td>
+					<td>{$vo['jp']}</td>
+					<td>{$vo['time']}</td>
+
+					<?php if ($vo['sendstutas']!=0) { ?>
+					<td>已发奖</td>
+					<td>{$vo['sendtime']|date="Y-m-d H:i",###}</td>
+					<?php }else{ ?>
+					<td>未发奖</td>
+					<td>待定</td>
+					<?php  } ?>
+
+					<td>
+						<?php if($vo['addressId']!=0){ ?> {$vo['ress'][str]} <?php }else{ 
+            echo "<b>未选择地址</b>";
+            } ?>
+					</td>
+					<td>
+						<?php 
+                switch($vo['sendstutas']){
+                case '1':
+                echo "<b style='display: block;height: 20px;'>配送中</b>";
+                $id=$vo["id"];
+                echo "<span style='cursor:pointer; ' onclick='javascript:checkml($id)'>查看物流</span>";
+                break;
+                case '2':
+                echo "<b style='display: block;height: 20px;'>已签收</b>";
+                $id=$vo["id"];
+                echo "<span style='cursor:pointer; ' onclick='javascript:checkml($id)'>查看物流</span>";
+                break;
+                case '3':
+                echo "<b>奖品以其他形式送出</b>";
+                break;
+                default:
+                echo "<b>准备中</b>";
+                break;
+                }
+              ?>
+					</td>
+				</tr>
+				</volist>
+				<tr>
+					<td colspan='8' class="nav_down">{$show}</td>
+				</tr>
+
+			</tbody>
+		</table>
+	</div>
+</div>
+<script type="text/javascript">
+       function checkml(id){
+        $.ajax({
+          url:"/Home/Ggk/getwuliumsg.html",
+          data:{
+            id:id
+          },type:'get',
+          beforeSend:function(){
+            layer.load();
+          },
+          success:function(data){
+            layer.closeAll();
+            
+            if(data.status!=2){
+            var top = "<div style='padding: 10px; text-align: center;'>快递公司：<b style='color:blue;padding-right: 10px;'>"+data.gs+"</b> 快递单号：<b style='color:red;padding-right: 10px;'>"+data.nu+"</b><b style='color:blue;padding-right: 10px;'>"+data.state+"</b></div>";
+              var title="<table class='wst-list'><thead><tr><th>时间</th><th>地点和跟踪进度</th></tr></thead><tbody>";
+              var footer = "</tbody></table>";
+              var con ='';
+               if (data.msg) {
+                  var json = eval(data.msg);
+                  $.each(json,function(key,value){
+                    con+="<tr><td>"+value.time+"</td><td>"+value.context+"</td></tr>";
+                  })
+                 }
+              layer.open({
+              title :'查看物流',
+              type: 1,
+              skin: 'layui-layer-rim', //加上边框
+              area: ['650px', '500px'], //宽高
+              content: top+title+con+footer,
+            });
+            }else{  
+              layer.msg('该快递单号出错',{icon:2});
+              return;}
+            }
+          })
+        }
+    </script> </block>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{$CONF['shopTitle']['fieldValue']}后台管理中心</title>
+<link href="__PUBLIC__/plugins/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+<link href="__CSS__/AdminLTE.css" rel="stylesheet" type="text/css" />
+<!-- <link href="/Tpl/default/css/shop.css" rel="stylesheet" type="text/css" /> -->
+<!--[if lt IE 9]>
+      <script src="__PUBLIC__/js/html5shiv.min.js"></script>
+      <script src="__PUBLIC__/js/respond.min.js"></script>
+      <![endif]-->
+<script src="__PUBLIC__/js/jquery.min.js"></script>
+<script src="__PUBLIC__/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="__PUBLIC__/js/common.js"></script>
+<script src="__PUBLIC__/plugins/plugins/plugins.js"></script>
+<style type="text/css">
+#preview {
+	border: 1px solid #cccccc;
+	background: #CCC;
+	color: #fff;
+	padding: 5px;
+	display: none;
+	position: absolute;
+}
+</style>
+</head>
+<script>
+    //更改积分订单状态
+     function changeOrderStatus(id,status){
+      var message = '';
+       if(status==1){
+          message = '受理'
+       }else if(status==3){
+          message = '配送'
+       }
+       Plugins.confirm({title:'信息提示',content:'您确定要'+message+'该订单吗?',okText:'确定',cancelText:'取消',okFun:function(){
+            Plugins.closeWindow();
+       Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
+       $.post("{:U('Admin/IntegralOrders/changeOrderStatus')}",{id:id,status:status},function(data,textStatus){
+          var json = WST.toJson(data);console.log(json);
+          if(json.status=='1'){
+            Plugins.setWaitTipsMsg({ content:'操作成功',timeout:1000,callback:function(){
+              location.href="{:U('Admin/IntegralOrders/index',array('orderStatus'=>$orderStatus))}";
+            }});
+          }else{
+            Plugins.closeWindow();
+            Plugins.Tips({title:'信息提示',icon:'error',content:'操作失败!',timeout:1000});
+          
+          }
+       });
+      }});
+     }
+    //导出所选
+    function ExportSelected(exportStatus)
+    {
+        var params = {};
+        params.orderId = '';
+        $('input[num="list"]:checked').each(function(i,item){
+            params.orderId += $(this).attr('orderId')+',';
+        });
+                //所选
+        params.exportStatus = exportStatus;
+        var jsonText = JSON.stringify(params);
+        location.href="__CONTROLLER__/outExcel/orderId/"+jsonText;
+    }
+    //批量删除
+     function BatchDelete()
+    {
+        var params = {};
+        params.orderId = '';
+        $('input[num="list"]:checked').each(function(i,item){
+            params.orderId += $(this).attr('orderId')+',';
+        });
+        Plugins.confirm({title:'信息提示',content:'您确定要删除该订单吗?',okText:'确定',cancelText:'取消',okFun:function(){
+            Plugins.closeWindow();
+            Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
+            $.post("{:U('Admin/Orders/deletes')}",params,function(data,textStatus){
+                var json = WST.toJson(data);
+                if(json.status=='1'){
+                    Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
+                        location.reload();
+                    }});
+                }else{
+                    Plugins.closeWindow();
+                    parent.showMsg({msg:'操作失败!',status:'danger'});
+                }
+            });
+        }});
+    }
+   $.fn.imagePreview = function(options){
+    var defaults = {}; 
+    var opts = $.extend(defaults, options);
+    var t = this;
+    xOffset = 5;
+    yOffset = 20;
+    if(!$('#preview')[0])$("body").append("<div id='preview'><img width='200' src=''/></div>");
+    $(this).hover(function(e){
+         $('#preview img').attr('src',$(this).attr('img'));      
+         $("#preview").css("top",(e.pageY - xOffset) + "px").css("left",(e.pageX + yOffset) + "px").show();      
+      },
+      function(){
+      $("#preview").hide();
+    }); 
+    $(this).mousemove(function(e){
+         $("#preview").css("top",(e.pageY - xOffset) + "px").css("left",(e.pageX + yOffset) + "px");
+    });
+  }
+   $(function(){
+       <PHP>if($areaId1!=0){</PHP>
+     getAreaList("areaId2",'{$areaId1}',0,'{$areaId2}');
+     <PHP>}</PHP>  
+     <PHP>if($areaId2 != 0){</PHP>
+     getAreaList("areaId3",'{$areaId2}',1,'{$areaId3}');
+     <PHP>}</PHP>
+     $('#orderStatus').val({$orderStatus});
+      //全选
+        $("#selected").click(function(){
+            $('input[num="list"]').prop('checked',true);
+            $('#cancel').attr('checked',false);
+
+        });
+        //取消全选
+        $("#cancel").click(function(){
+            $('input[num="list"]').prop('checked',false);
+            $('#selected').attr('checked',false);
+        });
+   });
+   $(document).ready(function(){
+      $('.imgPreview').imagePreview();
+      <notempty name='areaId1'>
+       getAreaList("areaId2",'{$areaId1}',0,'{$areaId2}');
+    </notempty>
+    <if condition="$goodsCatId1  neq 0 ">
+    getCatList("goodsCatId2",{$goodsCatId1},0,{$goodsCatId2});
+    </if>
+    <if condition="$goodsCatId2 neq 0 ">
+    getCatList("goodsCatId3",{$goodsCatId2},1,{$goodsCatId3});
+    </if>
+   });
+   </script>
+<body class='wst-page'>
+	<!-- <ul class="wst-tab-nav">
+        <li id="wst-msg-li-0">待受理订单<span style="display:none;" class="wst-order-tips-box"></span></li>
+        <li id="wst-msg-li-1">已受理订单<span style="display:none;"></span></li>
+        <li id="wst-msg-li-2">打包中订单<span style="display:none;"></span></li>
+        <li id="wst-msg-li-3">配送中订单<span style="display:none;"></span></li>
+        <li id="wst-msg-li-4">已到货订单<span style="display:none;" class="wst-order-tips-box"></span></li>
+        <li id="wst-msg-li-5">取消 / 拒收订单<span style="display:none;" class="wst-order-tips-box"></span></li>
+      </ul> -->
+	<form method="post" action='{:U("Admin/IntegralOrders/index")}'>
+		<div class='wst-tbar'>
+			<div style="display: inline; margin: 0 100px 0 29px; color: #044C89;">
+				<a href="{:U(" Admin/IntegralOrders/index",array("orderStatus"=>-9999))}"><span
+					style="font-size: 16px; color: #044Cee;&lt;/if&gt;">订单列表</span></a>&nbsp;|
+				<a href="{:U(" Admin/IntegralOrders/index",array("orderStatus"=>0))}"><span
+					style="font-size: 16px; color: #044Cee;&lt;/if&gt;">待受理</span></a>&nbsp;|
+				<a href="{:U(" Admin/IntegralOrders/index",array("orderStatus"=>1))}"><span
+					style="font-size: 16px; color: #044Cee;&lt;/if&gt;">已受理</span></a>&nbsp;|
+				<a href="{:U(" Admin/IntegralOrders/index",array("orderStatus"=>3))}"><span
+					style="font-size: 16px; color: #044Cee;&lt;/if&gt;">配送中</span></a>&nbsp;|
+				<a href="{:U(" Admin/IntegralOrders/index",array("orderStatus"=>4))}"><span
+					style="font-size: 16px; color: #044Cee;&lt;/if&gt;">已到货</span></a>&nbsp;|
+
+			</div>
+			<!--
+      订单状态：
+      <select name='orderStatus' id='orderStatus'>
+        <option value='-9999'>请选择</option>
+        <option value='-2'>已取消</option>
+        <option value='0'>待受理</option>
+        <option value='1'>已受理</option><option value='2'>打包中</option> 
+        <option value='3'>配送中</option>
+        <option value='4'>已到货</option>
+      </select>-->
+			订单号： <input type='text' name='orderNo' id='orderNo'
+				value='{$orderNo}' />
+			<button type="submit"
+				class="btn btn-primary glyphicon glyphicon-search">查询</button>
+		</div>
+	</form>
+	<div class="wst-body">
+		<table class="table table-hover table-striped table-bordered wst-list"
+			style="border-collapse: collapse;" cellpadding="0" cellspacing="0">
+			<head>
+			<th width="40">序号</th>
+			<th width="180">订单号</th>
+			<th width="400">积分商品</th>
+			<th width="100">收货人</th>
+			<th width="100">金额</th>
+			<th width="150">下单时间</th>
+			<th width="80">订单状态</th>
+			<th width="130">操作</th>
+			</head>
+			<volist name="Page['root']" id="vo" key='key'>
+			<tbody>
+
+				<tr>
+					<td>{$key}</td>
+					<td>{$vo['orderNo']}</td>
+					<td img='{$vo[' goodslist'][0]['goodsThums']}' class='imgPreview'>
+						<img style='margin: 2px;'
+						src="{$vo['goodslist'][0]['goodsThums']}" height="50" width="50"
+						title='{$vo[' goodslist'][0]['goodsName']}'/>
+						{$vo['goodslist'][0]['goodsName']}
+					</td>
+					<td>{$vo['userName']}</td>
+					<td>{$vo['totalMoney']}<if condition="$vo['payType'] eq 4">积分<else />元</if></td>
+
+					<td>{$vo['createTime']}</td>
+					<td><if condition='$vo["orderStatus"] eq -2'>待付款 <elseif
+							condition='$vo["orderStatus"] eq -1' />订单取消 <elseif
+							condition='$vo["orderStatus"] eq 0' />待受理 <elseif
+							condition='$vo["orderStatus"] eq 1' />已受理 <elseif
+							condition='$vo["orderStatus"] eq 2' />打包中 <elseif
+							condition='$vo["orderStatus"] eq 3' />配送中 <elseif
+							condition='$vo["orderStatus"] eq 4' />已到货 </if></td>
+					<td><a class="btn btn-primary glyphicon"
+						href="{:U('Admin/IntegralOrders/toView',array('id'=>$vo['orderId']))}">查看</a>
+						<if condition="$orderStatus eq 0">
+						<a class="btn btn-success glyphicon"
+							href="javascript:changeOrderStatus({$vo['orderId']},1)">受理</a></if> <if
+							condition="$orderStatus eq 1"> <a
+							class="btn btn-success glyphicon"
+							href="javascript:changeOrderStatus({$vo['orderId']},3)">商城配送</a>
+						<a class="btn btn-success glyphicon"
+							href="{:U('Admin/IntegralOrders/editExpress',array('id'=>$vo['orderId']))}">物流配送</a>
+						</if> <if condition="$orderStatus eq 3 && $vo.deliverType eq 1">
+						<a class="btn btn-success glyphicon"
+							href="{:U('Admin/IntegralOrders/follow',array('id'=>$vo['orderId']))}">跟踪</a></if>
+					</td>
+				</tr>
+			</volist>
+			<!--2期
+          <tr>
+            <td colspan='9' style="background:none; text-align:left; padding-left:20px;">
+                <input type="checkbox" name="selected" id="selected"/>全选
+                <input type="checkbox" name="cancel" id="cancel"/>取消
+                <input type="button" onclick="javascript:BatchDelete()" value="批量删除"/>
+                    <input type="button" onclick="javascript:ExportSelected(0)" value="导出所选"/>
+                    <input type="button" onclick="javascript:ExportSelected(1)" value="导出全部"/>
+                    <input type="button" onclick="javascript:ExportSelected(2)" value="导出查询"/>
+            </td>
+          </tr>
+          -->
+			<tr>
+				<td colspan='9' align='center'>{$Page['pager']}</td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

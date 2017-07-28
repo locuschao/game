@@ -1,0 +1,223 @@
+<extend name="Base:common" />
+<block name="static">
+<link rel="stylesheet" href="__CSS__/goodslist.css" />
+</block>
+<block name="body"> <input id="c1Id" type="hidden"
+	value="{$c1Id}" /> <input id="c2Id" type="hidden" value="{$c2Id}" /> <input
+	id="c3Id" type="hidden" value="{$c3Id}" /> <input type="hidden"
+	id="msort" value="{$msort}" /> <input type="hidden" id="sj"
+	value="{$sj}" /> <!----加载商品楼层start---->
+<div class="wst-container">
+	<div class="wst-nvg-title">
+		<a
+			href="{:U('Home/Goods/getGoodsList/',array('c1Id'=>$goodsNav[0]['catId']))}">{$goodsNav[0]["catName"]}</a>
+		<if condition="$goodsNav[1]['catId'] gt 0"> &nbsp;>&nbsp;<a
+			href="{:U('Home/Goods/getGoodsList/',array('c1Id'=>$goodsNav[0]['catId'],'c2Id'=>$goodsNav[1]['catId']))}">{$goodsNav[1]["catName"]}</a>
+		</if>
+		<if condition="$goodsNav[2]['catId'] gt 0"> &nbsp;>&nbsp;<a
+			href="{:U('Home/Goods/getGoodsList/',array('c1Id'=>$goodsNav[0]['catId'],'c2Id'=>$goodsNav[1]['catId'],'c3Id'=>$goodsNav[2]['catId']))}">{$goodsNav[2]["catName"]}</a>
+		</if>
+	</div>
+
+	<!-------------商品筛选栏---------------->
+	<div class="wst-goods-search" style="">
+
+		<div class="search-panel">
+			<div class="search-box">
+				<div class="search-items">
+					<div class="items-title">
+						<a href="{:U('Home/Orders/queryByPage')}"><img width="80"
+							height="80" src="/{$user['userPhoto']}" /></a>
+					</div>
+					<div class="items-title" style="width: 160px">
+						<div style="margin: 20px 10px; width: 180px; font-size: 14px">
+							用户名：<a href="{:U('Home/Orders/queryByPage')}">{$user['loginName']}</a><br />
+							昵称：<a href="{:U('Home/Orders/queryByPage')}">{$user['userName']}</a>
+						</div>
+					</div>
+					<div class="items-title">
+						<div style="margin: 18px 200px; width: 300px; font-size: 16px">
+							<span>积分余额：</span><span style="color: #E23C3D; font-size: 20px">{$user['userScore']}</span><br />
+							<span>可用积分：</span><span style="color: #E23C3D; font-size: 20px">{$user['userScore']}</span>
+						</div>
+					</div>
+					<div class="items-title">
+						<div style="margin: 13px 450px; width: 300px; font-size: 14px;">
+							<a href="{:U('Home/Integral/exchangeRecord/')}"
+								style="text-decoration: none"><img src="__IMG__/integ01.jpg"><br />兑换记录</a>
+						</div>
+					</div>
+					<div class="items-title">
+						<div style="margin: 13px 450px; width: 300px; font-size: 14px;">
+							<a href="{:U('Home/Integral/exchangeRecord/')}"
+								style="text-decoration: none"><img src="__IMG__/integ04.jpg"><br />个人信息</a>
+						</div>
+					</div>
+					<div class="items-title">
+						<div style="margin: 13px 450px; width: 300px; font-size: 14px;">
+							<a href="{:U('Home/Integral/exchangeRecord/')}"
+								style="text-decoration: none"><img src="__IMG__/integ03.jpg"><br />我的收藏</a>
+						</div>
+					</div>
+					<div class="wst-clear"></div>
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+
+	<!-------------商品筛选栏---------------->
+	<div class="wst-goods-search" style="">
+		<div class="search-title" style="">礼品筛选</div>
+
+		<div class="search-panel">
+			<div class="search-box">
+				<div class="search-items">
+					<div class="items-title">礼品分类：</div>
+					<div id="wst-brand" class="items">
+						<input type="hidden" id="bs" value="{$bs}">
+						<div id="wst-brand-tp" onclick="tohide(this,'wst-brand');">&nbsp;显示&nbsp;</div>
+						<li<if condition="$catId eq 0">class="searched"</if>
+							data="0" onClick="queryIntegralGoods(this,6);">全部</li>
+						<volist name="cats" id="vo">
+						<li id="brand_{$vo['catId']}"<if
+								condition="$vo['catId'] eq $catId">class="searched"</if>
+							data="{$vo['catId']}"
+							onClick="queryIntegralGoods(this,6);">{$vo['catName']}</li>
+						</volist>
+						<div class="wst-clear"></div>
+					</div>
+					<div class="wst-clear"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="search-panel">
+			<div class="search-box">
+				<div class="search-items">
+					<div class="items-title">积分范围：</div>
+					<div id="wst-price" class="items">
+						<li<if condition="$priceId eq ''">class="searched"</if>
+							data="" onClick="queryIntegralGoods(this,4);">全部</li>
+						<foreach name="prices" key="key2" item="price">
+						<li id="price_{$key2}"<eq name="key2" value="$priceId">class="searched"</eq>
+							data="{$key2}" onClick="queryIntegralGoods(this,4);">{$price}</li>
+						</foreach>
+
+						<div class="wst-clear"></div>
+					</div>
+					<div class="wst-clear"></div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<!-----------------------商品列表---------------------------->
+	<div class="wst-goods-list">
+		<div class="wst-goods-header">
+			<!--li>综合排序{$rq}</li-->
+
+			<li<if condition="$msort eq 1">class="licurr"</if>
+				onclick="queryIntegralGoods(this,1);">默认<s<if
+						condition="$msort eq 1">class="bscurr"</if>></s></li>
+			<!--<li <if condition="$msort eq 6">class="licurr"</if> onclick="queryGoods(this,6);">人气<s <if condition="$msort eq 6">class="bscurr"</if>></s></li>-->
+			<li<if condition="$msort eq 7">class="licurr"</if>
+				onclick="queryIntegralGoods(this,7);">兑换排行<s<if
+						condition="$msort eq 7">class="bscurr"</if>></s></li>
+			<li<if condition="$msort eq 8 or $msort eq 9">class="licurr"</if>
+				onclick="queryIntegralGoods(this,8);">积分值<b<if
+						condition="$msort eq 8">class="bscurr"</if>
+					<if condition="$msort eq 9">class="bscurr_up"</if>></b></li>
+			<li<if condition="$msort eq 11">class="licurr"</if>
+				onclick="queryIntegralGoods(this,11);">新礼品<s<if
+						condition="$msort eq 11">class="bscurr"</if>></s></li>
+			<div style="float: left; position: relative;">
+				&nbsp;&nbsp;&nbsp;&nbsp; <s class="rmb1"></s> <s class="rmb2"></s> <input
+					type="text" class="wst-glist-price" id="sprice" value="{$sprice}" />-
+				<input type="text" class="wst-glist-price" id="eprice"
+					value="{$eprice}" />
+				<button class="wst-glist-cofm"
+					onclick="queryIntegralGoods(this,12);">确定</button>
+			</div>
+			<div class="wst-clear"></div>
+		</div>
+		<div class="wst-goods-page">
+			<volist name="pages['root']" key="key" id="goods">
+			<li class="wst-goods-item">
+				<div class="goods-img">
+					<a
+						href="{:U('Home/Integral/getGoodsDetails/',array('goodsId'=>$goods['goodsId']))}">
+						<img class='lazyImg' data-original="{$goods['goodsThums']}"
+						width="180" />
+					</a>
+				</div>
+				<div class="goods-des">
+					<div class="goods-title">
+						<a
+							href="{:U('Home/Integral/getGoodsDetails/',array('goodsId'=>$goods['goodsId']))}">{$goods['goodsName']}</a>
+					</div>
+					<div class="goods-price">
+						<span class="span1" id="shopGoodsPrice_{$goods['goodsId']}"
+							dataId="{$goods['goodsAttrId']}">积分：{$goods['shopPrice']}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span
+							class="span2">￥{$goods['marketPrice']}</span>
+					</div>
+					<div class="goods-buy">
+						<div class="goods-left">
+							<span
+								style="color: green; font-weight: bolder; margin-left: 2px;">{$goods["saleCount"]}</span>人已兑换
+						</div>
+						<div class="goods-right">
+							<if condition="$goods['goodsStock'] gt 0"> <if
+								condition="$goods['isRecomm'] eq ''"> <a
+								href="{:U('Home/Integral/getGoodsDetails/',array('goodsId'=>$goods['goodsId']))}"
+								class="btn btn-warning"> 立即兑换 </a> </if> <else />
+							&nbsp;&nbsp;&nbsp;&nbsp;<font color='red'>(暂无商品)</font>
+									</if>
+						</div>
+						<div class="wst-clear"></div>
+					</div>
+				</div>
+			</li>
+			</volist>
+			<div class="wst-clear"></div>
+		</div>
+	</div>
+	<div class="wst-page" style="text-align: center;">
+		<div id="wst-page-items"></div>
+	</div>
+	<div class="wst-clear"></div>
+</div>
+<script src="__PUBLIC__/plugins/layer/layer.min.js"></script> <script
+	src="__JS__/goods.js"></script> <script>
+	<if condition="$bs eq 1">
+		$("#wst-brand-tp").click();
+	</if>
+	<if condition="$pages['totalPage'] gt 1">
+	
+	laypage({
+	    cont: 'wst-page-items',
+	    pages: {$pages["totalPage"]}, //总页数
+	    skip: true, //是否开启跳页
+	    skin: '#e23e3d',
+	    groups: 3, //连续显示分页数
+	    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
+	        var page = location.search.match(/pcurr=(\d+)/);
+	        return page ? page[1] : 1;
+	    }(), 
+	    jump: function(e, first){ //触发分页后的回调
+	        if(!first){ //一定要加此判断，否则初始时会无限刷新
+	        	var nuewurl = WST.splitURL("pcurr");
+	        	var ulist = nuewurl.split("?");
+	        	if(ulist.length>1){
+	        		location.href = nuewurl+'&pcurr='+e.curr;
+	        	}else{
+	        		location.href = '?pcurr='+e.curr;
+	        	}
+	            
+	        }
+	    }
+	});
+	</if>
+	
+	</script> </block>

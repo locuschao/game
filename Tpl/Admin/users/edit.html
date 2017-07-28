@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{$CONF['shopTitle']['fieldValue']}后台管理中心</title>
+<link href="__PUBLIC__/plugins/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+<link href="__CSS__/AdminLTE.css" rel="stylesheet" type="text/css" />
+<link href="__CSS__/upload.css" rel="stylesheet" type="text/css" />
+<!--[if lt IE 9]>
+      <script src="__PUBLIC__/js/html5shiv.min.js"></script>
+      <script src="__PUBLIC__/js/respond.min.js"></script>
+      <![endif]-->
+<script src="__PUBLIC__/js/jquery.min.js"></script>
+<script src="__PUBLIC__/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="__PUBLIC__/js/common.js"></script>
+<script src="__PUBLIC__/plugins/plugins/plugins.js"></script>
+<script src="__PUBLIC__/plugins/formValidator/formValidator-4.1.3.js"></script>
+<script type="text/javascript" src="__JS__/upload.js"></script>
+<script type="text/javascript" src="__JS__/layer.js"></script>
+
+</head>
+<script>
+   var ThinkPHP = window.Think = {
+	        "ROOT"   : "__ROOT__"
+	}
+   var filetypes = ["gif","jpg","png","jpeg"];
+   $(function () {
+	   $.formValidator.initConfig({
+		   theme:'Default',mode:'AutoTip',formID:"myform",debug:true,submitOnce:true,onSuccess:function(){
+				   edit();
+			       return false;
+			}});
+	   
+		$("#userPhone").inputValidator({min:0,max:25,onError:"你输入的手机号码非法,请确认"}).regexValidator({
+			regExp:"mobile",dataType:"enum",onError:"手机号码格式错误"
+		}).ajaxValidator({
+			dataType : "json",
+			async : true,
+			url : "{:U('Admin/Users/checkLoginKey')}",
+			success : function(data){
+				var json = WST.toJson(data);
+	            if( json.status == "1" ) {
+	                return true;
+				} else {
+	                return false;
+				}
+				return "该手机号码已被使用";
+			},
+			buttons: $("#dosubmit"),
+			onError : "该手机号码已存在。",
+			onWait : "请稍候..."
+		}).defaultPassed().unFormValidator(true);
+		$("#userEmail").inputValidator({min:0,max:25,onError:"你输入的邮箱长度非法,请确认"}).regexValidator({
+		       regExp:"email",dataType:"enum",onError:"邮箱格式错误"
+			}).ajaxValidator({
+				dataType : "json",
+				async : true,
+				url : "{:U('Admin/Users/checkLoginKey')}",
+				success : function(data){
+					var json = WST.toJson(data);
+		            if( json.status == "1" ) {
+		                return true;
+					} else {
+		                return false;
+					}
+					return "该电子邮箱已被使用";
+				},
+				buttons: $("#dosubmit"),
+				onError : "该账号已存在。",
+				onWait : "请稍候..."
+			}).defaultPassed().unFormValidator(true);
+
+		$("#userQQ").formValidator({
+			empty:true,onShow:"",onFocus:"QQ号码只能是数字"
+			}).regexValidator({
+				regExp:"num1",dataType:"enum",onError:"QQ号码格式错误"
+			});
+		
+		$("#userPhone").blur(function(){
+			  if($("#userPhone").val()==''){
+				  $("#userPhone").unFormValidator(true);
+			  }else{
+				  $("#userPhone").unFormValidator(false);
+			  }
+		});
+		$("#userEmail").blur(function(){
+			  if($("#userEmail").val()==''){
+				  $("#userEmail").unFormValidator(true);
+			  }else{
+				  $("#userEmail").unFormValidator(false);
+			  }
+		});
+		$("#userScore").formValidator({
+			empty:true,onShow:"",onFocus:"当前积分只能是正整数"
+			}).functionValidator({
+				fun:function(val,elem){
+					if(parseInt(val,10)<=parseInt($("#userTotalScore").val(),10)){
+					    return true;
+				    }else{
+					    return "会员积分不能大于历史积分";
+				    }
+				}
+		});
+		$("#userTotalScore").formValidator({
+			empty:true,onShow:"",onFocus:"当前积分只能是正整数"
+			}).functionValidator({
+				fun:function(val,elem){
+					if(parseInt(val,10)>=parseInt($("#userScore").val(),10)){
+					    return true;
+				    }else{
+					    return "历史积分不能小于用户积分";
+				    }
+				}
+			});
+	
+   });
+   function edit(){
+	   var params = {}; 
+	   params.userName = $.trim($('#userName').val());
+	   params.userQQ = $.trim($('#userQQ').val());
+	   params.userScore = $.trim($('#userScore').val());
+	   params.userTotalScore = $.trim($('#userTotalScore').val());
+	   params.userSex = $('input[name="userSex"]:checked').val();
+	   params.userStatus = $('input[name="userStatus"]:checked').val();
+	   params.userPhone = $.trim($('#userPhone').val());
+	   params.userMoney = $.trim($('#userMoney').val());
+	   var loginPwd=$.trim($('#loginPwd').val());
+	
+	   if(loginPwd.length>0&&loginPwd.length<6){
+		  alert('密码长度必须6位以上！');
+		   return;
+	   }
+	   params.loginPwd = $.trim($('#loginPwd').val());
+	   params.userPhoto = $.trim($('#userPhoto').val());
+	   params.userEmail = $.trim($('#userEmail').val());  
+	   params.id = $('#id').val();
+	   Plugins.waitTips({title:'信息提示',content:'正在提交数据，请稍后...'});
+		$.post("{:U('Admin/Users/edit')}",params,function(data,textStatus){
+			var json = WST.toJson(data);
+			if(json.status=='1'){
+				Plugins.setWaitTipsMsg({ content:'操作成功',timeout:1000,callback:function(){
+				   location.href='{:U("Admin/Users/index")}';
+				}});
+			}else if(json.status=='-2'){
+				Plugins.setWaitTipsMsg({content:'用户手机号码或邮箱已存在!',timeout:1000});
+			}else{
+				Plugins.closeWindow();
+				Plugins.Tips({title:'信息提示',icon:'error',content:'操作失败!',timeout:1000});
+			}
+		});
+   }
+   </script>
+<body class="wst-page">
+	<iframe name="upload" style="display: none"></iframe>
+	<form id="uploadform_Filedata" autocomplete="off"
+		style="position: absolute; top: 245px; left: 120px; z-index: 10;"
+		enctype="multipart/form-data" method="POST" target="upload"
+		action="{:U('Home/Shops/uploadPic')}">
+		<div style="position: relative;">
+			<input id="userPhoto" name="userPhoto" class="form-control wst-ipt"
+				type="text" value="{$object.userPhoto}" readonly
+				style="margin-right: 4px; float: left; margin-left: 8px; width: 250px;" />
+			<div class="div1">
+				<div class="div2">浏览</div>
+				<input type="file" class="inputstyle" id="Filedata" name="Filedata"
+					onchange="updfile('Filedata');">
+			</div>
+			<div style="clear: both;"></div>
+			<div>&nbsp;图片大小:150 x 120 (px)(格式为 gif, jpg, jpeg, png)</div>
+			<input type="hidden" name="dir" value="users"> <input
+				type="hidden" name="width" value="150"> <input type="hidden"
+				name="folder" value="Filedata"> <input type="hidden"
+				name="sfilename" value="Filedata"> <input type="hidden"
+				name="fname" value="userPhoto"> <input type="hidden"
+				id="s_Filedata" name="s_Filedata" value="">
+
+		</div>
+	</form>
+	<form name="myform" method="post" id="myform" autocomplete="off">
+		<input type='hidden' id='id' value='{$object.userId}' />
+
+		<table class="table table-hover table-striped table-bordered wst-form">
+			<tr>
+				<th align='right'>用户ID：</th>
+				<td>{$object.userId}</td>
+			</tr>
+			<tr>
+				<th width='120' align='right'>用户名：</th>
+				<td><input type='text' id='userName'
+					class="form-control wst-ipt" value='{$object.userName}'
+					maxLength='20' /></td>
+				<td rowspan='6'>
+					<div id="preview_Filedata">
+						<img id='userPhotoPreview' src='	{$object["userPhoto"]|default="__IMG__/default_user.png"}' height='160' width='160'/><br />
+					</div>
+				</td>
+			</tr>
+
+			<tr>
+				<th align='right'>手机号码：</th>
+				<td><input type='text' id='userPhone' name='userPhone'
+					class="form-control wst-ipt" value='{$object.userPhone}'
+					maxLength='11' /></td>
+			</tr>
+			<tr>
+				<th align='right'>登录密码：</th>
+				<td><input type='text' id='loginPwd' name='loginPwd'
+					class="form-control wst-ipt" value='' /></td>
+			</tr>
+			<tr>
+				<th align='right'>用户余额：</th>
+				<td><input type='text' id='userMoney' readonly="readonly"
+					name='userMoney' class="form-control wst-ipt"
+					value='{$object.userMoney}' maxLength='11' /></td>
+			</tr>
+			<tr>
+				<th align='right'>QQ：</th>
+				<td><input type='text' id='userQQ'
+					class="form-control wst-ipt" value='{$object.userQQ}'
+					onkeypress="return WST.isNumberKey(event)"
+					onkeyup="javascript:WST.isChinese(this,1)" maxLength='15' /></td>
+			</tr>
+			<tr>
+				<th align='right'>状态：</th>
+				<td><input type='radio' name="userStatus" value='1'
+				<if condition="$object['userStatus'] eq 1">checked</if> />开启&nbsp; <input
+					type='radio' name="userStatus" value='0'
+				<if condition="$object['userStatus'] eq 0">checked</if> />禁用</td>
+			</tr>
+			<tr>
+				<th align='right'>注册时间</th>
+				<td>{$object.createTime}</td>
+			</tr>
+
+
+			<tr style="height: 80px;">
+				<th align='right'>用户头像：</th>
+				<td></td>
+			</tr>
+			<tr>
+				<td colspan='2' style='padding-left: 250px;'>
+					<button type="submit" class="btn btn-success">保&nbsp;存</button>
+					<button type="button" class="btn btn-primary"
+						onclick='javascript:location.href="{:U('Admin/Users/index')}"'>返&nbsp;回</button>
+				</td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>

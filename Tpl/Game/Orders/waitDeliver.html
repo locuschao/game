@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>待发货</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<script>
+    /*(function (doc, win) {
+                          var docEl = doc.documentElement,
+                            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                            recalc = function () {
+                              var clientWidth = docEl.clientWidth;
+                              if (!clientWidth) return;
+                              docEl.style.fontSize = 20 * (clientWidth / 320) + 'px';
+                            };
+                         
+                          if (!doc.addEventListener) return;
+                          win.addEventListener(resizeEvt, recalc, false);
+                          doc.addEventListener('DOMContentLoaded', recalc, false);
+                        })(document, window);
+                        */
+    </script>
+<style>
+.font90 {
+	font-size: 90%;
+}
+
+body {
+	padding-bottom: 50px;
+}
+
+.col-red {
+	color: #ff4045
+}
+
+.right_arrows {
+	background-size: 7px;
+}
+
+.imgwh img {
+	width: 72px;
+	height: 72px;
+}
+
+.padd-tb {
+	padding: 10px 0px;
+}
+
+.lh35 {
+	height: 35px;
+	line-height: 35px;
+}
+
+.bv {
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+}
+
+.h40 {
+	height: 35px;
+	overflow: hidden;
+}
+
+.color, .sev {
+	height: 20px;
+	line-height: 20px;
+	color: #999;
+	font-size: 90%;
+}
+
+.sev span {
+	background: #ff4045;
+	padding: 3px 6px;
+	width: auto;
+	color: #fff;
+	border-radius: 2px;
+}
+
+body {
+	background: #efeff4;
+}
+
+.ub {
+	background: #fff;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<div class="_top">
+		<div class="_left_top" onclick='javascript:window.location.href="{:U('
+			wx/Index/index',array('r'=>'my'))}"'></div>
+		<div class="_title_top">待发货</div>
+		<div class="_right_top nobackground"></div>
+	</div>
+	<div class="_content">
+		<volist name="waitDeliver" id="wd">
+		<div class="_son_title ub margin_top10">
+			<php> if(empty($wd['shopImg'])&&$wd['shopId']==0){
+			$_shopImg=ltrim("__IMG__/".'shop_ico.png','/'); $_shopName='平台';
+			$_url="return false;"; }else{ $_shopImg=$wd['shopImg'];
+			$_shopName=$wd['shopName'];
+			$_url='window.location.href="'.U('Shop/shop',array('id'=>$wd['shopId'],'ref'=>'Orders_waitDeliver')).'"';
+			} </php>
+			<div onclick='javascript:{$_url}'
+				class="title_left_ico margin_left10"
+				style="background: url(/{$_shopImg}) center no-repeat; background-size: 26px 26px; width: 26px;"></div>
+			<div onclick='javascript:{$_url}' class=" text-l">{$_shopName}</div>
+			<div class="right_arrows"></div>
+			<div class="ub-f1 txt-r margin_right10 col-red">
+				<switch name="wd['orderStatus']"> <case value="0">等待发货</case>
+				<case value="1">商家已受理</case> <case value="2">打包中</case> <case
+					value="3">配送中</case> <case value="4">已经完成</case> <default />处理中 </switch>
+				<!-- <if condition="$wd['isPay'] eq 1">买家已付款<else/>货到付款</if> -->
+			</div>
+		</div>
+		<volist name="wd['goods']" id='go'>
+		<div class="ub padd-tb  bor_b "
+			onclick='javascript:window.location.href="{:U('
+			Orders/orderDetail',array('id'=>
+			$wd['orderId']))}"'>
+			<div class="margin_left10 margin_right10 imgwh ">
+				<img style="height: 6rem;" src="/{$go.goodsThums}" alt="">
+			</div>
+			<div class="ub-f1  ub bv">
+				<div class=" ub h40">
+					<div class="ub-f1 "
+						style="height: 36px; line-height: 18px; over-flow: hidden;">{$go.goodsName}</div>
+					<div class="margin_right10 text-r lh25">
+						<p class="font_col_red">￥{$go.goodsPrice}</p>
+					</div>
+				</div>
+				<div class="color ub">
+					<div class="ub-f1">{$go.goodsAttrName}</div>
+					<div class="margin_right10">X{$go.goodsNums}</div>
+				</div>
+				<div class="sev">
+					<!-- <span>七天退换</span> -->
+				</div>
+			</div>
+		</div>
+		</volist>
+		<div class="_son_title lh35 ub font90">
+			<div class="ub-f1 text-r margin_right10 col-666">
+				共
+				<php> echo count($wd['goods'])</php>
+				件商品 合计:￥{$wd.needPay}（含运费:￥{$wd.deliverMoney}）
+			</div>
+		</div>
+		</volist>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+
+</html>

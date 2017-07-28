@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{$CONF['mallTitle']}后台管理中心</title>
+<link href="__PUBLIC__/plugins/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+<link href="__CSS__/AdminLTE.css" rel="stylesheet" type="text/css" />
+<!--[if lt IE 9]>
+      <script src="__PUBLIC__/js/html5shiv.min.js"></script>
+      <script src="__PUBLIC__/js/respond.min.js"></script>
+      <![endif]-->
+<script src="__PUBLIC__/js/jquery.min.js"></script>
+<script src="__PUBLIC__/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="__PUBLIC__/js/common.js"></script>
+<script src="__PUBLIC__/plugins/plugins/plugins.js"></script>
+<link rel="stylesheet" href="__CSS__/layer.css">
+<script type="text/javascript" src="__JS__/layer.js"></script>
+<script type="text/javascript" src="__JS__/layer.ext.js"></script>
+</head>
+<script>
+      function layer_e(){
+          layer.config({
+                extend: 'extend/layer.ext.js'
+            });
+    }
+     $(function(){
+    var val_r={$return};
+    var shopup_url='/Admin/Youhui/shopup_log.html';
+    switch(val_r){
+      case 1: 
+        layer.msg('发布成功', {icon: 1});
+        break;
+      case 2: 
+        layer.msg('修改成功', {icon: 1});
+        break;
+      case 3: 
+        layer.msg('操作失败',{icon:5});
+        break;
+    }
+  })
+   </script>
+<script>
+   function del(id){
+     Plugins.confirm({title:'信息提示',content:'您确定要删除该优惠券吗?',okText:'确定',cancelText:'取消',okFun:function(){
+       Plugins.closeWindow();
+       Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
+       $.post("{:U('Admin/Youhui/del')}",{id:id},function(data,textStatus){
+          var json = WST.toJson(data);
+          if(json.status=='1'){
+            Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
+              location.reload();
+            }});
+          }else{
+            Plugins.closeWindow();
+            parent.showMsg({msg:'操作失败!',status:'danger'});
+          }
+        });
+        }});
+   }
+
+   function refuse(id){
+     Plugins.confirm({title:'信息提示',content:'您确定要拒绝这条申请吗?',okText:'确定',cancelText:'取消',okFun:function(){
+       Plugins.closeWindow();
+       Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
+       $.post("{:U('Admin/Youhui/refuse')}",{id:id},function(data,textStatus){
+          var json = WST.toJson(data);
+          if(json.status=='1'){
+            Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
+              location.reload();
+            }});
+          }else{
+            Plugins.closeWindow();
+            parent.showMsg({msg:'操作失败!',status:'danger'});
+          }
+        });
+        }});
+   }
+
+   function down_youhui(id){
+     Plugins.confirm({title:'信息提示',content:'您确定要下架这条优惠券吗?',okText:'确定',cancelText:'取消',okFun:function(){
+       Plugins.closeWindow();
+       Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
+       $.post("{:U('Admin/Youhui/down_youhui')}",{id:id},function(data,textStatus){
+          var json = WST.toJson(data);
+          if(json.status=='1'){
+            Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
+              location.reload();
+            }});
+          }else{
+            Plugins.closeWindow();
+            parent.showMsg({msg:'操作失败!',status:'danger'});
+          }
+        });
+        }});
+   }
+   </script>
+<body class='wst-page'>
+	<form method='get' action="{:U('Admin/Youhui/shopup_log')}">
+		<div class='wst-tbar'>
+			<input type='hidden' id='admin_check' name='admin_check' value='1' />
+			<a class="btn btn-primary glyphicon glyphicon-search"
+				href="/Admin/Youhui/shopup_log.html">查看全部</a>
+			<button type="submit"
+				class="btn btn-primary glyphicon glyphicon-search">查看未审核</button>
+
+		</div>
+	</form>
+	<div class='wst-body'>
+		<table class="table table-hover table-striped table-bordered wst-list">
+			<thead>
+				<tr>
+					<th width='30'>序号</th>
+					<th width='100'>优惠券名称</th>
+					<!-- <th width='30'>可用城市</th> -->
+					<th width='60'>折扣/减免额度</th>
+					<th width='30'>消费金额</th>
+					<th width='50'>商户名称</th>
+					<th width='80'>操作时间</th>
+					<th width='140'>申请类型</th>
+					<th width='40'>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<volist name="list" id="vo" key='i'>
+				<tr>
+					<td>{$vo['id']}</td>
+					<td>{$vo['name']}</td>
+					<!-- <td>{$vo['city_id']}</td> -->
+					<td>{$vo['breaks_menoy']} <switch name="vo['youhui_type']">
+						<case value="0">元</case> <case value="1">折</case> </switch></td>
+					<td>{$vo['total_fee']}元</td>
+					<td>{$vo['supplier_id']}</td>
+					<td>{$vo['create_time']}</td>
+					<td>{$vo['msg']}</td>
+					<td>
+						<button type="button"
+							class="btn btn-default glyphicon glyphicon-trash"
+							onclick="javascript:del({$vo['id']})">删除</button>
+					</td>
+				</tr>
+				</volist>
+				<tr>
+					<td colspan='8' align="center">{$show}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

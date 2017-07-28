@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{$CONF['mallTitle']}后台管理中心</title>
+<link href="__PUBLIC__/plugins/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+<link href="__CSS__/AdminLTE.css" rel="stylesheet" type="text/css" />
+<!--[if lt IE 9]>
+      <script src="__PUBLIC__/js/html5shiv.min.js"></script>
+      <script src="__PUBLIC__/js/respond.min.js"></script>
+      <![endif]-->
+<script src="__PUBLIC__/js/jquery.min.js"></script>
+<script src="__PUBLIC__/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="__PUBLIC__/js/common.js"></script>
+<script src="__PUBLIC__/plugins/plugins/plugins.js"></script>
+<link rel="stylesheet" href="__CSS__/layer.css">
+<script type="text/javascript" src="__JS__/layer.js"></script>
+<script type="text/javascript" src="__JS__/layer.ext.js"></script>
+</head>
+<script type="text/javascript">
+          layer.config({
+                extend: 'extend/layer.ext.js'
+            });
+  </script>
+<script>
+     function useryouhui_updata(){
+          var surplus=$("input[name='surplus']").val();
+          var youhui_id=$("input[name='youhui_id']").val();
+          var user_id=$("input[name='user_id']").val();
+          var aj = $.ajax( {  
+                url:"/Admin/Youhui/runuseryouhui.html",
+                data:{  
+                      youhui_id : youhui_id,
+                      user_id : user_id,
+                      surplus:surplus
+                },  
+               type:'post', 
+               cache:false,   
+              success:function(data) {  
+              data = eval("("+data+")");
+              if (data.status==1) {
+                layer.msg('保存成功', {icon: 1});
+                location.href="/Admin/Youhui/userlist.html";
+              }else{
+                layer.msg('保存失败，请稍后再试。', {icon: 3});
+                location.href="/Admin/Youhui/userlist.html";
+              }
+              },  
+          error : function() {   
+               alert("异常！");  
+              }  
+         });
+   }
+      </script>
+<body class="wst-page">
+	<table class="table table-hover table-striped table-bordered wst-form">
+		<tr>
+			<th width='200'>优惠券名称：</th>
+			<td>{$data['name']}</td>
+		</tr>
+		<tr>
+			<th width='200'>用户名称：</th>
+			<td>{$data['loginName']}</td>
+		</tr>
+		<tr>
+			<th width='200'>商户名称：</th>
+			<td>{$data['supplier_id']}</td>
+		</tr>
+		<tr>
+			<th width='200'>用户优惠券数量：</th>
+			<td><input type="text" name="surplus" value="{$data['surplus']}">
+			</td>
+		</tr>
+		<td colspan='2' style='padding-left: 250px;'><input type="hidden"
+			name="youhui_id" value="{$data['youhui_id']}"> <input
+			type="hidden" name="user_id" value="{$data['user_id']}">
+			<button type="button" class="btn btn-success"
+				onclick="javascript:useryouhui_updata()">保&nbsp;存</button>
+			<button type="button" class="btn btn-primary"
+				onclick='javascript:location.href="{:U('/Admin/Youhui/userlist')}"'>返&nbsp;回</button>
+		</td>
+		</tr>
+	</table>
+</body>
+</html>

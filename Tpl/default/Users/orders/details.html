@@ -1,0 +1,284 @@
+<!doctype html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>买家中心</title>
+    <include file="./Tpl/homeHead.html" />
+    <link rel="stylesheet" href="__CSS__/common.css"/>
+    <link rel="stylesheet" href="__CSS__/user.css">
+    <script type="text/javascript" src="__JS__/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="__JS__/layer.js"></script>
+    <script src="/Tpl/Game/js/layer.min.js"></script>
+    <style>
+        .wst-odetal-box {
+            padding: 10px;
+            text-align: center;
+            background-color: #ffffff;
+        }
+
+        .wst-tab {
+            border-collapse: collapse;
+        }
+
+        .wst-tab-cpt {
+            text-align: left;
+            height: 30px;
+            font-weight: bold;
+        }
+
+        .wst-tab tr {
+            height: 30px;
+        }
+
+        .wst-tab tr td {
+            border: 1px solid #eeeeee;
+        }
+
+        .wst-td-title {
+            width: 100px;
+            text-align: right;
+        }
+
+        .wst-td-content {
+            padding-left: 6px;
+            text-align: left;
+        }
+
+        .wst-align-center {
+            text-align: center;
+        }
+
+        .wst-btn-query {
+            height: auto
+        }
+    </style>
+    <include file="./Tpl/Public/commonHead.html" />
+</head>
+<script>
+    function fahuoHandle() {
+        location.href = "{:U('Orders/fahuo',array('orderId'=>$_GET['orderId']))}";
+    }
+
+    /* 二次开发 start */
+    function cancelHandle() {
+//        location.href = "{:U('Orders/mjOrderCancel',array('orderId'=>$_GET['orderId']))}";
+        var orderId = "{$_GET['orderId']}";
+        layer.confirm('确定取消此订单吗？', {icon: 3, title:'取消订单'}, function(index){
+            $.ajax({
+                type:'post',
+                url:'{:U("Orders/mjOrderCancel")}',
+                data:{orderId:orderId},
+                dataType:'json',
+                success:function(data){
+                    layer.msg(data.mes);
+                    setTimeout(function(){
+                        location.reload();
+                    },1000);
+                }
+            });
+            layer.close(index);
+        });
+    }
+    /*二次开发 end */
+
+    $('body').on('click','#cancelOrder',function(){
+        alert(333);
+        layer.confirm('确定取消此订单吗？', {icon: 3, title:'取消订单'}, function(index){
+            $.ajax({
+                type:'post',
+                url:'{:U("Orders/cancelOrder")}',
+                data:{orderId:orderId},
+                dataType:'json',
+                success:function(data){
+                    layer.msg(data.mes);
+                    setTimeout(function(){
+                        location.reload();
+                    },1000);
+                }
+            });
+            layer.close(index);
+        });
+
+    })
+</script>
+
+<body style="background-color: #f5f5f5;">
+<div style="text-align: center;">
+    <div class="wst-odetal-box">
+        <table cellspacing="0" cellpadding="0" class="wst-tab" width="920"
+               style="border: 1px solid #eeeeee; margin: 0 auto;">
+            <caption class="wst-tab-cpt">
+                日志信息 <span style="color: blue; float: right;"> <if
+                    condition='$order["orderStatus"] eq 1'>待处理
+                <elseif
+                        condition='$orderInfo["order"]["orderStatus"] eq 2'/>
+                已发货
+                <elseif
+                        condition='$orderInfo["order"]["orderStatus"] eq 3'/>
+                已完成
+            </if>
+            </caption>
+            </span>
+            <tbody>
+            <volist name="orderInfo['logs']" id="log" key='key1'>
+                <tr>
+                    <td width="200">{$log["logTime"]}</td>
+                    <td class="wst-td-content">{$log["logContent"]}</td>
+                </tr>
+            </volist>
+            </tbody>
+        </table>
+    </div>
+    <br/>
+    <br/>
+    <div class="wst-odetal-box">
+        <table cellspacing="0" cellpadding="0" class="wst-tab" width="1210">
+            <caption class="wst-tab-cpt">订单信息</caption>
+            <tbody>
+            <tr>
+                <td class="wst-td-title">订单编号：</td>
+                <td class="wst-td-content">{$orderInfo["order"]["orderNo"]}</td>
+            </tr>
+            <tr>
+                <td class="wst-td-title">商品名称：</td>
+                <td class="wst-td-content">{$orderInfo["order"]["goodsName"]}</td>
+            </tr>
+            <tr>
+                <td class="wst-td-title">所属游戏：</td>
+                <td class="wst-td-content">{$orderInfo["order"]["gameName"]}</td>
+            </tr>
+            <tr>
+                <td class="wst-td-title">类型：</td>
+                <td class="wst-td-content">
+                    <if condition='$orderInfo["order"]["orderType"] eq 1'>
+                        <if condition='$orderInfo["order"]["goodsType"] eq 1'>会员首充
+                            <else/>
+                            首充号
+                        </if>
+                        <else/>
+                        <if condition='$orderInfo["order"]["goodsType"] eq 1'>会员首代
+                            <else/>
+                            首充号代充
+                        </if>
+                    </if>
+                </td>
+            </tr>
+            <tr>
+                <td class="wst-td-title">游戏版本：</td>
+                <td class="wst-td-content">{$orderInfo["order"]["vName"]}</td>
+            </tr>
+            <?php if($orderInfo['order']['account']!='') : ?>
+            <tr>
+                <td class="wst-td-title">充值账号：</td>
+                <td class="wst-td-content">{$orderInfo["order"]["account"]}</td>
+            </tr>
+            <?php endif; ?>
+            <tr>
+                <td class="wst-td-title">商品数量：</td>
+                <td class="wst-td-content">{$orderInfo["order"]["goodsNums"]}</td>
+            </tr>
+            <tr>
+                <td class="wst-td-title">支付方式：</td>
+                <td class="wst-td-content">
+                    <if condition='$orderInfo["order"]["payType"]  eq 2'>微信支付
+                        <elseif condition='$orderInfo["order"]["payType"] eq 1'/>
+                        支付宝支付
+                        <else/>
+                        余额支付
+                    </if>
+                </td>
+            </tr>
+            <tr>
+                <td class="wst-td-title">下单时间：</td>
+                <td class="wst-td-content">{$orderInfo["order"]["createTime"]}</td>
+            </tr>
+            <tr>
+                <td class="wst-td-title">充值金额：</td>
+                <td class="wst-td-content">{$orderInfo["order"]["totalMoney"]}</td>
+            </tr>
+            <tr>
+                <td class="wst-td-title">游戏区服：</td>
+                <td class="wst-td-content">{$orderInfo["order"]["userAddress"]}</td>
+            </tr>
+            <tr>
+                <td class="wst-td-title">角色名称：</td>
+                <td class="wst-td-content">{$orderInfo["order"]["roleName"]}</td>
+            </tr>
+            
+            </tbody>
+        </table>
+    </div>
+    <br/>
+    <br/>
+    <!--     	<div class="wst-odetal-box">
+    <table cellspacing="0" cellpadding="0" class="wst-tab" width="1210">
+            <caption class="wst-tab-cpt">收货人信息</caption>
+            <tbody>
+                <tr>
+                    <td class="wst-td-title">收货人姓名：</td>
+                    <td class="wst-td-content">{$orderInfo["order"]["userName"]}</td>
+                </tr>
+                <tr>
+                    <td class="wst-td-title">手机号：</td>
+                    <td class="wst-td-content">{$orderInfo["order"]["userPhone"]}</td>
+                </tr>
+                <tr>
+                    <td class="wst-td-title">QQ号：</td>
+                    <td class="wst-td-content">{$orderInfo["order"]["qq"]}</td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+        <br/><br/> -->
+
+    <div class="wst-odetal-box">
+        <if condition='$orderInfo["fahuo"]'>
+            <table cellspacing="0" cellpadding="0" class="wst-tab" width="920"
+                   style="border: 1px solid #eeeeee; margin: 0 auto;">
+                <tbody>
+                <volist name="orderInfo['fahuo']" id='vo'>
+                    <tr>
+                        <td class="wst-td-title">游戏区服</td>
+                        <td class="wst-td-content"><input
+                                onkeyup="this.value=this.value.replace(/[\|\;]/g,'')"
+                                onafterpaste="this.value=this.value.replace(/[\|\;]/g,'')"
+                                type="text" class="area" value="{$vo.area}" readonly="readonly"/></td>
+                        <td class="wst-td-title">登录帐号：</td>
+                        <td class="wst-td-content"><input readonly="readonly"
+                                                          onkeyup="this.value=this.value.replace(/[\|\;]/g,'')"
+                                                          onafterpaste="this.value=this.value.replace(/[\|\;]/g,'')"
+                                                          type="text" class="account" value="{$vo.account}"/></td>
+                        <td class="wst-td-title">登录密码：</td>
+                        <td class="wst-td-content"><input readonly="readonly"
+                                                          onkeyup="this.value=this.value.replace(/[\|\;]/g,'')"
+                                                          onafterpaste="this.value=this.value.replace(/[\|\;]/g,'')"
+                                                          type="text" class="password" value="{$vo.password}"/></td>
+                    </tr>
+                </volist>
+                </tbody>
+            </table>
+        </if>
+    </div>
+</div>
+
+<br/>
+<br/>
+<if condition="$orderInfo['order']['orderStatus']  eq 1">
+    <div style="text-align: center;">
+        <!-- 二次开发 start -->
+        <button onclick="cancelHandle()" class="wst-btn-query"
+                style="margin: 0 auto; width: 30%; padding: 10px;">取消订单
+        </button>
+        <!-- 二次开发 end  -->
+        <button onclick="fahuoHandle()" class="wst-btn-query"
+                style="margin: 0 auto; width: 30%; padding: 10px;">去发货
+        </button>
+    </div>
+</if>
+<br/>
+<br/>
+<include file="./Tpl/Public/commonFooter.html" />
+</body>
+
+
+</html>

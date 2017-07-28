@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta property="qc:admins" content="3541104430061172011637577155" />
+<title><if condition="$_GET['r'] eq 'index' "> 手游狗-手游充值平台_首充号_手游代充-手游交易平台_手游狗手游交易平台 <elseif
+		condition="$_GET['r'] eq 'order' " /> 订单 <elseif
+		condition="$_GET['r'] eq 'my' " /> 个人中心 <else /> 手游狗-手游充值平台_首充号_手游代充-手游交易平台_手游狗手游交易平台 </if></title>
+<include file="./Tpl/head.html" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+	<link rel="stylesheet" type="text/css" href="__CSS__/swiper.min.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/base.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/index.css">
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/swiper.min.js"></script>
+<script src="__JS__/layer.min.js"></script>
+<script src="__JS__/base.js"></script>
+<script src="__JS__/index.js"></script>
+<style>
+.footerNav{cursor:pointer;}
+.titleNav{display:none;}
+.nav_tuijia_img{text-align:left;}
+.nav_tuijia_img{min-height:100px; clear:both;}
+.nav_tuijia_img a{display:inline-block;width:25%;text-align:center;}
+.orderMenu,.del{cursor:pointer;}
+.badge {
+	position: relative;
+	left: 33px;
+	top: -13px;
+	display: inline-block;
+	min-width: 10px;
+	padding: 3px 7px;
+	font-size: 12px;
+	font-weight: 700;
+	line-height: 1;
+	color: #fff;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: baseline;
+	background-color: red;
+	border-radius: 10px;
+}
+/* 二次开发  start */
+.logo {
+	position: relative;
+	left: 10px;
+	top: -5px;
+}
+body{
+	max-width: 800px;
+}
+.header {
+	max-width: 800px;
+}
+.footer{
+	max-width: 800px;
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+}
+.ps_or_login{
+	margin-right:10px;
+}
+.ps_or_login img{
+	cursor: pointer;
+	margin-top: 13px;
+	width: 22px;
+}
+.myMoney .money {
+    width: 100px;
+    height: 80px;
+    margin: 0 auto;
+    text-align: center;
+    background: url(/Tpl/Game/image/money_bg.png) center no-repeat;
+    background-size: 100% 100%;
+    padding-top: 3px;
+}
+/*二次开发 end */
+</style>
+<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<php>
+		$r=$_GET['r'];
+		$index=false;
+		$order=false;
+		$my=false;
+		if($r=='index' or empty($r)){
+			$index=true;
+		}else if($r=='order'){
+			$order=true;
+		}else if($r=='my'){
+			$my=true;
+		}
+		$o=$_GET['o'];
+		$one=false;
+		$two=false;
+		$three=false;
+		$four=false;
+		$five=false;
+		if(!isset($o)){
+		    $one=true;//全部
+		}else if($o=='-2'){
+			$two=true;//待付款
+		}else if($o=='1'){
+			$three=true;
+		}else if($o=='2'){
+			$four=true;//待发货
+		}else if($o=='3'||$o=='4'||$o=='-4'||$o=='-5'||$o=='-6'||$o=='-3'){
+			$five=true;
+		}
+	</php>
+	<div class="header  col-6">
+		<div class="ub">
+			<div class="logo <if condition="$order or $my">nobg</if>"  <if condition="$_GET['r'] eq 'index' or empty($_GET['r'])">style="display:block; background-size:90%;width:70px;"</if>></div>
+			<div class="ub-f1 search">
+				<div class="titleNav index_title"  <if condition="$_GET['r'] eq 'index' or empty($_GET['r'])">style="display:block;"</if>>
+					<form id="indexForm"
+						action="{:U('Goods/goodsSearch')}" method="get">
+						<input type="text" name="key" id="search"
+							value="{$_GET['search']}" placeholder="游戏搜索" />
+					</form>
+				</div>
+				<div class="titleNav" <if  condition="$_GET['r'] eq 'order' ">style="display:block;"</if>>订单</div>
+				<div class="titleNav" <if  condition="$_GET['r'] eq 'my' ">style="display:block;"</if>>个人中心</div>
+			</div>
+			<!--<div class="mess" onclick="location.href='/Game/Mess/mess/r/Index_index'"></div>-->
+			<empty name="Think.session.oto_userId">
+				<div class="ps_or_login" onclick="location.href='/Game/Login/login'">登录</div>
+				<else />
+				<if  condition="$_GET['r'] eq 'order'||$_GET['r'] eq 'my' ">
+					<div class="mess" onclick="location.href='/Game/Mess/mess/r/Index_index'"><if condition="$notReadCount neq 0"><span class="badge">{$notReadCount}</span></if></div>
+					<else />
+					<div class="ps_or_login" onclick="location.href='/Game/Index/index/r/my'"><img src="/Tpl/Game/image/user1.png"></div>
+				</if>
+			</empty>
+		</div>
+	</div>
+	<input type="hidden" id="noticePage" value="1"/>
+	<input type="hidden" id="notReadCount" value="{$notReadCount}">
+	<div style="width: 100%; height: 50px;"></div>
+	<div id="page1" class="hideDiv" <if condition="$_GET['r'] eq 'index' or empty($_GET['r'])">style="display:block;"</if>>
+	<div class="banner">
+		<div class="swiper-container one_swiper visible-xs-block">
+			<div class="swiper-wrapper" id="imgList">
+				<volist name="scrollImg" id="img">
+				<div class="swiper-slide">
+						<a href="{$img.adURL}"><img src="/{$img.adFile|default='__IMG__/banner.png'}" /></a>
+				</div>
+				</volist>	
+			</div>
+			<div class="swiper-pagination one-pagination"></div>
+		</div>
+	</div>
+	<div class="ub nav">
+		<div class="pos-r ub-f1 ub">
+			<div class="pos-a">
+				<a href="{:U('Goods/goodsType',array('type'=>'sc'))}">
+				<div class="nav_img"><img src="__IMG__/one.png"/></div>
+				<div class="nav_title">首充号</div>
+				</a>
+			</div>
+		</div>
+		<div class="pos-r ub-f1 ub">
+		<div class="pos-a">
+			<a href="{:U('Goods/goodsType',array('type'=>'dc'))}">
+				<div class="nav_img"><img src="__IMG__/two.png"/></div>
+				<div class="nav_title">首充号代充</div>
+				</a>
+				</div>
+		</div>
+		<div class="pos-r ub-f1 ub">
+		<div class="pos-a">
+			<a  href="/index.php/game/goodsRank">
+			<!--<a href="javascript:layer.msg('暂未开放 敬请期待')">-->
+				<div class="nav_img"><img src="__IMG__/member_bg.png"/></div>
+				<div class="nav_title">会员</div>
+				</a>
+				</div>
+		</div>
+
+	</div>
+	
+	<div class="tuijia bor-b">
+		<div class="tuijia_title ub">
+			<div class="ub-f1">热门游戏推荐</div>
+		</div>
+			<div class="ub" onclick="window.location.href='/Game/Goods/goodsList/o/1/gameId/{$indexGoods[0]['id']}'">
+			<div class="tuijian_img " style="margin-left:9px;">	<a href="{:U('Goods/goodsList',array('gameId'=>$indexGoods[0]['id'],'o'=>1))}"><img src="/{$indexGoods[0]['gameIco']|default='__IMG__/shopIMg.png'}"/></a></div>
+			<div class="ub-f1  tuijin_first">
+				<div class="tuijin_first_title">{$indexGoods[0]['gameName']}</div>
+				<div class="tuijin_first_label">
+						<if condition="$shouType"><a>首充号</a></if>
+						<if condition="$daiType"><a>首充号代充</a></if>
+				</div>
+			</div>
+			<div class="right_arrows"> </div>
+		</div>
+		<div class=" nav_tuijia_img">
+		<volist name="indexGoods" id="vo" offset="1" length='19' >
+						<a href="{:U('Goods/goodsList',array('gameId'=>$vo['id'],'o'=>1))}">
+							<div class="nav_img tuijian_img"><img src="/{$vo.gameIco|default='__IMG__/shopIMg.png'}"/></div>
+							<div class="nav_title">{$vo.gameName}</div>
+						</a>
+		</volist>
+
+	</div>
+	<a href="{:U('Goods/goodsType',array('type'=>'sc'))}">
+	<div class=" lh45 back-ff  txt-c  " >更多热门游戏</div></a>
+	</div>
+		<div class="tuijia bor-b">
+		<div class="tuijia_title">热门商铺推荐</div>
+		<form action="{:U('shop/searchShop')}" method="get" id="shopSearch">
+		<div class="ub searchShop">
+			<div class="ub-f1"><input type="text" name="key" id="searchShop" value="{$_GET['searchShop']}" placeholder="搜索店铺"/></div>
+			<div class="shopSearchBtn" style="cursor:pointer">搜索</div>
+		</div>
+			</form>
+		<div class="nav_tuijia_img no-border" style="border:none;">
+			<volist name="goodsShop" id="gs" offset='0' lenght='4'>
+				<a href="{:U('Shop/personShop',array('id'=>$gs['shopId']))}">
+						<div class="nav_img tuijian_img"><img src="/{$gs.shopImg|default='__IMG__/shopIMg.png'}"/></div>
+						<div class="nav_title">{$gs.shopName}</div>
+					</a>
+			</volist>
+	</div>
+		<a href="{:U('Shop/searchShop',array('key'=>''))}">
+	<div class=" lh45 back-ff  txt-c  " >更多热门店铺</div></a>
+	</div>
+	<!-- 公告 -->
+	<div class="ub lh45 back-ff bor-b ti10 mar-t10 notice">公告</div>
+	<volist name="notice" id="vo">
+	<a href="{:U('Index/noticeDetail',array('id'=>$vo['id']))}">
+	<div class="ub lh45 back-ff bor-b ti10  "><span class="notice_color">【公告】</span>{$vo.title} </div></a>
+	</volist>
+	<if condition="count($notice) egt 5">
+	<div class=" lh45 back-ff bor-b  txt-c  loadMoreNotice" >加载更多</div>
+	</if>
+	<div class="txt-c  mar-t10 col-9" style="padding:10px 20px; line-height:20px;">
+	{$bottom}
+	</div>
+	
+	</div>
+	
+	
+	<!-- ------------------订单----------------------- -->
+	
+	<div id="page2" class="hideDiv" <if condition="$_GET['r'] eq 'order'">style="display:block;"</if>>
+		<div class="ub orderNav">
+			<div class="ub-f1 pos-r br-r  orderMenu <if condition="$one">orderNavActive</if> ">
+				<div class="pos-a txt-c">全部</div>
+			</div>
+			<div class="ub-f1 pos-r br-r orderMenu <if condition="$two">orderNavActive</if>">
+				<div class="pos-a txt-c">待支付</div>
+			</div>
+			<div class="ub-f1 pos-r br-r orderMenu <if condition="$three">orderNavActive</if>">
+				<div class="pos-a txt-c">待发货</div>
+			</div>
+			<div class="ub-f1 pos-r br-r orderMenu <if condition="$four">orderNavActive</if>">
+				<div class="pos-a txt-c">已发货</div>
+			</div>
+			<div class="ub-f1 pos-r orderMenu <if condition="$five">orderNavActive</if>">
+				<div class="pos-a txt-c">已完成</div>
+			</div>
+		</div>
+	
+		<div class="orderList"  <if condition="$one">style="display:block"</if>>
+			<volist name="orders" id="vo">
+					<div class="ub orderTime del_{$vo.orderId}">
+						<div class="ub-f1 txt-l col-9">	<a href="{:U('Orders/orderDetail',array('id'=>$vo['orderId'],'o'=>'5'))}"">订单状态:
+							<if condition="$vo['orderStatus'] eq -2">
+								待支付 {$vo.createTime}
+							<elseif condition="$vo['orderStatus'] eq 1"/>
+								待发货  {$vo.paytime|date="Y-m-d H:i:s",###}
+							<elseif condition="$vo['orderStatus'] eq -4"/>
+								买家取消订单  {$vo.cancelTime|date="Y-m-d H:i:s",###}
+							<elseif condition="$vo['orderStatus'] eq -3"/>
+								退款中  {$vo.paytime|date="Y-m-d H:i:s",###}
+							<elseif condition="$vo['orderStatus'] eq -5"/>
+								退款成功  {$vo.paytime|date="Y-m-d H:i:s",###}
+							<elseif condition="$vo['orderStatus'] eq -6"/>
+								商家拒绝退款  {$vo.paytime|date="Y-m-d H:i:s",###}
+							<elseif condition="$vo['orderStatus'] eq 2"/>
+							已发货 {$vo.paytime|date="Y-m-d H:i:s",###}
+							<elseif condition="$vo['orderStatus'] eq 3"/>
+							已完成  {$vo.signTime}
+								<elseif condition="$vo['orderStatus'] eq -7"/>
+								商家取消订单  {$vo.cancelTime|date="Y-m-d H:i:s",###}
+								<elseif condition="$vo['orderStatus'] eq -8 "/>
+								平台拒绝退款 {$vo.paytime|date="Y-m-d H:i:s",###}
+								<elseif condition="$vo['orderStatus'] eq -9 "/>
+								订单失效 {$vo.createTime}
+							</if>
+						</a>
+						</div>
+						<!--<if condition="$vo['orderStatus'] eq 4"><div class="del " data-id="{$vo.orderId}" ></div></if>-->
+                        <!--peng -->
+                        <?php if(in_array($vo['orderStatus'],[2,3,-4,-5,-7,-8,-9])): ?>
+                        <div class="del " data-id="{$vo.orderId}" ></div>
+                        <?php endif; ?>
+					</div>
+				    <a href="{:U('Orders/orderDetail',array('id'=>$vo['orderId']))}" class="del_{$vo.orderId}">
+					<div class="ub orderImgList del_{$vo.orderId}">
+						<div class="orderImg"><img src="/{$vo.goodsThums}"/></div>
+						<div class="ub-f1 pos-r orderContent">
+							<div class="pos-a">
+									<div class="order_title"><?=$vo['shopId']?$vo['type'].' -':'';?>{$vo.goodsName}</div>
+							<div class="order_type">{$vo.gameName}<if condition="$vo['vName']">/{$vo.vName}</if></div>
+							<div class="order_money">总计：<span class="zhongji">￥{$vo.needPay}</span></div>
+							</div>
+						</div>
+					</div>
+					</a>
+			
+			</volist>
+		</div>
+		<div class="orderList" <if condition="$two">style="display:block"</if>>
+				<volist name="waitPay" id="vo">
+					<a href="{:U('Orders/orderDetail',array('id'=>$vo['orderId'],'o'=>$vo['orderStatus']))}"">
+				<div class="ub orderTime">
+					<div class="ub-f1 txt-l col-9">订单状态:待支付  {$vo.createTime}</div>
+				</div>
+				<div class="ub orderImgList">
+					<div class="orderImg"><img src="/{$vo.goodsThums}"/></div>
+					<div class="ub-f1 pos-r orderContent">
+						<div class="pos-a">
+							<div class="order_title"><?=$vo['shopId']?$vo['type'].' -':'';?>{$vo.goodsName}</div>
+							<div class="order_type">{$vo.gameName}<if condition="$vo['vName']">/{$vo.vName}</if></div>
+							<div class="order_money">总计：<span class="zhongji">￥{$vo.needPay}</span></div>
+						</div>
+					</div>
+				</div>
+				</a>
+			</volist>
+		</div>
+		<div class="orderList" <if condition="$three">style="display:block"</if>>
+				<volist name="waitDeliver" id="vo">
+				<a href="{:U('Orders/orderDetail',array('id'=>$vo['orderId'],'o'=>$vo['orderStatus']))}"">
+				<div class="ub orderTime">
+					<div class="ub-f1 txt-l col-9">订单状态:待发货  {$vo.paytime|date="Y-m-d H:i:s",###}</div>
+				</div>
+				<div class="ub orderImgList">
+					<div class="orderImg"><img src="/{$vo.goodsThums}"/></div>
+					<div class="ub-f1 pos-r orderContent">
+						<div class="pos-a">
+							<div class="order_title"><?=$vo['shopId']?$vo['type'].' -':'';?>{$vo.goodsName}</div>
+							<div class="order_type">{$vo.gameName}<if condition="$vo['vName']">/{$vo.vName}</if></div>
+							<div class="order_money">总计：<span class="zhongji">￥{$vo.needPay}</span></div>
+						</div>
+					</div>
+				</div>
+				</a>
+			</volist>
+		</div>
+		<div class="orderList" <if condition="$four">style="display:block"</if>>
+				<volist name="fahuo" id="vo">
+                <div class="ub orderTime del_{$vo.orderId}">
+					<div class="ub-f1 txt-l col-9"><if condition="$vo['orderStatus'] eq 2">订单状态: 已发货  {$vo.paytime|date="Y-m-d H:i:s",###}<else />
+					订单状态: 退款中 {$vo.paytime|date="Y-m-d H:i:s",###}</if></div>
+                    <!--peng -->
+                    <?php if(in_array($vo['orderStatus'],[2,3,-4,-5,-7,-8,-9])): ?>
+                    <div class="del " data-id="{$vo.orderId}" ></div>
+                    <?php endif; ?>
+				</div>
+				<a href="{:U('Orders/orderDetail',array('id'=>$vo['orderId'],'o'=>$vo['orderStatus']))}" class="del_{$vo.orderId}">
+				
+				<div class="ub orderImgList">
+					<div class="orderImg"><img src="/{$vo.goodsThums}"/></div>
+					<div class="ub-f1 pos-r orderContent">
+						<div class="pos-a">
+							<div class="order_title"><?=$vo['shopId']?$vo['type'].' -':'';?>{$vo.goodsName}</div>
+							<div class="order_type">{$vo.gameName}<if condition="$vo['vName']">/{$vo.vName}</if></div>
+							<div class="order_money">总计：<span class="zhongji">￥{$vo.needPay}</span></div>
+						</div>
+					</div>
+				</div>
+				</a>
+			</volist>
+		</div>
+		<div class="orderList" <if condition="$five">style="display:block"</if>>
+				<volist name="orderFinsh" id="vo">
+				<div class="ub orderTime del_{$vo.orderId}" >
+						<div class="ub-f1 txt-l col-9"><a href="{:U('Orders/orderDetail',array('id'=>$vo['orderId'],'o'=>$vo['orderStatus']))}"">订单状态:
+	<if condition="$vo['orderStatus'] eq -2">
+								待支付 {$vo.createTime}
+							<elseif condition="$vo['orderStatus'] eq 1"/>
+								待发货  {$vo.paytime|date="Y-m-d H:i:s",###}
+							<elseif condition="$vo['orderStatus'] eq -4"/>
+								买家取消订单  {$vo.cancelTime|date="Y-m-d H:i:s",###}
+							<elseif condition="$vo['orderStatus'] eq -3"/>
+								退款中  {$vo.paytime|date="Y-m-d H:i:s",###}
+							<elseif condition="$vo['orderStatus'] eq -5"/>
+								退款成功  {$vo.paytime|date="Y-m-d H:i:s",###}
+							<elseif condition="$vo['orderStatus'] eq -6"/>
+								商家拒绝退款  {$vo.paytime|date="Y-m-d H:i:s",###}
+							<elseif condition="$vo['orderStatus'] eq 2"/>
+							已发货 {$vo.paytime|date="Y-m-d H:i:s",###}
+							<elseif condition="$vo['orderStatus'] eq 3"/>
+							已完成  {$vo.signTime}
+							<elseif condition="$vo['orderStatus'] eq -7" />
+								商家取消订单 {$vo.cancelTime|date="Y-m-d H:i:s",###}
+							<elseif condition="$vo['orderStatus'] eq -8" />
+								平台拒绝退款 {$vo.paytime|date="Y-m-d H:i:s",###}
+							</if></a></div>
+					<div class="del" data-id="{$vo.orderId}"></div>
+				</div>
+				<a href="{:U('Orders/orderDetail',array('id'=>$vo['orderId'],'o'=>$vo['orderStatus']))}" class="del_{$vo.orderId}">
+				<div class="ub orderImgList" >
+					<div class="orderImg"><img src="/{$vo.goodsThums}"/></div>
+					<div class="ub-f1 pos-r orderContent">
+						<div class="pos-a">
+							<div class="order_title"><?=$vo['shopId']?$vo['type'].' -':'';?>{$vo.goodsName}</div>
+							<div class="order_type">{$vo.gameName}<if condition="$vo['vName']">/{$vo.vName}</if></div>
+							<div class="order_money">总计：<span class="zhongji">￥{$vo.needPay}</span></div>
+						</div>
+					</div>
+				</div>
+				</a>
+			</volist>
+		</div>
+	</div>
+	
+	<!-- --------------------订单--------------------- -->
+	
+	<!-- 个人中心 -->
+	<div id="page3" class="hideDiv" <if condition="$_GET['r'] eq 'my'">style="display:block;"</if>>
+		<div class="avator">
+			<a href="{:U('Login/userInfo')}"><div class="avator_img"><img src="{$userInfo.userPhoto|default='__IMG__/default_avator.png'}"/></div></a>
+			<div class="avator_phone"><a href="{:U('Login/userInfo')}">{$userInfo.userPhone}</a></div>
+		</div>
+		
+		<div class="myMoney">
+			<div class="money" onclick="location.href='{:U('Ucenter/wallet')}'">
+				<p><span class="money_num">{$userInfo.userMoney|default=0}</span>元</p>
+				<p class="money_text">我的余额</p>
+			</div>
+		</div>
+		
+		<div class="myList">
+	
+			<div class="ub myListText" onclick='location.href="{:U('Agent/index')}"'>
+				<div class="ub-f1">我要赚钱</div>
+				<div class="right_arrows arrowsMy"></div>
+			</div>
+			<div class="ub myListText" onclick='location.href="{:U('Service/customer')}"'>
+				<div class="ub-f1">客服中心</div>
+				<div class="right_arrows arrowsMy"></div>
+			</div>
+			<div class="ub myListText" onclick='location.href="{:U('Login/userInfo')}"'>
+				<div class="ub-f1">我的账户</div>
+				<div class="right_arrows arrowsMy"></div>
+			</div>
+			<div class="ub myListText" onclick='location.href="__MODULE__/Mess/mess/r/Index_index"'>
+				<div class="ub-f1">我的消息</div>
+				<div class="right_arrows arrowsMy"></div>
+			</div>
+            <div class="ub myListText" onclick='location.href="{:U('goodsRank/myVoucher')}"'>
+				<div class="ub-f1">我的代金券</div>
+				<div class="right_arrows arrowsMy"></div>
+			</div>
+			<div class="ub myListText" onclick='logOut()'>
+					<div class="ub-f1">退出当前账户</div>
+			<!--<div class="right_arrows arrowsMy"></div>-->
+			</div>
+		</div>
+		
+	</div>
+	<!-- 个人中心 -->
+
+    <!--
+    @author peng
+    @date 2016-12-18
+    @descreption 换图标
+    -->
+	<!--<div class="footer ub">
+		<div class="ub-f1 pos-r footerNav goHome">
+			<div class="pos-a">
+				<div class="footer_img" data-default="__IMG__/home_normal.png" data-active="__IMG__/home_selected.png"><if condition="$index"><img src="__IMG__/home_selected.png"/><else/><img src="__IMG__/home_normal.png"/></if></div>
+				<div class="footer_title footer_title_active">首页</div>
+			</div>
+		</div>
+		<div class="ub-f1 pos-r footerNav">
+			<div class="pos-a">
+				<div class="footer_img" data-default="__IMG__/order_normal.png" data-active="__IMG__/order_selected.png"><if condition="$order"><img  src="__IMG__/order_selected.png"/><else/><img  src="__IMG__/order_normal.png"/></if></div>
+				<div class="footer_title ">订单</div>
+			</div>
+		</div>
+		<div class="ub-f1 pos-r footerNav">
+			<div class="pos-a">
+				<div class="footer_img" data-default="__IMG__/user_normal.png" data-active="__IMG__/user_selected.png"><if condition="$my"><img src="__IMG__/user_selected.png"/><else/><img src="__IMG__/user_normal.png"/></if></div>
+				<div class="footer_title">个人中心</div>
+			</div>
+		</div>
+	</div>-->
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script>
+	/**
+	 * 魏永就
+	 * 16-12-15
+	 * 退出当前用户
+	 */
+	function logOut(){
+		layer.confirm('确认退出登录吗?', {icon: 3, title:'退出登录'}, function(index){
+			//do something
+			$.ajax({
+				type : "POST",
+				url : "{:U('Login/logOut')}",
+				data : {},
+				dataType : "json",
+				success : function(data) {
+					if(data.status==0){
+						layer.msg('成功退出');
+						setTimeout(function(){
+							location.href="{:U('Index/index')}";
+						},1000)
+					}
+				}
+			});
+			layer.close(index);
+		});
+	}
+
+/**
+ * @author peng
+ * @copyright 2016
+ * @remark 登录判断
+ */
+ 
+    //var is_login=<?=$_SESSION['oto_mall']['oto_userId']?1:0 ?>;
+	$(function() {
+		var swiper = new Swiper('.one_swiper', {
+			autoplay : 3000,
+			paginationtouchendable : false,
+			pagination : '.one-pagination',
+			observer : true,//修改swiper自己或子元素时，自动初始化swiper
+			observeParents : true,//修改swiper的父元素时，自动初始化swiper
+			autoplayDisableOnInteraction : false,
+		});
+	})
+	
+	$('body').on('click','.shopSearchBtn',function(){
+		$('#shopSearch').submit();
+	})
+
+
+</script>
+</html>

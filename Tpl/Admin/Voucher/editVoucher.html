@@ -1,0 +1,345 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="Cache-control" content="no-cache"/>
+    <meta http-equiv="Cache" content="no-cache"/>
+    <title>添加代金券</title>
+    <link href="/Public/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/Tpl/Admin/css/AdminLTE.css" rel="stylesheet"/>
+    <link href="/Tpl/Admin/css/statistic/statistic-index.css" rel="stylesheet"/>
+    <script src="__PUBLIC__/js/jquery.min.js"></script>
+    <script>
+        $(function () {
+            $('#submit').click(function () {
+                
+                var selector = $('input[type=radio]:checked');
+                var name = selector.attr('id');
+                var gameId = 0;
+                var versionId = 0;
+                var is_global = 0;
+                var consume = 0;
+                var money = $('#money').val();
+                var goodsname = '';
+                var remark ='';
+                var discount_amount=0;
+                
+                if(money <=0 && name != 'discount_amount')
+                {
+                    alert('面额未填');
+                    return;
+                }
+                goodsname = goodsname + money + '元';
+                if(name == 'gameId')
+                {
+                    gameId = selector.parents('.row').find('select[name='+name+']').val();
+                    if(gameId == 0)
+                    {
+                        alert('请选择游戏');
+                        return;
+                    }
+                    var gameName = selector.parents('.row').find('option[value='+gameId+']').html();
+                    goodsname = goodsname + gameName;
+                    remark = remark + '只能在'+gameName+'游戏上使用，';
+                }else if (name == 'versionId')
+                {
+                    versionId = selector.parents('.row').find('select[name='+name+']').val();
+                    if(versionId == 0)
+                    {
+                        alert('请选择版本');
+                        return;
+                    }
+                    var versionName = selector.parents('.row').find('option[value='+versionId+']').html();
+                    goodsname = goodsname + versionName;
+                    remark = remark + '只能在'+versionName+'版本上使用，';
+                }
+                else if(name == 'gameVersion'){
+                    gameId = selector.parents('.row').find('select[name=gameId]').val();
+                    versionId = selector.parents('.row').find('select[name=versionId]').val();
+                    if(gameId == 0)
+                    {
+                        alert('请选择游戏');
+                        return;
+                    }
+                    if(versionId == 0)
+                    {
+                        alert('请选择游戏');
+                        return;
+                    }
+                    var gameName = selector.parents('.row').find('select[name=gameId]').find('option[value='+gameId+']').html();
+                    var versionName = selector.parents('.row').find('select[name=versionId]').find('option[value='+versionId+']').html();
+                    goodsname = goodsname + gameName;
+                    goodsname = goodsname + versionName;
+                    remark = remark + '只能在'+gameName+'游戏上使用，';
+                    remark = remark + '只能在'+versionName+'版本上使用，';
+                }else if(name == 'is_global'){
+                    is_global = selector.parents('.row').find('input[name=is_global]').val();     //这个固定为1
+                    goodsname = goodsname + '通用';
+                    remark = remark + '全站通用，';
+                }else if(name == 'consume'){
+                    consume = selector.parents('.row').find('input[name=consume]').val();
+                    if(consume == '')
+                    {
+                        alert('满多少金额使用未填');
+                        return;
+                    }
+                    goodsname = goodsname + '满'+consume + '元使用';
+                    remark = remark + '实付金额满'+consume+'元使用，';
+                }else if(name == 'discount_amount'){
+                   discount_amount =  $('input[name="discount_amount"]').val()
+                   if(discount_amount<=0){
+                        alert('免去充值金额必须大于0');
+                        return;
+                   }
+                   money=0;
+                   goodsname = '免去'+discount_amount+'元充值金额';
+                   remark = '抵消'+discount_amount+'元充值金额的费用，'; 
+              }
+              
+                var validTime = $('#validTime').val();
+                if(validTime == '')
+                {
+                    alert('请填写有效时间');
+                    return;
+                }
+                goodsname = goodsname + '代金券';
+                remark = remark.substr(0,remark.length-1);
+                
+                var value = {
+                    gameId:gameId,
+                    versionId :versionId,
+                    is_global:is_global,
+                    consume:consume,
+                    validTime:validTime,
+                    money:money,
+                    name:goodsname,
+                    id:{$voucherArr['id']},
+                    remark:remark,
+                    discount_amount:discount_amount
+                };
+                
+                $.ajax({
+                    url:'__CONTROLLER__/saveVoucherAction',
+                    data:value,
+                    type:'post',
+                    dataType:'json',
+                    success:function (res) {
+                        if(res.status == 0)
+                        {
+                            alert(res.msg);
+                            location.href='__CONTROLLER__/index';
+                        }
+                        else{
+                            alert(res.msg);
+                        }
+                    }
+                })
+            })
+        })
+    </script>
+</head>
+<style>
+    .wrap{
+        margin-left:30px;
+    }
+    .category-block .title{
+        font-weight:bold;
+        font-size:18px;
+    }
+    .row{
+        padding-left: 20px;
+        padding-bottom: 30px;
+    }
+
+    .cate-name{
+        display: inline-block;
+    }
+    select.form-control{
+        padding-top: 0px;
+    }
+    .cate-name{
+        min-width:100px;
+    }
+    .descreption{
+        padding-left:5px;
+    }
+</style>
+<div class="wrap">
+
+    <form class="form-inline">
+        <div class="category-block">
+            <div  class="row title">类型：</div>
+            <div class="row">
+                <div class="form-group">
+                    <if condition="$voucherArr['is_global'] eq 1">
+                        <input type="radio"  id="is_global" name="a" checked/>
+                        <else/>
+                        <input type="radio"  id="is_global" name="a"/>
+                    </if>
+                </div>
+                <div class="form-group">
+                    <div class="cate-name"><label for="is_global">通用</label> </div>
+                    <input name="is_global" type="hidden" value="1" checked>
+                </div>
+            </div>
+            <div class="row">
+                
+                <div class="form-group">
+                <input type="radio" name="a"  id="consume" 
+                    <if condition="$voucherArr['consume'] neq 0">
+                            checked
+                    </if>
+                />
+                    
+                    <div class="cate-name"><label for="consume">满多少使用</label></div>
+                </div>
+                <div class="form-group">
+                    <input type="number" class="form-control" name="consume" style="width:60px" value="{$voucherArr['consume']}"/><span class="descreption">(单位：元)</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <php>
+                        $flag1 = false;
+                    </php>
+                    <if condition="$voucherArr['gameId'] neq 0 && $voucherArr['versionId'] eq 0">
+                        <input type="radio" name="a" id="gameId" checked/>
+                        <php>$flag1 = true;</php>
+                        <else />
+                        <input type="radio" name="a" id="gameId" />
+                    </if>
+                </div>
+                <div class="form-group">
+                    <div class="cate-name"><label for="gameId">指定游戏</label> </div>
+                </div>
+                <div class="form-group">
+                    <select class="form-control" name="gameId">
+                        <option value="0">请选择游戏</option>
+                        <if condition="$flag1 eq true">
+                            <volist name="gameArr" id="vo">
+                                <if condition="$voucherArr['gameId'] eq $vo['id']">
+                                    <option value="{$vo.id}" selected>{$vo.gameName}</option>
+                                <else/>
+                                    <option value="{$vo.id}">{$vo.gameName}</option>
+                                </if>
+                            </volist>
+                            <else/>
+                            <volist name="gameArr" id="vo">
+                                <option value="{$vo.id}">{$vo.gameName}</option>
+                            </volist>
+                        </if>
+
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <php>$flag2 = false;</php>
+                    <if condition="$voucherArr['versionId'] neq 0 && $voucherArr['gameId'] eq 0">
+                        <input type="radio" name="a" id="versionId" checked/>
+                        <php>$flag2 = true;</php>
+                        <else/>
+                        <input type="radio" name="a" id="versionId"/>
+                    </if>
+                </div>
+                <div class="form-group">
+                    <div class="cate-name"><label for="versionId">指定版本</label> </div>
+                    <div class="form-group">
+                        <select class="form-control" name="versionId">
+                            <option value="0">请选择游戏版本</option>
+                            <if condition="$flag2 eq true">
+                                <volist name="versionArr" id="vo">
+                                    <if condition="$voucherArr['versionId'] eq $vo['id']">
+                                        <option value="{$vo.id}" selected>{$vo.vName}</option>
+                                        <else/>
+                                        <option value="{$vo.id}">{$vo.vName}</option>
+                                    </if>
+                                </volist>
+                                <else/>
+                                <volist name="versionArr" id="vo">
+                                    <option value="{$vo.id}">{$vo.vName}</option>
+                                </volist>
+                            </if>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <php>$flag3 = false;</php>
+                    <if condition="$voucherArr['gameId'] neq 0 && $voucherArr['versionId'] neq 0">
+                        <input type="radio" id="gameVersion"  name="a" value="" checked/>
+                        <php>$flag3=true;</php>
+                        <else/>
+                        <input type="radio" id="gameVersion"  name="a" value=""/>
+                    </if>
+                </div>
+                <div class="form-group">
+                    <div class="cate-name"><label for="gameVersion">指定版本和游戏</label> </div>
+                    <div class="form-group">
+                        <select class="form-control" name="gameId">
+                            <option value="0">请选择游戏</option>
+                            <if condition="$flag3 eq true">
+                                <volist name="gameArr" id="vo">
+                                    <if condition="$voucherArr['gameId'] eq $vo['id']">
+                                        <option value="{$vo.id}" selected>{$vo.gameName}</option>
+                                        <else/>
+                                        <option value="{$vo.id}">{$vo.gameName}</option>
+                                    </if>
+                                </volist>
+                                <else/>
+                                <volist name="gameArr" id="vo">
+                                    <option value="{$vo.id}">{$vo.gameName}</option>
+                                </volist>
+                            </if>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" name="versionId">
+                            <option value="0">请选择游戏版本</option>
+                            <if condition="$flag3 eq true">
+                                <volist name="versionArr" id="vo">
+                                    <if condition="$voucherArr['versionId'] eq $vo['id']">
+                                        <option value="{$vo.id}" selected>{$vo.vName}</option>
+                                        <else/>
+                                        <option value="{$vo.id}">{$vo.vName}</option>
+                                    </if>
+                                </volist>
+                                <else/>
+                                <volist name="versionArr" id="vo">
+                                    <option value="{$vo.id}">{$vo.vName}</option>
+                                </volist>
+                            </if>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+            
+                    <div class="form-group">
+                     <input type="radio" name="a" <?php if($voucherArr['discount_amount']>0) echo 'checked="checked"'?>id="discount_amount"/>
+
+                    </div>
+                    <div class="form-group">
+                    <div class="cate-name"><label for="discount_amount">免去充值金额</label> </div>
+                    <div class="form-group">
+                    <input type="number" class="form-control" value="<?=$voucherArr['discount_amount']?>" name="discount_amount" style="width:60px"/><span class="descreption">(单位：元)</span>
+                    </div>
+                    </div>
+                </div>
+
+            <div class="row"><label for="validTime">有效期：</label><input type="number" step="any" id="validTime" style="width:60px" class="form-control" value="{$voucherArr['validTime']}"/><span class="descreption">(单位：天)</span>&nbsp;&nbsp;&nbsp;<label for="money">面额：</label><input type="number" id="money" style="width:60px" value="{$voucherArr['money']}" class="form-control" step="any"/><span class="descreption">(单位：元)</span></div>
+            <div class="row"><input value="确定修改" type="button" id="submit"></div>
+
+        </div>
+    </form>
+
+
+</div>
+<script src="/Public/js/jquery.min.js"></script>
+
+</body>
+</html>

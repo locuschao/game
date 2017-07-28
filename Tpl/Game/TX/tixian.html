@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>申请提现</title>
+<include file="./Tpl/head.html" />
+<!--<meta name="viewport"
+	content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">-->
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=no, maximum-scale=1.0" />
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<!--标准mui.css-->
+<!--标准mui.css-->
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<link rel="stylesheet" href="__CSS__/font.css" />
+<!--App自定义的css-->
+<link rel="stylesheet" href="__CSS__/bootstrap/css/bootstrap.min.css" />
+
+<style>
+body {
+	background-color: #EFEFF3 !important;
+	max-width: 800px;
+	margin: 0 auto;
+}
+.container{
+	max-width: 800px;
+}
+._top{
+	max-width: 800px;
+}
+
+.oa-contact-cell.mui-table .mui-table-cell {
+	padding: 11px 0;
+	vertical-align: middle;
+}
+
+.oa-contact-avatar img {
+	border-radius: 50%;
+}
+
+.oa-contact-name, oa-contact-position {
+	float: left;
+}
+
+ul, li {
+	margin: 0;
+	padding: 0;
+}
+
+.swiper-slide img {
+	height: 180px;
+	min-width: 100%;
+}
+
+body {
+	padding-bottom: 50px;
+	font-size: 10px;
+}
+
+p, ul, li, h1, h2, input, select, hr {
+	background: none;
+}
+
+#max_lists li {
+	width: 25%;
+	over-flow: hidden;
+	line-height: 80px;
+	height: 80px;
+}
+
+#max_lists ul li img {
+	padding-top: 10px;
+}
+
+#lists li {
+	height: 55px;
+}
+
+.price p {
+	height: 15px;
+	line-height: 15px;
+}
+
+input[placeholder], [placeholder], *[placeholder] {
+	font-size: 90%;
+}
+
+::-webkit-input-placeholder {
+	font-size: 90%;
+}
+
+.mui-icon {
+	color: white;
+}
+
+.bg-white {
+	background-color: white;
+}
+
+.text-color-orange {
+	color: #FF9C00;
+}
+
+.text-color-red {
+	color: red;
+}
+
+.text-position-right {
+	position: absolute;
+	right: 0;
+}
+
+.list-group {
+	margin-bottom: 0.7em;
+}
+
+.ffff {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	z-index: 10;
+	display: none;
+}
+
+.ffff>.d {
+	float: right;
+	width: 50%;
+	height: 100%;
+	background: #ffffff;
+	opacity: 1;
+}
+
+.d ul li {
+	height: 3.6rem;
+	line-height: 3.6rem;
+	padding: 0;
+	text-indent: 10px;
+}
+
+.ffff>.e {
+	float: left;
+	width: 50%;
+	height: 100%;
+	opacity: 0.5;
+	background: #A7A6AB;
+}
+
+.h-100 {
+	height: 100%;
+}
+
+.h-4 {
+	height: 4em;
+}
+
+.go {
+	width: 100%;
+	height: 100%;
+	padding: 0.5em;
+	color: #ffffff;
+	text-align: center;
+	line-height: 2.5em;
+	font-size: 1em;
+	background: #FFC740;
+	display: block;
+	border: 0;
+	border-radius: 0;
+}
+
+.h-3 {
+	height: 4em;
+}
+
+.h-100-mt-2 {
+	height: 100%;
+	margin-top: 0.2em
+}
+
+.input-ba {
+	/* border: 1px solid rgba(204, 204, 204, 0.04); */
+	height: 100%;
+	border: none;
+	/*padding-top: 10px;*/
+}
+
+.go-apply-bg {
+	height: 3.8em;
+	width: 80%;
+	margin: 0 auto;
+	background: #F0EFF5;
+	margin-bottom: 1em;
+}
+
+.go-apply {
+	background: #00B4FF;
+	color: #ffffff;
+	height: 100%;
+	width: 100%;
+	text-align: center;
+	border-radius: 5px;
+	display: block;
+	border: none;
+	font-size: 14px
+}
+
+.all-apply {
+	height: 4em;
+	width: 100%;
+	background: #ffffff;
+	color: #000000;
+	text-align: center;
+	line-height: 4em;
+	border-bottom: #d5d7dc solid 1px;
+	margin-bottom: 0.5em;
+}
+
+.icon-p5-pr10 {
+	padding: 5px;
+	padding-right: 10px;
+}
+
+.add-f-h100-w10-d-c {
+	float: right;
+	height: 100%;
+	width: 10%;
+	display: inline-block;
+	padding-top: 5px;
+	color: #000000;
+}
+
+.red {
+	color: red;
+}
+
+.no-left-p {
+	padding-left: 0;
+}
+
+.no-right-p {
+	padding-right: 0;
+}
+
+ul>li {
+	padding: 0.5em;
+	text-align: left;
+	font-size: 1.2em;
+	border-bottom: 1px solid #c0c0c0;
+}
+
+.text-0 {
+	color: red;
+}
+
+.text-1 {
+	color: orange;
+}
+
+.text-2 {
+	color: green;
+}
+
+.text-3 {
+	color: red;
+}
+
+.no-p {
+	padding: 0;
+}
+
+.list-h3-no-p {
+	height: 4em;
+	padding: 0;
+}
+
+main .content {
+	
+}
+
+input {
+	outline: none;
+}
+
+.text-center {
+	height: 3em;
+	line-height: 3em;
+}
+.uhide {
+    display: none !important;
+}
+
+ 
+;
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+
+<body>
+		<div class="_top" id="oneHeader" style="z-index: 999">
+		<div class="_left_top" ontouchend='history.go(-1);'></div>
+		<div class="_title_top">申请提现</div>
+		<div class="_right_top " style="background: none;"></div>
+	</div>
+	<div class="_top uhide" style="z-index: 999; " id="twoHeader">
+		<div class="_left_top" id="close"></div>
+		<div class="_title_top">常用账号</div>
+		<div class="_right_top " style="background: none;"></div>
+	</div>
+	<div id="openbank" class="ffff">
+		<div class="e" id="closebank"></div>
+		<div class="d">
+			<div
+				style="border-bottom: 1px solid orange; font-size: 1.5em; padding: 0.7em;">选择银行</div>
+			<ul style="overflow: auto;">
+				<volist name="list['banks']" id="vo">
+				<li>{$vo.bankName}</li>
+				</volist>
+			</ul>
+
+		</div>
+	</div>
+	<div id="bankWindow" class="container-fluid"
+		style="height: 100%; width: 100%; display: none; background: #EFEFF3; overflow: auto; margin-top: 55px; padding-left: 0; padding-right: 0">
+		<ul>
+			<volist name="list['self']" id="vo">
+
+
+			<li style="background: #ffffff; margin-bottom: 10px;">
+				<div style="display: inline-block">
+					<span class="glyphicon glyphicon-user icon-p5-pr10"
+						aria-hidden="true"></span><span>真实姓名：{$vo.bankUserName}</span>
+				</div>
+				<a onclick="righticon.deleteBank(this)" data-delete="{$vo.id}"
+				class="add-f-h100-w10-d-c" style="color: #000000"> <span
+					class="glyphicon glyphicon-trash" aria-hidden="true"></span></a> <!--<div>银行名称：{wc:$data['bankName']}</div>-->
+				<div>
+					<span class="glyphicon glyphicon-credit-card icon-p5-pr10"
+						aria-hidden="true"></span><span>银行卡号：{$vo.bankNum}</span>
+				</div>
+				<div style="display: inline-block">
+					<span class="glyphicon glyphicon-home icon-p5-pr10"
+						aria-hidden="true"></span>银行名称：{$vo.bankName}
+				</div>
+				<a onclick="righticon.change(this)" data-access="{$vo.bankAccess}"
+				data-cardId="{$vo.bankNum}" data-bankName="{$vo.bankName}"
+				data-true-name="{$vo.bankUserName}" class="add-f-h100-w10-d-c"
+				style="color: #000000"><span
+					class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span></a>
+			</li>
+			</volist>
+		</ul>
+
+	</div>
+
+
+	<div id="thisWindow">
+
+		<div class="container">
+			<div class="row h-4 bg-white" style="margin-bottom: 1em;">
+				<div>
+					<div
+						style="width: 60%; float: left; line-height: 45px; height: 45px; background: #fff;">
+						<div style="text-align: center; height: 45px;">
+							余额：<span style="color: red; font-size: 100%">￥{$list['userInfo'].userMoney}</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row h-4 bg-white" style="margin-bottom: 1em;">
+				<div>
+					<div style="line-height: 45px; height: 45px; background: #fff;">
+						<div style="text-align: left; text-indent: 20px; height: 45px;">
+							提现金额：<input onkeyup="this.value=this.value.replace(/\D/g,'')"
+								onafterpaste="this.value=this.value.replace(/\D/g,'')"
+								style="height: 30px; line-height: 30px; border: none; border: #efefef solid 1px; border-radius: 3px; text-indent: 10px;"
+								type="text" name="txMoney" id="txMoney" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row" id="open">
+				<ul class="list-group">
+					<button type="button" class="list-group-item" style="height: 4em;">
+						<div class="col-xs-8">常用账号</div>
+						<div class="col-xs-4 text-right">
+							<span class="glyphicon glyphicon-menu-right"></span>
+						</div>
+					</button>
+				</ul>
+			</div>
+
+			<div class="row">
+				<ul class="list-group">
+					<button type="button" class="list-group-item" style="height: 4em;"
+						id="selectbank">
+						<div class="col-xs-8">
+							选择银行：<span id="bankName"></span>
+						</div>
+						<div class="col-xs-4 text-right">
+							<span class=" glyphicon glyphicon-menu-down"></span>
+						</div>
+
+					</button>
+					<!--    <li class="list-group-item list-h3-no-p">
+                    <div class="col-xs-4 text-right"style="height: 100%;line-height: 4em;">
+                        开户行地址：
+                    </div>
+                    <div class="col-xs-8 no-left-p" style="height: 100%">
+                    <input id="cardAccess" type="text" class=" input-ba"  placeholder="请输入开户行">
+                    </div>
+            </li> -->
+					<li class="list-group-item list-h3-no-p">
+						<div class="col-xs-4 text-right"
+							style="height: 100%; line-height: 4em;">银行卡号：</div>
+						<div class="col-xs-8 no-left-p" style="height: 100%">
+							<input id="cardId" type="text" class=" input-ba"
+								placeholder="请输入银行卡号">
+						</div>
+					</li>
+					<li class="list-group-item list-h3-no-p">
+						<div class="col-xs-4 text-right"
+							style="height: 100%; line-height: 4em;">开户人姓名：</div>
+						<div class="col-xs-8 no-left-p" style="height: 100%">
+							<input id="truename" type="text" class=" input-ba"
+								placeholder="请输入开户人姓名">
+						</div>
+					</li>
+				</ul>
+			</div>
+
+
+			<!--<button  id="open">打开</button>-->
+
+		</div>
+
+
+		<div class="go-apply-bg">
+			<button class="go-apply" id="post" style="color: #ffffff;">提交申请</button>
+		</div>
+
+		<div class="all-apply">申请记录</div>
+
+		<div class="container-fluid">
+			<div class="row bg-white">
+				<div class="col-xs-3 text-center">订单号</div>
+				<div class="col-xs-3 text-center">金额</div>
+				<div class="col-xs-3 text-center">时间</div>
+				<div class="col-xs-3 text-center">状态</div>
+			</div>
+		</div>
+
+		<div style="height: 0.1em; border-bottom: 1px solid #D7D7D7">
+			&nbsp;</div>
+
+		<div class="container-fluid">
+			<volist name="list['apply']" id="vo">
+			<div class="row bg-white">
+				<div class="col-xs-3 text-center  ">{$vo.id}</div>
+				<div class="col-xs-3 text-center ">
+					<span style="color: red">{$vo.txMoney}</span>
+				</div>
+				<div class="col-xs-3 no-p text-center">{$vo.txTime}</div>
+				<div class="col-xs-3 text-center text-{$vo.status}">{$vo.statusText}</div>
+			</div>
+			</volist>
+
+		</div>
+	</div>
+
+
+	<script src="__JS__/jquery2.1.1.min.js"></script>
+	<!--<script src="__JS__/layer.min.js"></script>-->
+	<script>
+       var ThinkPHP = window.Think = {
+           "ROOT"   : "__ROOT__",
+           "APP"    : "__APP__",
+           "PUBLIC" : "__PUBLIC__",
+           "DEEP"   : "{:C('URL_PATHINFO_DEPR')}",
+           "MODEL"  : ["{:C('URL_MODEL')}", "{:C('URL_CASE_INSENSITIVE')}", "{:C('URL_HTML_SUFFIX')}"],
+           "VAR"    : ["{:C('VAR_MODULE')}", "{:C('VAR_CONTROLLER')}", "{:C('VAR_ACTION')}"]
+       }
+   </script>
+	<script src="__JS__/layer1.7/layer.js"></script>
+	<script src="__PUBLIC__/js/think.js"></script>
+	<script>
+    var inputMoney=0;
+        $(function(){
+
+       $('#close').on('click',function(){
+
+                
+                $('#oneHeader').removeClass('uhide');
+                $('#twoHeader').addClass('uhide');
+                
+                $('#thisWindow').css('display','block');
+                $('#bankWindow').css('display','none');
+            });
+
+
+            $('#open').on('click',function(){
+                $('#twoHeader').removeClass('uhide');
+                $('#oneHeader').addClass('uhide');
+                
+                $('#bankWindow').css('display','block');
+                $('#thisWindow').css('display','none');
+
+            });
+
+            $('#selectbank').on('click',function(){
+                $('#openbank').css('display','block');
+            });
+
+            $('#closebank').on('click',function(){
+                $('#openbank').css('display','none');
+
+
+            });
+
+            $('#openbank li').on('click',function(e){
+                $('#bankName').html(e.target.innerHTML);
+                //   console.log(e.target.innerHTML);
+//            innerHTML
+            });
+
+            $('#applyBalance').on('click',function(){
+                if(!check.checkPrice()){
+                    layer.open({
+                        content: '余额为0转账',
+                        time: 2 //2秒后自动关闭
+                    });
+                    return;
+                }
+                check.sendBalance();
+
+            });
+
+            $('#post').on('click',function(){
+            	    inputMoney=$.trim($('#txMoney').val());
+            	    if(!inputMoney){
+            	    	 layer.open({
+                             content: '请输入提现金额',
+                             time: 2 //2秒后自动关闭
+                         });
+            	    	 return;
+            	    }
+                    for(var i in check){
+                        if(i=='sendBalance'){
+                            return;
+                        }
+                        if(!check[i]()){
+                            layer.open({
+                                content: check.error,
+                                time: 2 //2秒后自动关闭
+                            });
+                            return;
+                        }
+                    }
+            });
+
+        });
+
+
+        var check = {
+            checkbankName:function(){
+
+                this.bankName = $('#bankName').html();
+                if(!this.bankName.length>0){
+                    this.error='请选择银行名称';
+                    return false;
+                }
+
+                return true;
+            }
+            ,
+            checkCardId:function(){
+                this.cardId=$('#cardId')[0].value;
+
+                if(!this.cardId.length>0){
+                    this.error='请输入银行卡号';
+                    return false;
+                }
+
+                return true;
+
+            },
+            checkCradTrueName:function(){
+                this.truename=$('#truename')[0].value;
+                if(!this.truename.length>0){
+                    this.error='请输入开户人姓名';
+                    return false;
+                }
+
+                return true;
+            },
+            checkPrice:function(){
+//                '{$list['userInfo'].agentBalance|default ="0"}'
+                this.price = '{$list['userInfo'].userMoney|default ="0"}';
+//                this.price = '{$list['userInfo'].agentBalance|default =0}';
+                if(this.price<=0){
+                    this.error='余额不足';
+                    return false;
+             	   }
+                  if(inputMoney>this.price){
+                	   this.error='提现金额不能大于'+this.price;
+                       return false;
+                  }
+                return true;
+            }
+            ,
+            send:function(){
+                layer.open({type: 2});
+                console.log(inputMoney);
+                $.ajax({
+                    url:Think.U('Game/TX/tixianHandle'),
+                    data:{
+                        bankUserName:this.truename,
+                       	inputMoney:inputMoney,
+                        bankName:this.bankName,
+                        bankNum:this.cardId,
+                    },
+                    type:"post",
+                    success:function(data){
+                        layer.closeAll('loading'); //关闭加载层
+                        if(data.status==0){
+                            layer.open({
+                                content: '申请成功,页面即将刷新',
+                                time: 2 //2秒后自动关闭
+                            });
+                            setTimeout("location.reload();",2000);
+                        }else{
+                            layer.open({
+                                content: '申请失败：'+data.error,
+                                time: 2 //2秒后自动关闭
+                            });
+                        }
+
+                    }
+
+
+                });
+
+
+                return true;
+            },
+            sendBalance:function(){
+            	return;
+                $.ajax({
+                    url:Think.U('Home/Agent/apply'),
+                    data:{
+                        applyPrice:'{$list['userInfo'].agentBalance|default ='0'}',
+                        userId:'{$list['userInfo'].userIddefault =''}',
+                        loginName:'{$list['userInfo'].loginName|default =''}',
+                        userType:'{$list['userInfo'].userType|default =''}',
+                         tel:'{$list['userInfo'].userPhone|default =""}',
+                        applyType:1
+                    },
+                    type:"post",
+                    success:function(data){
+                        if(data>0){
+                            //  alert('转账成功');
+                            layer.open({
+                                content: '申请成功',
+                                time: 2 //2秒后自动关闭
+                            });
+                            setTimeout("location.reload();",2000);
+                        }else{
+                            layer.open({
+                                content: data.error,
+                                time: 2 //2秒后自动关闭
+                            });
+
+                        }
+
+                    }
+                })
+            }
+
+
+        };
+
+
+        var righticon={
+            change:function(e){
+                var bankname=$(e).attr('data-bankname');
+                var access=$(e).attr('data-access');
+                var truename=$(e).attr('data-true-name');
+                var cardid=$(e).attr('data-cardid');
+                $('#bankName').html(bankname);
+                $('#cardAccess').attr('value',access);
+                $('#cardId').attr('value',cardid);
+                $('#truename').attr('value',truename);
+
+                $('.glyphicon.glyphicon-ok-circle.red').removeClass('red');
+                $(e).children("span").addClass("red");
+
+            },
+            deleteBank:function(e){
+                layer.open({
+                    content: '你是想确认删除吗？',
+                    btn: ['确认', '取消'],
+                    shadeClose: false,
+                    yes: function(){
+                        var id=$(e).attr('data-delete');
+
+                        righticon.send(id);
+                        // console.log($(e).attr('data-delete'));
+                        //this.e=e;
+                        $(e).parent().css('display','none');
+
+
+                    }, no: function(){
+
+                    }
+                });
+
+
+            },
+            send:function(id){
+                $.ajax({
+                    url:Think.U('Game/Agent/deleteBank'),
+                    data:{
+                        id:id,
+                        userId:'{$list['userInfo'].userId}'
+                    },
+                    type:"post",
+                    success:function(data){
+                        console.log(data);
+                        if(data!==false){
+                            layer.open({content: '删除成功', time: 1});
+                        }
+
+                    }
+
+
+                })
+
+
+
+            }
+        }
+    </script>
+		<include file="./Tpl/Public/commonFooter.html" />
+</body>
+</html>

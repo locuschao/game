@@ -1,0 +1,99 @@
+<extend name="Shops:layout" />
+<block name="content"> <script
+	src="__PUBLIC__/plugins/kindeditor/kindeditor.js"></script> <script
+	src="__PUBLIC__/plugins/kindeditor/lang/zh_CN.js"></script>
+
+<link rel="stylesheet" type="text/css"
+	href="__PUBLIC__/plugins/webuploader/style.css" />
+<link rel="stylesheet" type="text/css"
+	href="__PUBLIC__/plugins/webuploader/webuploader.css" />
+<script type="text/javascript"
+	src="__PUBLIC__/plugins/webuploader/webuploader.js"></script> <script
+	type="text/javascript" src="__JS__/goodsbatchupload.js"></script> <script
+	type="text/javascript" src="__JS__/layer.js"></script> <script
+	type="text/javascript" src="__JS__/jquery-1.8.3.min.js"></script> <script
+	type="text/javascript" src="__PUBLIC__/plugins/jeDate/jedate.js"></script>
+
+<style>
+.datainp {
+	width: 150px;
+}
+
+.bor tr td, th {
+	border: #efefef solid 1px;
+}
+
+.tableinput input {
+	width: 60px;;
+}
+
+.wst-form tr th {
+	text-align: center;
+}
+
+.wst-form tr td {
+	text-align: center;
+	border: #efefef solid 1px;
+}
+
+.btn {
+	border: #ff1515 solid 1px;
+	border-radius: 4px;
+	text-indent: 0;
+	padding: 5px 10px;
+	text-align: center;
+	color: #ff3035;
+}
+.wst-pagination .wst-current{
+    padding:4px 12px;
+    background:#e23e3d;
+    color:#fff;
+    margin-right:2px;
+}
+.wst-pagination .wst-num,
+.wst-pagination .wst-next,
+.wst-pagination .wst-end,
+.wst-pagination .wst-prev{
+    display:inline-block;
+    padding:4px 12px;
+    background:#f1eff0;
+    
+    margin-right:2px;
+}
+</style>
+
+<div class="wst-body">
+	<div class='wst-page-header'>卖家中心 >提现明细</div>
+
+	<div class='wst-page-content'>
+		<table class="table table-hover table-striped table-bordered wst-list wst-form">
+			<tr>
+				<th>我的账号金额:{$shopMoney.balanceMoney|default='0.00'}元</th>
+				<th>已提现金额:{$shopMoney.txMoney|default='0.00'}元</th>
+				<th><a href="{:U('Tixian/tixian')}"><span class="btn">提现申请</span></a></th>
+				<th><a href="{:U('Tixian/historyTixian')}"><span
+						class="btn">申请记录</span></a></th>
+			</tr>
+		</table>
+		<br />
+		<table class="table table-hover table-striped table-bordered wst-list wst-form">
+			<tr>
+				<th>订单号</th>
+				<th>下单用户</th>
+				<th>订单金额</th>
+				<th>分销金额</th>
+				<th>实得金额</th>
+			</tr>
+			<volist name="Page['root']" id="vo">
+			<tr>
+				<td>{$vo.orderNo}</td>
+				<td>{$vo.userPhone}</td>
+				<td>￥{$vo.needPay}</td>
+				<td>￥{$vo.agentMoney}</td>
+				<td>￥{$vo.bizIncome}</td>
+			</tr>
+			</volist>
+		</table>
+		<div style="text-align: center;">{$Page['pager']}</div>
+	</div>
+</block>

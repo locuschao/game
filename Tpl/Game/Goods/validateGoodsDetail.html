@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>商品详情</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<link rel="stylesheet" href="__CSS__/goods/daichong_buy.css" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/base.js"></script>
+<script src="__JS__/layer.min.js"></script>
+<style>
+
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<div class="_top" style="z-index: 999">
+		<div class="_left_top" onclick='history.go(-1)'></div>
+		<div class="_title_top">商品详情</div>
+		<div class="_right_top mess"
+			onclick="location.href='/Game/Mess/mess/r/Goods_index'"></div>
+	</div>
+	<div class="lh45" style="height: 44px;"></div>
+	<div class="padd back-ff">
+		<span class="col-red">【{$goodsInfo.catName}】</span>{$goodsInfo.goodsName}
+	</div>
+	<div class="col-9 padd-b ft9 bor back-ff">{$goodsInfo.goodsSpec}</div>
+	<if condition="$goodsInfo['catName'] eq '首充号'">
+	<div class="shouchong">首充号说明：平台为你注册且完成首次充值的帐号，只需要官网原价的3-5折即可购买。</div>
+	</if>
+	<div class="lh45 back-ff txt-l ti10 bor">请选择游戏版本</div>
+	<div class="back-ff"
+		style="clear: both; background: #fff; width: 100%;">
+		<if condition="empty($goodsAttr)">
+		<div class="list">
+			<div class="ub list1">
+				<div class="shopImg">
+					<img src="/{$goodsInfo.goodsThums|default='__IMG__/shopImg.png'}" />
+				</div>
+				<div class="ms ub-f1">
+					<div class="title">{$goodsInfo.goodsName}</div>
+					<php>$_zhe=sprintf('%.1f',($goodsInfo['shopPrice']/$goodsInfo['marketPrice'])*10);</php>
+					<div class="col-9 ft9">{$_zhe}折</div>
+					<if condition="$goodsInfo['isMiao']">
+					<div class="mc">秒充</div>
+					</if>
+				</div>
+				<div class="select" data-attrid="0" data-money='{$goodsInfo['shopPrice']}'
+                data-price1='{$vo['lmprice']}' data-price2='{$vo['mmprice']}' data-price3='{$vo['lowest_price']}' data-zhekou="{$_zhe}"
+                ></div>
+			</div>
+		</div>
+		<else /> <volist name="goodsAttr" id="vo">
+		<div class="list">
+			<div class="ub list1">
+				<div class="shopImg">
+					<img src="/{$goodsInfo.goodsThums|default='__IMG__/shopImg.png'}" />
+				</div>
+				<div class="ms ub-f1">
+					<div class="title">{$vo.vName}</div>
+					<php>$_zhe=sprintf('%.1f',($vo['attrPrice']/$goodsInfo['marketPrice'])*10);</php>
+					<div class="col-9 ft9">{$_zhe}折</div>
+					<!--<if condition="$vo.vName eq '手游狗版本' and $goodsInfo['isMiao']">
+					<div class="mc">秒充</div>
+					</if>-->
+                    <?php if(in_array($vo['vName'],['手游狗版本','TT语音版','乐8版本']) && $goodsInfo['isMiao']) : ?>
+                    <div class="mc" >秒充</div>
+                    <?php else : ?>
+                    <div class="mc" style="visibility:hidden;">秒充</div>
+                    <?php endif; ?>
+				</div>
+				<div class="select" data-attrid="{$vo.id}" data-money='{$vo['attrPrice']}'  data-versionid="{$vo['versionsId']}"
+                data-price1='{$vo['lmprice']}' data-price2='{$vo['mmprice']}' data-price3='{$vo['lowest_price']}' data-zhekou="{$_zhe}"
+                ></div>
+			</div>
+		</div>
+		</volist> </if>
+
+	</div>
+
+	<div style="width: 100%; clear: both;; height: 8px;"></div>
+	<div class="ub lh20">
+		<div class="ub-f1 ti10 " id="priceBlock">
+			<span class="col-9">价格：</span><span class="da" id="attrPrice">{$goodsAttr[0].attrPrice}</span>元
+            
+		</div>
+		<div class="ub-f1 ">
+			<span class="col-9">所属游戏：</span>{$gameName}
+		</div>
+	</div>
+    <!--
+    @author peng
+    @date 2017-01
+    @descreption 
+    -->
+    <div class="ub lh20 member-price-block">
+            <div class="price-tip">
+
+            </div>
+            <?php if($rank!=1) : ?>           
+            <a class="btn joinBtn" href="/game/goodsRank">
+            <?php if($rank==0) echo '[成为会员]'; else echo '[升级会员]'; ?>
+            </a>
+            <?php endif;?>
+    </div>
+    
+	<div class="ub lh20">
+		<div class="ub-f1  ti10">
+			<span class="col-9">充值金额：</span><span class="da">{$goodsInfo.marketPrice}</span>元
+		</div>
+		<div class="ub-f1 ">
+			<span class="col-9">商品类型：</span>{$goodsInfo.catName}
+		</div>
+	</div>
+	<div class="ub lh20">
+		<div class="ub-f1 ti10 ">
+			<span class="col-9">适用系统：</span>{$goodsInfo.applyTo}
+		</div>
+			<div class="ub-f1 ti10 ">
+		<a href="{$downLoadUrl}" target="_brank">
+			<span class="col-9" style="padding:5px 10px; color:#619be4">游戏下载</span></a>
+		</div>
+	</div>
+	<div class="lh35 back-ff ub">
+		<div class="ti10 col-9">分享到：</div>
+		<div class="ub-f1 pos-r">
+			<!-- JiaThis Button BEGIN -->
+			<div class="jiathis_style_24x24">
+				<a class="jiathis_button_qzone"></a> <a class="jiathis_button_cqq"></a>
+				<a class="jiathis_button_weixin"></a>
+			</div>
+			<script type="text/javascript"
+				src="http://v3.jiathis.com/code_mini/jia.js" charset="utf-8"></script>
+			<!-- JiaThis Button END -->
+		</div>
+	</div>
+	<div class="lh30 back-ff ub bor">
+		<div class="col-9 ti10 ub-f1 pos-r">
+			<div class="pos-a">购买数量:</div>
+		</div>
+		<div class="ub-f1 pos-r">
+			<div class="pos-a ub txt-c">
+				<div class="ub-f1 pos-r">
+					<div class="pos-a jian"></div>
+				</div>
+				<div class="ub-f1 pos-r">
+					<form action="{:U('Orders/daiChongBuy')}" method="post" id="buy">
+						<div class="pos-a">
+							<input onchange="check()"
+								onkeyup="this.value=this.value.replace(/\D/g,'')"
+								onafterpaste="this.value=this.value.replace(/\D/g,'')"
+								type="text" id="num" name="num" value="1" />
+						</div>
+						<input type="hidden" name="goodsId" value="{$goodsInfo.goodsId}" />
+						<input type="hidden" id="attrid" name="attrid" value="0" />
+                        <!--
+                         * @author peng
+                         * @date 2017-01
+                         * @descreption 
+                        -->
+                        <input autocomplete="off" type="hidden" id="vouchers" name="vouchers" value="" />
+					</form>
+				</div>
+				<div class="ub-f1 pos-r">
+					<div class="pos-a jia"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="ub  lh35 back-ff  " style="text-align: right; width: 100%;">
+		<div
+			style="text-align: right; width: 95%; margin-right: 10px; color: #999">
+			总计：<span id="totalMoney">{$goodsAttr[0].attrPrice}</span>元
+		</div>
+	</div>
+     <!--
+    @author peng
+    @date 2017-01-12
+    @descreption 代金券
+    -->
+     <!--代金券 -->
+    <div class="voucher-block">
+    </div>
+    <!--代金券 -->
+	<a href="{:U('Shop/personShop',array('id'=>$goodsInfo['shopId']))}">
+		<div class="ub "
+			style="width: 90%; margin: 10px auto; background: #fff; border-radius: 5px; padding: 5px;">
+			<div class="shopImg">
+				<img src="/{$goodsInfo.shopImg|default='__IMG__/shopImg.png'}" />
+			</div>
+			<div class="ub-f1 shopContent">
+				<div class='shopName'>{$goodsInfo.shopName}</div>
+				<div class="fw">经营范围：{$fanwei}</div>
+				<div class="sl">销量：{$sales|default=0}
+               </div>
+			</div>
+			<div class="right_arrows arrowsMy"></div>
+		</div>
+	</a>
+	<div class="lh45 back-ff" style="padding: 10px;">
+		<div class="btn" onclick="subMitForm()">立即购买</div>
+	</div>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<input type="hidden" id="unitPrice"
+	value="{$goodsInfo.shopPrice|default=0}" />
+<input type="hidden" id="attr" value="" />
+<script>
+//add by peng
+var rank='<?=$rank?>';
+var gameid='{$goodsInfo.gameId}';
+var marketPrice='{$goodsInfo.marketPrice}';
+function subMitForm(){
+
+	var goodsId="{$_GET['id']}";
+	var attr=$('#attr').val();
+	if(!isDefine(attr)){
+		layer.msg('请选择游戏版本');return;
+	}
+	$('#attrid').val(attr);
+	var num=parseInt($('#num').val());
+	if(num>0){
+		//检查库存
+			$.ajax({
+				type:'post',
+				url:"{:U('Goods/validateStock')}",
+				dataType:'json',
+				data:{attrid:attr,goodsId:goodsId},
+				success:function(data){
+				    
+					if (data.status == 0) {
+                        /**
+                        * @author peng
+                        * @date 2017-01
+                        * @descreption 
+                        */
+                        controller.submitVoucher()
+                        
+						$('#buy').submit();
+					} else {
+						layer.msg(data.msg);
+						return;
+					}
+					/*
+					if(isDefine(data.status)){
+						if(data.status==-1){
+							layer.msg(data.mes);return;
+						}
+					}
+				 	if(data.num<num){
+						layer.msg('库存只剩'+data.num+'份');
+						$('#num').val(data.num);
+						return;
+					}
+					$('#buy').submit();
+					 */
+				}
+			})
+		
+	}
+}
+
+
+$(function(){
+	$('body').on('click','.select',function(){
+		var attrid=$(this).attr('data-attrid');
+		var money=$(this).attr('data-money');
+        /**
+         * @author peng
+         * @date 2017-01
+         * @descreption 
+         */
+        model.attrid=$(this).data('versionid');
+        model.zhekou=$(this).data('zhekou');
+        
+		$('#attr').val(attrid);
+		$('#unitPrice').val(money);
+		$('.select').css({
+			 'background': 'url(/Tpl/Game/image/select_f.png) top center no-repeat',
+		  	  'background-size': '18px'
+		});
+		$(this).css({
+		   'background': 'url(/Tpl/Game/image/select.png) top center no-repeat',
+	  	   'background-size': '18px'
+		})
+		//check()
+		check($(this));
+        controller.getVoucherList();
+	})
+    //add by peng 默认是选择第一个
+    $('.select').trigger('click');
+
+})
+
+
+$('body').on('click','.jia',function(){
+	var num=parseInt($('#num').val());
+	if(isNaN(num)){
+		$('#num').val(1);
+		num=1;
+	}
+	$('#num').val(num+1);
+	check([]);
+    /**
+     * @author peng
+     * @date 2017-01
+     * @descreption 
+     */
+     controller.manyGoodsAmount()
+     controller.getVoucherList();
+})
+$('body').on('click','.jian',function(){
+	var num=parseInt($('#num').val());
+    
+	if(isNaN(num)){
+		$('#num').val(1);
+		num=1;
+	}
+	var newNum=num-1;
+	if(newNum<=0){
+		newNum=1;
+	}
+	$('#num').val(newNum);
+   
+	check([]);
+    /**
+     * @author peng
+     * @date 2017-01
+     * @descreption 
+     */
+     controller.manyGoodsAmount()
+     controller.getVoucherList();
+})
+
+
+function check(obj){
+	var num=$('#num').val();
+    
+    
+    //add by peng
+    if(obj.length>0){
+        var lmprice=obj.data('price1');
+        var mmprice=obj.data('price2');
+        var lowest_price=obj.data('price3');
+    }
+    
+    
+	if(isNaN(num)){
+		$('#num').val(1);
+		num=1;
+	}
+	var attr=$('#attr').val();
+	//var unitPrice=$('#unitPrice').val();
+    
+    var unitPrice;
+    var rank_arr = [
+            '非',
+            '钻石',
+            '白金',
+            '黄金'
+        ];
+    var member_zhekou;
+        //add by peng
+        if(lowest_price>0 && obj.length>0){
+            if(rank==1) {
+            $('.price-tip').html('(已是最优惠会员价)');
+                unitPrice=lowest_price;
+                $('#unitPrice').val(lowest_price)
+            }else if(rank==2){
+                $('.price-tip').html('(会员价最低至'+lowest_price+'元)');
+                unitPrice=mmprice;
+                $('#unitPrice').val(mmprice)
+            }else if(rank==3){
+                $('.price-tip').html('(会员价最低至'+lowest_price+'元)');
+                unitPrice=lmprice;
+                $('#unitPrice').val(lmprice)
+            }else if(rank==0){
+                 $('.price-tip').html('(会员价最低至'+lowest_price+'元)');
+                 unitPrice = $('#unitPrice').val();
+            }
+            member_zhekou = (unitPrice/marketPrice)*10
+            $('#priceBlock').append('<span class="member-zhekou">('+rank_arr[rank]+'VIP'+member_zhekou.toFixed(1)+'折)</span>');
+        }else{
+            unitPrice = $('#unitPrice').val();
+            $('.member-zhekou').remove();
+        }
+        
+	if(isDefine(attr)&&attr>=0&&unitPrice>0){
+		$('#attrPrice').text(unitPrice);
+		$('#totalMoney').text(toDecimal(num*unitPrice));
+	}
+}
+function toDecimal(x) {
+    var val = Number(x)
+    if (!isNaN(parseFloat(val))) {
+        val = val.toFixed(2);
+    }
+    return val;
+}
+</script>
+<script src="/Tpl/Game/js/voucher.js?20160308"></script>
+</html>

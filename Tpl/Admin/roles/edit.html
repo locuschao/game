@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{$CONF['shopTitle']['fieldValue']}后台管理中心</title>
+<link href="__PUBLIC__/plugins/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+<link href="__ROOT__/Apps/Admin/View/css/AdminLTE.css" rel="stylesheet"
+	type="text/css" />
+<!--[if lt IE 9]>
+      <script src="__PUBLIC__/js/html5shiv.min.js"></script>
+      <script src="__PUBLIC__/js/respond.min.js"></script>
+      <![endif]-->
+<script src="__PUBLIC__/js/jquery.min.js"></script>
+<script src="__PUBLIC__/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="__PUBLIC__/js/common.js"></script>
+<script src="__PUBLIC__/plugins/plugins/plugins.js"></script>
+<script src="__PUBLIC__/plugins/formValidator/formValidator-4.1.3.js"></script>
+</head>
+<style>
+input[type=checkbox] {
+	margin-right: 2px;
+}
+</style>
+<script>
+   $(function () {
+	   $.formValidator.initConfig({
+		   theme:'Default',mode:'AutoTip',formID:"myform",debug:true,submitOnce:true,onSuccess:function(){
+				   edit();
+			       return false;
+			},onError:function(msg){
+		}});
+	   $("#roleName").formValidator({onFocus:"角色名称至少要输入1个字符",onCorrect:"输入正确"}).inputValidator({min:1,max:20,onError:"你输入的长度不正确,请确认"});
+	   var grant = '{$object["grant"]}'.split(',');
+	   for(var i=0;i<grant.length;i++){
+			$('#'+grant[i]).prop('checked',true);
+	   }
+   });
+   function edit(){
+	   var params = {};
+	   params.id = $('#id').val();
+	   params.roleName = $('#roleName').val();
+	   var grant = [];
+	   $('.grant').each(function(){
+		   if($(this).prop('checked'))grant.push($(this).val());
+	   });
+
+	   params.grant = grant.join(',');
+	   if(grant.length==0){
+		   Plugins.Tips({title:'信息提示',icon:'error',content:'请至少选择一个权限!',timeout:1000});
+		   return;
+	   }
+	   Plugins.waitTips({title:'信息提示',content:'正在提交数据，请稍后...'});
+		$.post("{:U('Admin/Roles/edit')}",params,function(data,textStatus){
+			var json = WST.toJson(data);
+			if(json.status=='1'){
+				Plugins.setWaitTipsMsg({ content:'操作成功',timeout:1000,callback:function(){
+				   location.href="{:U('Admin/Roles/index')}";
+				}});
+			}else{
+				Plugins.closeWindow();
+				Plugins.Tips({title:'信息提示',icon:'error',content:'操作失败!',timeout:1000});
+			}
+		});
+   }
+   function checkModel(v){
+		$('.'+$(v).val()).each(function(){
+			$(this).prop('checked',$(v).prop('checked'));
+		})
+	}
+   </script>
+<body class="wst-page">
+	<form name="myform" method="post" id="myform" autocomplete="off">
+		<input type='hidden' id='id' value='{$object.roleId}' />
+		<table class="table table-hover table-striped table-bordered wst-form">
+			<tr>
+				<th width='120' align='right'>角色名称<font color='red'>*</font>：
+				</th>
+				<td><input type='text' id='roleName'
+					class="form-control wst-ipt" value='{$object.roleName}'
+					maxLength='25' /></td>
+			</tr>
+			<tr>
+				<th align='right'>权限列表<font color='red'>*</font>：
+				</th>
+				<td>
+					<table width='100%'>
+						<tr>
+							<td rowspan='3' valign='top' width='100'><label><input
+									type='checkbox' class='chk'
+									onclick='javascript:checkModel(this)' value='spgl' />商品管理</label></td>
+							<td width='90' colspan='2'><label><input
+									type='checkbox' id='spgl_00' class='chk grant spgl'
+									value='spgl_00' onclick='javascript:checkModel(this)' />查看商品管理栏目</label></td>
+						</tr>
+						<tr>
+							<td><label><input type='checkbox'
+									class='chk spgl splb' value='splb'
+									onclick='javascript:checkModel(this)' />商品列表</label></td>
+							<td><label><input type='checkbox'
+									class='chk grant spgl splb' id='splb_00' value='splb_00' />商品列表</label>
+								<label><input type='checkbox'
+									class='chk grant spgl splb' id='splb_04' value='splb_04' />商品操作</label>
+							</td>
+						</tr>
+						<tr>
+							<td><label><input type='checkbox'
+									class='chk spgl spsh' value='spsh'
+									onclick='javascript:checkModel(this)' />商品审核</label></td>
+							<td><label><input type='checkbox'
+									class='chk grant spgl spsh' id='spsh_00' value='spsh_00' />商品列表</label>
+								<label><input type='checkbox'
+									class='chk grant spgl spsh' id='spsh_04' value='spsh_04' />商品审核</label>
+							</td>
+						</tr>
+
+						<tr style='border-top: 1px solid #dddddd'>
+							<td rowspan='4' valign='top' width='100'><label><input
+									type='checkbox' value='ddgl' class='chk'
+									onclick='javascript:checkModel(this)' />订单管理</label></td>
+							<td width='90' colspan='2'><label><input
+									type='checkbox' class='chk grant ddgl' id='ddgl_00'
+									value='ddgl_00' onclick='javascript:checkModel(this)' />查看订单管理栏目</label></td>
+						</tr>
+						<tr>
+							<td width='90'><label><input type='checkbox'
+									class='chk ddgl' value='ddlb'
+									onclick='javascript:checkModel(this)' />订单列表</label></td>
+							<td><label><input type='checkbox'
+									class='chk grant ddgl ddlb' id='ddlb_00' value='ddlb_00' />订单列表</label>
+							</td>
+						</tr>
+						<tr>
+							<td><label><input type='checkbox'
+									class='chk ddgl tk' value='tk'
+									onclick='javascript:checkModel(this)' />退款列表</label></td>
+							<td><label><input type='checkbox'
+									class='chk grant ddgl tk' id='tk_00' value='tk_00' />退款列表</label> <label><input
+									type='checkbox' class='chk grant ddgl tk' id='tk_04'
+									value='tk_04' />处理退款</label></td>
+						</tr>
+						<tr>
+							<td><label><input type='checkbox'
+									class='chk ddgl ts' value='ts'
+									onclick='javascript:checkModel(this)' />投诉列表</label></td>
+							<td><label><input type='checkbox'
+									class='chk grant ddgl ts' id='ts_00' value='ts_00' />投诉列表</label> <label><input
+									type='checkbox' class='chk grant ddgl ts' id='ts_04'
+									value='ts_04' />处理投诉</label></td>
+						</tr>
+						<tr style='border-top: 1px solid #dddddd'>
+							<td rowspan='3' valign='top' width='100'><label><input
+									type='checkbox' value='yxgl' class='chk'
+									onclick='javascript:checkModel(this)' />游戏管理</label></td>
+							<td width='90' colspan='2'><label><input
+									type='checkbox' class='chk grant yxgl' id='yxgl_00'
+									value='yxgl_00' onclick='javascript:checkModel(this)' />查看游戏管理栏目</label></td>
+						</tr>
+						<tr>
+							<td width='90'><label><input type='checkbox'
+									class='chk yxgl yxlb' value='yxlb'
+									onclick='javascript:checkModel(this)' />游戏列表</label></td>
+							<td><label><input type='checkbox'
+									class='chk grant yxgl yxlb' id='yxlb_00' value='yxlb_00' />游戏列表</label>
+								<label><input type='checkbox'
+									class='chk grant yxgl yxlb' id='yxlb_02' value='yxlb_02' />新增游戏</label>
+								<label><input type='checkbox'
+									class='chk grant yxgl yxlb' id='yxlb_03' value='yxlb_03' />删除游戏</label>
+								<label><input type='checkbox'
+									class='chk grant yxgl yxlb' id='yxlb_04' value='yxlb_04' />热门游戏设置</label>
+								<label><input type='checkbox'
+									class='chk grant yxgl yxlb' id='yxlbl_05' value='yxlbl_05' />编辑游戏</label>
+							</td>
+						</tr>
+						<tr>
+							<td width='90'><label><input type='checkbox'
+									class='chk yxgl yybb' value='yybb'
+									onclick='javascript:checkModel(this)' />版本列表</label></td>
+							<td><label><input type='checkbox'
+									class='chk grant yxgl yybb' id='yybb_00' value='yybb_00' />版本列表</label>
+								<label><input type='checkbox'
+									class='chk grant yxgl yybb' id='yybb_01' value='yybb_01' />新增版本</label>
+								<label><input type='checkbox'
+									class='chk grant yxgl yybb' id='yybb_02' value='yybb_02' />删除版本</label>
+								<label><input type='checkbox'
+									class='chk grant yxgl yybb' id='yybb_03' value='yybb_03' />编辑版本</label>
+							</td>
+						</tr>
+
+						<tr style='border-top: 1px solid #dddddd'>
+							<td rowspan='3' valign='top' width='100'><label><input
+									type='checkbox' class='chk' value='dpgl'
+									onclick='javascript:checkModel(this)' />店铺管理</label></td>
+							<td width='90' colspan='2'><label><input
+									type='checkbox' class='chk grant dpgl' id='dpgl_00'
+									value='dpgl_00' onclick='javascript:checkModel(this)' />查看店铺管理栏目</label></td>
+						</tr>
+						<tr>
+							<td width='90'><label><input type='checkbox'
+									class='chk dpgl' value='dplb'
+									onclick='javascript:checkModel(this)' />店铺列表</label></td>
+							<td><label><input type='checkbox'
+									class='chk grant dpgl dplb' id='dplb_00' value='dplb_00' />店铺列表</label>
+								<label><input type='checkbox'
+									class='chk grant dpgl dplb' id='dplb_01' value='dplb_01' />新增店铺</label>
+								<label><input type='checkbox'
+									class='chk grant dpgl dplb' id='dplb_02' value='dplb_02' />修改店铺</label>
+								<label><input type='checkbox'
+									class='chk grant dpgl dplb' id='dplb_03' value='dplb_03' />删除店铺</label>
+							</td>
+						</tr>
+						<tr>
+							<td><label><input type='checkbox' class='chk dpgl'
+									value='dpsh' onclick='javascript:checkModel(this)' />店铺审核</label></td>
+							<td><label><input type='checkbox'
+									class='chk grant dpgl dpsh' id='dpsh_00' value='dpsh_00' />店铺列表</label>
+							</td>
+						</tr>
+
+						<tr style='border-top: 1px solid #dddddd'>
+							<td rowspan='2' valign='top' width='100'><label><input
+									type='checkbox' class='chk hygl' value='hygl'
+									onclick='javascript:checkModel(this)' />用户管理</label></td>
+							<td width='90' colspan='2'><label><input
+									type='checkbox' class='chk grant hygl' id='hygl_00'
+									value='hygl_00' onclick='javascript:checkModel(this)' />查看用户管理栏目</label></td>
+						</tr>
+						<tr>
+							<td><label><input type='checkbox' class='chk hygl'
+									value='hylb' onclick='javascript:checkModel(this)' />用户列表</label></td>
+							<td><label><input type='checkbox'
+									class='chk grant hygl hylb' id='hylb_00' value='hylb_00' />用户列表</label>
+								<label><input type='checkbox'
+									class='chk grant hygl hylb' id='hylb_02' value='hylb_02' />修改用户</label>
+								<label><input type='checkbox'
+									class='chk grant hygl hylb' id='hylb_03' value='hylb_03' />删除用户</label>
+							</td>
+						</tr>
+						<tr style='border-top: 1px solid #dddddd'>
+							<td rowspan='4' valign='top' width='100'><label><input
+									type='checkbox' class='chk' value='xtgl'
+									onclick='javascript:checkModel(this)' />系统管理</label></td>
+							<td width='90' colspan='2'><label><input
+									type='checkbox' class='chk grant xtgl' id='xtgl_00'
+									value='xtgl_00' onclick='javascript:checkModel(this)' />查看系统管理栏目</label></td>
+						</tr>
+						<tr>
+							<td width='90'><label><input type='checkbox'
+									class='chk xtgl' value='jsgl'
+									onclick='javascript:checkModel(this)' />角色管理</label></td>
+							<td><label><input type='checkbox'
+									class='chk grant xtgl jsgl' id='jsgl_00' value='jsgl_00' />角色列表</label>
+								<label><input type='checkbox'
+									class='chk grant xtgl jsgl' id='jsgl_01' value='jsgl_01' />新增角色</label>
+								<label><input type='checkbox'
+									class='chk grant xtgl jsgl' id='jsgl_02' value='jsgl_02' />修改角色</label>
+								<label><input type='checkbox'
+									class='chk grant xtgl jsgl' id='jsgl_03' value='jsgl_03' />删除角色</label>
+							</td>
+						</tr>
+						<tr>
+							<td><label><input type='checkbox' class='chk xtgl'
+									value='zylb' onclick='javascript:checkModel(this)' />职员列表</label></td>
+							<td><label><input type='checkbox'
+									class='chk grant xtgl zylb' id='zylb_00' value='zylb_00' />职员列表</label>
+								<label><input type='checkbox'
+									class='chk grant xtgl zylb' id='zylb_01' value='zylb_01' />新增职员</label>
+								<label><input type='checkbox'
+									class='chk grant xtgl zylb' id='zylb_02' value='zylb_02' />修改职员</label>
+								<label><input type='checkbox'
+									class='chk grant xtgl zylb' id='zylb_03' value='zylb_03' />删除职员</label>
+							</td>
+						</tr>
+						<tr>
+							<td><label><input type='checkbox' class='chk xtgl'
+									value='dlrz' onclick='javascript:checkModel(this)' />登录日志</label></td>
+							<td><label><input type='checkbox'
+									class='chk grant xtgl dlrz' id='dlrz_00' value='dlrz_00' />日志列表</label>
+							</td>
+						</tr>
+						<tr style='border-top: 1px solid #dddddd'>
+							<td rowspan='7' valign='top' width='100'><label><input
+									type='checkbox' class='chk scsz' value='scsz'
+									onclick='javascript:checkModel(this)' />商城设置</label></td>
+							<td width='90' colspan='2'><label><input
+									type='checkbox' class='chk grant scsz' id='scsz_00'
+									value='scsz_00' onclick='javascript:checkModel(this)' />查看商城设置栏目</label></td>
+						</tr>
+						<tr>
+							<td width='90'><label><input type='checkbox'
+									class='chk scsz' value='scxx'
+									onclick='javascript:checkModel(this)' />商城信息</label></td>
+							<td><label><input type='checkbox'
+									class='chk grant scsz scxx' id='scxx_00' value='scxx_00' />商城信息</label>
+								<label><input type='checkbox'
+									class='chk grant scsz scxx' id='scxx_02' value='scxx_02' />商城信息修改</label>
+							</td>
+						</tr>
+						<tr>
+							<td width='90'><label><input type='checkbox'
+									class='chk scsz' value='dlxz'
+									onclick='javascript:checkModel(this)' />登录IP设置</label></td>
+							<td><label><input type='checkbox'
+									class='chk grant scsz dlxz' id='dlxz_00' value='dlxz_00' />设置IP</label>
+							</td>
+						</tr>
+						<tr>
+							<td width='90'><label><input type='checkbox'
+									class='chk scsz bmd' value='bmd'
+									onclick='javascript:checkModel(this)' />首充白名单</label></td>
+							<td><label><input type='checkbox'
+									class='chk grant scsz bmd' id='bmd_00' value='bmd_00' />白名单信息</label> <label><input
+									type='checkbox' class='chk grant scsz bmd' id='bmd_01'
+									value='bmd_01' />新增白名单</label> <label><input type='checkbox'
+									class='chk grant scsz bmd' id='bmd_02' value='bmd_02' />修改白名单</label> <label><input
+									type='checkbox' class='chk grant scsz bmd' id='bmd_03'
+									value='bmd_03' />删除白名单</label></td>
+						</tr>
+						<tr>
+							<td width='90'><label><input type='checkbox'
+									class='chk scsz gglb' value='gglb'
+									onclick='javascript:checkModel(this)' />商城公告</label></td>
+							<td><label><input type='checkbox'
+									class='chk grant scsz gglb' id='gglb_00' value='gglb_00' />公告列表</label>
+								<label><input type='checkbox'
+									class='chk grant scsz gglb' id='gglb_01' value='gglb_01' />新增公告</label>
+								<label><input type='checkbox'
+									class='chk grant scsz gglb' id='gglb_02' value='gglb_02' />修改公告</label>
+								<label><input type='checkbox'
+									class='chk grant scsz gglb' id='gglb_03' value='gglb_03' />删除公告</label>
+							</td>
+						</tr>
+						<tr>
+							<td width='90'><label><input type='checkbox'
+									class='chk scsz ymdp' value='ymdp'
+									onclick='javascript:checkModel(this)' />热门店铺</label></td>
+							<td><label><input type='checkbox'
+									class='chk grant scsz ymdp' id='ymdp_00' value='ymdp_00' />店铺列表</label>
+								<label><input type='checkbox'
+									class='chk grant scsz ymdp' id='ymdp_01' value='ymdp_01' />热门店铺设置</label>
+							</td>
+						</tr>
+
+						<tr>
+							<td><label><input type='checkbox' class='chk scsz'
+									value='gggl' onclick='javascript:checkModel(this)' />广告管理</label></td>
+							<td><label><input type='checkbox'
+									class='chk grant scsz gggl' id='gggl_00' value='gggl_00' />广告列表</label>
+								<label><input type='checkbox'
+									class='chk grant scsz gggl' id='gggl_01' value='gggl_01' />新增广告</label>
+								<label><input type='checkbox'
+									class='chk grant scsz gggl' id='gggl_02' value='gggl_02' />修改广告</label>
+								<label><input type='checkbox'
+									class='chk grant scsz gggl' id='gggl_03' value='gggl_03' />删除广告</label>
+							</td>
+						</tr>
+
+
+						<tr style='border-top: 1px solid #dddddd'>
+							<td rowspan='3' valign='top' width='100'><label><input
+									type='checkbox' class='chk kf' value='kf'
+									onclick='javascript:checkModel(this)' />客服管理</label></td>
+							<td width='90' colspan='2'><label><input
+									type='checkbox' class='chk grant kf' id='kf_00' value='kf_00'
+									onclick='javascript:checkModel(this)' />查看客服管理栏目</label></td>
+						</tr>
+						<tr>
+							<td width='90'><label><input type='checkbox'
+									class='chk kf setQQ' value='setQQ'
+									onclick='javascript:checkModel(this)' />设置QQ</label></td>
+							<td><label><input type='checkbox'
+									class='chk grant  kf setQQ' id='setQQ_00' value='setQQ_00' />客服列表</label>
+								<label><input type='checkbox'
+									class='chk grant  kf setQQ' id='setQQ_01' value='setQQ_01' />新增客服</label>
+								<label><input type='checkbox'
+									class='chk grant  kf setQQ' id='setQQ_02' value='setQQ_02' />删除客服</label>
+								<label><input type='checkbox'
+									class='chk grant  kf setQQ' id='setQQ_03' value='setQQ_03' />修改客服</label>
+							</td>
+						</tr>
+						<tr>
+							<td width='90'><label><input type='checkbox'
+									class='chk kf kfdd' value='kfdd'
+									onclick='javascript:checkModel(this)' />客服订单</label></td>
+							<td><label><input type='checkbox'
+									class='chk grant  kf kfdd' id='kfdd_00' value='kfdd_00' />订单列表</label>
+							</td>
+						</tr>
+
+						<tr style='border-top: 1px solid #dddddd'>
+							<td rowspan='3' valign='top' width='100'><label><input
+									type='checkbox' class='chk txgl' value='txgl'
+									onclick='javascript:checkModel(this)' />提现管理</label></td>
+							<td width='90' colspan='2'><label><input
+									type='checkbox' class='chk grant txgl' id='txgl_00'
+									value='txgl_00' onclick='javascript:checkModel(this)' />查看提现管理栏目</label></td>
+						</tr>
+						<tr>
+							<td width='90'><label><input type='checkbox'
+									class='chk txgl sjtx' value='sjtx'
+									onclick='javascript:checkModel(this)' />商家提现</label></td>
+							<td><label><input type='checkbox'
+									class='chk grant  txgl sjtx' id='sjtx_00' value='sjtx_00' />提现列表</label>
+								<label><input type='checkbox'
+									class='chk grant  txgl sjtx' id='sjtx_01' value='sjtx_01' />提现处理</label>
+							</td>
+						</tr>
+						<tr>
+							<td width='90'><label><input type='checkbox'
+									class='chk txgl grtx' value='grtx'
+									onclick='javascript:checkModel(this)' />个人提现</label></td>
+							<td><label><input type='checkbox'
+									class='chk grant  txgl grtx' id='grtx_00' value='grtx_00' />提现列表</label>
+								<label><input type='checkbox'
+									class='chk grant  txgl grtx' id='grtx_01' value='grtx_01' />提现处理</label>
+							</td>
+						</tr>
+
+						<tr style='border-top: 1px solid #dddddd'>
+							<td rowspan='6' valign='top' width='100'><label><input
+									type='checkbox' class='chk fxgl' value='fxgl'
+									onclick='javascript:checkModel(this)' />分销管理</label></td>
+							<td width='90' colspan='2'><label><input
+									type='checkbox' class='chk grant fxgl' id='fxgl_00'
+									value='fxgl_00' onclick='javascript:checkModel(this)' />查看分销管理栏目</label></td>
+						</tr>
+						<tr>
+							<td width='90'><label><input type='checkbox'
+									class='chk fxgl fxsz' value="fxsz"
+									onclick='javascript:checkModel(this)' />分销设置</label></td>
+							<td><label><input type='checkbox'
+									class='chk grant  fxgl fxsz' id='fxsz_00' value='fxsz_00' />分销设置</label>
+							</td>
+						</tr>
+						<tr>
+							<td width='90'><label><input type='checkbox'
+									class='chk fxgl fxtx' value="fxtx"
+									onclick='javascript:checkModel(this)' />分销提现</label></td>
+							<td><label><input type='checkbox'
+									class='chk grant  fxgl fxtx' id='fxtx_00' value='fxtx_00' />分销提现列表</label>
+							</td>
+						</tr>
+						<tr>
+							<td width='90'><label><input type='checkbox'
+									class='chk fxgl fxdd' value="fxdd"
+									onclick='javascript:checkModel(this)' />分销订单</label></td>
+							<td><label><input type='checkbox'
+									class='chk grant  fxgl fxdd' id='fxdd_00' value='fxdd_00' />订单列表</label>
+							</td>
+						</tr>
+						<tr>
+							<td width='90'><label><input type='checkbox'
+									class='chk fxgl fxls' value="fxls"
+									onclick='javascript:checkModel(this)' />历史订单</label></td>
+							<td><label><input type='checkbox'
+									class='chk grant  fxgl fxls' id='fxls_00' value='fxls_00' />历史订单列表</label>
+							</td>
+						</tr>
+						<tr>
+							<td width='90'><label><input type='checkbox'
+									class='chk fxgl fxhy' value="fxhy"
+									onclick='javascript:checkModel(this)' />分销会员</label></td>
+							<td><label><input type='checkbox'
+									class='chk grant  fxgl fxhy' id='fxhy_00' value='fxhy_00' />会员列表</label>
+							</td>
+						</tr>
+
+
+
+
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td colspan='2' style='padding-left: 250px;'>
+					<button type="submit" class="btn btn-success">保&nbsp;存</button>
+					<button type="button" class="btn btn-primary"
+						onclick='javascript:location.href="{:U('Admin/Roles/index')}"'>返&nbsp;回</button>
+				</td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>

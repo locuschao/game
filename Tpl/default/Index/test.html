@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>test</title>
+	<include file="./Tpl/homeHead.html" />
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<volist name="catList" key="k1" id="vo1"> <!-- <input name='lanmu' type="submit" id="{$vo1['catId']}" value="{$vo1['catName']}"> -->
+	<php>p($vo1);</php> </volist>
+	<br>
+	<div>
+		<volist name="catList" key="k1" id="vo1">
+		<div id="lanmu" name="{$vo1['catId']}" style="display: none;">
+			<volist name="vo1['catChildren']" key="k2" id="vo2"> <volist
+				name="vo2['goods']" key="k3" id="vo3">
+			<p>{$vo3['goodsName']}</p>
+			</volist> </volist>
+			<hr>
+		</div>
+		</volist>
+	</div>
+	<script type="text/javascript" src="__JS__/jquery.min.js"></script>
+	<script>
+	$(document).ready(function(){
+		$(".shop:first").css('display','inline-block');
+		$("input[name='lanmu']").click(function(){
+			var ip_id = $(this).attr('id');
+			var ip_id = "div[name="+ip_id+"]";
+			$(ip_id).css('display','inline-block');
+			$(ip_id).siblings().css('display','none');
+		});
+	})
+</script>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+</html>

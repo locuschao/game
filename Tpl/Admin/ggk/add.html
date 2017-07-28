@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{$CONF['mallTitle']}后台管理中心</title>
+<link href="__PUBLIC__/plugins/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+<link href="__CSS__/AdminLTE.css" rel="stylesheet" type="text/css" />
+<!--[if lt IE 9]>
+      <script src="__PUBLIC__/js/html5shiv.min.js"></script>
+      <script src="__PUBLIC__/js/respond.min.js"></script>
+      <![endif]-->
+<script src="__JS__/jquery.js"></script>
+<script src="__PUBLIC__/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="__PUBLIC__/js/common.js"></script>
+<script src="__PUBLIC__/plugins/plugins/plugins.js"></script>
+<script src="__PUBLIC__/plugins/kindeditor/kindeditor.js"></script>
+<script src="__PUBLIC__/plugins/kindeditor/lang/zh_CN.js"></script>
+<link rel="stylesheet" href="__CSS__/jquery.datetimepicker.css">
+<link rel="stylesheet" href="__CSS__/layer.css">
+<script type="text/javascript" src="__JS__/ggk.js"></script>
+<script type="text/javascript" src="__JS__/layer.js"></script>
+<script type="text/javascript" src="__JS__/layer.ext.js"></script>
+</head>
+<body class="wst-page">
+	<script type="text/javascript">
+  function layer_e(){
+        layer.config({
+              extend: 'extend/layer.ext.js'
+          });
+  }
+</script>
+	<form id="formggk" name="formggk" action=""
+		enctype="multipart/form-data" method="post">
+		<table class="table table-hover table-striped table-bordered wst-form">
+			<tr>
+				<th width='200'>活动名称 <font color='red'>*</font>：
+				</th>
+				<td><input type="text" value="{$data['title']}"
+					AutoComplete="off" name="title" id="title" maxlength="50">请不要多于50字!<font
+					id="titlename"></font></td>
+			</tr>
+			<tr>
+				<th width='200'>中奖提示 <font color='red'>*</font>：
+				</th>
+				<td><textarea name="sttxt" AutoComplete="off" id="sttxt">{$data['sttxt']}</textarea>
+				</td>
+			</tr>
+			<tr>
+				<th width='200' align='right'>开始时间<font color='red'>*</font>：
+				</th>
+				<td><input type="text" onchange="javascript:checktime();"
+					AutoComplete="off" name="statdate" id="statdate"
+					value="{$data['statdate']|date='Y-m-d H:i',###}" /> <span
+					onclick="document.getElementById('statdate').value=''"
+					style="display: inline-block; width: 80px; color: #fff; text-align: center; margin-left: 10px; background: #666666; cursor: pointer">清空时间</span>
+					<font id="bT"></font></td>
+			</tr>
+			<tr>
+				<th width='200' align='right'>结束时间<font color='red'>*</font>：
+				</th>
+				<td><input onchange="javascript:checktime();" type="text"
+					AutoComplete="off" name="enddate" id="enddate"
+					value="{$data['enddate']|date='Y-m-d H:i',###}" /> <span
+					onclick="document.getElementById('enddate').value=''"
+					style="display: inline-block; width: 80px; color: #fff; text-align: center; margin-left: 10px; background: #666666; cursor: pointer">清空时间</span>
+					<font id="eT"></font></td>
+			</tr>
+			<b id="checkT" value="2"></b>
+			<tr>
+				<th width='200' align='right'>活动说明<font color='red'>*</font>：
+				</th>
+				<td><textarea name="info" AutoComplete="off" id="info">{$data['info']}</textarea>
+				</td>
+			</tr>
+			<tr>
+				<th width='200' align='right'>活动结束说明 <font color='red'>*</font>：
+				</th>
+				<td><textarea name="endinfo" AutoComplete="off" id="endinfo">{$data['endinfo']}</textarea>
+				</td>
+			</tr>
+			<tr>
+				<th width='200' align='right'>一等奖奖品设置 <font color='red'>*</font>：
+				</th>
+				<td><input id="fist" value="{$data['fist']}" maxlength="50"
+					type="text" AutoComplete="off" name="fist"
+					style="display: inline; width: 170px;">请不要多于50字!<font></font></td>
+			</tr>
+			<tr>
+				<th width='200' align='right'>一等奖奖品数量<font color='red'>*</font>：
+				</th>
+				<td><input type="text" value="{$data['fistnums']}"
+					onchange="javascript:isnum(this.value,this.id);" AutoComplete="off"
+					name="fistnums" id="fistnums" style="display: inline; width: 50px;">
+					<font>如果是100%中奖,请把一等奖的奖品数量[1000就代表前1000人都中奖]填写多点</font></td>
+			</tr>
+			<tr>
+				<th width='200' align='right'>二等奖奖品设置 ：</th>
+				<td><input id="second" value="{$data['second']}"
+					maxlength="50" type="text" AutoComplete="off" name="second"
+					style="display: inline; width: 170px;">请不要多于50字!<font></font></td>
+			</tr>
+			<tr>
+				<th width='200' align='right'>二等奖奖品数量：</th>
+				<td><input type="text" value="{$data['secondnums']}"
+					onchange="javascript:isnum(this.value,this.id);" AutoComplete="off"
+					name="secondnums" id="secondnums"
+					style="display: inline; width: 50px;"></td>
+			</tr>
+			<tr>
+				<th width='200' align='right'>三等奖奖品设置 ：</th>
+				<td><input id="third" type="text" value="{$data['third']}"
+					maxlength="50" AutoComplete="off" name="third"
+					style="display: inline; width: 170px;">请不要多于50字!<font></font></td>
+			</tr>
+			<tr>
+				<th width='200' align='right'>三等奖奖品数量：</th>
+				<td><input type="text"
+					onchange="javascript:isnum(this.value,this.id);" AutoComplete="off"
+					name="thirdnums" id="thirdnums" value="{$data['thirdnums']}"
+					style="display: inline; width: 50px;"></td>
+			</tr>
+			<tr>
+				<th width='200' align='right'>预计活动的人数<font color='red'>*</font>：
+				</th>
+				<td><input type="text"
+					onchange="javascript:isnum(this.value,this.id);" AutoComplete="off"
+					name="allpeople" id="allpeople" value="{$data['allpeople']}"
+					style="display: inline;"><font>预估活动人数直接影响抽奖概率：中奖概率 =
+						奖品总数/(预估活动人数*每人抽奖次数) 如果要确保任何时候都100%中奖建议设置为1人参加!并且奖项只设置一等奖.</font></td>
+			</tr>
+			<tr>
+				<th width='200' align='right'>每人最多允许抽奖次数<font color='red'>*</font>：
+				</th>
+				<td><input type="text"
+					onchange="javascript:mix1max5(this.value,this.id);" maxlength="1"
+					AutoComplete="off" name="canrqnums" value="{$data['canrqnums']}"
+					id="canrqnums" style="display: inline;">必须1-5之间的数字<font></font></td>
+			</tr>
+			<tr>
+				<th width='200' align='right'>抽奖页面是否显示奖品<font color='red'>*</font>：
+				</th>
+
+				<td><label id="yes"><input type="radio" name="showgit"
+						value="1">是</label> <label id="no"><input type="radio"
+						name="showgit" value="2">否</label></td>
+			</tr>
+			<tr>
+				<td colspan='2' style='padding: 20px 0; text-align: center;'><input
+					type="hidden" id="biz_apply_status" name="biz_apply_status"
+					value="{$data['biz_apply_status']}"> <input type="hidden"
+					id="id" name="id" value="{$data['id']}"> <input
+					type="hidden" id="shopId" name="shopId" value="{$data['shopId']}">
+					<button type="button" onclick='javascript:checknull();' id="tijiao"
+						class="btn btn-success">保&nbsp;存</button> <a
+					href="/Admin/Ggk/indexlist.html" class="btn btn-primary">返&nbsp;回</a>
+				</td>
+			</tr>
+		</table>
+	</form>
+</body>
+
+<script src="__JS__/jquery.datetimepicker.js"></script>
+<script>
+$('#statdate').datetimepicker({
+});
+$('#enddate').datetimepicker({
+});
+</script>
+<script type="text/javascript">
+  $(function(){
+    var val={$data['showgit']};
+    if (val===1) {
+      $('#yes input').attr('checked','checked');
+    }
+    if (val===2) {
+      $('#no input').attr('checked','checked');
+    }
+
+  })
+</script>
+
+</html>

@@ -1,0 +1,35 @@
+执行日期：2016-08-08-15：54：21
+【余额】:
+UPDATE `oto_users` SET `userMoney`=userMoney+0.01 WHERE ( `userId` = 90 )
+
+
+执行日期：2016-08-08-15：54：21
+【结果】:
+969999.45
+
+
+执行日期：2016-08-08-15：54：21
+【结果】:
+INSERT INTO `oto_money_record` (`type`,`money`,`time`,`ip`,`orderNo`,`IncDec`,`userid`,`balance`,`remark`,`payWay`) VALUES (3,0.01,1470642861,'101.226.103.73','1470642851',1,90,969999.45,'微信充值成功',2)
+
+
+执行日期：2016-08-12-21：06：52
+不通过:
+<xml><openid>o_gzhv9U7x4SnUwZMH--j4Zscn04</openid><sub_mch_id>1217189101</sub_mch_id><return_code>SUCCESS</return_code><time_end>20160812210651</time_end><mch_id>1319378501</mch_id><trade_type>JSAPI</trade_type><sign>FB27A3784622AE4223FCC987C88C615B</sign><cash_fee>10</cash_fee><is_subscribe>N</is_subscribe><bank_type>CFT</bank_type><out_trade_no>wx06f42dac86f84bc0_690</out_trade_no><transaction_id>4008212001201608111100433354</transaction_id><total_fee>10</total_fee><appid>wx06f42dac86f84bc0</appid><noncestr>20150531233956996351</noncestr><result_code>SUCCESS</result_code></xml>
+
+
+执行日期：2016-08-13-01：47：04
+不通过:
+<xml><openid>o_gzhv9U7x4SnUwZMH--j4Zscn04</openid><sub_mch_id>1217189101</sub_mch_id><return_code>SUCCESS</return_code><time_end>20160813014703</time_end><mch_id>1319378501</mch_id><trade_type>JSAPI</trade_type><cash_fee>10</cash_fee><is_subscribe>N</is_subscribe><bank_type>CFT</bank_type><out_trade_no>wx06f42dac86f84bc0_690</out_trade_no><transaction_id>4008212001201608111100433354</transaction_id><total_fee>10</total_fee><appid>wx06f42dac86f84bc0</appid><noncestr>20150531233956996351</noncestr><result_code>SUCCESS</result_code></xml>
+
+
+执行日期：2016-08-13-21：06：40
+不通过:
+<xml><openid>o_gzhv52qr28cfaXuejSy4nWfVmo</openid><sub_mch_id>1217189101</sub_mch_id><return_code>SUCCESS</return_code><time_end>20160813210640</time_end><mch_id>1319378501</mch_id><trade_type>JSAPI</trade_type><sign>0BB6005FFF9B5848F0D1D937827695CB</sign><cash_fee>100</cash_fee><is_subscribe>Y</is_subscribe><bank_type>CCB_DEBIT</bank_type><out_trade_no>wx06f42dac86f84bc0_763</out_trade_no><transaction_id>4003732001201608121180876733</transaction_id><total_fee>100</total_fee><appid>wx06f42dac86f84bc0</appid><noncestr>20150531233956996351</noncestr><result_code>SUCCESS</result_code></xml>
+
+
+执行日期：2016-08-14-02：09：21
+不通过:
+<xml><openid>o_gzhv52qr28cfaXuejSy4nWfVmo</openid><sub_mch_id>1217189101</sub_mch_id><return_code>SUCCESS</return_code><time_end>20160814020920</time_end><mch_id>1319378501</mch_id><trade_type>JSAPI</trade_type><cash_fee>100</cash_fee><is_subscribe>Y</is_subscribe><bank_type>CCB_DEBIT</bank_type><out_trade_no>wx06f42dac86f84bc0_763</out_trade_no><transaction_id>4003732001201608121180876733</transaction_id><total_fee>100</total_fee><appid>wx06f42dac86f84bc0</appid><noncestr>20150531233956996351</noncestr><result_code>SUCCESS</result_code></xml>
+
+

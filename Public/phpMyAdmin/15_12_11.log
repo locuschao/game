@@ -1,0 +1,10 @@
+[ 2015-12-11T00:21:20+08:00 ] 127.0.0.1 /index.php/Admin/Index/Public/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000021s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000673s ]
+
+[ 2015-12-11T00:34:00+08:00 ] 127.0.0.1 /index.php/Admin/Index/Public/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000727s ]
+

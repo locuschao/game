@@ -1,0 +1,58 @@
+._top{
+	max-width: 800px;
+}
+.trsp {
+	width: 90%;
+	text-indent: 10px;
+	background-color: transparent;
+	margin: 0 auto;
+	border: none;
+	height: 35px;
+	line-height: 35px;
+	background-color: transparent;
+}
+
+.no-i {
+	text-indent: 0;
+}
+
+.br-b {
+	border-bottom: #ccc solid 1px;
+}
+
+.getCode {
+	background: #1bc1ff;
+	color: #fff;
+	text-align: center;
+}
+
+.w20 {
+	width: 20px;
+}
+
+.login_btn {
+	display: block;
+	width: 80%;
+	height: 40px;
+	line-height: 40px;
+	margin: 0 auto;
+	background: #00b4ff;
+	border-radius: 4px;
+	text-align: center;
+	color: #fff;
+}
+
+.share-block p,#ckepop{
+    margin-top:10px;
+    
+}
+.share-block{
+    background:#000;
+    padding:10px;
+    width: 280px; 
+    float: right; 
+    margin-right: 10px;
+}
+.share-block p{
+    font-size:14px;
+}

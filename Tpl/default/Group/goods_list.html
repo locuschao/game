@@ -1,0 +1,405 @@
+<extend name="Base:common" />
+<block name="static">
+<link rel="stylesheet" href="__CSS__/goodslist.css" />
+<style>
+.wst-goods-page {
+	margin-top: 20px;
+}
+
+.wst-goods-left {
+	width: 960px;
+	margin: 0px;
+	float: lfet
+}
+
+.wst-goods-top-left {
+	width: 696px;
+	height: 399px;
+	margin: 0px;
+	float: left;
+}
+
+.wst-goods-dead-time {
+	margin: 0px 0px -20px 20px;
+	position: absolute;
+}
+
+.goods-img {
+	margin: 0px;
+}
+
+.goods-img img {
+	max-width: 710px;
+	max-height: 250px;
+	width: 710px;
+	height: 250px;
+}
+
+.wst-goods-top-left table {
+	margin: 60px 0 0 20px;
+}
+
+.wst-goods-top-left td {
+	padding: 5px;
+}
+
+.wst-goods-top-right {
+	width: 224px;
+	height: 125px;
+	float: left;
+	margin-top: 3px;
+}
+
+.wst-goods-right {
+	width: 224px;
+	height: 130px;
+	margin: 5px 960px;
+	position: absolute
+}
+
+.wst-goods-center {
+	width: 934px;
+	height: 230px;
+	margin: 20px 0px 0px;
+	float: left;
+}
+
+.goods-center-img {
+	margin: 0px;
+	float: right;
+}
+
+.goods-center-img img {
+	max-width: 710px;
+	max-height: 230px;
+	width: 620px;
+	height: 230px;
+}
+
+.goods-center-content {
+	float: left;
+	margin: 20px;
+}
+
+.wst-goods-bottom {
+	width: 457px;
+	height: 257px;
+	margin: 20px 18px 0px 0px;
+	float: left;
+}
+
+.goods-bottom-img {
+	margin: 0px;
+	float: right;
+}
+
+.goods-bottom-img img {
+	max-width: 710px;
+	max-height: 230px;
+	width: 457px;
+	height: 180px;
+}
+
+.wst-goods-bottom table {
+	margin: 0 auto;
+}
+
+.wst-goods-bottom td {
+	padding: 10px;
+}
+
+.wst-goods-total {
+	margin: 30px 0 0;
+	color: #666;
+}
+</style>
+<script>
+    	//倒计时  
+		function GetRTime(){    
+			var EndTime= new Date("{$pages['root'][0]['endsTime']}");
+			var NowTime = new Date();    
+			var t =EndTime.getTime() - NowTime.getTime();    
+			var d=0;    
+			var h=0;    
+			var m=0;    
+			var s=0;    
+			if(t>=0){      
+				d=Math.floor(t/1000/60/60/24);      
+				h=Math.floor(t/1000/60/60%24);      
+				m=Math.floor(t/1000/60%60);      
+				s=Math.floor(t/1000%60);    
+			}     
+			document.getElementById("t_d").innerHTML = d ;    
+			document.getElementById("t_h").innerHTML = h ;    
+			document.getElementById("t_m").innerHTML = m ;    
+			document.getElementById("t_s").innerHTML = s ;  
+			}  
+			setInterval(GetRTime,0);
+		</script> </block>
+<block name="body"> <input id="c1Id" type="hidden"
+	value="{$c1Id}" /> <input id="c2Id" type="hidden" value="{$c2Id}" /> <input
+	id="c3Id" type="hidden" value="{$c3Id}" /> <input type="hidden"
+	id="msort" value="{$msort}" /> <input type="hidden" id="sj"
+	value="{$sj}" /> <!----加载商品楼层start----->
+<div class="wst-container">
+	<div class="wst-nvg-title">
+		<a
+			href="{:U('Home/Goods/getGoodsList/',array('c1Id'=>$goodsNav[0]['catId']))}">{$goodsNav[0]["catName"]}</a>
+		<if condition="$goodsNav[1]['catId'] gt 0"> &nbsp;>&nbsp;<a
+			href="{:U('Home/Goods/getGoodsList/',array('c1Id'=>$goodsNav[0]['catId'],'c2Id'=>$goodsNav[1]['catId']))}">{$goodsNav[1]["catName"]}</a>
+		</if>
+		<if condition="$goodsNav[2]['catId'] gt 0"> &nbsp;>&nbsp;<a
+			href="{:U('Home/Goods/getGoodsList/',array('c1Id'=>$goodsNav[0]['catId'],'c2Id'=>$goodsNav[1]['catId'],'c3Id'=>$goodsNav[2]['catId']))}">{$goodsNav[2]["catName"]}</a>
+		</if>
+	</div>
+	<!-------------商品筛选栏---------------->
+	<div class="wst-goods-search" style="">
+		<div class="search-title" style="">商品筛选</div>
+		<div class="search-panel">
+			<div class="search-box">
+				<div class="search-items">
+					<div class="items-title">配送区域：</div>
+					<div id="wst-areas" class="items">
+						<li id="city_0"<if condition="$areaId3 eq 0">class="searched"</if>
+							data="0" onClick="queryGroupGoods(this,1);">全部</li>
+						<volist name="districts" key="k" id="vo">
+						<li id="city_{$vo['areaId']}"<if
+								condition="$vo['areaId'] eq $areaId3">class="searched"</if>
+							data="{$vo['areaId']}"
+							onClick="queryGroupGoods(this,1);">{$vo["areaName"]}</li>
+						</volist>
+						<div class="wst-clear"></div>
+					</div>
+					<div class="wst-clear"></div>
+				</div>
+				<if condition="$areaId3 gt 0">
+				<div class="wst-area-country">
+					<div id="wst-communitys" class="items">
+						<li<if condition="$communityId eq 0">class="searched"</if>
+							data="0" onClick="queryGroupGoods(this,2);">全部</li>
+						<volist name="communitys" key="k" id="vo">
+						<li id="community_{$vo['communityId']}"<if
+								condition="$vo['communityId'] eq $communityId">class="searched"</if>
+							data="{$vo['communityId']}"
+							onClick="queryGroupGoods(this,2);">{$vo["communityName"]}</li>
+						</volist>
+						<div class="wst-clear"></div>
+					</div>
+					<div class="wst-clear"></div>
+				</div>
+				</if>
+			</div>
+		</div>
+		<div class="search-panel">
+			<div class="search-box">
+				<div class="search-items">
+					<div class="items-title">商品品牌：</div>
+					<div id="wst-brand" class="items">
+						<input type="hidden" id="bs" value="{$bs}">
+						<div id="wst-brand-tp" onclick="tohide(this,'wst-brand');">&nbsp;显示&nbsp;</div>
+						<li<if condition="$brandId eq 0">class="searched"</if>
+							data="0" onClick="queryGroupGoods(this,3);">全部</li>
+						<volist name="brands" id="vo">
+						<li id="brand_{$vo['brandId']}"<if
+								condition="$vo['brandId'] eq $brandId">class="searched"</if>
+							data="{$vo['brandId']}"
+							onClick="queryGroupGoods(this,3);">{$vo['brandName']}</li>
+						</volist>
+						<div class="wst-clear"></div>
+					</div>
+					<div class="wst-clear"></div>
+				</div>
+			</div>
+		</div>
+		<div class="search-panel">
+			<div class="search-box">
+				<div class="search-items">
+					<div class="items-title">价格区间：</div>
+					<div id="wst-price" class="items">
+						<li<if condition="$priceId eq ''">class="searched"</if>
+							data="" onClick="queryGroupGoods(this,4);">全部</li>
+						<foreach name="prices" key="key2" item="price">
+						<li id="price_{$key2}"<eq name="key2" value="$priceId">class="searched"</eq>
+							data="{$key2}" onClick="queryGroupGoods(this,4);">{$price}元</li>
+						</foreach>
+
+						<div class="wst-clear"></div>
+					</div>
+					<div class="wst-clear"></div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<!-----------------------商品列表---------------------------->
+	<div class="wst-goods-list">
+		<div class="wst-goods-page">
+			<div class="wst-goods-left">
+				<volist name="pages['root']" key="k" id="goods"> <if
+					condition="$k eq 1">
+				<div class="wst-goods-top-left">
+					<div class="wst-goods-dead-time">
+						<img src="__IMG__/dead_time.png">
+					</div>
+					<div class="goods-img">
+						<a
+							href="{:U('Home/Group/getGoodsDetails',array('goodsId'=>$goods['goodsId'],'id'=>$goods['id'],'isGroup'=>1))}">
+							<img class='lazyImg'
+							data-original="__ROOT__/{$goods['goodsImg']}" />
+						</a>
+					</div>
+					<table>
+						<tr>
+							<td width="300" colspan="2" style="font-size: 18px;">{$goods['goodsName']}</td>
+							<td width="200" style="font-size: 16px;">已抱团：<font
+								color="red">{$goods['totalNums']}人</font></td>
+							<td width="100" style="font-size: 24px; color: red;"
+								align="center">￥{$goods['shopPrice']}</td>
+						</tr>
+						<tr>
+							<td style="padding: 0px 5px;">市场价：￥<span
+								style="text-decoration: line-through">{$goods['marketPrice']}</span></td>
+							<td style="padding: 0px 5px;">折扣：<font color="red">{$goods['discount']}折</font></td>
+							<td style="padding: 0px 5px;">为您节省：￥<font color="red">{$goods['disparity']}</font></td>
+							<td rowspan="2"><a
+								href="{:U('Home/Group/getGoodsDetails',array('goodsId'=>$goods['goodsId'],'id'=>$goods['id'],'isGroup'=>1))}"><div
+										align="center"
+										style="background-color: red; width: 70px; color: white; font-size: 19px;">查看</div></a></td>
+						</tr>
+						<tr>
+							<td colspan="3"><img src="__IMG__/count_down.jpg" width="25"
+								height="25" style="margin-top: -10px;"><span
+								style="font-size: 22px;">距离团购结束还有：</span><span id="t_d"
+								style="font-size: 24px; color: red">00</span>天<span id="t_h"
+								style="font-size: 24px; color: red">00</span>时<span id="t_m"
+								style="font-size: 24px; color: red">00</span>分<span id="t_s"
+								style="font-size: 24px; color: red">00</span>秒</td>
+						</tr>
+					</table>
+				</div>
+				</if> <if condition="($k gt 1) AND ($k lt 5)">
+				<div class="wst-goods-top-right">
+					<div class="goods-top-right-img">
+						<a
+							href="{:U('Home/Group/getGoodsDetails',array('goodsId'=>$goods['goodsId'],'id'=>$goods['id'],'isGroup'=>1))}">
+							<img class='lazyImg' width='224' height='130'
+							data-original="__ROOT__/{$goods['goodsImg']}" />
+						</a>
+					</div>
+					<div style="margin-top: -20px; background-color: white;">{$goods['goodsName']}</div>
+				</div>
+				</if> <if condition="($k gt 4) AND ($k lt 6)">
+				<div class="wst-goods-center">
+					<div class="goods-center-content">
+						<div style="font-size: 27px; color: red;">{$goods['shopName']}</div>
+						<div>
+							店铺介绍<br />店铺介绍
+						</div>
+						<div style="margin-left: -25px;">
+							<a href="#"><img src="__IMG__/shop.png"></a>
+							<div
+								style="margin: -45px 0px 0px 20px; color: white; font-size: 23px;">先领券再消费</div>
+						</div>
+						<div style="margin-top: 30px; font-size: 20px; color: #777">{$goods['startTime']}-{$goods['endTime']}</div>
+					</div>
+					<div class="goods-center-img">
+						<a
+							href="{:U('Home/Group/getGoodsDetails',array('goodsId'=>$goods['goodsId'],'id'=>$goods['id'],'isGroup'=>1))}">
+							<img class='lazyImg'
+							data-original="__ROOT__/{$goods['goodsImg']}" />
+						</a>
+					</div>
+				</div>
+				</if> <if condition="$k gt 5">
+				<div class="wst-goods-bottom">
+					<div class="goods-bottom-img">
+						<a
+							href="{:U('Home/Group/getGoodsDetails',array('goodsId'=>$goods['goodsId'],'id'=>$goods['id'],'isGroup'=>1))}">
+							<img class='lazyImg'
+							data-original="__ROOT__/{$goods['goodsImg']}" />
+						</a>
+					</div>
+					<table style>
+						<tr>
+							<td width="300" colspan="3"
+								style="font-size: 16px; padding: 0px 5px;">{$goods['goodsName']}</td>
+							<td width="100" style="font-size: 18px; color: red; float: right"
+								align="center">￥{$goods['shopPrice']}</td>
+						</tr>
+						<tr>
+							<td style="padding: 0px 5px;">市场价：￥<span
+								style="text-decoration: line-through">{$goods['marketPrice']}</span></td>
+							<td style="padding: 0px 5px;">折扣：<font color="red">{$goods['discount']}折</font></td>
+							<td style="padding: 0px 5px;">为您节省：￥<font color="red">{$goods['disparity']}</font></td>
+							<td rowspan="2"><a
+								href="{:U('Home/Group/getGoodsDetails',array('goodsId'=>$goods['goodsId'],'id'=>$goods['id'],'isGroup'=>1))}"><div
+										align="center"
+										style="background-color: red; width: 70px; color: white; font-size: 19px;">查看</div></a></td>
+						</tr>
+					</table>
+				</div>
+				</if> </volist>
+			</div>
+
+			<div class="wst-goods-right">
+				<volist name="brands" key="k" id="brand"> <if
+					condition="$k lt 4">
+				<div style="border: 1px solid #999; margin-bottom: 10px;">
+					<img width="222" height="280" src="__ROOT__/{$brand['brandIco']}">
+				</div>
+				</if> <if condition="$k eq 3">
+				<div
+					style="width: 222px; height: 30px; border: 1px solid #999; font-size: 16px;">
+					热销品牌
+					<div style="font-size: 16px; float: right; color: #218fff">更多></div>
+				</div>
+				</if> <if condition="($k gt 3) AND ($k lt 16)">
+				<div style="border: 1px solid #999; float: left">
+					<img style='width: 110px; height: 50px;'
+						src="__ROOT__/{$brand['brandIco']}">
+				</div>
+
+				</if> </volist>
+			</div>
+		</div>
+		<div class="wst-clear"></div>
+		<div class="wst-goods-total">共发现{$pages['total']}件商品</div>
+	</div>
+	<div class="wst-page" style="text-align: center;">
+		<div id="wst-page-items"></div>
+	</div>
+	<div class="wst-clear"></div>
+</div>
+<script src="__PUBLIC__/plugins/layer/layer.min.js"></script> <script
+	src="__JS__/goods.js"></script> <script>
+	<if condition="$bs eq 1">
+		$("#wst-brand-tp").click();
+	</if>
+	<if condition="$pages['totalPage'] gt 1">
+	
+	laypage({
+	    cont: 'wst-page-items',
+	    pages: {$pages["totalPage"]}, //总页数
+	    skip: true, //是否开启跳页
+	    skin: '#e23e3d',
+	    groups: 3, //连续显示分页数
+	    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
+	        var page = location.search.match(/pcurr=(\d+)/);
+	        return page ? page[1] : 1;
+	    }(), 
+	    jump: function(e, first){ //触发分页后的回调
+	        if(!first){ //一定要加此判断，否则初始时会无限刷新
+	        	var nuewurl = WST.splitURL("pcurr");
+	        	var ulist = nuewurl.split("?");
+	        	if(ulist.length>1){
+	        		location.href = nuewurl+'&pcurr='+e.curr;
+	        	}else{
+	        		location.href = '?pcurr='+e.curr;
+	        	}
+	            
+	        }
+	    }
+	});
+	</if>
+	
+	</script> </block>

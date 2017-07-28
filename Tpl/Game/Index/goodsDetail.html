@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>订单详情</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" type="text/css" href="__CSS__/swiper.min.css">
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/swiper.min.js"></script>
+<script src="__JS__/base.js"></script>
+<script src="__JS__/order.js"></script>
+<script src="__JS__/layer.min.js"></script>
+<style>
+.lh20 {
+	line-height: 20px;
+}
+
+#imgList {
+	height: 180px;
+	text-align: center;
+	widht: auto;
+}
+
+.border_top1 {
+	border-top: #d5d7dc solid 1px;
+}
+
+#imgList img {
+	text-align: center;
+	max-height: 180px;
+}
+
+.right_arrows {
+	background-size: 8px;
+}
+
+.img-hei60 img {
+	height: 70px;
+}
+
+.padd-bottom10 {
+	padding-bottom: 10px;
+}
+
+.border_btms {
+	font-weight: bold;
+}
+
+.w_right_ico {
+	background: url(__IMG__/w_right.png) center no-repeat;
+	width: 20px;
+	background-size: 15px;
+	display: inline-block;
+}
+
+#addCard {
+	position: fixed;
+	top: 0;
+	right: 0;
+	width: 80%;
+	z-index: 9999;
+}
+
+#_bg {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 20%;
+	z-index: 9999;
+	background: rgba(0, 0, 0, .5);
+	display: none;
+}
+
+.addToCart {
+	height: 45px;
+	line-height: 45px;
+	position: fixed;
+	bottom: 0;
+	right: 0;
+	width: 80%;
+}
+
+.select_F {
+	display: block;
+	padding: 5px 20px;
+	border-radius: 5px;
+	color: #666;
+	text-align: center;
+	border: #ccc solid 1px;
+	min-width: 20%;
+}
+
+.lh35 {
+	padding: 5px 0px;
+	color: #666666;
+}
+
+.select_T {
+	border: #ff2c2c solid 1px;
+	color: #ff2c2c;
+	display: block;
+	padding: 5px 20px;
+	border-radius: 5px;
+	text-align: center;
+	min-width: 20%;
+}
+
+.jia {
+	background: url(__IMG__/jia_.png) center no-repeat;
+	background-size: 35px;
+}
+
+.jian {
+	background: url(__IMG__/jian_.png) center no-repeat;
+	background-size: 35px;
+}
+
+.padding_all10 {
+	padding: 0px;
+}
+
+.padd-b10 {
+	padding-bottom: 10px;
+}
+
+.ititls {
+	height: 20px;
+	line-height: 20px;
+	padding-top: 5px;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<php> $_r=$_GET['r']; $href='history.back(-1)'; if($_r=='my'){
+	$href="window.location.href=".'"'.U('Index/index',array('r'=>'my')).'"';
+	}else if($_r=='index'){
+	$href="window.location.href=".'"'.U('Index/index',array('r'=>'index')).'"';
+	} </php>
+	<div class="_top" style="z-index: 999;">
+		<div class="_left_top " onclick='{$href}'></div>
+		<div class="_title_top">
+			<div class="ub">
+				<div class="ub-f1"></div>
+				<div style="padding: 0 10px;" class="border_btms   switch"
+					id="goods ">商品</div>
+				<div style="padding: 0 10px;" class=" switch" id='detail'>详情</div>
+				<div class="ub-f1"></div>
+			</div>
+		</div>
+		<div class="_right_top "
+			onclick='javascript:window.location.href="{:U(' index',array('r'=>'car'))}"'></div>
+	</div>
+	<div id="_goods" class="sw_hide">
+		<div class="_content">
+			<div class="swiper-container">
+				<div class="swiper-wrapper" id="imgList">
+
+					<div class="swiper-slide">
+						<if condition="empty($scroll['goodsImg'])"> <img
+							src="/{$goodsInfo.goodsImg}" /> <else /> <volist
+							name="scrollImg" id="scroll"> <img
+							src="/{$scroll.goodsImg}" /> </volist> </if>
+
+					</div>
+
+				</div>
+				<div class="swiper-pagination"></div>
+			</div>
+			<input id="shopPrice" type="hidden" value="{$goodsInfo.shopPrice}" />
+			<div class="ub height35 text-l back-ff col-666">
+				{$goodsInfo.goodsName}</div>
+			<div class="ub height25 back-ff border_bottom1">
+				<div class="col_red text-l font110">￥{$goodsInfo.shopPrice}</div>
+				<div class="col_9">|</div>
+				<div class="col_9  font90">
+					<s>￥{$goodsInfo.marketPrice}</s>
+				</div>
+				<div class="ub-f3 col_9 font90 text-r margin_right10">
+					月销量:{$goodsInfo.monthCount|default=0}件</div>
+			</div>
+			<div class="ub height35 back-ff border_bottom1 margintop10"
+				onclick="showCart()">
+				<div class="col_9 text-l ">
+					<if condition="$select">已选<else />待选择</if>
+				</div>
+				<div class="col_9  font90 text-l ub-f1" style="overflow: hidden;">
+					<volist name="select" id="sl"> {$sl.goodsName}<!--  {$sl.goodsAttr} -->
+					</volist>
+				</div>
+				<div class="col_red margin_right10 margin_left10">
+					<php>echo count($select);</php>
+					件
+				</div>
+				<div class="right_arrows"></div>
+			</div>
+			<div class="ub height35 back-ff border_bottom1 ">
+				<div class="col_9 text-l ">提示</div>
+				<div class="col_9  font90 text-l ub-f1">支持7天无理由退货</div>
+			</div>
+		</div>
+		<div class="ub height35 back-ff border_bottom1 " id="selectAddr">
+			<div class="col_9 text-l ">送至</div>
+			<div class="col_9  font90 text-l ub-f1 upAddr">
+				<if condition="$userAddr['province']">{$userAddr.province}->{$userAddr.city}->{$userAddr.area}<else />选择地址</if>
+				<if condition="$userAddr['communitys']">->{$userAddr.communitys}</if>
+			</div>
+			<div class="right_arrows"></div>
+		</div>
+
+		<div class="ub height35 back-ff  margintop10 ">
+			<div class="col_9 text-l ub-f1 ">晒单评论</div>
+			<div class="col_9  font90 text-l margin_right10 ">
+				好评:<span class="col_red">{$shareCount.star}%</span>
+			</div>
+			<div class="font90 col_9">{$shareCount.total}人评论</div>
+			<div class="right_arrows"></div>
+		</div>
+		<input type="hidden" name="commnetPage" id="commnetPage" value="1" />
+		<div id="comment">
+			<volist name="shareInfo" id="sh">
+			<div class="ub  back-ff border_top1 ititls ">
+				<div class="col_9 text-l ub-f1 ">
+					<for start="0" end="$sh['star']"> <img
+						src="__IMG__/start_active.png" alt=""></for>
+					<for start="0" end="$sh['star_']"> <img
+						src="__IMG__/start_.png" alt=""></for>
+				</div>
+				<div class="col_9  font90 text-l margin_right10  text-l">
+					{$sh.userName}&nbsp;{$sh['shareTime']}</div>
+			</div>
+			<div class="ub  back-ff  text-l padding_all10">
+				<div class="lh20 margin_left10 margin_right10  " style="color: #666">{$sh.shareContent}</div>
+			</div>
+			<div class="ub  back-ff  padd-b10">
+				<div class="ub-f1 img-hei60  margin_left10">
+					<if condition="$sh['shareImg1']"> <img src="/{$sh.shareImg1}"
+						alt=""></if>
+				</div>
+				<div class="ub-f1 img-hei60 ">
+					<if condition="$sh['shareImg2']"> <img src="/{$sh.shareImg2}"
+						alt=""></if>
+				</div>
+				<div class="ub-f1 img-hei60 ">
+					<if condition="$sh['shareImg3']"> <img src="/{$sh.shareImg3}"
+						alt=""></if>
+				</div>
+				<div class="ub-f1 img-hei60 ">
+					<if condition="$sh['shareImg4']"> <img src="/{$sh.shareImg4}"
+						alt=""></if>
+				</div>
+			</div>
+			</volist>
+		</div>
+		<div class="ub height35 back-ff  margintop10 " id="_moveComment">
+			<div class="ub-f1"></div>
+			<input type="hidden" name="commentPage" id="commentPage" value="1" />
+			<div class="ub-f1 col_9 pos-r" onclick="moreComent(this)"
+				data-url="{:U('moereComment')}" data-goodsId="{$goodsInfo.goodsId}">
+				<div class="pos-a text-c">
+					<span>查看更多评论</span><span class="w_right_ico">&nbsp;&nbsp;</span>
+				</div>
+			</div>
+			<div class="ub-f1"></div>
+		</div>
+	</div>
+	<div id="_detail" class="sw_hide" style="display: none;">
+		<div class="_content">
+			<div class="_son_title ub col32">
+				<div id="imageTxt" class="ub-f1 text-c border_bottom_red">图文详情</div>
+				<div style="color: #f1f1f1">|</div>
+				<div id="parameter" class="ub-f1 text-c">产品参数</div>
+			</div>
+			<div class="image-text " style="padding: 0px 10px;">
+				{$goodsInfo.goodsDesc}</div>
+			<div class="parame" style="padding: 0px 10px; display: none;">
+				<ul>
+					<li class="border_bottom1 height35 text-l"><span class="col_9">商品编号</span><span
+						class="col-666 margin_left10 font90">{$goodsInfo.goodsSn}</span></li>
+					<li class="border_bottom1 height35 text-l"><span class="col_9">商品名称</span><span
+						class="col-666 margin_left10 font90">{$goodsInfo.goodsName}</span></li>
+					<li class="border_bottom1 height35 text-l"><span class="col_9">市场价格</span><span
+						class="col-666 margin_left10 font90">{$goodsInfo.marketPrice}</span></li>
+					<li class="border_bottom1 height35 text-l"><span class="col_9">店铺价格</span><span
+						class="col-666 margin_left10 font90">{$goodsInfo.shopPrice}</span></li>
+					<li class="border_bottom1 height35 text-l"><span class="col_9">单位</span><span
+						class="col-666 margin_left10 font90">{$goodsInfo.goodsUnit}</span></li>
+					<li class="border_bottom1 height35 text-l"><span class="col_9">商品库存</span><span
+						class="col-666 margin_left10 font90">{$goodsInfo.goodsStock}</span></li>
+					<volist name='attr' id="ar">
+					<li class="border_bottom1 height35 text-l"><span class="col_9">{$ar.attrName}</span><span
+						class="col-666 margin_left10 font90"> {$ar.attrVal} </span></li>
+					</volist>
+
+				</ul>
+			</div>
+		</div>
+
+	</div>
+	<div id="_bg"></div>
+	<div id="addCard" style="background: #fff; display: none;"
+		data-status="0">
+		<div class="ub margintop10 margin_bottom10 back-ff"
+			style="border-bottom: #ccc solid 1px;">
+			<div class="margin_left10 margin_right10">
+				<img style="height: 6rem;" src="/{$goodsInfo.goodsThums}" alt="">
+			</div>
+			<div class="ub-f1 lh25 back-ff bottom-">
+				<p style="height: 50px;" class=" back-ff text-l">{$goodsInfo.goodsName}</p>
+				<p class="font_col_red back-ff">
+					￥<font id="_shopPrice">{$goodsInfo.shopPrice}</font>
+				</p>
+			</div>
+		</div>
+		<volist name='saleAttr' id="parent">
+		<div class="ub  ">
+			<div class="lh35 margin_all text-c" style="width: 5rem;">{$parent.attrName}</div>
+			<div class="_attr">
+				<volist name="parent['child']" id="son"> <span
+					id="{$son.id}" data-select="0" data-stock="{$son.attrStock}"
+					data-id="{$son.id}" data-price="{$son.attrPrice}"
+					data-goodsId="{$son.goodsId}" data-catId="{$parent.catId}"
+					data-attrId="{$parent.attrId}" data-shopId="{$parent.shopId}"
+					class="select_F margin_all attr">{$son.attrVal}</span> </volist>
+			</div>
+			<div class="ub-f1"></div>
+		</div>
+		</volist>
+		<div class="ub  line-30" style="height: 45px; line-height: 45px;">
+			<div class="  text-c col_999" style="width: 5rem;">数量</div>
+			<div class="ub-f1 pos-r">
+				<div class="pos-a jian"></div>
+			</div>
+			<div class="ub-f1 pos-r">
+
+				<div class="pos-a text-c ">
+					<input class="selectNum" type="text"
+						style="width: 100%; height: 30px; border: none; outline: none; line-height: 30px; text-align: center;"
+						name="" value="{$_GET['num']|default=1}" id="" />
+				</div>
+			</div>
+			<div class="ub-f1 pos-r">
+				<div class="pos-a jia"></div>
+			</div>
+			<div class="ub-f1 pos-r">
+				<div class="pos-a "></div>
+			</div>
+		</div>
+		<div onclick="addCart()" class="text-c ub-f1 lh45 col-ff addToCart"
+			style="background: #ff4045">加入购物车</div>
+	</div>
+	<input type="hidden" id="goodsId" value="{$goodsInfo.goodsId}" />
+	<input type="hidden" id="_totalPrice" value="{$goodsInfo.shopPrice}" />
+	<div class="ub _bottom">
+		<div class="text-l ub-f1" style="background: #a7a7aa"
+			data-id="{$goodsInfo.goodsId}" data-url="{:U('attenTition')}"
+			data-login="{:U('Login/Login')}" onclick="attention(this)">
+			<p class="b_linehei text-c <if condition="$goodsInfo['attentition'] eq 1">
+				wxins
+				<else />
+				wxin
+				</if>
+				" id="attention">
+			</p>
+			<p class="b_linehei font90 col-ff text-c .mar-padd0"
+				style="text-indent: 0">关注</p>
+		</div>
+		<div class="text-l ub-f1 pos-r" style="background: #a7a7aa"
+			onclick='javascript:window.location.href="{:U(' index',array('r'=>
+			'car'))}"'>
+			<div class="pos-a bottom_car_num">{$goodsCnt|default="0"}</div>
+			<p class="b_linehei text-c bottom_car"></p>
+			<p class="b_linehei font90 col-ff text-c .mar-padd0"
+				style="text-indent: 0">购物车</p>
+		</div>
+		<div onclick="showCart()" class="text-c ub-f1"
+			style="background: #ff4045">加入购物车</div>
+	</div>
+	<input type="hidden" name="province" id="province"
+		value="{$userAddr.areaId1}" />
+	<input type="hidden" name="city" id="city" value="{$userAddr.areaId2}" />
+	<input type="hidden" name="area" id="area" value="{$userAddr.areaId3}" />
+	<input type="hidden" name="community" id="community"
+		value="{$userAddr.communityId}" />
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script>
+$(function(){
+	$("._attr").each(function(){
+		var i=$(this);
+		var p=i.find("span");
+		p.click(function(){
+			if(!!$(this).hasClass("select_T")){
+				$(this).attr('data-select',1);
+				if($(this).attr('data-select')==1) return;
+				$(this).removeClass("select_T");
+				i.removeAttr("data-attrval");
+			}else{
+				if($(this).attr('data-select')==1) return;
+				$(this).addClass("select_T").siblings("span").removeClass("select_T");
+				$(this).siblings("span").attr('data-select',0);
+				i.attr("data-attrval",$(this).attr("data-id"));
+			}
+			getattrprice() //输出价格
+		})
+	})
+	//获取对应属性的价格
+	function getattrprice(){
+		var defaultstats=true;
+		var _price=0;
+		var isGroup={$isgroup};
+		var isSeckill={$isSeckill};
+		$("._attr").each(function(){
+			var i=$(this);
+			var v=i.attr("data-attrval");
+			if(!v){
+				defaultstats=false;
+			}else{
+				_price+=Number($('#'+v).attr('data-price'));
+				
+			}
+		})
+		if(!!defaultstats){
+			var num=Number($('.selectNum').val());
+			if(isGroup==1||isSeckill==1){
+				_price={$goodsInfo.shopPrice};
+			}
+			$(_shopPrice).text(_price*num);
+			$('#_totalPrice').val(_price);
+		}else{
+			//_price=$('#shopPrice').val();
+		}
+		//输出价格
+	}
+})
+$('body').on('click','.jian',function(){
+	var selectNum=Number($('.selectNum').val());
+	var totalMoney=Number($('#_totalPrice').val());
+	var isSelect=true;
+	$("._attr").each(function(){
+		var i=$(this);
+		var v=i.attr("data-attrval");
+		if(!v){
+			isSelect=false;
+		}else{
+			
+		}
+	})
+	if(!isSelect) {
+		layer.msg('请选择属性');
+		//tip('请选择属性',0,2,0);
+		return;
+	}
+	if(selectNum==0||selectNum<0){
+		layer.msg('数量最少不能小于1');
+		//tip('数量最少不能小于1',0,2,0);
+		return;
+	}
+	selectNum--;
+	$('#_shopPrice').text(toDecimal(selectNum*totalMoney));
+	$('.selectNum').val(selectNum);
+})
+$('body').on('click','.jia',function(){
+	var stock={$goodsInfo.goodsStock};
+	var selectNum=Number($('.selectNum').val());
+	selectNum++;
+	var maxNum="{$goodsInfo.maxNum}";//t和杀限购 
+	var isSecKill="{$isSeckill}";
+	maxNum=Number(maxNum);
+	isSecKill=Number(isSecKill);
+	if(isSecKill==1){
+		if(selectNum>=maxNum){
+			layer.msg('限购'+maxNum+'份');
+			selectNum=maxNum;
+		}
+	}
+	if(selectNum>=stock){
+		layer.msg('库存只剩'+stock+'份');
+		selectNum=stock;
+	}
+	var totalMoney=Number($('#_totalPrice').val());
+	var isSelect=true;
+	$("._attr").each(function(){
+		var i=$(this);
+		var v=i.attr("data-attrval");
+		if(!v){
+			isSelect=false;
+		}else{
+			
+		}
+	})
+	if(!isSelect) {
+		layer.msg('请选择属性');
+		return;
+	}
+	$('#_shopPrice').text(toDecimal(selectNum*totalMoney));
+	$('.selectNum').val(selectNum);
+})
+function addCart(){
+	var isGroup={$isgroup};
+	var isSeckill={$isSeckill};
+	var province=$('#province').val();
+  	var city=$('#city').val();
+  	var area=$('#area').val();
+  	var community=$('#community').val();
+  	
+  	
+  	//先判断是否已经登录
+  		 $.ajax({
+	      type: "POST",
+	      url: "{:U('Login/isAjaxLogin')}",
+	      data: {  },
+	      dataType: "json",
+	      success: function(data) {
+	       	if(data.status==0){
+	       		
+	       		if(!province||typeof(province)=='undefined'){
+	       			layer.msg('请选择地址');
+	       			return;
+	       		}
+	       		if(!city||typeof(city)=='undefined'){
+	       			layer.msg('请选择地址');
+	       			return;
+	       		}
+	       		if(!area||typeof(area)=='undefined'){
+	       			layer.msg('请选择地址');
+	       			return;
+	       		}
+	       		var url="{:U('addCart')}";
+	       		var goodsId=$('#goodsId').val();
+	       		var isSelect=true;
+	       		var str='';//属性ID,属性ID,
+	       		var gcount=Number($('.selectNum').val());
+	       		$("._attr").each(function(){
+	       			var i=$(this);
+	       			var v=i.attr("data-attrval");
+	       			if(!v){
+	       				isSelect=false;
+	       				return false;
+	       			}else{
+	       				str+=v+',';
+	       			}
+	       		})
+	       		str=str.substring(0,str.length-1);
+	       		if(!isSelect) {
+	       			layer.msg('请选择属性');
+	       			return;
+	       		}
+	       		if(gcount<1){
+	       			layer.msg('请选择数量');
+	       			return;
+	       		}
+	       		 $.ajax({
+	       		      type: "POST",
+	       		      url: url,
+	       		      data: {
+	       		          goodsId: goodsId,
+	       		          goodsAttrId: str,
+	       		          gcount: gcount,
+	       		          isGroup: isGroup,
+	       		          isSeckill:isSeckill,
+	       		          province: province,
+	       		          city: city,
+	       		          area: area,
+	       		          community: community
+	       		      },
+	       		      dataType: "json",
+	       		      success: function(data) {
+	       		          if (data.status == -2) {
+	       		              layer.msg('请先登录');
+	       		              setTimeout(function() {
+	       		                  location.href = "{:U('Login/Login')}";
+	       		              }, 1000);
+	       		              return;
+	       		          } else if (data.status == -5) {
+	       		              layer.msg('请选择送至哪里');
+	       		              return;
+	       		          } else if (data.status == -6) {
+	       		              layer.msg('商品不在配送范围');
+	       		              return;
+	       		          }else if(data.status<-6){
+	       		        	  layer.msg(data.msg);
+	       		        	  return;
+	       		          }
+	       		          layer.msg('添加成功');
+	       		          setTimeout(function() {
+	       		            //  location.reload([true]);
+	       		          }, 1000);
+	       		          goodsCnt();
+	       		      }
+	       		  });
+	       		
+	       	}else{
+	       		layer.msg('请先登录');
+	             setTimeout(function() {
+		                  location.href = "{:U('Login/Login')}";
+		              }, 1000);
+	       	}
+	      }
+	  });
+  	
+  
+
+}
+
+$('#_bg').on('click',function(){
+	$('#addCard').hide();
+	$('#_bg').hide();
+})
+function showCart(){
+	var w = screen.availWidth;
+	$('#addCard').show();
+	var h = screen.availHeight;
+	$('#_bg').css('height',h+'px');
+	$('#addCard').css('height',h+'px');
+	$('#_bg').show();
+}
+	$(function() {
+		$('.switch').on('click', function() {
+			var id = $(this).attr('id');
+			$('.switch').removeClass('border_btms');
+			$('.sw_hide').hide();
+			$('#_' + id).show();
+			$(this).addClass('border_btms');
+
+		})
+	})
+
+	$('#imageTxt').on('click', function() {
+		$('.image-text').show();
+		$('#imageTxt').addClass('border_bottom_red');
+		$('.parame').hide();
+		$('#parameter').removeClass("border_bottom_red");
+	})
+	$('#parameter').on('click', function() {
+		$('.image-text').hide();
+		$('#imageTxt').removeClass('border_bottom_red');
+		$('.parame').show();
+		$('#parameter').addClass("border_bottom_red");
+	})
+	var swiper = new Swiper('.swiper-container', {
+		pagination : '.swiper-pagination',
+		autoplay : 3000,
+		paginationtouchendable : true
+	});
+	
+function goodsCnt(){
+	var url="{:U('getCartGoodCnt')}";
+	  $.ajax({
+          type: "POST",
+          url: url,
+          data: {},
+          dataType: "json",
+          success: function(data){
+        	 $('.bottom_car_num').text(Number(data.goodscnt));
+           }
+      });
+}
+
+function moreComent(_this){
+	var goodsId=$(_this).attr('data-goodsId');
+	var url=$(_this).attr('data-url');
+	var page=$('#commentPage').val();
+	  $.ajax({
+          type: "POST",
+          url: url,
+          data: {id:goodsId,page:page},
+          dataType: "json",
+          success: function(data){
+        	  try{
+        			if(data.length>0){
+        				var n=parseInt($('#commentPage').val());
+        				$('#commentPage').val(n+1);
+              			var html="";
+              			for(var i=0;i<data.length;i++){
+              				var star_d='';
+              				var star_a='';
+              				for(var j=0;j<data[i]['star'];j++){
+              					star_a+='<img src="__IMG__/start_active.png" alt="">';
+              				}
+              				for(var j=0;j<data[i]['star_'];j++){
+              					star_d+='<img src="__IMG__/start_.png" alt="">';
+              				}
+      	        			html+='	<div class="ub height35 back-ff border_top1  ">';
+      	        			html+='<div class="col_9 text-l ub-f1 ">';
+      	        			html+=star_a+star_d;
+      	        			html+='</div><div class="col_9  font90 text-l margin_right10  text-l">';
+      	        			html+=data[i]['userName']+'&nbsp;'+data[i]['shareTime']+'</div></div>';
+      	        			html+='<div class="ub  back-ff  text-l padding_all10">';
+      	        			html+='<div class="lh20 margin_left10 margin_right10  " style="color:#666">'+data[i]['shareContent']+'</div></div>';
+      	        			html+='	<div class="ub  back-ff  padd-b10"><div class="ub-f1 img-hei60  margin_left10">';
+      	        			if(data[i]['shareImg1']){
+      	        				html+='<img src="/'+data[i]['shareImg1']+'" alt="">';
+      	        			}
+      	        			html+='</div><div class="ub-f1 img-hei60 ">';
+      	        			if(data[i]['shareImg2']){
+      	        				html+='<img src="/'+data[i]['shareImg2']+'" alt="">';
+      	        			}
+      	        			html+='</div><div class="ub-f1 img-hei60 ">';
+      	        			if(data[i]['shareImg3']){
+      	        				html+='<img src="/'+data[i]['shareImg3']+'" alt="">';
+      	        			}
+      	        			html+='</div><div class="ub-f1 img-hei60 ">';
+      	        			if(data[i]['shareImg4']){
+      	        				html+='<img src="/'+data[i]['shareImg4']+'" alt="">';
+      	        			}
+      	        			html+='</div></div>';
+              			}
+      					$('#comment').append(html);
+              		}else{
+              			layer.msg('没有更多了');
+              		}
+        	  }catch(err){
+        			layer.msg('没有更多了');
+        	  }
+        	
+           }
+      });
+}
+
+$('body').on('click','#selectAddr',function(){
+	layer.open({
+		  type: 2,
+		  title: false,
+		  shadeClose: 0,
+		  closeBtn :0,
+		  shade: 0.8,
+		  area: ['100%', '100%'],
+		  content: '{:U("Address/myAddr")}' //iframe的url
+		}); 
+})
+//更新地址
+function upAddr(){
+	var url='{:U("Address/getUserAddr")}';
+	  $.ajax({
+          type: "POST",
+          url: url,
+          data: {},
+          dataType: "json",
+          success: function(data){
+        	  	var community=data[0].community;
+        	  	var str='';
+        	  	$('#province').val(data[0].areaId1);
+        	  	$('#city').val(data[0].areaId2);
+        	  	$('#area').val(data[0].areaId3);
+        	  	if(community){
+        	  		str="->"+community;
+        	  		$('#community').val(data[0].communityId);
+        	  	}else{
+        	  	  	$('#community').val('');
+        	  	}
+        	  	$('.upAddr').html(""+data[0].province+"->"+data[0].city+"->"+data[0].area+str+"");
+      		   }
+          	
+          })
+	layer.closeAll('iframe');
+}
+
+</script>
+
+</html>

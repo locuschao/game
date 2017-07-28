@@ -1,0 +1,90 @@
+body{
+	max-width: 800px;
+}
+._top{
+	max-width:  800px;
+}
+.r_arrows {
+	background: url(__IMG__/youjiantou.png) center no-repeat;
+	width: 30px;
+	background-size: 9px 14px;
+}
+
+.li {
+	height: 100px;
+}
+
+.l_img {
+	padding: 10px;
+	width: 100px;
+	height: 80px;
+	background: url(__IMG__/sp_5.png) center no-repeat;;
+	background-size: 100px 80px;
+}
+
+.title_ {
+	height: 25px;
+	line-height: 20px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.score_ {
+	height: 25px;
+	line-height: 25px;
+}
+
+.success_ {
+	height: 25px;
+	line-height: 25px;
+}
+
+.padd_10 {
+	padding: 10px 0px;
+}
+
+.no-bg {
+	background: none;
+}
+
+body {
+	background: #fff;
+}
+
+.lh45 {
+	height: 45px;
+	line-height: 45px;
+}
+
+.p10 {
+	padding: 10px 0px;
+	color: #01b4ff
+}
+
+.ft12 {
+	font-size: 120%;
+	color: #ff1b1b;
+}
+
+.pdt5 {
+	padding-top: 5px;
+}
+._content{
+    padding: 10px 20px;
+}
+.contentBlock{
+    line-height:2;
+}
+.blockTitle{
+    font-weight:bold;
+    font-size:16px;
+    text-align:center;
+    
+}
+.row.add{
+    color: red;
+}
+.img-remark{
+    font-size:12px;
+}

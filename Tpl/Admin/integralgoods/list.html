@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{$CONF['mallTitle']}后台管理中心</title>
+<link href="__PUBLIC__/plugins/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+<link href="__CSS__/AdminLTE.css" rel="stylesheet" type="text/css" />
+<!--[if lt IE 9]>
+      <script src="__PUBLIC__/js/html5shiv.min.js"></script>
+      <script src="__PUBLIC__/js/respond.min.js"></script>
+      <![endif]-->
+<script src="__PUBLIC__/js/jquery.min.js"></script>
+<script src="__PUBLIC__/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="__PUBLIC__/js/common.js"></script>
+<script src="__PUBLIC__/plugins/plugins/plugins.js"></script>
+<style type="text/css">
+#preview {
+	border: 1px solid #cccccc;
+	background: #CCC;
+	color: #fff;
+	padding: 5px;
+	display: none;
+	position: absolute;
+}
+</style>
+</head>
+<script>
+   //单个删除
+   function del(id){
+	   Plugins.confirm({title:'信息提示',content:'您确定要删除该积分商品吗?',okText:'确定',cancelText:'取消',okFun:function(){
+		   Plugins.closeWindow();
+		   Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
+		   $.post("{:U('Admin/IntegralGoods/del')}",{id:id},function(data,textStatus){
+					var json = WST.toJson(data);
+					console.log(json);
+					if(json.status=='1'){
+						Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
+						    location.reload();
+						}});
+					}else{
+						Plugins.closeWindow();
+						Plugins.Tips({title:'信息提示',icon:'error',content:'操作失败!',timeout:1000});
+					}
+			});
+		}});
+   }
+   function checkAll(v){
+	   $('.chk').each(function(){
+		   $(this).prop('checked',v);
+	   })
+   }
+   function toggleIsSale(t,v){
+	   Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
+	   $.post("{:U('Admin/IntegralGoods/editiIsSale')}",{id:v,isSale:t},function(data,textStatus){
+			var json = WST.toJson(data);
+			if(json.status=='1'){
+				Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
+				    location.reload();
+				}});
+			}else{
+				Plugins.closeWindow();
+				Plugins.Tips({title:'信息提示',icon:'error',content:'操作失败!',timeout:1000});
+			}
+	   });
+   }
+   $.fn.imagePreview = function(options){
+		var defaults = {}; 
+		var opts = $.extend(defaults, options);
+		var t = this;
+		xOffset = 5;
+		yOffset = 20;
+		if(!$('#preview')[0])$("body").append("<div id='preview'><img width='200' src=''/></div>");
+		$(this).hover(function(e){
+			   $('#preview img').attr('src',$(this).attr('img'));      
+			   $("#preview").css("top",(e.pageY - xOffset) + "px").css("left",(e.pageX + yOffset) + "px").show();      
+		  },
+		  function(){
+			$("#preview").hide();
+		}); 
+		$(this).mousemove(function(e){
+			   $("#preview").css("top",(e.pageY - xOffset) + "px").css("left",(e.pageX + yOffset) + "px");
+		});
+	}
+   function getCatList(objId,parentId,t,id){
+	   var params = {};
+	   params.id = parentId;
+	   $('#'+objId).empty();
+	   if(t<1){
+		   $('#goodsCatId3').empty();
+		   $('#goodsCatId3').html('<option value="0">请选择</option>');
+		   if(parentId==0){
+			   $('#goodsCatId2').html('<option value="0">请选择</option>');
+			   return;
+		   }
+	   }
+	   var html = [];
+	   $.post("{:U('Home/GoodsCats/queryByList')}",params,function(data,textStatus){
+		    html.push('<option value="0">请选择</option>');
+			var json = WST.toJson(data);
+			if(json.status=='1' && json.list){
+				var opts = null;
+				for(var i=0;i<json.list.length;i++){
+					opts = json.list[i];
+					html.push('<option value="'+opts.catId+'" '+((id==opts.catId)?'selected':'')+'>'+opts.catName+'</option>');
+				}
+			}
+			$('#'+objId).html(html.join(''));
+	   });
+   }
+   $(document).ready(function(){
+	    $('.imgPreview').imagePreview();
+	    <notempty name='areaId1'>
+		   getAreaList("areaId2",'{$areaId1}',0,'{$areaId2}');
+		</notempty>
+		<if condition="$goodsCatId1  neq 0 ">
+		getCatList("goodsCatId2",{$goodsCatId1},0,{$goodsCatId2});
+		</if>
+		<if condition="$goodsCatId2 neq 0 ">
+		getCatList("goodsCatId3",{$goodsCatId2},1,{$goodsCatId3});
+		</if>
+   });
+   </script>
+<body class='wst-page'>
+	<form method='get' action='{:U("Admin/IntegralGoods/index")}'
+		autocomplete="off">
+		<div class='wst-tbar'>
+			分类：<select id='goodsCat' name='goodsCat'>
+				<option value='0'>请选择</option>
+				<volist name="integralCat" id="vo">
+				<option value='{$vo['catId']}' <if
+						condition="$goodsCat == $vo['catId'] ">selected</if>>{$vo['catName']}
+				</option>
+				</volist>
+			</select> 商品：<input type='text' id='goodsName' name='goodsName'
+				value='{$goodsName}' />
+			<button type="submit"
+				class="btn btn-primary glyphicon glyphicon-search">查询</button>
+		</div>
+	</form>
+	<table class="table table-hover table-striped table-bordered wst-list">
+		<thead>
+			<tr>
+				<th width='40'><input type='checkbox' name='chk'
+					onclick='javascript:checkAll(this.checked)' />序号</th>
+				<th width='200'>商品名称</th>
+				<th width='60'>市场价格</th>
+				<th width='60'>积分价格</th>
+				<th width='40'>库存</th>
+				<th width='40'>销量</th>
+				<th width='30'>上架</th>
+				<th width='100'>添加时间</th>
+				<th width='100'>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<volist name="Page['root']" id="vo" key='i'>
+			<tr>
+				<td><input type='checkbox' class='chk' name='chk_{$vo['
+					goodsId']}' value='{$vo['goodsId']}'/>{$i}</td>
+				<td img='{$vo[' goodsImg']}' class='imgPreview'><img
+					src='{$vo[' goodsImg']}' width='50' /> {$vo['goodsName']}</td>
+				<td>{$vo['marketPrice']}元</td>
+				<td>{$vo['shopPrice']}积分</td>
+				<td>{$vo['goodsStock']}</td>
+				<td>{$vo['saleCount']}</td>
+				<td>
+					<div class="dropdown">
+						<if condition="$vo['isSale']==0 ">
+						<button class="btn btn-danger dropdown-toggle wst-btn-dropdown"
+							type="button" data-toggle="dropdown">
+							下架 <span class="caret"></span>
+						</button>
+						<else />
+						<button class="btn btn-success dropdown-toggle wst-btn-dropdown"
+							type="button" data-toggle="dropdown">
+							上架 <span class="caret"></span>
+						</button>
+						</if>
+						<ul class="dropdown-menu" role="menu">
+							<li role="presentation"><a role="menuitem" tabindex="-1"
+								href="javascript:toggleIsSale(1,{$vo['goodsId']})">上架</a></li>
+							<li role="presentation"><a role="menuitem" tabindex="-1"
+								href="javascript:toggleIsSale(0,{$vo['goodsId']})">下架</a></li>
+						</ul>
+					</div>
+				</td>
+				<td><PHP>echo date('Y-m-d H:i:s',$vo['createTime'])</PHP></td>
+
+
+				<td><php>if(in_array('ppgl_02',$WST_STAFF['grant'])){</php> <a
+					class="btn btn-default glyphicon glyphicon-pencil"
+					href="{:U('Admin/IntegralGoods/toedit',array('id'=>$vo['goodsId']))}">修改</a>&nbsp;
+					<php>}</php> <php>if(in_array('ppgl_03',$WST_STAFF['grant'])){</php>
+					<a class="btn btn-default glyphicon glyphicon-trash"
+					onclick="javascript:del({$vo['goodsId']})"">刪除</a> <php>}</php></td>
+			</tr>
+			</volist>
+			<tr>
+				<td colspan='10' align='center'>{$Page['pager']}</td>
+			</tr>
+		</tbody>
+	</table>
+	</div>
+</body>
+</html>

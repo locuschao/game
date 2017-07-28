@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>圈子详情</title>
+<include file="./Tpl/head.html" />
+<!--<meta name="viewport"
+	content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">-->
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=no, maximum-scale=1.0" />
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<!--标准mui.css-->
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/mui.min.css">
+<link rel="stylesheet" href="__CSS__/font.css" />
+<!--App自定义的css-->
+<link rel="stylesheet" href="__CSS__/bootstrap/css/bootstrap.min.css" />
+
+<style>
+body {
+	/*background-color: #EFEFF3 !important;*/
+
+}
+header{
+	max-width: 800px;
+	margin:0 auto;
+}
+.container{
+	max-width: 800px;
+}
+.oa-contact-cell.mui-table .mui-table-cell {
+	padding: 11px 0;
+	vertical-align: middle;
+}
+
+.oa-contact-avatar img {
+	border-radius: 50%;
+}
+
+.oa-contact-name, oa-contact-position {
+	float: left;
+}
+
+ul, li {
+	margin: 0;
+	padding: 0;
+}
+
+.swiper-slide img {
+	height: 180px;
+	min-width: 100%;
+}
+
+body {
+	padding-bottom: 50px;
+	font-size: 14px;
+}
+
+.hideDiv {
+	display: none;
+}
+
+._dian {
+	background: url(__IMG__/dianjia_logo.png) center no-repeat;
+	width: 25px;
+	background-size: 25px;
+}
+
+p, ul, li, h1, h2, input, select, hr {
+	background: none;
+}
+
+#max_lists li {
+	width: 25%;
+	over-flow: hidden;
+	line-height: 80px;
+	height: 80px;
+}
+
+#max_lists ul li img {
+	padding-top: 10px;
+}
+
+#lists li {
+	height: 55px;
+}
+
+.price p {
+	height: 15px;
+	line-height: 15px;
+}
+
+input[placeholder], [placeholder], *[placeholder] {
+	color: #ccc;
+	font-size: 90%;
+}
+
+::-webkit-input-placeholder {
+	color: #ccc;
+	font-size: 90%;
+}
+
+._imgWidth img {
+	height: 93px;
+	overflow: hidden;
+}
+
+.mui-icon {
+	color: white;
+}
+
+.red {
+	color: red;
+}
+
+.text-size {
+	font-size: 1em;
+}
+
+.time-style {
+	font-size: 0.7em;
+	color: rgba(34, 31, 37, 0.3);
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+
+<body style="background-color: white">
+	<header class="mui-bar mui-bar-nav" style="background: #ff4045;">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"
+			ontouchend="history.go(-1)"></a>
+		<h1 class="mui-title" style="background: none;">圈子详情</h1>
+	</header>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-4">
+				<img class="img-thumbnail"
+					src="/{$data['circleInfo']['shopImg']|default='Tpl/Wx/image/member.jpg'}">
+			</div>
+			<div class="col-xs-8">{$data['circleInfo']['title']}</div>
+		</div>
+		<div class="row" style="border: 1px solid red; padding: 10px"
+			onclick="window.location.href='{:U('Wx/index/goodsDetail',array('id'=>$data['goodsInfo']['goodsId']))}'">
+			<div class="col-xs-3">
+				<img class="img-thumbnail" src="/{$data['goodsInfo']['goodsThums']}">
+			</div>
+			<div class="col-xs-9">
+				{$data['goodsInfo']['goodsDesc']}<br>{$data['goodsInfo']['shopPrice']}元/{$data['goodsInfo']['goodsUnit']}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12 text-center">
+				{$data['circleInfo']['title']}</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12 text-left time-style">创建时间：
+				{$data['circleInfo']['time']}</div>
+		</div>
+		<div class="row">{$data['circleInfo']['content']}</div>
+
+
+
+	</div>
+	<div
+		style="position: fixed; bottom: 0; left: 0; height: 2.5em; width: 100%">
+
+		<button class="btn col-xs-6 text-center"
+			style="border: 1px solid black">
+			<span data-id="{$data['circleInfo'].id}"
+				data-uid="{$data['likeInfo'].userId}"
+				data-shopId="{$data['circleInfo'].shopId}"
+				class="glyphicon glyphicon-thumbs-up <if condition='$data[likeInfo][likeStatus] eq 1'>red</if> ">
+				<!--<span class="text <if condition='$data[likeInfo][likeStatus] eq 1'>red</if> "><if condition='$data[likeInfo][likeStatus] eq 1'>已赞<else/>赞一下</if></span>-->
+				<if condition='$data[likeInfo][likeStatus] eq 1'>已赞<else />赞一下</if>
+			</span>
+
+
+		</button>
+
+
+
+		<!--  <div class="col-xs-6 text-center" style=";background-color: wheat;width: 50%;height: 100%">
+            <span data-id="{$data['circleInfo'].id}" data-uid="{$data['likeInfo'].userId}" data-shopId="{$data['circleInfo'].shopId}" class="glyphicon glyphicon-thumbs-up <if condition='$data[likeInfo][likeStatus] eq 1'>red</if> "></span>
+            <span class="text <if condition='$data[likeInfo][likeStatus] eq 1'>red</if> "><if condition='$data[likeInfo][likeStatus] eq 1'>已赞<else/>赞一下</if></span>
+
+        </div>-->
+
+		<button class="btn col-xs-6 text-center"
+			style="border: 1px solid black">
+			<span class="glyphicon glyphicon-share-alt"></span> 分享
+		</button>
+
+		<!--<div class="col-xs-6" style=";background-color: blue;width: 50%;height: 100%">X</div>-->
+	</div>
+	<script>
+
+        (function(){
+            var headerHeight = document.querySelector('header').clientHeight;
+
+            document.querySelector('.container').style.marginTop = headerHeight+'px';
+
+
+
+
+
+        })();
+
+    </script>
+
+	<script src="__JS__/jquery2.1.1.min.js"></script>
+	<script>
+        var ThinkPHP = window.Think = {
+            "ROOT"   : "__ROOT__",
+            "APP"    : "__APP__",
+            "PUBLIC" : "__PUBLIC__",
+            "DEEP"   : "{:C('URL_PATHINFO_DEPR')}",
+            "MODEL"  : ["{:C('URL_MODEL')}", "{:C('URL_CASE_INSENSITIVE')}", "{:C('URL_HTML_SUFFIX')}"],
+            "VAR"    : ["{:C('VAR_MODULE')}", "{:C('VAR_CONTROLLER')}", "{:C('VAR_ACTION')}"]
+        }
+    </script>
+	<!--<script src="__JS__/layer1.7/layer.js"></script>-->
+	<script src="__PUBLIC__/js/think.js"></script>
+	<script src="__JS__/layer1.7/layer.js"></script>
+
+
+	<script>
+    $(function(){
+
+
+        $('span.glyphicon.glyphicon-thumbs-up').on('click',function(e){
+//           console.log(e);
+            var target = $(e)[0].target;
+            var id = $(target).attr('data-id');
+            var uid = $(target).attr('data-uid');
+            var shopid = $(target).attr('data-shopId');
+
+            if($(target).hasClass('red')){
+
+                sendLike({'circleId':id,'uid':uid,'shopId':shopid,'action':'delete'},target,'delete');
+            }else{
+
+
+                sendLike({'circleId':id,'uid':uid,'shopId':shopid,'action':'add'},target,'add');
+            }
+
+        });
+
+
+
+
+    });
+
+
+    function sendLike( data ,target , action){
+
+
+        $.ajax({
+            url:Think.U('Wx/Circle/like'),
+            data:{
+                data:data
+            },
+            type:"post",
+            success:function( data ){
+                sendLike.checkTurn(data.status,target,action);
+
+
+
+            }
+
+
+        });
+
+
+
+    }
+
+    sendLike.checkTurn=function (data,target,action) {
+        var string = "";
+
+        if(data!==false){
+            var id = $(target).attr('data-id');
+            var uid = $(target).attr('data-uid');
+            var shopid = $(target).attr('data-shopId');
+            if(action=='add'){
+
+                $(target).addClass('red');
+                $(target).html('已赞');
+//                $('.circle_'+id+'_uid_'+uid).addClass('red');
+
+            }else{
+                $(target).removeClass('red');
+                $(target).html('赞一下');
+//                $('.circle_'+id+'_uid_'+uid).removeClass('red');
+            }
+
+        }
+        switch(data)
+        {
+            case 1:
+                string = '取消点赞';
+                break;
+            case false:
+                string = '未登陆';
+                break;
+            default:
+                string = '点赞成功';
+                break;
+        }
+
+
+        layer.open({
+            content: string,
+            time: 0.5
+        });
+        // alert(string);
+
+    }
+</script>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+</html>

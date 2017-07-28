@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>待领取</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<link rel="stylesheet" href="__CSS__/font.css" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/layer.min.js"></script>
+<script type="text/javascript" src="__JS__/ajaxupload.js"></script>
+<style>
+body {
+	padding-top: 45px;
+}
+
+.bor_b2 {
+	border-bottom: #ff4045 solid 3px;
+	color: #ff4045;
+}
+
+.hide {
+	display: none;
+}
+
+.triangle-up {
+	position: absolute;
+	left: 48%;
+	bottom: 0;
+	width: 0;
+	height: 0;
+	border-left: 2px solid transparent;
+	border-right: 2px solid transparent;
+	border-bottom: 3px solid red;
+}
+
+.bg-oran {
+	background: #fff5e3;
+	height: 30px;
+	width: 100%;
+	line-height: 30px;
+	border-top: #e1ccb8 solid 1px;
+	border-bottom: #e1ccb8 solid 1px;
+}
+
+.lings {
+	width: 30px;
+	background: url(__IMG__/ling.png) center no-repeat;
+	background-size: 16px;
+}
+
+.close {
+	width: 50px;
+	background: url(__IMG__/close_ico.png) center no-repeat;
+	background-size: 14px;
+}
+
+.text-oran {
+	color: #ffa415
+}
+
+.cart:nth-child(odd) {
+	width: 95%;
+	height: 110px;
+	margin: 10px auto 0px auto;;
+	background: url(__IMG__/coupon_red.png) center no-repeat;
+	background-size: 100% 100%;
+}
+
+.cart:nth-child(even) {
+	width: 95%;
+	height: 110px;
+	margin: 10px auto 0px auto;;
+	background: url(__IMG__/coupon_blue.png) center no-repeat;
+	background-size: 100% 100%;
+}
+
+.cart_old {
+	width: 95%;
+	height: 110px;
+	margin: 10px auto 0px auto;;
+	background: url(__IMG__/coupon_bg_old.png) center no-repeat;
+	background-size: 100% 100%;
+}
+
+.mon {
+	heigt: 80px;
+	line-height: 90px;
+}
+
+.one {
+	width: 100px;
+	text-align: center;
+	height: 25px;
+	line-height: 25px;
+	top: 45px;
+	right: 5%;
+	font-size: 18px;
+	border: #ff4045 solid 1px;
+	border-radius: 4px;
+}
+
+.two {
+	width: 100px;
+	text-align: center;
+	height: 30px;
+	color: #323232;
+	font-size: 18px;
+	top: 20px;
+	right: 5%;
+}
+
+.three {
+	height: 1px;
+	border-bottom: #ccc dashed 1px;
+	width: 90%;
+	left: 5%;
+	top: 80px;
+}
+
+.four {
+	height: 30px;
+	font-size: 90%;
+	color: #ffa415;
+	line-height: 30px;
+	top: 80px;
+	right: 5%;
+	width: 90%;
+	text-align: right;
+}
+
+.titls {
+	left: 5%;
+	height: 60px;
+	top: 30px;
+	font-size: 24px;
+	color: #ff4045
+}
+
+.color_old {
+	color: #d8d8d8
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<div class="_top">
+		<php> $url=explode('_',$_GET['ref']); $a=$url[0]; $m=$url[1];
+		$p=$url[2]; $refUrl=U("$a/$m",array('id'=>$p)); </php>
+		<div class="_left_top"
+			onclick='javascript:window.location.href="<php>echo $refUrl;</php>"'></div>
+		<div class="_title_top">待领取</div>
+		<div class="_right_top nobackground"></div>
+	</div>
+	<volist name="mayReceive" id="mr">
+	<div class="cart pos-r " id="{$mr.id}">
+		<div class="pos-a titls">
+			<if condition="$mr['youhui_type'] eq 0">￥<else />折</if>
+			<font style="font-size: 50px;"> <if
+					condition="$ns['youhui_type'] eq 0">{$mr.breaks_menoy}<else />{$mr.breaks_menoy}</if>
+				<!--  <span style="font-size:16px">{$ns.surplus}张</span>-->
+			</font>
+		</div>
+		<div class="pos-a one" style="" onclick="subCoupon({$mr.id})">点击领取</div>
+		<div class="pos-a two" style="">{$mr.condition}</div>
+		<div class="pos-a three" style=''></div>
+		<div class="pos-a four" style="">{$mr.begin_time|date="Y.m.d",###}-{$mr.end_time|date="Y.m.d",###}</div>
+	</div>
+	</volist>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script>
+
+function subCoupon(id){
+	$.ajax({
+        type: "POST",
+        url:"{:U('Coupon/getCouponHandel')}",
+        data:{
+        	id:id
+        },
+        success: function(data) {
+        	if(data.status==-3){
+        		layer.msg('请先登录 ');
+        		return;
+        	}else if(data.status==-1){
+        		layer.msg('领取失败 ');
+        		return;
+        	}else if(data.status==0){
+        		$('#'+id).remove();
+        		layer.msg('领取成功 ');
+        		return;
+        	}
+        }
+    });
+	
+}
+</script>
+</html>

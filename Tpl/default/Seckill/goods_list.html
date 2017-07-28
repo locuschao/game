@@ -1,0 +1,537 @@
+<extend name="Base:common" />
+<block name="static">
+<link rel="stylesheet" href="__CSS__/goodslist.css" />
+<style>
+#skNow, #skWait {
+	width: 100%;
+	margin: 0 auto;
+}
+
+#nowList {
+	
+}
+
+.list {
+	overflow: auto;
+	z-index: 0;
+}
+
+.list dl {
+	width: 19.7%;
+	float: left;
+	padding-top: 20px;
+	border-right: 1px dashed #d0d0d0;
+}
+
+.list dl dt.pic {
+	width: 90%;
+	height: auto;
+	margin: 0 auto;
+}
+
+.list dl dt.pic img {
+	width: 100%;
+	height: auto;
+}
+
+.list dl dt.name {
+	width: 45%;
+	margin: 0 auto;
+	text-align: center;
+	line-height: 25px;
+	height: 25px;
+}
+
+.list dl dt.left {
+	width: 40%;
+	float: left;
+	text-align: left;
+	padding-left: 10%;
+	line-height: 15px;
+	height: 15px;
+}
+
+.list dl dt.right {
+	width: 45%;
+	float: left;
+	text-align: left;
+	padding-left: 5%;
+	line-height: 15px;
+	height: 15px;
+}
+
+.list dl dt.date {
+	width: 90%;
+	float: left;
+	text-align: left;
+	padding-left: 10%;
+	line-height: 20px;
+	height: 20px;
+}
+
+.list dl dt.prev, .list dl dt.next {
+	z-index: 1;
+	color: red;
+	width: 100%;
+}
+
+#skContent #skNow #nowList .list0, #skContent #skNow #nowList .list4 {
+	padding-top: 0px;
+}
+
+#skContent #skNow #nowList .list0 {
+	
+}
+
+#skContent #skNow #nowList .list4 {
+	border: none;
+}
+
+#skContent #skNow #nowList .list0  dt.prev {
+	width: 100%;
+	height: 20px;
+	text-align: left;
+	display: block;
+	position: relative;
+	top: 110px;
+}
+
+#skContent #skNow #nowList .list4  dt.next {
+	width: 100%;
+	height: 20px;
+	text-align: right;
+	display: block;
+	position: relative;
+	top: 110px;
+}
+
+#skContent #skNow #nowList .list0  dt.prev a {
+	width: 20%;
+	line-height: 20px;
+	height: 20px;
+	color: yellow;
+	border: 1px solid red;
+	display: block;
+	cursor: pointer;
+}
+
+#skContent #skNow #nowList .list4  dt.next a {
+	width: 20%;
+	float: right;
+	line-height: 20px;
+	height: 20px;
+	color: yellow;
+	border: 1px solid red;
+	display: block;
+	cursor: pointer;
+}
+
+p.skNow, p.skWait, p.getMore {
+	border: 1px solid #d0d0d0;
+	height: 30px;
+	line-height: 30px;
+	margin-top: 10px;
+	padding-left: 20px;
+	color: red;
+	letter-spacing: 4px;
+}
+
+p.getMore {
+	text-align: center;
+}
+
+p.getMore a {
+	cursor: pointer;
+}
+
+.wst-goods-page {
+	margin-top: 20px;
+}
+
+.wst-goods-left {
+	width: 960px;
+	margin: 0px;
+	float: lfet
+}
+
+.wst-goods-top-left {
+	width: 696px;
+	height: 399px;
+	margin: 0px;
+	float: left;
+}
+
+.wst-goods-dead-time {
+	margin: 0px 0px -20px 20px;
+	position: absolute;
+}
+
+.goods-img {
+	margin: 0px;
+}
+
+.goods-img img {
+	max-width: 710px;
+	max-height: 250px;
+	width: 710px;
+	height: 250px;
+}
+
+.wst-goods-top-left table {
+	margin: 60px 0 0 20px;
+}
+
+.wst-goods-top-left td {
+	padding: 5px;
+}
+
+.wst-goods-top-right {
+	width: 224px;
+	height: 125px;
+	float: left;
+	margin-top: 3px;
+}
+
+.wst-goods-right {
+	width: 224px;
+	height: 130px;
+	margin: 5px 960px;
+	position: absolute
+}
+
+.wst-goods-center {
+	width: 934px;
+	height: 230px;
+	margin: 20px 0px 0px;
+	float: left;
+}
+
+.goods-center-img {
+	margin: 0px;
+	float: right;
+}
+
+.goods-center-img img {
+	max-width: 710px;
+	max-height: 230px;
+	width: 620px;
+	height: 230px;
+}
+
+.goods-center-content {
+	float: left;
+	margin: 20px;
+}
+
+.wst-goods-bottom {
+	width: 457px;
+	height: 257px;
+	margin: 20px 18px 0px 0px;
+	float: left;
+}
+
+.goods-bottom-img {
+	margin: 0px;
+	float: right;
+}
+
+.goods-bottom-img img {
+	max-width: 710px;
+	max-height: 230px;
+	width: 457px;
+	height: 180px;
+}
+
+.wst-goods-bottom table {
+	margin: 0 auto;
+}
+
+.wst-goods-bottom td {
+	padding: 10px;
+}
+
+.wst-goods-total {
+	margin: 30px 0 0;
+	color: #666;
+}
+</style>
+<script>
+        //秒杀商品切换
+		var i=1;
+		function getnextnum(){
+			i++;
+			return i;
+		}
+		function getprevnum(){
+			if(i!=1){
+				i--;
+				return i;
+			}else{
+                WST.msg('已更新至最新数据!', {icon: 6});
+                return 0;//0 表示已经是第一页，没办法再查看上一页的数据了
+            }
+		}
+
+
+		function getMoreNowSk(num){
+            if(num!=0){
+                var ll = layer.load('数据处理中，请稍候...');
+                var parArr={};
+                parArr.num=num;
+                parArr.skBrandId=$('#skBrandId').attr("value");;
+                parArr.skPrice=$('#skPrice').attr("value");
+                parArr.skAreaId3=$('#skAreaId3').attr('value');
+                parArr.skAreaId2=$('#skAreaId2').attr('value');
+                $.post("{:U('Home/Seckill/getMoreNowSk')}",parArr,function(data){
+                    console.log(data);
+                    if(null!=data && ""!=data){
+                        $.each(data,function(i,result){
+                            if(i==0){
+                                item ='<dl class="list'+i+'"><dt class="prev"><a onclick="getMoreNowSk(getprevnum());"> <<< </a></dt><dt class="pic"><a href="/home/seckill/getgoodsdetails/goodsId/'+result.goodsId+'/isSeckill/1.html"><img src="/'+result.goodsThums+'"/></a></dt> <dt class="name">'+result.goodsName+'</dt> <dt class="left">原价：'+result.shopPrice+'元</dt><dt class="right">秒杀价：'+result.seckillPrice+'元</dt><dt class="date">结束日期：'+result.seckillEndTime+'</dt></dl>'
+                            }else if(i==4){
+                                item ='<dl class="list'+i+'"><dt class="next"><a onclick="getMoreNowSk(getnextnum());"> >>> </a></dt><dt class="pic"><a href="/home/seckill/getgoodsdetails/goodsId/'+result.goodsId+'/isSeckill/1.html"><img src="/'+result.goodsThums+'"/></a></dt> <dt class="name">'+result.goodsName+'</dt> <dt class="left">原价：'+result.shopPrice+'元</dt><dt class="right">秒杀价：'+result.seckillPrice+'元</dt><dt class="date">结束日期：'+result.seckillEndTime+'</dt></dl>'
+                            }else{
+                                item ='<dl class="list'+i+'"><dt class="pic"><a href="/home/seckill/getgoodsdetails/goodsId/'+result.goodsId+'/isSeckill/1.html"><img src="/'+result.goodsThums+'"/></a></dt> <dt class="name">'+result.goodsName+'</dt> <dt class="left">原价：'+result.shopPrice+'元</dt><dt class="right">秒杀价：'+result.seckillPrice+'元</dt><dt class="date">结束日期：'+result.seckillEndTime+'</dt></dl>'
+                            }
+                            $(".list"+i).replaceWith(item);
+                        });
+                    }else{
+                        i--;
+                        WST.msg('已更新至最新数据!', {icon: 6});
+                        //alert('没有数据');
+                    }
+                    layer.close(ll);
+                });
+            }
+		}
+		var j=1;
+		function getWaitNum(){
+			j++;
+			return j;
+		}
+		function getMoreWaitSk(num){
+            var ll = layer.load('数据处理中，请稍候...');
+			var parArr={};
+			parArr.num=num;
+			parArr.skBrandId=$('#skBrandId').attr("value");;
+			parArr.skPrice=$('#skPrice').attr("value");
+			parArr.skAreaId3=$('#skAreaId3').attr('value');
+			parArr.skAreaId2=$('#skAreaId2').attr('value');
+			$.post("{:U('Home/Seckill/getMoreWaitSk')}",parArr,function(data){
+				if(null!=data && ""!=data){
+					$.each(data,function(i,result){
+						if(i%5==4 || data.length==(i+1)){
+							item ='<dl style="border:none;"><dt class="pic"><a href="/home/seckill/getgoodsdetails/goodsId/'+result.goodsId+'/isSeckill/1.html"><img src="/'+result.goodsThums+'"/></a></dt> <dt class="name">'+result.goodsName+'</dt> <dt class="left">原价：'+result.shopPrice+'元</dt><dt class="right">秒杀价：'+result.seckillPrice+'元</dt><dt class="date">开始日期：'+result.seckillStartTime+'</dt></dl>'
+						}else{
+							item ='<dl><dt class="pic"><a href="/home/seckill/getgoodsdetails/goodsId/'+result.goodsId+'/isSeckill/1.html"><img src="/'+result.goodsThums+'"/></a></dt> <dt class="name">'+result.goodsName+'</dt> <dt class="left">原价：'+result.shopPrice+'元</dt><dt class="right">秒杀价：'+result.seckillPrice+'元</dt><dt class="date">开始日期：'+result.seckillStartTime+'</dt></dl>'
+						}
+						$("#skList").append(item);
+					});
+				}else{
+					i--;
+                    WST.msg('已更新至最新数据!', {icon: 6});
+				}
+                layer.close(ll);
+			});
+		}
+		</script> </block>
+<block name="body"> <input id="c1Id" type="hidden"
+	value="{$c1Id}" /> <input id="c2Id" type="hidden" value="{$c2Id}" /> <input
+	id="c3Id" type="hidden" value="{$c3Id}" /> <input type="hidden"
+	id="msort" value="{$msort}" /> <input type="hidden" id="sj"
+	value="{$sj}" /> <!----加载商品楼层start----->
+<div class="wst-container">
+	<div class="wst-nvg-title">
+		<a
+			href="{:U('Home/Goods/getGoodsList/',array('c1Id'=>$goodsNav[0]['catId']))}">{$goodsNav[0]["catName"]}</a>
+		<if condition="$goodsNav[1]['catId'] gt 0"> &nbsp;>&nbsp;<a
+			href="{:U('Home/Goods/getGoodsList/',array('c1Id'=>$goodsNav[0]['catId'],'c2Id'=>$goodsNav[1]['catId']))}">{$goodsNav[1]["catName"]}</a>
+		</if>
+		<if condition="$goodsNav[2]['catId'] gt 0"> &nbsp;>&nbsp;<a
+			href="{:U('Home/Goods/getGoodsList/',array('c1Id'=>$goodsNav[0]['catId'],'c2Id'=>$goodsNav[1]['catId'],'c3Id'=>$goodsNav[2]['catId']))}">{$goodsNav[2]["catName"]}</a>
+		</if>
+	</div>
+	<!-------------商品筛选栏---------------->
+	<div class="wst-goods-search" style="">
+		<div class="search-title" style="">商品筛选</div>
+		<div class="search-panel">
+			<div class="search-box">
+				<div class="search-items">
+					<div class="items-title">配送区域：</div>
+					<div id="wst-areas" class="items">
+						<li id="city_0"<if condition="$areaId3 eq 0">class="searched"</if>
+							data="0" onClick="querySeckillGoods(this,1);">全部</li>
+						<volist name="districts" key="k" id="vo">
+						<li id="city_{$vo['areaId']}"<if
+								condition="$vo['areaId'] eq $areaId3">class="searched"</if>
+							data="{$vo['areaId']}"
+							onClick="querySeckillGoods(this,1);">{$vo["areaName"]}</li>
+						</volist>
+						<div class="wst-clear"></div>
+					</div>
+					<div class="wst-clear"></div>
+				</div>
+				<if condition="$areaId3 gt 0">
+				<div class="wst-area-country">
+					<div id="wst-communitys" class="items">
+						<li<if condition="$communityId eq 0">class="searched"</if>
+							data="0" onClick="querySeckillGoods(this,2);">全部</li>
+						<volist name="communitys" key="k" id="vo">
+						<li id="community_{$vo['communityId']}"<if
+								condition="$vo['communityId'] eq $communityId">class="searched"</if>
+							data="{$vo['communityId']}"
+							onClick="querySeckillGoods(this,2);">{$vo["communityName"]}</li>
+						</volist>
+						<div class="wst-clear"></div>
+					</div>
+					<div class="wst-clear"></div>
+				</div>
+				</if>
+			</div>
+		</div>
+		<div class="search-panel">
+			<div class="search-box">
+				<div class="search-items">
+					<div class="items-title">商品品牌：</div>
+					<div id="wst-brand" class="items">
+						<input type="hidden" id="bs" value="{$bs}">
+						<div id="wst-brand-tp" onclick="tohide(this,'wst-brand');">&nbsp;显示&nbsp;</div>
+						<li<if condition="$brandId eq 0">class="searched"</if>
+							data="0" onClick="querySeckillGoods(this,3);">全部</li>
+						<volist name="brands" id="vo">
+						<li id="brand_{$vo['brandId']}"<if
+								condition="$vo['brandId'] eq $brandId">class="searched"</if>
+							data="{$vo['brandId']}"
+							onClick="querySeckillGoods(this,3);">{$vo['brandName']}</li>
+						</volist>
+						<div class="wst-clear"></div>
+					</div>
+					<div class="wst-clear"></div>
+				</div>
+			</div>
+		</div>
+		<div class="search-panel">
+			<div class="search-box">
+				<div class="search-items">
+					<div class="items-title">价格区间：</div>
+					<div id="wst-price" class="items">
+						<li<if condition="$priceId eq ''">class="searched"</if>
+							data="" onClick="querySeckillGoods(this,4);">全部</li>
+						<foreach name="prices" key="key2" item="price">
+						<li id="price_{$key2}"<eq name="key2" value="$priceId">class="searched"</eq>
+							data="{$key2}" onClick="querySeckillGoods(this,4);">{$price}元</li>
+						</foreach>
+
+						<div class="wst-clear"></div>
+					</div>
+					<div class="wst-clear"></div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<!-----------------------商品列表---------------------------->
+	<input type="hidden" id="skBrandId" value="{$brandId}" /> <input
+		type="hidden" id="skPrice" value="{$sprice}_{$eprice}" /> <input
+		type="hidden" id='skAreaId3' value="{$areaId3}" /> <input
+		type="hidden" id='skAreaId2' value="{$areaId2}" />
+
+	<div id="skContent">
+		<div id="skNow">
+			<p class="skNow">疯狂秒杀中</p>
+			<div id="nowList">
+				<div class="list">
+					<volist name="skNowData" id="vo">
+					<dl class="list{$i-1}"
+						<if condition="$i eq count($skNowData)"> style="border:none;"</if>
+						>
+						<if condition="$i eq 1">
+						<dt class="prev">
+							<a onclick="getMoreNowSk(getprevnum());"> <<< </a>
+						</dt>
+						</if>
+						<if condition="$i eq 5">
+						<dt class="next">
+							<a onclick="getMoreNowSk(getnextnum());"> >>> </a>
+						</dt>
+						</if>
+						<dt class="pic">
+							<a
+								href="{:U('Home/Seckill/getGoodsDetails/',array('goodsId'=>$vo['goodsId'],'isSeckill'=>1))}"><img
+								src="/{$vo.goodsThums}" /></a>
+						</dt>
+						<dt class="name">{$vo.goodsName}</dt>
+						<dt class="left">原价：{$vo.shopPrice}元</dt>
+						<dt class="right">秒杀价：{$vo.seckillPrice}元</dt>
+						<dt class="date">结束日期：{$vo.seckillEndTime|date='Y-m-d
+							H:i:s',###}</dt>
+					</dl>
+
+					</volist>
+				</div>
+			</div>
+		</div>
+		<div style="clear: both;"></div>
+		<div id="skWait">
+			<p class="skWait">即将开始</p>
+			<div id="waitList">
+				<div class="list" id="skList">
+					<volist name="skWaitData" id="vo" mod="5">
+					<dl
+						<eq name="mod" value="4">style="border:none;"</eq>
+						>
+						<dt class="pic">
+							<a
+								href="{:U('Home/Seckill/getGoodsDetails/',array('goodsId'=>$vo['goodsId'],'isSeckill'=>1))}"><img
+								src="/{$vo.goodsThums}" /></a>
+						</dt>
+						<dt class="name">{$vo.goodsName}</dt>
+						<dt class="left">原价：{$vo.shopPrice}元</dt>
+						<dt class="right">秒杀价：{$vo.seckillPrice}元</dt>
+						<dt class="date">开始日期：{$vo.seckillStartTime|date='Y-m-d
+							H:i:s',###}</dt>
+					</dl>
+					</volist>
+				</div>
+				<p class="getMore">
+					<a onclick="getMoreWaitSk(getWaitNum());">点击加载更多</a>
+				</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="wst-clear"></div>
+</div>
+<script src="__PUBLIC__/plugins/layer/layer.min.js"></script> <script
+	src="__JS__/goods.js"></script> <script>
+	<if condition="$bs eq 1">
+		$("#wst-brand-tp").click();
+	</if>
+	<if condition="$pages['totalPage'] gt 1">
+
+	laypage({
+	    cont: 'wst-page-items',
+	    pages: {$pages["totalPage"]}, //总页数
+	    skip: true, //是否开启跳页
+	    skin: '#e23e3d',
+	    groups: 3, //连续显示分页数
+	    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
+	        var page = location.search.match(/pcurr=(\d+)/);
+	        return page ? page[1] : 1;
+	    }(),
+	    jump: function(e, first){ //触发分页后的回调
+	        if(!first){ //一定要加此判断，否则初始时会无限刷新
+	        	var nuewurl = WST.splitURL("pcurr");
+	        	var ulist = nuewurl.split("?");
+	        	if(ulist.length>1){
+	        		location.href = nuewurl+'&pcurr='+e.curr;
+	        	}else{
+	        		location.href = '?pcurr='+e.curr;
+	        	}
+
+	        }
+	    }
+	});
+	</if>
+
+	</script> </block>

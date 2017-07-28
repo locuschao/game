@@ -1,0 +1,18 @@
+[ 2015-11-10T13:02:03+08:00 ] 192.168.31.106 /index.php/Goods/add
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000025s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000806s ]
+ERR: 无法加载模块:Goods
+
+[ 2015-11-10T13:05:50+08:00 ] 192.168.31.106 /index.php/index
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000026s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001047s ]
+ERR: 无法加载模块:Index
+
+[ 2015-11-10T13:40:53+08:00 ] 192.168.31.106 /index.php/Goods/add
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000026s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000720s ]
+ERR: 无法加载模块:Goods
+

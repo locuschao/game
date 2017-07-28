@@ -1,0 +1,90 @@
+<extend name="Base:common" />
+<block name="static">
+<link rel="stylesheet" href="__CSS__/index.css" />
+</block>
+<block name="body"> <!----加载广告start----->
+<div class="wst-ad">
+	<div class="wst-slide" id="wst-slide">
+		<ul class="wst-slide-items">
+			<volist name="indexAds" id="vo" key="k">
+			<li style="z-index: 1;"><a target="_blank"
+				onclick="addAccess({$vo['adId']})" href="{$vo['adURL']}"> <img
+					src="__ROOT__/{$vo['adFile']}" height="360" width="100%"
+					title="{$vo['adName']}" />
+			</a></li>
+			</volist>
+		</ul>
+	</div>
+</div>
+<div class='wst-clear'></div>
+<!----加载商品楼层start-----> <!-------------F1层---------------->
+<div class="link">
+	<h2>品牌街</h2>
+</div>
+<div class="lanmu">
+	<volist name="catList" key="k1" id="vo1"> <php>if($k1==5)break;</php>
+	<div class="lanmu_conten"
+		style="background: url('__IMG__/g{$k1}.png') no-repeat;">
+		<a class="a_img"
+			href="{:U('Home/Goods/getGoodsList/',array('c1Id'=>$vo1['catId']))}">
+			<p>{$vo1["catName"]}</p> <span>随便买随便吃</span>
+		</a>
+		<div class="lanmu_conten_x">
+			<volist name="vo1['catChildren']" key="k2" id="vo2"> <volist
+				name="vo2['catChildren']" key="k3" id="vo3"> <php>if($k3==4)break;</php>
+			<a
+				href="{:U('Home/Goods/getGoodsList/',array('c1Id'=>$vo1['catId'],'c2Id'=>$vo2['catId'],'c3Id'=>$vo3['catId']))}">
+				<img src="__IMG__/webimage.gif" alt="">
+				<p>{$vo3["catName"]}</p> <span></span>
+			</a> </volist> <php>if($k3==4)break;</php> </volist>
+		</div>
+	</div>
+	</volist>
+</div>
+<div id="asd_line" name='asd_line' class="asd_line">
+	<a href=""><img src="__IMG__/guanggao.png" alt=""></a>
+</div>
+<div class="navleft">
+	<ul>
+		<volist name="catList" key="k1" id="vo1"> <a href="#asd_line"
+			name="navleft_a" id="{$vo1['catId']}">
+			<li><span class="navleft_icon navleft_icon{$k1}"></span>
+				{$vo1['catName']}<em class="navleft_jiantou"></em></li>
+		</a> </volist>
+	</ul>
+</div>
+<div>
+	<volist name="catList" key="k1" id="vo1">
+	<div class="shop" name="shop_{$vo1['catId']}" style="display: none;">
+		<volist name="vo1['catChildren']" key="k2" id="vo2"> <volist
+			name="vo2['goods']" key="k3" id="vo3">
+		<div class="shopconten">
+			<a
+				href="{:U('Home/Goods/getGoodsDetails/',array('goodsId'=>$vo3[goodsId]))}">
+				<img src="__ROOT__/{$vo3['goodsThums']}" width="260" height="180"
+				alt="">
+				<p>{$vo3['goodsName']}</p>
+			</a> <span class="shop_jiaqian">￥{$vo3['shopPrice']|number_format=2}</span>
+			<em></em> <s>￥{$vo3['marketPrice']|number_format=2}</s>
+		</div>
+		</volist> </volist>
+		<div style="clear: both;"></div>
+	</div>
+	</volist>
+</div>
+<script>
+	
+$(document).ready(function(){
+		$(".shop:first").css('display','block');
+		$("a[name='navleft_a']").click(function(){
+			var ip_id = $(this).attr('id');
+		    var ip_id = "div[name=shop_"+ip_id+"]";
+			$(ip_id).css('display','block');
+			$(ip_id).siblings().css('display','none');
+		});
+	})
+</script> </block>
+<block name="footer_static"> <script src="__JS__/index.js"></script>
+<script src="__JS__/global.js" type="text/javascript"></script> <script
+	src="__JS__/goods.js" type="text/javascript"></script> </block>
+

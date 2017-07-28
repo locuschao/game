@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <title>在线支付</title>
+    <include file="./Tpl/head.html" />
+    <link rel="stylesheet" href="__CSS__/supermarket.css"/>
+    <link rel="stylesheet" href="__CSS__/orderDetail.css"/>
+    <link rel="stylesheet" href="__CSS__/font.css"/>
+    <link rel="stylesheet" type="text/css" href="__CSS__/wxzf.css">
+    <script src="__JS__/jquery2.1.1.min.js"></script>
+    <script src="__JS__/layer.min.js"></script>
+    <script>
+        //调用微信JS api 支付
+        //调用微信JS api 支付
+
+        /**
+         function jsApiCall()
+         {
+             WeixinJSBridge.invoke(
+                 'getBrandWCPayRequest',
+                 <?php echo $jsApiParameters; ?>,
+                 function(res){
+                     WeixinJSBridge.log(res.err_msg);
+                     reg=/cancel/i;
+                     ok=/ok/i;
+                     if(reg.test(res.err_msg)){
+                        layer.msg('付款取消');
+                     }else if(ok.test(res.err_msg)){
+                          layer.msg('付款成功');
+                          <if condition="$orderType eq 1">
+                          setTimeout(function(){
+                              location.href="{:U('/Game/Orders/orderDetail',array('id'=>$orderId),0,0)}";
+                          },1000);
+                          <else/>
+                          setTimeout(function(){
+                              location.href="{:U('/Game/Ucenter/wallet')}";
+                          },1000);
+                          </if>
+                     }else{
+                         alert(res.err_code+res.err_desc+res.err_msg);
+                     }
+                     //alert("{$jsApiParameters}");
+                 }
+             );
+         }
+
+         function callpay()
+         {
+             if (typeof WeixinJSBridge == "undefined"){
+                 if( document.addEventListener ){
+                     document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+                 }else if (document.attachEvent){
+                     document.attachEvent('WeixinJSBridgeReady', jsApiCall);
+                     document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+                 }
+             }else{
+                 jsApiCall();
+             }
+         }
+         **/
+    </script>
+    <style>
+        .font90 {
+            font-size: 90%;
+        }
+
+        .money_ico {
+            background-image: url(__IMG__/yie_Ico.png);
+            background-size: 20px;
+        }
+
+        .wx_ico {
+            background-image: url(__IMG__/weixin_ico.png);
+            background-size: 20px;
+        }
+
+        .ali_ico {
+            background-image: url(__IMG__/alipay_ico.png);
+            background-size: 20px;
+        }
+
+        .margin_top5 {
+            margin-top: 5px;
+        }
+
+        .height25 {
+            height: 35px;
+            line-height: 35px;
+        }
+
+        .submit {
+            display: block;
+            background: #ff4045;
+            padding: 5px;
+            color: #fff;
+            border-radius: 4px;
+            width: 40%;
+            height: 35px;
+            line-height: 35px;
+            margin: 0 auto;
+        }
+
+        ._center {
+
+        }
+
+        .white-checkbox input[type=checkbox]:before, .mui-radio input[type=radio]:before {
+            color: #ccc;
+        }
+
+        .inputpwd input {
+            background: transparent;
+            border: none;
+            height: 30px;
+            line-height: 30px;
+            margin-left: 10px;
+            border-bottom: #ccc solid 1px;
+        }
+        body{
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        ._top{
+            max-width: 800px;
+        }
+    </style>
+    <include file="./Tpl/Public/commonHead.html" />
+</head>
+
+<body>
+<div id="pay" style="display: <if condition=" $pwd eq 1
+">
+block
+<else/>
+none;
+</if>
+" >
+<div class="_top">
+    <div class="_left_top" onclick="history.go(-1)"></div>
+    <div class="_title_top">在线支付</div>
+    <div class="_right_top nobackground"></div>
+</div>
+<div class="_content">
+    <div class="_son_title ub noborder border_bottom1 ">
+        <div class="ub-f1 text-l">订单金额</div>
+        <div class="ub-f1 text-r margin_right10">{$needPay}元</div>
+    </div>
+    <div class="_son_title ub noborder border_bottom1 margin_top10"
+    <if condition="$chongzi eq 1">style="display:none"</if>
+    >
+    <div class="title_left_ico margin_left10 money_ico "></div>
+    <div class="ub-f1 text-l">钱包余额支付</div>
+    <div class="mui-input-row mui-radio  margin_right10 margin_top5">
+        <input class="payType" name="checkbox" value="3" type="radio">
+    </div>
+</div>
+<div class="_son_title ub height35 "
+<if condition="$chongzi eq 1">style="display:none"</if>
+>
+<div class="ub-f1 text-l font90 col_9">您的账户余额为¥{$balance}元</div>
+</div>
+<div class="_son_title ub height35 margintop10">
+    <div class="ub-f1 text-l  col_9">使用第三方平台支付</div>
+</div>
+<!--
+<div class="_son_title ub noborder border_bottom1 ">
+    <div class="title_left_ico margin_left10 wx_ico "></div>
+    <div class="ub-f1 text-l">微信支付</div>
+    <div class="mui-input-row mui-radio  margin_right10 margin_top5">
+        <input class="payType" name="checkbox" value="2" type="radio">
+    </div>
+</div>-->
+
+<div class="_son_title ub noborder border_bottom1 ">
+    <div class="title_left_ico margin_left10 ali_ico"></div>
+    <div class="ub-f1 text-l">支付宝支付</div>
+    <div class="mui-input-row mui-radio  margin_right10 margin_top5">
+        <input class="payType" name="checkbox" value="1" type="radio" <if condition="$_GET['payType'] eq 1">checked="checked" </if> >
+    </div>
+</div>
+<!--微信支付-->
+<div class="_son_title ub noborder border_bottom1 ">
+    <div class="title_left_ico margin_left10 wx_ico "></div>
+    <div class="ub-f1 text-l">微信支付</div>
+    <div class="mui-input-row mui-radio  margin_right10 margin_top5">
+        <input class="payType" name="checkbox" value="2" type="radio" <if condition="$_GET['payType'] eq 2">checked="checked" </if> >
+    </div>
+</div>
+<div
+        class="_son_title ub height35 margintop10 noborder nobackground _center">
+    <div class="ub-f1 text-c">
+        <span class="submit" onclick="showPay()">确认支付</span>
+    </div>
+</div>
+</div>
+<!--浮动层-->
+<div class="ftc_wzsf">
+    <div class="srzfmm_box">
+        <div class="qsrzfmm_bt clear_wl">
+            <img src="__IMG__/xx_03.jpg" class="tx close fl"><img
+                src="{$userInfo.userPhoto|default='__IMG__/jftc_03.jpg'}"
+                style="height: 28px; width: 28px; border-radius: 28px; margin-top: 10px;"
+                class="fl touxian"><span class="fl">请输入支付密码</span>
+        </div>
+        <div class="zfmmxx_shop">
+            <div class="mz">{$title}</div>
+            <div class="wxzf_price">￥00.00</div>
+        </div>
+        <div class="blank_yh">
+            <img src="__IMG__/alpay.png" class="fl"><span class="fl ml5">选择其它方式付款</span><img
+                src="__IMG__/jftc_09.jpg" class="fr">
+        </div>
+        <ul class="mm_box">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+    <div class="numb_box">
+        <div class="xiaq_tb">
+            <img src="__IMG__/jftc_14.jpg" height="10">
+        </div>
+        <ul class="nub_ggg">
+            <li><a href="javascript:void(0);">1</a></li>
+            <li><a href="javascript:void(0);" class="zj_x">2</a></li>
+            <li><a href="javascript:void(0);">3</a></li>
+            <li><a href="javascript:void(0);">4</a></li>
+            <li><a href="javascript:void(0);" class="zj_x">5</a></li>
+            <li><a href="javascript:void(0);">6</a></li>
+            <li><a href="javascript:void(0);">7</a></li>
+            <li><a href="javascript:void(0);" class="zj_x">8</a></li>
+            <li><a href="javascript:void(0);">9</a></li>
+            <li><span></span></li>
+            <li><a href="javascript:void(0);" class="zj_x">0</a></li>
+            <li><span class="del"> <img src="__IMG__/jftc_18.jpg"></span>
+            </li>
+        </ul>
+    </div>
+    <div class="hbbj"></div>
+</div>
+</div>
+<div id="setpayPwd" style="display: <if condition=" $pwd eq 0
+">
+block
+<else/>
+none;
+</if>
+" >
+<div class="_top">
+    <div class="_left_top"></div>
+    <div class="_title_top">设置支付密码</div>
+    <div class="_right_top nobackground"></div>
+</div>
+<div class="_content">
+    <div class="_son_title ub noborder border_bottom1"
+         style="height: 50px; line-height: 50px;">
+        <div class=" text-l col_9">支付密码</div>
+        <div class="ub-f1 inputpwd"  style="padding-left: 20px">
+            <input type="password" name="payPwd" id="payPwd"
+                   placeholder='请输入6位数字密码'/>
+        </div>
+    </div>
+    <div class="_son_title ub height35 "
+         style="height: 50px; line-height: 50px;">
+        <div class=" text-l font90 col_9">重复支付密码</div>
+        <div class="ub-f1 inputpwd">
+            <input type="password" name="payPwds" id="payPwds"
+                   placeholder='重复输入6位数字密码'/>
+        </div>
+    </div>
+    <div
+            class="_son_title ub height35 margintop10 noborder nobackground _center">
+        <div class="ub-f1 text-c ">
+            <span class="submit" onclick="setpayPwd()">保存</span>
+        </div>
+    </div>
+</div>
+</div>
+<form action="{:U('Game/AliPay/doalipay')}" id="dolipay" method="post">
+<input type="hidden" name="orderids" id="orderids" value="{$orderids}"/>
+<input type="hidden" name="payStatus" id="payStatus" value="0"/>
+<input type="hidden" name="isrepeat" id="isrepeat" value="0"/>
+<input type="hidden" name="trade_no" value="{$orderids}">
+<input type="hidden" name="ordsubject" value="{$title}">
+<input type="hidden" name="ordtotal_fee" value="{$needPay}">
+<input type="hidden" name="ordbody" value="{$title}">
+<input type="hidden" name="ordshow_url" value="<php>echo WEB_HOST.'/index.php/Game/Goods/index/id/'.$goodsId;</php>">
+</form>
+<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script type="text/javascript">
+    function showPay() {
+        var flag = '{$_GET["payType"]}';
+        var callBackUrl="http://{$_SERVER['HTTP_HOST']}";
+        if(flag == '')
+        {
+            //callBackUrl = 'http://shouyougou.cn/Game/Index/index/r/order.html';
+            callBackUrl += "{:U('/Game/Orders/orderDetail',['id'=>$orderId])}";
+        }else{
+            //callBackUrl = 'http://shouyougou.cn/Game/Ucenter/wallet.html';
+            callBackUrl += "{:U('/Game/Ucenter/wallet')}";
+        }
+        
+        var payType = $(".payType:checked").val();
+        if (payType == null || payType == '' || payType == 'undefined') {
+            layer.msg('请选择付款方式');
+            return;
+        }
+        if(payType == 2)
+        {
+            $.ajax({
+                type: 'post',
+                url: "{:U('Shop/officeHoursWFT')}",
+                dataType: 'json',
+                data: {
+                    out_trade_no:{$orderids},
+                    body:'{$title}',
+                    //total_fee:{$needPay}*100,
+                    total_fee:{$needPay*100},
+                    mch_create_ip:'{$client_ip}',
+                    callback_url:callBackUrl
+                },
+                success:function (res) {
+//                    alert(res);
+//                    return;
+                    if(res.status === 500){
+                        alert(res.msg);
+                    }else{
+                        location.href = res.pay_info;
+
+                        }
+                }
+            })
+        }else {
+            //判断营业时间
+            $.ajax({
+                type: 'post',
+                url: "{:U('Shop/officeHours')}",
+                dataType: 'json',
+                data: {
+                    orderId: "{$orderids}"
+                },
+                success: function (data) {
+                    if (data.status == 0) {
+
+                        //余额支付
+                        if (payType == 3) {
+                            $(".ftc_wzsf").show();
+                        } else if (payType == 1) {
+                            $('#dolipay').submit();
+                            return;
+                        }
+
+                    } else {
+                        layer.msg(data.msg);
+                        return;
+                    }
+                }
+            })
+        }
+    }
+    $(function () {
+        var need_pay="{$needPay}";
+        $('.wxzf_price').text('￥{$needPay}');
+        /**
+         * @author peng
+         * @date 2017-03
+         * @descreption 如果订单是0则只能用余额支付。 
+         */
+        if(need_pay == 0) {
+            $(':radio:gt(0)').prop('disabled',true);
+        }
+
+        //出现浮动层
+        $('.blank_yh').on('click', function () {
+            $(".ftc_wzsf").hide();
+        });
+
+        $(".ljzf_but").on('click', function () {
+            $(".ftc_wzsf").show();
+        });
+        //关闭浮动
+        $(".close").on('click', function () {
+            $(".ftc_wzsf").hide();
+        });
+        //数字显示隐藏
+        $(".xiaq_tb").on('click', function () {
+            $(".numb_box").slideUp(500);
+        });
+        $(".mm_box").on('click', function () {
+            $(".numb_box").slideDown(500);
+        });
+        //----
+        var i = 0;
+        var payPwd = '';
+        $(".nub_ggg li a").on('click', function () {
+            var payStatus = $('#payStatus').val();
+            //判断已经已经是6位密码
+            if (payStatus == 1) {
+                layer.msg('正在处理中');
+                return;
+            }
+            i++;
+            if (i < 6) {
+                payPwd = payPwd + $(this).text();
+                $(".mm_box li").eq(i - 1).addClass("mmdd");
+            } else {
+                $('#payStatus').val(1);
+                payPwd = payPwd + $(this).text();
+                $(".mm_box li").eq(i - 1).addClass("mmdd");
+                if (payPwd == '' || payPwd == null || payPwd.length != 6) {
+                    //alert(payPwd);
+                    return;
+                }
+                layer.msg('正在付款...', {icon: 16});
+                var orderids = $('#orderids').val();
+                $.ajax({
+                    type: "POST",
+                    url: "{:U('Confirm/balancePay')}",
+                    data: {pwd: payPwd, orderids: orderids},
+                    dataType: "json",
+                    success: function (data) {
+                        layer.closeAll();
+                        if (data.status == 0) {
+                            layer.msg(data.msg);
+                            setTimeout(function () {
+                                //location.href = "{:U('Index/index',array('r'=>'order'))}";
+                                location.href = data.callback_url;
+                            }, 1000);
+                        } else if (data.status == -1 || data.status == -3 || data.status == -2) {
+                            $(".mm_box li").removeClass("mmdd");
+                            i = 0;
+                            payPwd = '';
+                            $('#payStatus').val(0);
+                            layer.msg(data.msg);
+                            layer.msg(data.msg);
+                            return;
+                        } else if (data.status == -4) {
+                            layer.msg(data.msg);
+                            setTimeout(function () {
+                                location.href = "{:U('Index/index',array('r'=>'order'))}";
+                            }, 1000);
+                        }
+                    }
+                });
+
+                //密码错误处理、/*
+                //
+                // $(".mm_box li").removeClass("mmdd");
+                // $('#payStatus').val(0);
+                // payPwd = '';
+                // i = 0;
+                //*/
+            }
+        });
+
+        $(".nub_ggg li .del").on('click', function () {
+            if (i > 0) {
+                i--;
+                $(".mm_box li").eq(i).removeClass("mmdd");
+                payPwd = payPwd.substring(0, payPwd.length - 1);
+                i == 0;
+                $('#payStatus').val(0);
+            }
+        });
+
+    });
+
+    //设置支付密码
+    function setpayPwd() {
+        var paypwd = $('#payPwd').val();
+        var paypwds = $('#payPwds').val();
+        if (paypwd.length != 6 || paypwds.length != 6) {
+            layer.msg('密码长度不对');
+            return;
+        }
+        if (paypwd != paypwds) {
+            layer.msg('重复密码不正确');
+            return;
+        }
+        if (isNaN(paypwd) || isNaN(paypwds)) {
+            layer.msg('密码只能是6位数字');
+            return;
+        }
+        layer.msg('正在保存...', {icon: 16});
+        $.ajax({
+            type: "POST",
+            url: "{:U('Confirm/setPayPwd')}",
+            data: {pwd: paypwds},
+            dataType: "json",
+            success: function (data) {
+                layer.closeAll();
+                if (data.status == 0) {
+                    layer.msg(data.msg);
+                    $('#setpayPwd').hide();
+                    $('#pay').show();
+                } else if (data.status == -1 || data.status == -2) {
+                    layer.msg(data.msg);
+                }
+            }
+        });
+    }
+</script>
+
+</html>

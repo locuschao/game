@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>今日团购</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<!--App自定义的css-->
+<link rel="stylesheet" type="text/css" href="__CSS__/home.css" />
+<link rel="stylesheet" type="text/css" href="__CSS__/goshop.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" type="text/css" href="__CSS__/pub.css" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script type="text/javascript" src="__JS__/iscroll.js"></script>
+<style>
+html{
+	max-width: 800px;
+	margin: 0 auto;
+}
+#cate  li {
+	height: 45px;
+	line-height: 45px;
+	text-indent: 30px;
+	text-align: left;
+	border-bottom: #d5d7dc solid 1px;
+}
+
+.menutype {
+	display: none;
+}
+
+.menutype:first-child {
+	display: block;
+}
+
+input[placeholder], [placeholder], *[placeholder] {
+	color: #fff;
+}
+
+._left_top {
+	background-size: 10px 15px;
+}
+
+::-webkit-input-placeholder {
+	color: #fff;
+}
+
+.s_top {
+	width: 100%;
+	height: 35px;
+	margin: 0 auto;
+	margin-top: 10px;
+	background: #de0000;
+	border-radius: 4px;
+	z-inde: 999;
+}
+
+.select select {
+	width: 50px;
+	height: 35px;
+	background: transparent;
+	line-height: 35px;
+	border: none;
+	text-align: center;
+	color: #f5cbcb;
+}
+
+.select, .searchKey {
+	height: 35px;
+	line-height: 35px;
+}
+
+.select select option {
+	border: none;
+	height: 30px;
+	line-height: 35px;
+	padding: 10px;
+}
+
+.searchKey input {
+	background: transparent;
+	width: 100%;
+	height: 35px;
+	line-height: 35px;
+	border: none;
+	color: #fff;
+}
+
+._content {
+	margin-top: 50px;
+}
+
+.li_ {
+	background: url('image/li_.png') center no-repeat;
+	width: 1px;
+	background-size: contain;
+	height: 25px;
+	margin-top: 5px;
+}
+
+.hei100 {
+	height: 100px;
+	padding: 10px;
+}
+
+.img_left img {
+	max-height: 100px;
+	width: 90%;
+}
+
+.menu_li {
+	width: 100%;
+	position: absolute;
+	top: 96px;
+	z-index: 9999;
+}
+
+.menu_li ul li {
+	height: 45px;
+	line-height: 45px;
+	text-indent: 30px;
+	text-align: left;
+	border-bottom: #d5d7dc solid 1px;
+}
+
+#cate, #sort, #smart, #filter, #all {
+	display: none;
+}
+
+.star_end {
+	text-align: center;
+}
+
+.star_end input {
+	background: transparent;
+	border: none;
+	width: 80%;
+	text-align: center;
+	background: #ececec;
+	border-radius: 4px;
+	height: 30px;
+	line-height: 30px;
+}
+
+.brand {
+	height: auto;
+	float: left;
+	width: 100%;
+}
+
+.brand a {
+	display: block;
+	width: 33%;
+	text-align: center;
+	float: left;
+	height: 45px;
+}
+
+.brand a:last-child {
+	clear: both;
+}
+
+.brand a img {
+	width: 80%;
+	height: 45px;
+	margin: 0 auto;
+}
+
+.l_Img img {
+	height: 80px;
+	width: 100px;
+	padding: 10px;
+}
+
+.text_r {
+	padding: 10px 10px 10px 0px;;
+	height: 80px;
+}
+
+.text_r div:first-child {
+	height: 30px;
+	line-height: 30px;
+	overflow: hidden;
+}
+
+.text_r div:last-child {
+	height: 30px;
+	line-height: 30px;
+}
+
+.ft12 {
+	font-size: 130%;
+}
+
+.sear_num {
+	border: #d5d7dc solid 1px;
+	color: #666;
+	font-size: 90%;
+	width: 90%;
+	height: 25px;
+	border-radius: 2px;
+	line-height: 25px;
+	text-align: center;
+	margin: 6px auto;
+	text-aign: center;
+	background: #fff;
+}
+
+.col_red {
+	color: #ff4045
+}
+
+.right {
+	display: block;
+	height: 45px;
+	width: 50px;
+	float: right;
+	background: url(__IMG__/right_.png) center no-repeat;;
+	text-align: center;
+	background-size: 16px 12px;
+}
+
+.ico_1 {
+	background: #fff url(__IMG__/sort_.png) 10px center no-repeat;
+	background-size: 13px 13px;
+}
+
+.ico_2 {
+	background: #fff url(__IMG__/location_.png) 10px center no-repeat;
+	background-size: 15px 15px;
+}
+
+.ico_3 {
+	background: #fff url(__IMG__/dmoney_.png) 10px center no-repeat;
+	background-size: 15px 15px;
+}
+
+.ico_4 {
+	background: #fff url(__IMG__/sale_.png) 10px center no-repeat;
+	background-size: 13px 13px;
+}
+
+.down_ {
+	background: #fff url(__IMG__/dow_b.png) 100% center no-repeat;
+	background-size: 8px 5px;
+}
+
+.up_ {
+	background: #fff url(__IMG__/up_red_.png) 100% center no-repeat;
+	background-size: 8px 5px;
+}
+
+.title {
+	margin: 20px 15px 10px;
+	color: #6d6d72;
+	font-size: 15px;
+}
+
+ul, li {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	padding-bottom: 50px;
+	font-size: 14px;
+}
+
+.font90 {
+	font-size: 90%;
+}
+
+.ot-menu ul li a {
+	font-size: 14px;
+}
+
+#left_Menu, #right_Menu {
+	top: 95px;
+}
+
+.li_ {
+	background: url('../../tpl/wx/image/li_.png') center no-repeat;
+	width: 1px;
+	background-size: contain;
+	height: 25px;
+	margin-top: 10px;
+}
+</style>
+
+<script type="text/javascript">
+$(function() {  
+		//菜单框架自动获取高度
+		var doc_H=window.screen.height-145;	
+		$('.Menu_box').height(doc_H);
+		window.onresize=function(){
+			var doc_H=document.body.clientHeight-145;	
+			$('.Menu_box').height(doc_H);
+		}
+	});
+	var myScroll_left;
+	var myScroll_right;
+	function loaded () {
+		setTimeout(function(){
+			myScroll_left = new IScroll('#left_Menu', { mouseWheel: true, click: true });
+			myScroll_right = new IScroll('#right_Menu', { mouseWheel: true, click: true });
+			  $(".ot-maininfo").children(".menutype").hide();
+	          $(".ot-maininfo").children(".menutype").eq(0).show();	
+		},200);
+		
+	}
+	document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+
+    $(document).ready(function() {	//tbl切换
+        $(".ot-menu  li").click(function(){
+            tabIndex = $(this).index();
+            $(this).siblings("li").removeClass("active");
+            $(this).addClass("active");
+            $(".ot-maininfo").children(".menutype").hide();
+            $(".ot-maininfo").children(".menutype").eq(tabIndex).show();
+            myScroll_right.refresh();
+        });
+    });
+</script>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<form action="{:U('Group/search')}" method="get">
+		<div class="_top" style="z-index: 999">
+			<div class="_left_top"
+				onclick='javascript:window.location.href="{:U('
+				wx/index/index',array('r'=>'index'))}"'></div>
+			<div class="_title_top">今日团购</div>
+			<div class="_right_top "
+				onclick='javascript:window.location.href="{:U('
+				wx/index/index',array('r'=>'car'))}"'></div>
+		</div>
+		<div class="_content">
+			<div class="ub lh45  bg-ff  txt-c bor_b">
+				<div class="ub-f1 text-c pos-r area nav_" data-status="0"
+					data-id="none">
+					<div class="pos-a  down_" style="background: none;">全部商区</div>
+				</div>
+				<div class="li_"></div>
+				<div class="ub-f1 text-c pos-r area nav_" data-status="0"
+					data-id="all">
+					<div class="pos-a  down_" style="background: none;">全部分类</div>
+				</div>
+				<div class="li_"></div>
+				<div class="ub-f1 text-c pos-r sort nav_" data-status="0"
+					data-id="cate">
+					<div class="pos-a down_">智能排序</div>
+				</div>
+				<div class="li_" style="padding-left: 5px;"></div>
+				<div class="ub-f1 text-c pos-r filter nav_" data-status="0"
+					data-id="filter">
+					<div class="pos-a down_" style="background: none;">筛选</div>
+				</div>
+			</div>
+			<div class="li_menu" id="all">
+				<!-- ----------------------分类 -------------------------- -->
+				<!--菜单-->
+				<div class="Menu_box">
+					<!---------左侧菜单---------->
+					<div id="left_Menu">
+						<div class="ot-menu" id="scroller">
+							<ul>
+								<li class="active"><a href="#">热门推荐</a></li>
+								<volist name="cate" id="ca">
+								<li><a href="#">{$ca['info']['catName']}</a></li>
+								</volist>
+							</ul>
+						</div>
+					</div>
+					<!---------右侧侧菜单---------->
+					<div id="right_Menu">
+						<div class="ot-maininfo">
+							<div class="menutype">
+								<!-- --------右侧广告----------- -->
+								<div id="cart_right_ad">
+									<a href="#"><img src="__IMG__/cart_ad.png"></a>
+								</div>
+								<div class="cart_son_li">
+									<div class="cart_son_li_title">标题</div>
+									<ul>
+										<li><img src="__IMG__/cart_ad.png" />
+											<p>子标题</p></li>
+									</ul>
+								</div>
+							</div>
+							<volist name="cate" id="ca">
+							<div class="menutype">
+								<!-- --------右侧广告----------- -->
+								<div id="cart_right_ad">
+									<a href="#"><img src="__IMG__/cart_ad.png"></a>
+								</div>
+								<volist name="ca['child']" id="son">
+								<div class="cart_son_li">
+									<div class="cart_son_li_title">{$son['info'].catName}</div>
+									<ul>
+										<volist name="son['child']" id="Grandson">
+										<li onclick="cate({$Grandson['info'].catId})"><img
+											src="{$Grandson['info'].catImg}" />
+											<p>{$Grandson['info'].catName}</p></li>
+										</volist>
+									</ul>
+								</div>
+								</volist>
+							</div>
+							</volist>
+						</div>
+					</div>
+				</div>
+				<!--菜单end-->
+				<!-- ------------------------分类结束------------------------ -->
+			</div>
+			<ul class="li_menus" id="cate">
+				<li class="ico_1" data-id="smart">智能排序<a
+					class="r_ <if condition="$_GET['sorts'] eq 'smart' "> right</if>">
+				</a></li>
+				<li class="ico_2" data-id="lately">距离最近<a
+					class="r_  <if condition="$_GET['sorts'] eq 'lately' "> right</if>">
+				</a></li>
+				<li class="ico_3" data-id="freight">起送价最低 <a
+					class="r_ <if condition="$_GET['sorts'] eq 'freight' "> right</if>">
+				</a></li>
+				<li class="ico_4" data-id="volume">销量最高 <a
+					class="r_ <if condition="$_GET['sorts'] eq 'volume' "> right</if>">
+				</a></li>
+			</ul>
+			<ul class="li_menu" id="sort">
+
+			</ul>
+			<div class="li_menu" id="filter">
+				<div class="ub bg-ff lh45 bor_b">
+					<div class="text-l ti10" style="width: 50px;">价格</div>
+					<div class="ub-f1 star_end">
+						<input type="text" id="star" name="star" value="{$_GET['star']}" />
+					</div>
+					<div class="">-</div>
+					<div class="ub-f1 star_end">
+						<input type="text" id="end" name="end" value="{$_GET['end']}" />
+					</div>
+					<div class="text-l ti10" style="width: 50px;"></div>
+				</div>
+				<div class="ub bg-ff lh45  ti10">品牌</div>
+				<div class="bg-ff brand">
+					<volist name="brandInfo" id="bd"> <a
+						href="javascript:brand({$bd.brandId})"><img
+						src="/{$bd.brandIco}" /></a> </volist>
+					<div id="searBrand"
+						style="height: 45px; line-height: 45px; clear: both; margin: 20px auto; text-align: center; background: #ff4045; border-radius: 4px; color: #fff; width: 100px;">确定</div>
+				</div>
+			</div>
+		</div>
+		<volist name="info" id="if">
+		<div class="ub bg-ff bor_b"
+			onclick='javascript:window.location.href="{:U('
+			Index/goodsDetail',array('ref'=>
+			'Gruop_group','id'=>$if['goodsId'],'group'=>1))}"'>
+			<div class="l_Img">
+				<img src="/{$if.goodsThums}" />
+			</div>
+			<div class="ub-f1">
+				<div class="text_r">
+					<div>{$if.goodsName}</div>
+					<div class="col-red font120">￥{$if.groupPrice}</div>
+					<div style="overflow: hidden;">
+						<span class="col-9"><s>￥{$if.shopPrice}</s>&nbsp;&nbsp; <font
+							class="col-6 ti10" style="text-indent: 20px;">{$if.monthSale|default="0"}人已买</font></span>
+					</div>
+				</div>
+			</div>
+		</div>
+		</volist>
+		</div>
+		<input type="hidden" name="sorts" id="sorts"
+			value="{$_GET['sorts']|default=0}" /> <input type="hidden"
+			name="page" id="page" value="{$_GET['page']|default=0}" /> <input
+			type="hidden" name="brand" id="brand"
+			value="{$_GET['brand']|default=0}" /> <input type="hidden"
+			name="cates" id="cates" value="{$_GET['cates']|default=0}" /> <input
+			style="display: none;" type="submit" value="提交" />
+	</form>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script type="text/javascript">
+$(function() {
+	var hh=window.screen.availHeight;
+	var divH=hh-185;
+    $('.nav_').on('click', function() {
+        $('.nav_').removeClass('col_red');
+        var id=$(this).attr('data-id');
+        var status = $(this).attr('data-status');
+        $('.nav_').not('#'+id).attr('data-status',0);
+        if($(this).children('div').text()=='销量优先'){
+        	$('#sales').val(1);
+        	$('form').submit();
+        }
+        if(id=='filter'){
+        	$('.brand').css('height',divH+'px');
+        }
+        if(id=='cate'){
+        	loaded();
+        }
+        if(id=='none'){
+        	location.href="{:U('Group/search')}";
+        	return;
+        }
+        if (status == 0) {
+            $(this).attr('data-status', 1);
+            $(this).addClass('col_red');
+            $('.down_').removeClass('up_');
+            $(this).children('.down_').addClass('up_');
+            $('.li_menus').hide();
+            $('.li_menu').hide();
+            $('#'+id).show();
+        } else {
+            $(this).attr('data-status', 0);
+            $('.li_menu').hide();
+            $('.li_menus').hide();
+            $('.down_').removeClass('up_');
+            $(this).children('.down_').addClass('down_');
+            $('#'+id).hide();
+        }
+        
+    })
+    $('.li_menus li').on('click',function(){
+      var id=$(this).attr('data-id');
+      $('#sorts').val(id);
+      $('.nav_').attr('data-status',0);
+      $('.r_').removeClass('right');
+      $(this).children('a').addClass('right');
+      $('.li_menu').hide();
+      $('.li_menus').hide();
+      $('.down_').removeClass('up_');
+      $('form').submit();
+    });
+   
+})
+
+function cate(id){
+	$('#cates').val(id);
+	 $('form').submit();
+}
+
+function brand(id){
+	$('#brand').val(id);
+	 $('form').submit();
+}
+
+$('#searBrand').on('click',function(){
+	var star=$('#star').val();
+	var end=$('#end').val();
+	if(star){
+		if(isNaN(star)){
+			layer.msg('价格只能为数字');
+			return;
+		}
+	}
+	if(end){
+		if(isNaN(end)){
+			layer.msg('价格只能为数字');
+			return;
+		}
+	}
+	if(star<0||end<0){
+		layer.msg('价格不能小于0');
+		return;
+	}
+	$('form').submit();
+})
+</script>
+</html>

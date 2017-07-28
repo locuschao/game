@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>编辑地址</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/swiper-3.3.1.min.css" />
+<script src="__JS__/index.js"></script>
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/base.js"></script>
+<script src="__JS__/layer.min.js"></script>
+<style>
+body{
+	max-width: 800px;
+	margin: 0 auto;
+}
+._top{
+	max-width: 800px;
+}
+._imgWidth img {
+	height: 93px;
+	max-width: 100%;
+	overflow: hidden;
+}
+
+._img_jin {
+	min-height: 130px;
+	overflow: hidden;
+}
+
+#fix-both ul li {
+	padding: 15px 10px;
+	background: #fff;
+	float: left;
+	margin-left: 10px;
+}
+
+body {
+	padding-bottom: 0
+}
+
+.col_red {
+	color: #f00
+}
+
+.sonCat {
+	width: 100%;
+}
+
+.sonCat a {
+	padding: 10px 20px;
+	background: #fff;
+	border-radius: 4px;
+	display: inline-block;
+	margin-top: 10px;
+	color: #323232;
+	margin-left: 10px;
+}
+
+.sonCat a:first-child {
+	color: #f00;
+}
+
+.newAddAddr {
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
+	-moz-border-image: url(__IMG__/border.png) 10 10 round;
+	/* Old Firefox */
+	-webkit-border-image: url(__IMG__/border.png) 10 10 round;
+	/* Safari and Chrome */
+	-o-border-image: url(__IMG__/border.png) 10 10 round;
+	/* Opera */
+	border-image: url(__IMG__/border.png) 10 10 round;
+}
+
+.input_transpart {
+	background: transparent;
+	border: none;
+	height: 30px;
+	line-height: 30px;
+	width: 90%;
+}
+
+.nobg {
+	background: none;
+}
+
+._content {
+	margin-bottom: 50px;
+}
+
+input[type=color], input[type=date], input[type=datetime-local], input[type=datetime],
+	input[type=email], input[type=month], input[type=number], input[type=password],
+	input[type=search], input[type=tel], input[type=text], input[type=time],
+	input[type=url], input[type=week], select, textarea {
+	border: none;
+	border-radius: 0;
+	margin-bottom: 0;
+	background: none;
+}
+
+input {
+	background: none;
+	background-color: transparent;
+}
+
+.span-r {
+	display: inline-block;
+	width: 45%;
+	height: 40px;
+	border-bottom: #d5d7dc solid 1px;
+	background: url(images/dowlistico.png) 95% center no-repeat;
+	background-size: 9px
+}
+
+.span-r select {
+	border: none;
+	width: 90%;
+	margin: 0;
+	padding: 0;
+	color: #bbbbbb;
+	padding: 10px;
+	width: 90%;
+}
+
+select {
+	appearance: none;
+	-moz-appearance: none;
+	-webkit-appearance: none;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<div class="_top" style="z-index: 99999">
+		<div class="_left_top" onclick='closeWin()'></div>
+		<div class="_title_top">编辑地址</div>
+		<div class="_right_top" style="background: none;"></div>
+	</div>
+	<div calss="_content" style="margin-top: 50px;">
+		<div class="_son_title ub   ">
+			<div class=" text-l">收货人：</div>
+			<div class="ub-f1 right_arrows nobg">
+				<input class="input_transpart" id="userName" type="text"
+					name="userName" value="{$addr.userName}" placeholder="姓名" />
+			</div>
+		</div>
+		<div class="_son_title ub   ">
+			<div class=" text-l">联系电话：</div>
+			<div class="ub-f1 right_arrows nobg">
+				<input class="input_transpart" type="text" id="userPhone"
+					name="userPhone" value="{$addr.userPhone}" placeholder="电话" />
+			</div>
+		</div>
+		<div class="_son_title ub   " style="border: none">
+			<div class="ub-f1 text-l">
+				<span class="span-r"> <select id="cmbCountry">
+						<option>中国</option>
+				</select></span> <span class="span-r"> <select id="cmbProvince"
+					style="clear: right;">
+						<option value="0">请选择</option>
+						<volist name="province" id="pr">
+						<option<if condition="$pr['areaId'] eq $addr['areaId1']">selected="true"</if>
+							value="{$pr.areaId}">{$pr.areaName}
+						</option>
+						</volist>
+				</select>
+				</span>
+			</div>
+		</div>
+		<div class="_son_title ub   " style="border: none">
+			<div class="ub-f1 text-l">
+				<span class="span-r"> <select id="cmbCity">
+						<volist name="city" id="ci">
+						<option<if condition="$ci['areaId'] eq $addr['areaId2']">selected="true"</if>
+							value="{$ci.areaId}">{$ci.areaName}
+						</option>
+						</volist>
+				</select>
+				</span> <span class="span-r"> <select id="cmbArea"
+					style="clear: right;">
+						<volist name="area" id="ar">
+						<option<if condition="$ar['areaId'] eq $addr['areaId3']">selected="true"</if>
+							value="{$ar.areaId}">{$ar.areaName}
+						</option>
+						</volist>
+				</select>
+				</span>
+			</div>
+		</div>
+		<div class="_son_title ub   ">
+			<div class=" text-l">详细地址：</div>
+			<div class="ub-f1  right_arrows nobg">
+				<input class="input_transpart" type="text" id="address"
+					name="address" value="{$addr.address}" placeholder="详细地址" />
+			</div>
+		</div>
+	</div>
+	<div style="width: 100%; height: 45px; margin-top: 50%;">
+		<div id="saveAddr"
+			style="text-align: center; width: 50%; margin: 0 auto; background: #ff4045; border-radius: 4px; color: #fff; padding: 10px;">保存</div>
+	</div>
+	<input type="hidden" id="addrid" value="{$addr.addressId}" />
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script>
+	function closeWin() {
+		var r = "{:$_GET['r']}"
+		var url = "";
+		if (r == 'myAddr') {
+			location.href = "{:U('Address/myAddr')}";
+		} else {
+			location.href = history.go(-1);
+		}
+	}
+	$('#saveAddr').click(function() {
+		var url = "{:U('Login/editAddrHandle')}";
+		var addrid = $('#addrid').val();
+		var userName = $.trim($('#userName').val());
+		var userPhone = $.trim($('#userPhone').val());
+		var province = $.trim($('#cmbProvince').val());
+		var cmbCity = $.trim($('#cmbCity').val());
+		var cmbArea = $.trim($('#cmbArea').val());
+		var address = $.trim($('#address').val());
+		if (userName == '') {
+			layer.msg('请输入姓名');
+			return;
+		}
+		if (userPhone == '') {
+			layer.msg('请输入手机号');
+			return;
+		}
+		var telReg = !!userPhone.match(/^1[3|7|4|5|8]{1}\d{9}$/);
+		if (telReg == false) {
+			layer.msg('手机号码不正确');
+			return;
+		}
+		if (province == '' || cmbCity == '' || cmbArea == '') {
+			layer.msg('请选择城市');
+			return;
+		}
+		if (address == '') {
+			layer.msg('请填写详细地址');
+			return;
+		}
+		$.ajax({
+			type : "POST",
+			url : url,
+			data : {
+				addrid : addrid,
+				userName : userName,
+				userPhone : userPhone,
+				areaId1 : province,
+				areaId2 : cmbCity,
+				areaId3 : cmbArea,
+				address : address
+			},
+			dataType : "json",
+			success : function(data) {
+				if (data.status == 0) {
+					layer.msg('更新成功');
+					setTimeout(function() {
+						closeWin();
+					}, 2000);
+				} else {
+					layer.msg('更新失败');
+				}
+			}
+		})
+	})
+	$('#cmbProvince').change(function() {
+		var parentid = $('#cmbProvince').val();
+		$('#cmbCity').html('');
+		$('#cmbArea').html('');
+		getprovince(1, parentid);
+	})
+	$('#cmbCity').change(function() {
+		var parentid = $('#cmbCity').val();
+		if (parentid == 0) {
+			$('#cmbArea').html('');
+			return;
+		}
+		$('#cmbArea').html('');
+		getprovince(2, parentid);
+	})
+	//默认获取省份
+	function getprovince(id, parentid) {
+		var url = "{:U('Address/getCity')}";
+		$.ajax({
+			type : "POST",
+			url : url,
+			data : {
+				parentId : parentid
+			},
+			dataType : "json",
+			success : function(data) {
+				console.log(data);
+				var res = data;
+				var html = "<option value='0'>请选择</option>";
+				for (var i = 0; i < res.length; i++) {
+					html += '<option value="' + res[i].areaId + '">'
+							+ res[i].areaName + '</option>';
+				}
+				switch (id) {
+				case 0:
+					$('#cmbProvince').html(html);
+					break;
+				case 1:
+					$('#cmbCity').html(html);
+					break;
+				case 2:
+					$('#cmbArea').html(html);
+					break;
+				}
+			}
+		});
+	};
+</script>
+</html>

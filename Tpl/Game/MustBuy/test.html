@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>手机移动端可滚动的导航代码</title>
+<include file="./Tpl/head.html" />
+<!--demo展示所用css，不用关心 begin-->
+<link rel="stylesheet" type="text/css"
+	href="http://gmu.baidu.com/demo/assets/reset.css" />
+<!--demo展示所用css end-->
+<!--组件依赖css begin-->
+<link rel="stylesheet" type="text/css"
+	href="__CSS__/widget/navigator/navigator.css" />
+<link rel="stylesheet" type="text/css"
+	href="__CSS__/widget/navigator/navigator.iscroll.css" />
+<link rel="stylesheet" type="text/css"
+	href="__CSS__/widget/navigator/navigator.default.css" />
+<!--皮肤文件，若不使用该皮肤，可以不加载-->
+<link rel="stylesheet" type="text/css"
+	href="__CSS__/widget/navigator/navigator.iscroll.default.css" />
+<!--皮肤文件，若不使用该皮肤，可以不加载-->
+<!--组件依赖css end-->
+<!--组件依赖js begin-->
+<script type="text/javascript" src="__JS__/zepto.js"></script>
+<script type="text/javascript" src="__JS__/zepto.extend.js"></script>
+<script type="text/javascript" src="__JS__/zepto.ui.js"></script>
+<script type="text/javascript" src="__JS__/zepto.iscroll.js"></script>
+<script type="text/javascript" src="__JS__/widget/navigator.js"></script>
+<script type="text/javascript" src="__JS__/widget/navigator.iscroll.js"></script>
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<!--组件依赖js end-->
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<div id="nav-smartSetup">
+		<ul>
+			<li><a href="#">要闻</a></li>
+			<li><a href="#">国内</a></li>
+			<li><a href="#">国际</a></li>
+			<li><a href="#">军事</a></li>
+			<li><a href="#">社会</a></li>
+			<li><a href="#">娱乐</a></li>
+			<li><a href="#">女人</a></li>
+			<li><a href="#">体育</a></li>
+			<li><a href="#">科技</a></li>
+			<li><a href="#">互联网</a></li>
+			<li><a href="#">教育</a></li>
+			<li><a class="cur" href="#">财经</a></li>
+			<li><a href="#">房产</a></li>
+			<li><a href="#">汽车</a></li>
+		</ul>
+	</div>
+
+	<script type="text/javascript">
+$(function(){
+	  $('#nav-smartSetup').navigator();    //smart setup方式创建 推荐方式
+})
+
+</script>
+
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+</html>

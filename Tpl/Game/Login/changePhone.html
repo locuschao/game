@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>更换绑定</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/layer.min.js"></script>
+<style>
+body {
+	
+}
+
+.ub {
+	background: #fff;
+}
+
+.trsp {
+	background-color: transparent;
+	width: 80%;
+	height: 100%;
+	margin: 0 auto;
+	border: none;
+	height: 35px;
+	line-height: 35px;
+	background-size: 12px;
+}
+
+.password_ico {
+	background: url(__IMG__/ico_s.png) 5px center no-repeat;
+	background-size: 12px;
+}
+
+.login_btn {
+	display: block;
+	width: 80%;
+	height: 40px;
+	line-height: 40px;
+	margin: 0 auto;
+	background: #48b2f2;
+	border-radius: 4px;
+	text-align: center;
+	color: #fff;
+}
+
+.ub {
+	border-bottom: #d5d7dc solid 1px;
+}
+
+.submit {
+	margin-top: 70%;
+}
+
+.ti-10 {
+	text-indent: 10px;
+}
+
+.getCode {
+	background: #ffbc1b;
+	color: #fff;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<form id="form1" name="form1" method="post" action="">
+		<div class="_top">
+			<div class="_left_top"
+				onclick="location.href='{:U('Login/userInfo')}' "></div>
+			<div class="_title_top">更换绑定</div>
+			<div class="_right_top no-bg"></div>
+		</div>
+		<div class="ub lh45 mr-t45">
+			<div class="ti-10">
+				原绑定手机号 <span id="oldphone">{$phone}</span>
+			</div>
+		</div>
+		<div class="ub lh45">
+			<div class="w20"></div>
+			<div class="ub-f1 ub br-b" style="border: none;">
+				<div class="mr-r10 ti-10">验证码</div>
+				<div class="ub-f1 txt-l">
+					<input class="trsp no-i" type="text" name="oldCode" id="oldCode"
+						value="" placeholder="请输入验证码" />
+				</div>
+				<div style="padding: 0 10px;" class="getCode" id="oyanzhenma"
+					onclick="getCode(0)">获取验证码</div>
+			</div>
+		</div>
+
+
+		<div class="ub lh45 margin_top10">
+			<div class="ti-10">手机号</div>
+			<div class="ub-f1 txt-c">
+				<input class="trsp no-bg" type="text" name="newphone" id="newphone"
+					value="" placeholder="请输入你的手机号" />
+			</div>
+		</div>
+		<div class="ub lh45">
+			<div class="w20"></div>
+			<div class="ub-f1 ub br-b" style="border: none;">
+				<div class="mr-r10 ti-10">验证码</div>
+				<div class="ub-f1 txt-l">
+					<input class="trsp no-i" type="text" name="newcode" id="newcode"
+						value="" placeholder="请输入验证码" />
+				</div>
+				<div style="padding: 0 10px;" class="getCode" id="nyanzhenma"
+					onclick="getCode(1)">获取验证码</div>
+			</div>
+		</div>
+		<div class="ub lh35 submit" style="border: none;; background: none;">
+			<div class="ub-f1" onclick="save()">
+				<span class="login_btn"> 保存 </span>
+			</div>
+		</div>
+	</form>
+	<input type="hidden" id="isrepeat" value="0" />
+	<input type="hidden" id="osendStatus" value="0" />
+	<input type="hidden" id="nsendStatus" value="0" />
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script>
+	//60秒倒计时
+	var ocountdown = 120;
+	function osettime(val) {
+		if(val==0){
+			ocountdown=0;
+			return;
+		}
+		if (ocountdown == 0) {
+			$('#osendStatus').val(0);
+			$('#oyanzhenma').text('获取验证码');
+			ocountdown = 120;
+			return;
+		} else {
+			var text = "重新发送(" + ocountdown + ")";
+			$('#osendStatus').val(1);
+			$('#oyanzhenma').text(text);
+			ocountdown--;
+		}
+		setTimeout(function() {
+			osettime(val)
+		}, 1000)
+	}
+
+	//60秒倒计时
+	var ncountdown = 120;
+	function nsettime(val) {
+		if(val==0){
+			ncountdown=0;
+			return;
+		}
+		if (ncountdown == 0) {
+			$('#nsendStatus').val(0);
+			$('#nyanzhenma').text('获取验证码');
+			ncountdown = 120;
+			return;
+		} else {
+			var text = "重新发送(" + ncountdown + ")";
+			$('#nsendStatus').val(1);
+			$('#nyanzhenma').text(text);
+			ncountdown--;
+		}
+		setTimeout(function() {
+			nsettime(val)
+		}, 1000)
+	}
+	
+	//获取验证码
+	function getCode(type) {
+		var phone='';
+		var code=''
+		//旧手机
+		if(type==0){
+			if ($('#osendStatus').val() == 1) {
+				layer.msg('请求过于频繁');
+				return;
+			}
+			phone = $.trim($('#oldphone').text());
+			$('#osendStatus').val(1);
+		}else{
+			//新手机
+			if ($('#nsendStatus').val() == 1) {
+				layer.msg('请求过于频繁');
+				return;
+			}
+			phone = $.trim($('#newphone').val());
+			$('#nsendStatus').val(1);
+		}
+		var telReg = !!phone.match(/^1[3|7|4|5|8]{1}\d{9}$/);
+		if (telReg == false) {
+			layer.msg('手机格式不正确');
+			if(type==0){
+				$('#osendStatus').val(0);
+			}else{
+				$('#nsendStatus').val(0);
+			}
+			return;
+		}
+		if(type==0){
+			osettime();
+		}else{
+			nsettime();
+		}
+		$.ajax({
+			type : "POST",
+			url : "{:U('Wx/Login/getChanPhoneCode')}",
+			data : {
+				phone : phone,
+				type : type
+			},
+			dataType : "json",
+			success : function(data) {
+				try {
+					if (data.status == -2) {
+						settime(0);
+						nettime(0);
+						layer.msg('操作过于频繁');
+						return;
+					}else if(data.status==-1){
+						osettime(0);
+						nsettime(0);
+						layer.msg('手机号码不正确');
+						return;
+					}else if(data.status==-5){
+						$('#nsendStatus').val(0);
+						nsettime(0);
+						layer.msg('新手机号码被占用');
+						return;
+					}
+				} catch (err) {
+
+				}
+			}
+		});
+	}
+
+	function save() {
+		var url = "{:U('Login/changePhoneHandle')}"
+		var oldphone = $.trim($('#oldphone').text());
+		var oldCode=$.trim($('#oldCode').val());
+		var telReg = !!oldphone.match(/^1[3|7|4|5|8]{1}\d{9}$/);
+		if (telReg == false) {
+			layer.msg('手机格式不正确');
+			return;
+		}
+		var newphone=$.trim($('#newphone').val());
+		var newcode=$.trim($('#newcode').val());
+		var ntelReg = !!newphone.match(/^1[3|7|4|5|8]{1}\d{9}$/);
+		if (ntelReg == false) {
+			layer.msg('手机格式不正确');
+			return;
+		}
+		if(oldCode==''||newcode==''){
+			layer.msg('请填写验证码');
+			return;
+		}
+		$.ajax({
+			type : "POST",
+			url : url,
+			data : {
+				oldphone:oldphone,
+				oldcode:oldCode,
+				newphone:newphone,
+				newcode:newcode,
+			},
+			dataType : "json",
+			success : function(data) {
+				try {
+					if (data.status == 0) {
+						layer.msg('手机绑定成功');
+						setTimeout(function() {
+							location.href = "{:U('Login/userInfo')}";
+						}, 2000);
+					} else if(data.status==-3) {
+						$('#isrepeat').val(0);
+						layer.msg('验证码不正确');
+						return;
+					}else{
+						$('#isrepeat').val(0);
+						layer.msg('手机绑定失败');
+					}
+				} catch (err) {
+
+				}
+			}
+		});
+	}
+</script>
+</html>

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>待付款</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<link rel="stylesheet" href="__CSS__/font.css" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/layer.min.js"></script>
+<style>
+.font90 {
+	font-size: 90%;
+}
+
+.layui-layer-btn a {
+	font-weight: normal
+}
+
+body {
+	padding-bottom: 50px;
+}
+
+.col-red {
+	color: #ff4045
+}
+
+.right_arrows {
+	background-size: 7px;
+}
+
+.imgwh img {
+	width: 72px;
+	height: 72px;
+}
+
+.padd-tb {
+	padding: 10px 0px;
+}
+
+.lh35 {
+	height: 35px;
+	line-height: 35px;
+}
+
+.bv {
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+}
+
+.h40 {
+	height: 35px;
+	overflow: hidden;
+}
+
+.color, .sev {
+	height: 20px;
+	line-height: 20px;
+	color: #999;
+	font-size: 90%;
+}
+
+.sev span {
+	background: #ff4045;
+	padding: 3px 6px;
+	width: auto;
+	color: #fff;
+	border-radius: 2px;
+}
+
+.btn span {
+	border: #666 solid 1px;
+	padding: 7px 10px;
+	border-radius: 2px;
+	color: #666
+}
+
+.btns span:last-child {
+	border: #ff4045 solid 1px;
+	padding: 7px 10px;
+	border-radius: 2px;
+	color: #ff4045
+}
+
+.white-checkbox input[type=checkbox]:before, .mui-radio input[type=radio]:before
+	{
+	color: #ccc;
+}
+
+.mui-checkbox input[type=checkbox]:before, .mui-radio input[type=radio]:before
+	{
+	font-size: 20px;
+}
+
+.fw {
+	font-weight: 550;
+}
+
+.hbpay span {
+	display: block;
+	width: 50%;
+	height: 35px;
+	line-height: 35px;
+	border-radius: 4px;
+	border: #ff4045 solid 1px;
+	color: #ff4045;
+	margin: 0 auto;
+	margin-top: 12px;
+}
+
+body {
+	background: #efeff4;
+}
+
+.ub {
+	background: #fff;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<div class="_top">
+		<div class="_left_top" onclick='javascript:window.location.href="{:U('
+			wx/index/index',array('r'=>'my'))}"'></div>
+		<div class="_title_top">待付款</div>
+		<div class="_right_top nobackground"></div>
+	</div>
+	<div class="_content">
+
+		<volist name="waitPay" id="wp">
+		<div id="order{$wp.orderId}">
+			<div class="_son_title ub margin_top10">
+				<div
+					class="ti10 mui-input-row mui-checkbox  margin_right10 margin_top5">
+					<input class="chk" name="checkbox" value="{$wp.orderId}"
+						type="checkbox" />
+				</div>
+				<php> if(empty($wp['shopImg'])&&$wp['shopId']==0){
+				$_shopImg=ltrim("__IMG__/".'shop_ico.png','/'); $_shopName='平台';
+				$_url="return false;"; }else{ $_shopImg=$wp['shopImg'];
+				$_shopName=$wp['shopName'];
+				$_url='window.location.href="'.U('Shop/shop',array('id'=>$wp['shopId'],'ref'=>'Orders_waitPay')).'"';
+				} </php>
+				<div onclick='javascript:{$_url}' class="title_left_ico "
+					style="background: url(/{$_shopImg}) center no-repeat; background-size: 26px 26px; width: 26px;"></div>
+				<div onclick='javascript:{$_url}' class=" text-l">{$_shopName}</div>
+				<div class="right_arrows"></div>
+				<div class="ub-f1 txt-r margin_right10 col-red">等待买家付款</div>
+			</div>
+			<volist name="wp['goods']" id='go'>
+			<div class="ub padd-tb  bor_b "
+				onclick='javascript:window.location.href="{:U('
+				Orders/orderDetail',array('id'=>
+				$wp['orderId']))}"'>
+				<div class="margin_left10 margin_right10 imgwh ">
+					<img style="height: 6rem;" src="/{$go.goodsThums}" alt="">
+				</div>
+				<div class="ub-f1  ub bv">
+					<div class=" ub h40">
+						<div class="ub-f1 "
+							style="height: 36px; line-height: 18px; over-flow: hidden;">{$go.goodsName}</div>
+						<div class="margin_right10 text-r lh25">
+							<p class="font_col_red">￥{$go.goodsPrice}</p>
+						</div>
+					</div>
+					<div class="color ub">
+						<div class="ub-f1">{$go.goodsAttrName}</div>
+						<div class="margin_right10">X{$go.goodsNums}</div>
+					</div>
+					<div class="sev">
+						<!-- <span>七天退换</span> -->
+					</div>
+				</div>
+			</div>
+			</volist>
+			<div class="_son_title lh35 ub font90">
+				<div class="ub-f1 text-r margin_right10 col-666">
+					共
+					<php> echo count($wp['goods'])</php>
+					件商品 合计:￥{$wp.needPay}（含运费:￥{$wp.deliverMoney}）
+				</div>
+			</div>
+			<div class="_son_title lh45 ub font90">
+				<div class="ub-f1 pos-r">
+					<div class="pos-a"></div>
+				</div>
+				<div class=" margin_right10 col-666 btn ub-f1 txt-c  pos-r">
+					<div class="pos-a">
+						<!-- <span>朋友代付</span> -->
+					</div>
+				</div>
+				<div class=" margin_right10 col-666 btn ub-f1 txt-c  pos-r">
+					<div class="pos-a cancel" data-id="{$wp.orderId}">
+						<span>取消订单</span>
+					</div>
+				</div>
+				<div class=" margin_right10 col-666 btns ub-f1 txt-c  pos-r">
+					<div class="pos-a">
+						<a
+							href="{:U('Orders/caretePayInfo',array('ids'=>$wp['orderId']))}"><span>立即付款</span></a>
+					</div>
+				</div>
+			</div>
+		</div>
+		</volist>
+	</div>
+	<if condition="count($waitPay) gt 1">
+	<div class="_son_title lh45 ub"
+		style="height: 60px; line-height: 60px;">
+		<div class=" margin_right10 col-666 hbpay ub-f1 txt-c  pos-r">
+			<div class="pos-a">
+				<span onclick="mergePay()">合并付款</span>
+			</div>
+		</div>
+	</div>
+	</if>
+	<form action="{:U('Orders/caretePayInfo')}" method="post">
+		<input type="hidden" id="ids" name="ids" value="" />
+	</form>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script>
+
+function mergePay(){
+	var val='';
+	$('.chk').each(function(){
+		if($(this).is(':checked')){
+			val+=$(this).val()+',';
+		}
+	})
+	val=val.substring(0,val.length-1);
+	if(!val){
+		layer.msg('请选择要付款的订单');
+		return;
+	}
+	$('#ids').val(val);
+	$('form').submit();
+}
+//取消订单
+$('body').on('click','.cancel',function(){
+	var id=$(this).attr('data-id');
+	layer.confirm('确定取消订单吗?', {icon: 3, title:'取消订单'}, function(index){
+		$.ajax({
+	        type: "POST",
+	        url:"{:U('Orders/cancelOrder')}",
+	        data:{
+	        	id:id,
+	        },
+	        success: function(data) {
+	        	if(data.status==-3){
+	        		layer.msg('请先登录 ');
+	        		return;
+	        	}else if(data.status==-1){
+	        		layer.msg('订单取消失败 ');
+	        		return;
+	        	}else if(data.status==0){
+	        		layer.msg('订单取消成功 ');
+	        		$('#order'+id).remove();
+	        		return;
+	        	}
+	        }
+	    });
+		  layer.close(index);
+		});
+})
+</script>
+</html>

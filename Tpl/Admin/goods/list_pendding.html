@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{$CONF['mallTitle']}后台管理中心</title>
+<link href="__PUBLIC__/plugins/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+<link href="__CSS__/AdminLTE.css" rel="stylesheet" type="text/css" />
+<!--[if lt IE 9]>
+      <script src="__PUBLIC__/js/html5shiv.min.js"></script>
+      <script src="__PUBLIC__/js/respond.min.js"></script>
+      <![endif]-->
+<script src="__PUBLIC__/js/jquery.min.js"></script>
+<script src="__PUBLIC__/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="__PUBLIC__/js/common.js"></script>
+<script src="__PUBLIC__/plugins/plugins/plugins.js"></script>
+<style type="text/css">
+#preview {
+	border: 1px solid #cccccc;
+	background: #CCC;
+	color: #fff;
+	padding: 5px;
+	display: none;
+	position: absolute;
+}
+</style>
+</head>
+<script>
+   function changeStatus(id,v){
+	   Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
+	   $.post("{:U('Admin/Goods/changePenddingGoodsStatus')}",{id:id,status:v},function(data,textStatus){
+				var json = WST.toJson(data);
+				if(json.status=='1'){
+					Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
+					    location.reload();
+					}});
+				}else{
+					Plugins.closeWindow();
+					Plugins.Tips({title:'信息提示',icon:'error',content:'操作失败!',timeout:1000});
+				
+				}
+	   });
+   }
+   
+   function batchBest(v){
+	   var ids = [];
+	   $('.chk').each(function(){
+		   if($(this).prop('checked'))ids.push($(this).val());
+	   })
+	   Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
+	   $.post("{:U('Admin/Goods/changeBethGoodsStatus')}",{id:ids.join(','),status:v},function(data,textStatus){
+				var json = WST.toJson(data);
+				if(json.status=='1'){
+					Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
+					    location.reload();
+					}});
+				}else{
+					Plugins.closeWindow();
+					Plugins.Tips({title:'信息提示',icon:'error',content:'操作失败!',timeout:1000});
+				
+				}
+	   });
+   }
+   
+   
+   $.fn.imagePreview = function(options){
+		var defaults = {}; 
+		var opts = $.extend(defaults, options);
+		var t = this;
+		xOffset = 5;
+		yOffset = 20;
+		if(!$('#preview')[0])$("body").append("<div id='preview'><img width='200' src=''/></div>");
+		$(this).hover(function(e){
+			   $('#preview img').attr('src',"__ROOT__/"+$(this).attr('img'));      
+			   $("#preview").css("top",(e.pageY - xOffset) + "px").css("left",(e.pageX + yOffset) + "px").show();      
+		  },
+		  function(){
+			$("#preview").hide();
+		}); 
+		$(this).mousemove(function(e){
+			   $("#preview").css("top",(e.pageY - xOffset) + "px").css("left",(e.pageX + yOffset) + "px");
+		});
+	}
+   function getAreaList(objId,parentId,t,id){
+	   var params = {};
+	   params.parentId = parentId;
+	   $('#'+objId).empty();
+	   if(t<1){
+		   $('#areaId2').html('<option value="">请选择</option>');
+		   if(parentId==0)return;
+	   }
+	   var html = [];
+	   $.post("{:U('Admin/Areas/queryByList')}",params,function(data,textStatus){
+		    html.push('<option value="">请选择</option>');
+			var json = WST.toJson(data);
+			if(json.status=='1' && json.list.length>0){
+				var opts = null;
+				for(var i=0;i<json.list.length;i++){
+					opts = json.list[i];
+					html.push('<option value="'+opts.areaId+'" '+((id==opts.areaId)?'selected':'')+'>'+opts.areaName+'</option>');
+				}
+			}
+			$('#'+objId).html(html.join(''));
+	   });
+   }
+   function getCatList(objId,parentId,t,id){
+	   var params = {};
+	   params.id = parentId;
+	   $('#'+objId).empty();
+	   if(t<1){
+		   $('#goodsCatId3').empty();
+		   $('#goodsCatId3').html('<option value="0">请选择</option>');
+		   if(parentId==0){
+			   $('#goodsCatId2').html('<option value="0">请选择</option>');
+			   return;
+		   }
+	   }
+	   var html = [];
+	   $.post("{:U('Home/GoodsCats/queryByList')}",params,function(data,textStatus){
+		    html.push('<option value="0">请选择</option>');
+			var json = WST.toJson(data);
+			if(json.status=='1' && json.list){
+				var opts = null;
+				for(var i=0;i<json.list.length;i++){
+					opts = json.list[i];
+					html.push('<option value="'+opts.catId+'" '+((id==opts.catId)?'selected':'')+'>'+opts.catName+'</option>');
+				}
+			}
+			$('#'+objId).html(html.join(''));
+	   });
+  }
+  $(document).ready(function(){
+	    $('.imgPreview').imagePreview();
+	    <notempty name='areaId1'>
+		getAreaList("areaId2",'{$areaId1}',0,'{$areaId2}');
+		</notempty>
+		<if condition="$goodsCatId1  neq 0 ">
+		getCatList("goodsCatId2",{$goodsCatId1},0,{$goodsCatId2});
+		</if>
+		<if condition="$goodsCatId2 neq 0 ">
+		getCatList("goodsCatId3",{$goodsCatId2},1,{$goodsCatId3});
+		</if>
+  });
+  function checkAll(v){
+	   $('.chk').each(function(){
+		   $(this).prop('checked',v);
+	   })
+  }
+   </script>
+<body class='wst-page'>
+	<form method='POST' action='{:U("Admin/Goods/index")}'
+		autocomplete="off">
+		<div class='wst-tbar'>
+			商品名称：<input type='text' id='goodsName' name='goodsName'
+				value='{$goodsName}' /> 商品编号：<input type='text' id='goodsSn'
+				name='goodsSn' value='{$goodsSn}' /> 创建日期：<input
+				class="laydate-icon" onclick="laydate()" type='text' id='starDay'
+				name='starDay' value='{$starDay}' /> - <input class="laydate-icon"
+				onclick="laydate()" type='text' id='endDay' name='endDay'
+				value='{$endDay}' />
+		</div>
+		<div class='wst-tbar'>
+			游戏类型<input type='text' id='gameName' name='gameName'
+				value='{$gameName}' /> 游戏版本<input type='text' id='vName'
+				name='vName' value='{$vName}' /> 商家名称<input type='text'
+				id='shopName' name='shopName' value='{$shopName}' />
+
+			<button type="submit"
+				class="btn btn-primary glyphicon glyphicon-search">查询</button>
+		</div>
+	</form>
+	<div class='wst-body'>
+		<div class='wst-tbar'>
+			<php>if(in_array('spsh_04',$WST_STAFF['grant'])){</php>
+			<button type="button" class="btn btn-primary glyphicon"
+				onclick='javascript:batchBest(1)'>批量通过</button>
+			<button type="button" class="btn btn-primary glyphicon"
+				onclick='javascript:batchBest(0)'>批量拒绝</button>
+			<php>}</php>
+		</div>
+		<table class="table table-hover table-striped table-bordered wst-list">
+			<thead>
+				<tr>
+					<th width='2'><input type='checkbox' name='chk'
+						onclick='javascript:checkAll(this.checked)' /></th>
+					<th width='30'>商品编号</th>
+					<th width='120'>商品名称</th>
+					<th width='40'>商家ID</th>
+					<th width='40'>商家名称</th>
+					<th width='40'>游戏类型</th>
+					<th width='40'>版本</th>
+					<th width='40'>充值金额</th>
+					<th width='40'>最低售价</th>
+					<th width='40'>最低折扣</th>
+					<th width='40'>上架时间</th>
+					<th width='40'>销量</th>
+					<th width='40'>创建时间</th>
+					<th width='80'>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<volist name="Page['root']" id="vo" key='i'>
+				<tr>
+					<td><input type='checkbox' class='chk' name='chk_{$vo['
+						goodsId']}' value='{$vo['goodsId']}'/></td>
+					<td>{$vo['goodsSn']}&nbsp;</td>
+					<td img='{$vo[' goodsThums']}' class='imgPreview'><img
+						src='__ROOT__/{$vo[' goodsThums']}' width='50' />
+						{$vo['goodsName']}</td>
+					<td>{$vo['shopId']}&nbsp;</td>
+					<td>{$vo['shopName']}</td>
+					<td>{$vo['gameName']}&nbsp;</td>
+					<td>{$vo['versions']}</td>
+					<td>{$vo['shopPrice']}</td>
+					<td>{$vo['lowPrice']}</td>
+					<td>{$vo['zhekou']}</td>
+					<td>{$vo['upTime']}</td>
+					<td>{$vo['saleCount']}</td>
+					<td>{$vo['createTime']}</td>
+					<td><a class="btn btn-primary glyphicon"
+						href='{:U("Admin/Goods/toPenddingView",array("id"=>$vo["goodsId"]))}'>查看</a>
+						<php>if(in_array('spsh_04',$WST_STAFF['grant'])){</php> <if
+							condition="$vo['goodsStatus']==1 ">
+						<button type="button"
+							class="btn btn-danger glyphicon glyphicon-pencil"
+							onclick="javascript:changeStatus({$vo['goodsId']},0)">不通过</button>
+						&nbsp; <else />
+						<button type="button"
+							class="btn btn-success glyphicon glyphicon-pencil"
+							onclick="javascript:changeStatus({$vo['goodsId']},1)">通过</button>
+						&nbsp; </if> <php>}</php></td>
+				</tr>
+				</volist>
+				<tr>
+					<td colspan='10' align='center'>{$Page['pager']}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+
+
+
+
+</html>

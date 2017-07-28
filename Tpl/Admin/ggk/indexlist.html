@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{$CONF['mallTitle']}后台管理中心</title>
+<link href="__PUBLIC__/plugins/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+<link href="__CSS__/AdminLTE.css" rel="stylesheet" type="text/css" />
+<!--[if lt IE 9]>
+      <script src="__PUBLIC__/js/html5shiv.min.js"></script>
+      <script src="__PUBLIC__/js/respond.min.js"></script>
+      <![endif]-->
+<script src="__PUBLIC__/js/jquery.min.js"></script>
+<script src="__PUBLIC__/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="__PUBLIC__/js/common.js"></script>
+<script src="__PUBLIC__/plugins/plugins/plugins.js"></script>
+<link rel="stylesheet" href="__CSS__/layer.css">
+<script type="text/javascript" src="__JS__/layer.js"></script>
+<script type="text/javascript" src="__JS__/layer.ext.js"></script>
+</head>
+<script>
+     $(function(){
+     layer.config({
+                extend: 'extend/layer.ext.js'
+      });
+  })
+   </script>
+<script>
+   function del(id){
+     Plugins.confirm({title:'信息提示',content:'您确定要删除该活动吗?删除将连用户使用记录一同删除',okText:'确定',cancelText:'取消',okFun:function(){
+       Plugins.closeWindow();
+       Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
+       $.post("{:U('Admin/Ggk/ggkdel')}",{id:id},function(data,textStatus){
+          var json = WST.toJson(data);
+          if(json.status=='1'){
+            Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
+              location.reload();
+            }});
+          }else{
+            Plugins.closeWindow();
+            parent.showMsg({msg:'操作失败!',status:'danger'});
+          }
+        });
+        }});
+   }
+
+   function refuse(id){
+     Plugins.confirm({title:'信息提示',content:'您确定要拒绝这条申请吗?',okText:'确定',cancelText:'取消',okFun:function(){
+       Plugins.closeWindow();
+       Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
+       $.post("{:U('Admin/Ggk/refuse')}",{id:id},function(data,textStatus){
+          var json = WST.toJson(data);
+          if(json.status=='1'){
+            Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
+              location.reload();
+            }});
+          }else{
+            Plugins.closeWindow();
+            parent.showMsg({msg:'操作失败!',status:'danger'});
+          }
+        });
+        }});
+   }
+
+   function over(id){
+     Plugins.confirm({title:'信息提示',content:'您确定要结束这次活动吗?',okText:'确定',cancelText:'取消',okFun:function(){
+       Plugins.closeWindow();
+       Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
+       $.post("{:U('Admin/Ggk/over')}",{id:id},function(data,textStatus){
+          var json = WST.toJson(data);
+          if(json.status=='1'){
+            Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
+              location.reload();
+            }});
+          }else{
+            Plugins.closeWindow();
+            parent.showMsg({msg:'操作失败!',status:'danger'});
+          }
+        });
+        }});
+   }
+   </script>
+<body class='wst-page'>
+	<form method='get' action="">
+		<div class='wst-tbar'>
+			<input type='hidden' id='admin_check' name='admin_check' value='1' />
+			<a class="btn btn-primary glyphicon glyphicon-search"
+				href="/Admin/Ggk/indexlist.html">查看全部</a> <a
+				href="/Admin/Ggk/indexlist.html?type=1"
+				class="btn btn-primary glyphicon glyphicon-search">进行中</a> <a
+				href="/Admin/Ggk/indexlist.html?type=2"
+				class="btn btn-primary glyphicon glyphicon-search">已结束</a> <a
+				href="/Admin/Ggk/indexlist.html?type=3"
+				class="btn btn-primary glyphicon glyphicon-search">已抽完</a>
+		</div>
+	</form>
+	<div class='wst-body'>
+		<table class="table table-hover table-striped table-bordered wst-list">
+			<thead>
+				<tr>
+					<th width='200'>活动名称</th>
+					<th width="50">参与人数</th>
+					<th width="100">状态</th>
+					<th width="100" style="padding-right: 60px;">开始/结束时间</th>
+					<th width='200' style="text-align: center;">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<volist name='list' id='vo'>
+				<tr>
+					<td>{$vo['title']}</td>
+					<td>{$vo['joinnum']}</td>
+					<td>
+						<?php
+              switch ($vo['state']) {
+                  case '0':
+                    echo "<font color='blue'>活动审核中</font>";
+                    break;
+                  case '1':
+                  echo "<font color='green'>活动进行中</font>";
+                    break;
+                  case '2':
+                  echo "<font color='red'>活动已结束</font>";
+                    break;
+                  case '3':
+                  echo "<font color='red'>奖品被抽完</font>";
+                    break;
+                }
+             ?>
+					</td>
+					<td style="padding-right: 50px;">{$vo['statdate']|date='Y-m-d
+						H:i',###}
+						<p style="line-height: 5px; padding-left: 50px;">/</p>{$vo['enddate']|date='Y-m-d
+						H:i',###}
+					</td>
+					<td style="width: 150px; text-align: center; font-size: 15px;"><a
+						class="btn btn-default glyphicon glyphicon-pencil"
+						href="/Admin/Ggk/manage.html?id={$vo['id']}">中奖管理</a>
+						<button type="button"
+							class="btn btn-default glyphicon glyphicon-pencil"
+							onclick="javascript:window.location.href='/Admin/Ggk/release?xg=1&id={$vo["id"]}'">编辑</button>
+						<button type="button"
+							class="btn btn-default glyphicon glyphicon-pencil"
+							onclick="javascript:over({$vo['id']})">结束</button>
+						<button type="button"
+							class="btn btn-default glyphicon glyphicon-trash"
+							onclick="javascript:del({$vo['id']})">删除</button></td>
+				</tr>
+				</volist>
+				<tr>
+					<td colspan='5' class="nav_down">{$show}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

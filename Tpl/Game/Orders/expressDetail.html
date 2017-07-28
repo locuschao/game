@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>物流详情</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<link rel="stylesheet" href="__CSS__/font.css" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/layer.min.js"></script>
+<style>
+.list {
+	margin: 0 auto;
+	padding: 10px;
+}
+
+.list p {
+	padding: 5px 0px;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<div class="list">
+		<if condition="$expressInfo['data'][0]['ftime']">
+		<p>物流公司:{$info.expressCompany}</p>
+		<p>运单号:{$info.trackNumber}</p>
+		<volist name="expressInfo['data']" id="ex">
+		<p>{$ex.context} {$ex.time}</p>
+		</volist>
+	</div>
+	<else />
+	<p>物流公司:等待发货</p>
+	<p>运单号:无</p>
+	</if>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+</html>

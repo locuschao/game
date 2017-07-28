@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>在线支付</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<link rel="stylesheet" href="__CSS__/font.css" />
+<link rel="stylesheet" type="text/css" href="__CSS__/wxzf.css">
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/layer.min.js"></script>
+<style>
+.money_ico {
+	width: 35px;
+	background: url(__IMG__/score_.png) center center no-repeat;
+	background-size: 20px 20px;
+}
+
+.wx_ico {
+	width: 35px;
+	background: url(__IMG__/weixin_ico.png) center center no-repeat;
+	background-size: 20px 20px;;
+}
+
+.ali_ico {
+	width: 35px;
+	background: url(__IMG__/alipay_ico.png) center center no-repeat;
+	background-size: 20px 20px;;
+}
+
+.margin_top5 {
+	margin-top: 5px;
+}
+
+.height25 {
+	height: 35px;
+	line-height: 35px;
+}
+
+.submit {
+	display: block;
+	background: #ff4045;
+	padding: 5px;
+	color: #fff;
+	border-radius: 4px;
+	width: 40%;
+	height: 35px;
+	line-height: 35px;
+	margin: 0 auto;
+}
+
+._center {
+	
+}
+
+.white-checkbox input[type=checkbox]:before, .mui-radio input[type=radio]:before
+	{
+	color: #ccc;
+}
+
+.inputpwd input {
+	background: transparent;
+	border: none;
+	height: 30px;
+	line-height: 30px;
+	margin-left: 10px;
+	border-bottom: #ccc solid 1px;
+}
+
+.btn {
+	padding: 5px 20px;
+	width: 80%;
+	margin: 0 auto;
+	background: #fff;
+	border-radius: 4px;
+	text-align: center;
+}
+
+.btn span {
+	line-height: 30px;
+	display: inline-block;
+	background: url(__IMG__/add_.png) 10px center no-repeat;
+	padding: 0px 10px 0px 20px;
+	background-size: 20px 20px;
+	color: #999;
+}
+
+.btn span img {
+	width: 20px;
+	height: 0px;
+}
+
+.add_ {
+	width:
+}
+
+.li {
+	height: 90px;
+}
+
+.l_img {
+	padding: 10px;
+	width: 80px;
+	height: 70px;
+	background: url({$goodsInfo.goodsThums}) center no-repeat;;
+	background-size: 80px 70px;
+}
+
+.title_ {
+	height: 35px;
+	line-height: 30px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.score_ {
+	height: 35px;
+	line-height: 35px;
+}
+
+.padd_10 {
+	padding: 10px 0px;
+}
+
+.no-bg {
+	background: none;
+}
+
+.r_arrows {
+	width: 30px;
+}
+
+.mui-input-row {
+	width: 50px;
+}
+
+.btn {
+	padding: 15px;
+}
+
+.font90 {
+	font-size: 90%;
+}
+
+.money_ico {
+	background-image: url(__IMG__/yie_Ico.png);
+	background-size: 20px;
+}
+
+.wx_ico {
+	background-image: url(__IMG__/weixin_ico.png);
+	background-size: 20px;
+}
+
+.ali_ico {
+	background-image: url(__IMG__/alipay_ico.png);
+	background-size: 20px;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<form action="#" method="post">
+		<div class="_top">
+			<php> $url=explode('_',$_GET['ref']); $a=$url[0]; $m=$url[1];
+			$p=$url[2]; $refUrl=U("$a/$m",array('id'=>$p)); </php>
+			<div class="_left_top"
+				onclick='javascript:window.location.href="<php>echo $refUrl;</php>"'></div>
+			<div class="_title_top">在线支付</div>
+			<div class="_right_top nobackground"></div>
+		</div>
+		<div class="_content">
+			<div style="width: 100%; height: 10px;"></div>
+			<div class="btn noAddr" style="display: <if condition="$addr">
+				none;
+				<else />
+				block;
+				</if>
+				"> <span><img src="__IMG__/add_.png" />请添加收件地址</span>
+			</div>
+			<div class="btn existsAddr"
+				style="word-break: break-all;; display: <if condition="!$addr">
+				none;
+				</if>
+				>">
+				<div
+					style="background: none; padding: 10px 0px; font-size: 14px; word-break: break-all;">{$addr.userName}
+					{$addr.userPhone}
+					{$addr.province}{$addr.city}{$addr.area}{$addr.address}</div>
+			</div>
+			<input type="hidden" id="selectAddrId" value="{$addr.addressId}" />
+			<div class="ub lh45 bg-ff ti10 mar-t10 bor_b col-6">兑换商品详情</div>
+			<div class="ub bg-ff bor_b li">
+				<div class="l_img"
+					style="background: url({$goodsInfo.goodsThums}) center no-repeat; background-size: 80px 70px;"></div>
+				<div class="ub-f1 ">
+					<div class="padd_10">
+						<div class="col-6 title_  ub-f1">{$goodsInfo.goodsName}</div>
+						<div class="col-9 score_">{$goodsInfo.shopPrice}积分</div>
+					</div>
+				</div>
+				<div class="r_arrows"></div>
+			</div>
+			<div class="_son_title ub  border_bottom1 margin_top10">
+				<div class="title_left_ico margin_left10 money_ico "></div>
+				<div class="ub-f1 text-l col-red ">可用积分 &nbsp;{$userScore}积分</div>
+				<div class="mui-input-row mui-radio margin_right10 margin_top5 ">
+					<input class="payType" name="redio" value="0" type="radio">
+				</div>
+			</div>
+			<div class="_son_title ub height35 ">
+				<div class="ub-f1 text-l  col-9 ti10">其它支付方式</div>
+				<div class="ub-f1 txt-r  col-red  ti10 mr-r10">￥{$goodsInfo.needPay}</div>
+			</div>
+			<div class="_son_title ub  border_bottom1 ">
+				<div class="title_left_ico margin_left10 wx_ico "></div>
+				<div class="ub-f1 text-l">微信支付</div>
+				<div class="mui-input-row mui-radio margin_right10 margin_top5">
+					<input class="payType" data-status="0" name="redio" value="2"
+						type="radio">
+				</div>
+			</div>
+			<!--      <div class="_son_title ub  border_bottom1 ">
+            <div class="title_left_ico margin_left10 ali_ico"></div>
+            <div class="ub-f1 text-l">支付宝支付</div>
+            <div class="mui-input-row mui-radio  margin_right10 margin_top5">
+                <input class="payType" data-status="0" name="redio" value="1" type="radio">
+            </div>
+        </div> -->
+			<div
+				class="_son_title ub height35 margintop10 noborder nobackground _center">
+				<div class="ub-f1 text-c">
+					<span class="submit txt-c" onclick="showPay()">确认兑换</span>
+				</div>
+			</div>
+		</div>
+		<input type="hidden" id="goodsId" value="{$goodsInfo.goodsId}" /> <input
+			type="hidden" id="userScore" value="{$userScore}" /> <input
+			type="hidden" id="isrepeat" value="0" /> <input type="hidden"
+			id="needPay" value="{$goodsInfo.needPay}" /> <input type="hidden"
+			id="needScore" value="{$goodsInfo.shopPrice}" />
+	</form>
+	<!--浮动层-->
+	<div class="ftc_wzsf">
+		<div class="srzfmm_box">
+			<div class="qsrzfmm_bt clear_wl">
+				<img src="__IMG__/xx_03.jpg" class="tx close fl"><img
+					src="__IMG__/jftc_03.jpg"
+					style="height: 28px; width: 28px; border-radius: 28px; margin-top: 10px;"
+					class="fl touxian"><span class="fl">请输入支付密码</span>
+			</div>
+			<div class="zfmmxx_shop">
+				<div class="mz">o2o平台</div>
+				<div class="wxzf_price">{$goodsInfo.shopPrice}积分</div>
+			</div>
+			<div class="blank_yh">
+				<img src="__IMG__/alpay.png" class="fl"><span class="fl ml5">选择其它方式付款</span><img
+					src="__IMG__/jftc_09.jpg" class="fr">
+			</div>
+			<ul class="mm_box">
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+			</ul>
+		</div>
+		<div class="numb_box">
+			<div class="xiaq_tb">
+				<img src="__IMG__/jftc_14.jpg" height="10">
+			</div>
+			<ul class="nub_ggg">
+				<li><a href="javascript:void(0);">1</a></li>
+				<li><a href="javascript:void(0);" class="zj_x">2</a></li>
+				<li><a href="javascript:void(0);">3</a></li>
+				<li><a href="javascript:void(0);">4</a></li>
+				<li><a href="javascript:void(0);" class="zj_x">5</a></li>
+				<li><a href="javascript:void(0);">6</a></li>
+				<li><a href="javascript:void(0);">7</a></li>
+				<li><a href="javascript:void(0);" class="zj_x">8</a></li>
+				<li><a href="javascript:void(0);">9</a></li>
+				<li><span></span></li>
+				<li><a href="javascript:void(0);" class="zj_x">0</a></li>
+				<li><span class="del"> <img src="__IMG__/jftc_18.jpg"></span>
+				</li>
+			</ul>
+		</div>
+		<div class="hbbj"></div>
+	</div>
+	<input type="hidden" name="orderids" id="orderids" value="{$orderids}" />
+	<input type="hidden" name="payStatus" id="payStatus" value="0" />
+	<input type="hidden" name="isrepeat" id="isrepeat" value="0" />
+	<input type="hidden" name="exisPwd" id="exisPwd" value="{$exisPwd}" />
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+
+<script>
+
+
+
+
+
+
+
+$(function() {
+   $('.wxzf_price').text('￥{$needPay}');
+
+   //出现浮动层
+   $('.blank_yh').on('click', function() {
+       $(".ftc_wzsf").hide();
+   });
+
+   $(".ljzf_but").on('click', function() {
+       $(".ftc_wzsf").show();
+   });
+   //关闭浮动
+   $(".close").on('click', function() {
+       $(".ftc_wzsf").hide();
+   });
+   //数字显示隐藏
+   $(".xiaq_tb").on('click', function() {
+       $(".numb_box").slideUp(500);
+   });
+   $(".mm_box").on('click', function() {
+       $(".numb_box").slideDown(500);
+   });
+   //----
+   var i = 0;
+   var payPwd = '';
+   $(".nub_ggg li a").on('click', function() {
+       var payStatus = $('#payStatus').val();
+       //判断已经已经是6位密码
+       if (payStatus == 1) {
+       	layer.msg('正在处理中');
+           return;
+       }
+       i++;
+       if (i < 6) {
+           payPwd = payPwd + $(this).text();
+           $(".mm_box li").eq(i - 1).addClass("mmdd");
+       } else {
+           $('#payStatus').val(1);
+           payPwd = payPwd + $(this).text();
+           $(".mm_box li").eq(i - 1).addClass("mmdd");
+           if (payPwd == '' || payPwd == null || payPwd.length != 6) {
+               //alert(payPwd);
+               return;
+           }
+           layer.msg('正在付款...',{icon:16});
+           var orderids=$('#orderids').val();
+           var userScore=Number($('#userScore').val());
+        	var goodsId=$('#goodsId').val();
+        	var needScore=Number($('#needScore').val());
+        	var addrId=$('#selectAddrId').val();
+        	var payType=$('input:radio:checked').val();
+		   $.ajax({
+	           type: "POST",
+	           url: "{:U('Wx/Confirm/checkPayPWD')}",
+	           data: {pwd:payPwd},
+	           dataType: "json",
+	           success: function(data){
+	        		if(data.status==0){
+	        			 	 $('#isrepeat').val(1);
+	        				 var orderunique = new Date().getTime();
+	        				  $.ajax({
+	        			          type: "POST",
+	        			          url: "{:U('Score/scorePayHandle')}",
+	        			          data: {
+	        			        	  goodsId:goodsId,
+	        			        	  addrId:addrId,
+	        			        	  payType:payType,
+	        			        	  orderunique:orderunique
+	        			          },
+	        			          dataType: "json",
+	        			          success: function(data){
+	        			        	  layer.closeAll();
+	        				        	  switch(data.status){
+	        				        	  case 0: layer.msg('兑换成功');
+	        				        		setTimeout(function(){
+	        				        	  		location.href="{:U('Score/record')}";
+	        				        	  	},2000);
+	        				        	  break;
+	        				        	  case -1: 
+	        				        		  layer.msg('兑换失败');
+	        				        		  $('#isrepeat').val(0);
+	        				        	  break;
+	        				        	  case -3: layer.msg('请先登录'); $('#isrepeat').val(0);break;
+	        				        	  case -2: layer.msg('积分不够'); $('#isrepeat').val(0);break;
+	        				        	  }
+	        			        	  }
+	        			          })
+	        		}else{
+	        			 layer.msg(data.msg);
+	        		}
+	            }
+	       });
+           
+           //密码错误处理、/*
+           //
+           // $(".mm_box li").removeClass("mmdd");
+           // $('#payStatus').val(0);
+           // payPwd = '';
+           // i = 0;
+           //*/
+       }
+   });
+
+   $(".nub_ggg li .del").on('click', function() {
+       if (i > 0) {
+           i--;
+           $(".mm_box li").eq(i).removeClass("mmdd");
+           payPwd = payPwd.substring(0, payPwd.length - 1);
+           i == 0;
+           $('#payStatus').val(0);
+       }
+   });
+
+});
+
+
+function callPay(){
+	 $(".ftc_wzsf").show();
+}
+
+
+$(function(){
+	$('.payType').change(function(){
+		$('#isrepeat').val(0);
+	})
+/* 	$('.payType').on('click',function(){
+		var status=$(this).attr('data-status');
+		if(status==1){
+			$(this).attr('data-status',0);
+			$('.payType').prop('checked',false);
+			$(this).prop('checked',false);
+		}else{
+			$('.payType').attr('data-status',0);
+			$('.payType').prop('checked',false);
+			$(this).attr('data-status',1);
+			$(this).prop('checked',true);
+		}
+	}) */
+})
+
+function showPay(){
+	var exisPwd=$('#exisPwd').val();
+	
+	if(exisPwd==0){
+		location.href="{:U('Login/payPwd')}";
+		return;
+	}
+	
+	if( $('#isrepeat').val(1)==1){
+		layer.msg('请不要重复提交');
+		return;
+	}
+	var userScore=Number($('#userScore').val());
+	var goodsId=$('#goodsId').val();
+	var needScore=Number($('#needScore').val());
+	var addrId=$('#selectAddrId').val();
+	var payType=$('input:radio:checked').val();
+	if(addrId==''||typeof(addrId)=='undefined'||isNaN(addrId)){
+		layer.msg('请选择收货地址');
+		return;
+	}
+	if(payType==''||typeof(payType)=='undefined'||isNaN(payType)){
+		layer.msg('请选择兑换方式');
+		return;
+	}
+	switch(payType){
+	case '0' : 
+		if(needScore>userScore){
+			layer.msg('积分不足');
+			return;
+		}
+   		callPay();
+		break;
+	case '2' : 
+		//微信2或者余额支付
+		 $('#isrepeat').val(1);
+		 layer.msg('正在处理');
+		 var orderunique = new Date().getTime();
+		  $.ajax({
+	          type: "POST",
+	          url: "{:U('Score/scorePayMoneyHandle')}",
+	          data: {
+	        	  goodsId:goodsId,
+	        	  addrId:addrId,
+	        	  payType:payType,
+	        	  orderunique:orderunique
+	          },
+	          dataType: "json",
+	          success: function(data){
+	        	  layer.closeAll();
+		        	  switch(data.status){
+		        	  case 0: layer.msg('订单提交成功');
+		        		setTimeout(function(){
+		        	  		location.href="{:U('Confirm/onlinkPay')}";
+		        	  	},2000);
+		        	  break;
+		        	  case -1: 
+		        		  layer.msg('请稍候尝试');
+		        		  $('#isrepeat').val(0);
+		        	  break;
+		        	  case -3: layer.msg('请先登录'); $('#isrepeat').val(0);location.href="{:U('Login/login')}";break;
+		        	  }
+	        	  }
+	          })
+		
+		break;
+	case '1' : layer.msg('支付宝支付建设中'); break;
+	}
+}
+
+//不存在地址时
+$('body').on('click','.noAddr',function(){
+	layer.open({
+		  type: 2,
+		  title: false,
+		  shadeClose: 0,
+		  closeBtn :0,
+		  shade: 0.8,
+		  area: ['100%', '100%'],
+		  content: '{:U("Address/myAddr")}' //iframe的url
+		}); 
+})
+//已经存在
+$('body').on('click','.existsAddr',function(){
+	layer.open({
+		  type: 2,
+		  title: false,
+		  shadeClose: 0,
+		  closeBtn :0,
+		  shade: 0.8,
+		  area: ['100%', '100%'],
+		  content: '{:U("Address/myAddr")}' //iframe的url
+		}); 
+})
+
+
+function isDefine(value) {
+  if (value === null || value === "" || value === "undefined" || value === undefined || value === "null" || value === "(null)" || value === 'NULL' || typeof(value) === 'undefined') {
+    return false;
+  } else {
+    value = value + "";
+    value = value.replace(/\s/g, "");
+    if (value === "") {
+      return false;
+    }
+    return true;
+  }
+}
+
+function upAddr(){
+	var url='{:U("Address/getUserAddr")}';
+	  $.ajax({
+          type: "POST",
+          url: url,
+          data: {},
+          dataType: "json",
+          success: function(data){
+        	    if(!isDefine(data)){
+        	    	  $("#selectAddrId").val('');
+        	    	  $('.noAddr').show();
+        	    	  $('.existsAddr').hide();
+        	    	  return;
+        	    }
+      			var html='';
+      			html+='<div style="background:none;padding:10px 0px;font-size:14px">'+data[0].userName+'&nbsp;'+data[0].userPhone+'&nbsp;'+data[0].province+data[0].city+data[0].area+data[0].address+'</div>';
+      		   $("#selectAddrId").val(data[0]['addressId']);
+      		   if(data[0]['addressId']){
+      			   $('.noAddr').hide();
+      			   $('.existsAddr').show();
+      		   }else{
+      			 $('.noAddr').show();
+      		   }
+      		   $('.existsAddr').html(html);
+        	  }
+          })
+	layer.closeAll('iframe');
+}
+
+</script>
+</html>

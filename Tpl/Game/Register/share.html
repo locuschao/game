@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>分享给朋友</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta name="description" content="demo" />
+    <script src="__PUBLIC__/share/nativeShare.js?<?=time()?>"></script>
+    <link rel="stylesheet" href="__PUBLIC__/share/nativeShare.css"/>
+    <style>
+    body {
+        margin: 0;
+    }
+    .label{
+        margin-left: 10px;
+    }
+    .top-banner{
+        margin-bottom:30px;
+        padding-top:10px;
+        padding-bottom:5px;
+        text-align:center;
+        background:#2C3242;
+    }
+    </style>
+</head>
+
+<body>
+<div id="nativeShare"></div>
+
+<script>
+    var config = {
+        url:'{$url}',
+        title:'手游狗交易平台',
+        desc:'朋友分享',
+        descreption:'一个能让玩家在游戏中赚外快的平台。',
+        img:'http://shouyougou.cn/Tpl/Game/image/logo.png',
+        img_title:'手游狗',
+        from:'手游狗商城'
+    };
+    var share_obj = new nativeShare('nativeShare',config);
+</script>
+</body>
+</html>

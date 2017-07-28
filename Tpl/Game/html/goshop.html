@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../css/aui.css" />
+<meta charset="utf-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>title</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" type="text/css" href="../css/api.css" />
+<link rel="stylesheet" type="text/css" href="../css/goshop.css" />
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<div id="main">
+		<div class="shangjia">
+			<div class="min-title">
+				<span class="t2"></span><span class="t1">大吉祥天</span><span class="t3"></span>
+			</div>
+			<div class="goods">
+				<div class="goods_left">
+					<img src="../image/sp_5.png" />
+				</div>
+				<div class="goods_right">
+					<div class="goods_right_top">
+						<div class="goods_title">衣锦 2015冬装新款羽绒服奢华大毛领韩中长款金...</div>
+						<div class="goods_xuanzhong"></div>
+					</div>
+					<div class="goods_right_bottom">
+						<div class="goods_money">
+							<div class="danjia">￥14</div>
+							<div class="xiaoji">
+								小计:<a>￥42</a>
+							</div>
+						</div>
+						<div class="goods_num_add">
+							<div class="jian" tapmode="jian_action">-</div>
+							<input type="text" class="num" value="3" />
+							<div class="jia" tapmode="jia_action">+</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="goods">
+				<div class="goods_left">
+					<img src="../image/sp_5.png" />
+				</div>
+				<div class="goods_right">
+					<div class="goods_right_top">
+						<div class="goods_title">衣锦 2015冬装新款羽绒服奢华大毛领韩中长款金...</div>
+						<div class="goods_xuanzhong"
+							style="background-image: url('../image/xuan_hong.png');"></div>
+					</div>
+					<div class="goods_right_bottom">
+						<div class="goods_money">
+							<div class="danjia">￥14</div>
+							<div class="xiaoji">
+								小计:<a>￥42</a>
+							</div>
+						</div>
+						<div class="goods_num_add">
+							<div class="jian" tapmode="jian_action">-</div>
+							<input type="text" class="num" value="3" />
+							<div class="jia" tapmode="jia_action">+</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="shangjia">
+			<div class="min-title">
+				<span class="t2"></span><span class="t1">小吉祥天</span><span class="t3"></span>
+			</div>
+			<div class="goods">
+				<div class="goods_left">
+					<img src="../image/sp_5.png" />
+				</div>
+				<div class="goods_right">
+					<div class="goods_right_top">
+						<div class="goods_title">衣锦 2015冬装新款羽绒服奢华大毛领韩中长款金...</div>
+						<div class="goods_xuanzhong"></div>
+					</div>
+					<div class="goods_right_bottom">
+						<div class="goods_money">
+							<div class="danjia">￥14</div>
+							<div class="xiaoji">
+								小计:<a>￥42</a>
+							</div>
+						</div>
+						<div class="goods_num_add">
+							<div class="jian" tapmode="jian_action">-</div>
+							<input type="text" class="num" value="3" />
+							<div class="jia" tapmode="jia_action">+</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="goods">
+				<div class="goods_left">
+					<img src="../image/sp_5.png" />
+				</div>
+				<div class="goods_right">
+					<div class="goods_right_top">
+						<div class="goods_title">衣锦 2015冬装新款羽绒服奢华大毛领韩中长款金...</div>
+						<div class="goods_xuanzhong"
+							style="background-image: url('../image/xuan_hong.png');"></div>
+					</div>
+					<div class="goods_right_bottom">
+						<div class="goods_money">
+							<div class="danjia">￥14</div>
+							<div class="xiaoji">
+								小计:<a>￥42</a>
+							</div>
+						</div>
+						<div class="goods_num_add">
+							<div class="jian" tapmode="jian_action">-</div>
+							<input type="text" class="num" value="3" />
+							<div class="jia" tapmode="jia_action">+</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/config.js"></script>
+<script type="text/javascript">
+	apiready = function(){
+		
+		var gao=api.winHeight;
+		h=gao-100;
+		api.openFrame({
+		    name: 'goshop_footder',
+		    url: 'goshop_footder.html',
+		    rect: {
+			    x:0,
+			    y:h,
+			    w:'auto',
+			    h:50
+		    }
+	    });
+	    api.setFrameAttr({name: "goshop_footder", hidden:true});
+	};
+</script>
+</html>

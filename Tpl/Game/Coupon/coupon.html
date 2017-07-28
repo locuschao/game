@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>优惠卷</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<link rel="stylesheet" href="__CSS__/font.css" />
+
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/layer.min.js"></script>
+<script type="text/javascript" src="__JS__/ajaxupload.js"></script>
+<style>
+.bor_b2 {
+	border-bottom: #ff4045 solid 3px;
+	color: #ff4045;
+}
+
+.hide {
+	display: none;
+}
+
+.triangle-up {
+	position: absolute;
+	left: 48%;
+	bottom: 0;
+	width: 0;
+	height: 0;
+	border-left: 2px solid transparent;
+	border-right: 2px solid transparent;
+	border-bottom: 3px solid red;
+}
+
+.bg-oran {
+	background: #fff5e3;
+	height: 30px;
+	width: 100%;
+	line-height: 30px;
+	border-top: #e1ccb8 solid 1px;
+	border-bottom: #e1ccb8 solid 1px;
+}
+
+.lings {
+	width: 30px;
+	background: url(__IMG__/ling.png) center no-repeat;
+	background-size: 16px;
+}
+
+.close {
+	width: 50px;
+	background: url(__IMG__/close_ico.png) center no-repeat;
+	background-size: 14px;
+}
+
+.text-oran {
+	color: #ffa415
+}
+
+.cart:nth-child(odd) {
+	width: 95%;
+	height: 110px;
+	margin: 10px auto 0px auto;;
+	background: url(__IMG__/coupon_red.png) center no-repeat;
+	background-size: 100% 100%;
+}
+
+.cart:nth-child(even) {
+	width: 95%;
+	height: 110px;
+	margin: 10px auto 0px auto;;
+	background: url(__IMG__/coupon_blue.png) center no-repeat;
+	background-size: 100% 100%;
+}
+
+.cart_old {
+	width: 95%;
+	height: 110px;
+	margin: 10px auto 0px auto;;
+	background: url(__IMG__/coupon_bg_old.png) center no-repeat;
+	background-size: 100% 100%;
+}
+
+.mon {
+	heigt: 80px;
+	line-height: 90px;
+}
+
+.one {
+	width: 130px;
+	overflow: hidden;
+	text-align: center;
+	height: 30px;
+	line-height: 30px;
+	top: 55px;
+	right: 5%;
+	font-size: 18px;
+	background: url(__IMG__/dian_bg.png) top center no-repeat;
+}
+
+.two {
+	width: 130px;
+	text-align: center;
+	height: 30px;
+	color: #323232;
+	font-size: 18px;
+	top: 30px;
+	right: 5%;
+}
+
+.three {
+	height: 1px;
+	border-bottom: #ccc dashed 1px;
+	width: 90%;
+	left: 5%;
+	top: 80px;
+}
+
+.four {
+	height: 30px;
+	font-size: 90%;
+	color: #ffa415;
+	line-height: 30px;
+	top: 80px;
+	right: 5%;
+	width: 90%;
+	text-align: right;
+}
+
+.titls {
+	left: 5%;
+	height: 60px;
+	top: 30px;
+	font-size: 24px;
+	color: #ff4045
+}
+
+.color_old {
+	color: #d8d8d8
+}
+
+.showTip {
+	width: 90%;
+	padding: 5%;
+	background: #fff;
+}
+
+.sontip {
+	padding: 10px;
+	border: #ff4045 dashed 1px;
+}
+
+.sontip p {
+	background: none;
+	height: 25px;
+	line-height: 25px;
+	color: #ff4045;
+}
+
+.showTip {
+	position: fixed;
+	top: 45px;
+	left: 0;
+	z-index: 999;
+}
+
+.shadow {
+	position: fixed;
+	top: 200px;
+	height: 100px;
+	width: 100%;
+	z-index: 999;
+	background: rgba(0, 0, 0, 0.2)
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<div class="_top" style="z-index: 999">
+		<php> $refUrl=U("Index/index",array('r'=>'my')); </php>
+		<div style="width: 60px;" class="_left_top"
+			onclick='javascript:window.location.href="<php>echo $refUrl;</php>"'></div>
+		<div class="_title_top">优惠卷</div>
+		<div style="width: 60px; color: #fff"
+			class=" nobackground margin_right10" onclick="showTip()">使用说明</div>
+	</div>
+	<div class="_content">
+		<div class="_son_title lh45 ub font90" style="padding-bottom: 3px;">
+			<div class="  col-666  ub-f1 txt-c  pos-r">
+				<div class="triangle-up "></div>
+				<div class="pos-a swi bor_b2" data-id="0">
+					<span>未使用(<php>echo count($notUse);</php>)
+					</span>
+				</div>
+			</div>
+			<div class="  col-666  ub-f1 txt-c  pos-r">
+				<div class="triangle-up hide"></div>
+				<div class="pos-a swi" data-id="1">
+					<span>已过期(<php>echo count($expireNoUse);</php>)
+					</span>
+				</div>
+			</div>
+			<div class="  col-666  ub-f1 txt-c  pos-r">
+				<div class="triangle-up hide"></div>
+				<div class="pos-a swi" data-id="2">
+					<span>已使用(<php>echo count($exisUse)</php>)
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="all" style="display: none;">
+			<div class="showTip" style="height: 180px;">
+				<div class="sontip">
+					<p>1.全品类券和商户券不可叠加使用</p>
+					<p>2.全品类券和商户券不可叠加使用</p>
+					<p>3.全品类券和商户券不可叠加使用</p>
+					<p>4.重要的事情说三遍</p>
+					<p>5.还可以再来一遍</p>
+				</div>
+			</div>
+			<div id="shadow" class="shadow"
+				style="background: rgba(0, 0, 0, 0.5)"></div>
+		</div>
+		<if condition="$mayReceive">
+		<div class="ub bg-oran">
+			<div class="lings"></div>
+			<div class="ub-f1 text-oran">
+				<a href="{:U('Coupon/getCoupon',array('ref'=>'Coupon_coupon'))}">您有{$mayReceive}张待领取得优惠券</a>
+			</div>
+			<div class="close"></div>
+		</div>
+		</if>
+		<div class="switch">
+			<volist name="notUse" id="ns">
+			<div class="cart pos-r">
+				<div class="pos-a titls">
+					<span style="display: inline-block;"><if
+							condition="$ns['youhui_type'] eq 0">￥<else />折</if></span> <span
+						style="font-size: 40px;"> <if
+							condition="$ns['youhui_type'] eq 0">{$ns.breaks_menoy}<else />{$ns.breaks_menoy}</if>
+						<!--  <span style="font-size:16px">{$ns.surplus}张</span>-->
+					</span>
+				</div>
+				<div class="pos-a one" style="">满{$ns.total_fee}元可用</div>
+				<div class="pos-a two" style="">{$ns.condition}</div>
+				<div class="pos-a three" style=''></div>
+				<div class="pos-a four" style="">{$ns.begin_time|date="Y.m.d",###}-{$ns.end_time|date="Y.m.d",###}</div>
+			</div>
+			</volist>
+		</div>
+		<div class="switch hide ">
+			<volist name="expireNoUse" id="enu">
+			<div class="cart_old pos-r">
+				<div class="pos-a titls color_old">
+					<if condition="$enu['youhui_type'] eq 0">
+					<span style="width: 10px; overflow: hidden;">￥<else />折</if>
+					</span> <span style="font-size: 40px;"> <if
+							condition="$enu['youhui_type'] eq 0">{$enu.breaks_menoy}<else />{$enu.breaks_menoy}</if>
+					</span>
+				</div>
+				<div class="pos-a one color_old" style="">满{$enu.total_fee}元可用</div>
+				<div class="pos-a two color_old" style="">{$enu.condition}</div>
+				<div class="pos-a three color_old" style=''></div>
+				<div class="pos-a four color_old" style="">{$enu.begin_time|date="Y.m.d",###}-{$enu.end_time|date="Y.m.d",###}</div>
+			</div>
+			</volist>
+		</div>
+		<div class="switch hide ">
+			<volist name="exisUse" id="enu">
+			<div class="cart_old pos-r">
+				<div class="pos-a titls color_old">
+					<if condition="$enu['youhui_type'] eq 0">
+					<span style="width: 10px; overflow: hidden;">￥<else />折</if>
+					</span> <span style="font-size: 40px;"> <if
+							condition="$enu['youhui_type'] eq 0">{$enu.breaks_menoy}<else />{$enu.breaks_menoy}</if>
+					</span>
+				</div>
+				<div class="pos-a one color_old" style="">满{$enu.total_fee}元可用</div>
+				<div class="pos-a two color_old" style="">{$enu.condition}</div>
+				<div class="pos-a three color_old" style=''></div>
+				<div class="pos-a four color_old" style="">{$enu.begin_time|date="Y.m.d",###}-{$enu.end_time|date="Y.m.d",###}</div>
+			</div>
+			</volist>
+		</div>
+	</div>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script>
+$(function(){
+	
+    $(".swi").click(function(){
+        tabIndex = $(this).attr('data-id');
+        $('.swi').removeClass("bor_b2");
+        $(this).addClass("bor_b2");
+        $('.switch').hide();
+        $('.triangle-up').hide();
+        $('.triangle-up').eq(tabIndex).show();
+        $('.switch').eq(tabIndex).show();
+    });
+    //关闭领取优惠卷
+   $('body').on('click','.close',function(){
+	   $('.bg-oran').hide();
+   })
+})
+function showTip(){
+	var hh=window.screen.availHeight;
+	var one=$('.showTip').height();
+	var two=hh-one;
+	$('.shadow').css('top',(one+45)+'px');
+	$('.shadow').height(hh+'px');
+	$('.all').show();
+}
+$('.shadow').click(function(){
+	$('.all').hide();
+})
+$('.showTip').click(function(){
+	$('.all').hide();
+})
+</script>
+</html>

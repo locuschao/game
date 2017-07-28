@@ -1,0 +1,157 @@
+<extend name="Users:layout" />
+<block name="content">
+<style>
+</style>
+<script>
+$(function () {
+	   $.formValidator.initConfig({
+		   theme:'Default',mode:'AutoTip',formID:"myform",debug:true,submitOnce:true,onSuccess:function(){
+				   editUser();
+			       return false;
+			},onError:function(msg){
+		}});
+	   $("#userName").formValidator({onShow:"",onFocus:"",onCorrect:"输入正确"}).inputValidator({min:6,max:20,onError:"用户昵称长度为6到20位"});
+	   $("#userPhone").inputValidator({min:0,max:25,onError:"你输入的手机号码非法,请确认"}).regexValidator({
+			regExp:"mobile",dataType:"enum",onError:"手机号码格式错误"
+		}).ajaxValidator({
+			dataType : "json",
+			async : true,
+			url : Think.U('Home/Users/checkLoginKey'),
+			success : function(data){
+				var json = WST.toJson(data);
+	            if( json.status == "1" ) {
+	                return true;
+				} else {
+	                return false;
+				}
+				return "该手机号码已被使用";
+			},
+			buttons: $("#dosubmit"),
+			onError : "该手机号码已存在。",
+			onWait : "请稍候..."
+		}).defaultPassed().unFormValidator(true);
+		$("#userEmail").inputValidator({min:0,max:25,onError:"你输入的邮箱长度非法,请确认"}).regexValidator({
+		       regExp:"email",dataType:"enum",onError:"邮箱格式错误"
+			}).ajaxValidator({
+				dataType : "json",
+				async : true,
+				url : Think.U('Home/Users/checkLoginKey'),
+				success : function(data){
+					var json = WST.toJson(data);
+		            if( json.status == "1" ) {
+		                return true;
+					} else {
+		                return false;
+					}
+					return "该电子邮箱已被使用";
+				},
+				buttons: $("#dosubmit"),
+				onError : "该邮箱已存在。",
+				onWait : "请稍候..."
+			}).defaultPassed().unFormValidator(true);
+		$("#userPhone").blur(function(){
+			  if($("#userPhone").val()==''){
+				  $("#userPhone").unFormValidator(true);
+			  }else{
+				  $("#userPhone").unFormValidator(false);
+			  }
+		});
+		$("#userEmail").blur(function(){
+			  if($("#userEmail").val()==''){
+				  $("#userEmail").unFormValidator(true);
+			  }else{
+				  $("#userEmail").unFormValidator(false);
+			  }
+		});
+	   
+});
+
+var filetypes = ["gif","jpg","png","jpeg"];
+</script>
+
+<div class="wst-body">
+	<div class='wst-page-header'>买家中心 > 个人资料</div>
+	<div class='wst-page-content' style="position: relative;">
+		<iframe name="upload" style="display: none"></iframe>
+		<form id="uploadform_Filedata" autocomplete="off"
+			style="position: absolute; left: 388px; z-index: 10;"
+			enctype="multipart/form-data" method="POST" target="upload"
+			action="{:U('Home/Shops/uploadPic')}">
+			<div id="preview_Filedata">
+				<img id='preview' src='<if condition="$user[' userPhoto'] =='' ">__ROOT__/{$CONF['goodsImg']}
+				<else />
+				__ROOT__/{$user.userPhoto}
+				</if>
+				' height='150' />
+			</div>
+			<div style="position: relative; left: -4px;">
+				<input id="userPhoto" name="userPhoto" type="text"
+					value="{$user.userPhoto}" readonly
+					style="float: left; width: 140px;" />
+				<div class="div1">
+					<div class="div2">浏览</div>
+					<input type="file" class="inputstyle" id="Filedata" name="Filedata"
+						onchange="updfile('Filedata');">
+				</div>
+				<div style="clear: both;"></div>
+				<div>&nbsp;图片大小:150 x 150 (px)(格式为 gif, jpg, jpeg, png)</div>
+				<input type="hidden" name="dir" value="users"> <input
+					type="hidden" name="width" value="150"> <input
+					type="hidden" name="folder" value="Filedata"> <input
+					type="hidden" name="sfilename" value="Filedata"> <input
+					type="hidden" name="fname" value="userPhoto"> <input
+					type="hidden" id="s_Filedata" name="s_Filedata" value="">
+
+			</div>
+		</form>
+		<form name="myform" method="post" id="myform" autocomplete="off">
+			<table
+				class="table table-hover table-striped table-bordered wst-form"
+				style='margin-top: 10px;'>
+				<tr>
+					<th align='right' width="80">昵称 <font color='red'>*</font>：
+					</th>
+					<td><input type='text' id='userName' name='userName'
+						value="{$user['userName']}" /></td>
+				</tr>
+				<tr>
+					<th align='right'>性别 <font color='red'>*</font>：
+					</th>
+					<td><label><input type='radio' name='userSex'
+							value="1"
+						<if condition="$user['userSex'] eq 1">checked</if>/>男</label> <label><input
+							type='radio' name='userSex' value="2"
+						<if condition="$user['userSex'] eq 2">checked</if>/>女</label> <label><input
+							type='radio' name='userSex' value="3"
+						<if condition="$user['userSex'] eq 3">checked</if>/>保密</label></td>
+				</tr>
+				<tr>
+					<th align='right'>用户QQ ：</th>
+					<td><input type='text' id='userQQ' name='userQQ'
+						value="{$user['userQQ']}" /></td>
+				</tr>
+				<tr>
+					<th align='right'>手机 <font color='red'>*</font>：
+					</th>
+					<td><input type='text' id='userPhone' name='userPhone'
+						value="{$user['userPhone']}" maxlength="11" /></td>
+				</tr>
+				<tr>
+					<th align='right'>邮箱<font color='red'>*</font>：
+					</th>
+					<td><input type='text' id='userEmail' name='userEmail'
+						value="{$user['userEmail']}" maxlength="25" style='width: 250px' />
+					</td>
+				</tr>
+				<tr>
+					<td colspan='2' style='padding-left: 250px; height: 100px;'>
+						<button class='wst-btn-query' type="submit">保&nbsp;存</button>
+						<button class='wst-btn-query' type="reset">重&nbsp;置</button>
+					</td>
+				</tr>
+
+			</table>
+		</form>
+	</div>
+</div>
+</block>

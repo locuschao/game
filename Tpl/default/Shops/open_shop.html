@@ -1,0 +1,418 @@
+<extend name="Base:common" />
+<block name="static">
+<link rel="stylesheet" href="__CSS__/regist.css">
+<link rel="stylesheet" href="__CSS__/passport.css">
+<link rel="stylesheet" href="__CSS__/footer.css">
+<style>
+.div1 {
+	background: #E23C3D none repeat scroll 0 0;
+	border: 1px solid red;
+	border-radius: 2px;
+	float: left;
+	height: 35px;
+	position: relative;
+	top: 0px;
+	width: 45px;
+}
+
+.div1:hover {
+	background: none repeat scroll 0 0 red;
+	border: 1px solid red;
+	border-radius: 2px;
+	float: left;
+	height: 35px;
+	position: relative;
+	top: 0px;
+	width: 45px;
+}
+
+.div2 {
+	font-size: 13px;
+	line-height: 35px;
+	text-align: center;
+}
+
+.inputstyle {
+	cursor: pointer;
+	font-size: 13px;
+	height: 35px;
+	left: 0px;
+	opacity: 0;
+	outline: medium none;
+	position: absolute;
+	top: 0px;
+	width: 45px;
+}
+</style>
+<script>
+	var filetypes = ["gif","jpg","png","jpeg"];
+	</script> </block>
+<block name="body">
+<style>
+.yj-select select {
+	height: 30px;
+	font-size: 14px;
+	margin-right: 5px;
+}
+
+.ATRoot {
+	padding: 0px 5px;
+	height: 22px;
+	line-height: 22px;
+	clear: both;
+}
+
+.ATNode {
+	margin-right: 5px;;
+	line-height: 22px;
+	width: 150px;
+	float: left;
+	margin-top: 2px;
+}
+
+label {
+	cursor: pointer;
+}
+
+.tleft {
+	float: left;
+}
+
+.Hide {
+	display: none;
+}
+
+dl.areaSelect {
+	display: inline-block;
+	width: 100%;
+	margin-bottom: 0;
+}
+
+dl.areaSelect:hover {
+	border: 1px solid #E5CD29;
+}
+
+dl.areaSelect:hover dd {
+	display: block;
+}
+
+dl.areaSelect dd {
+	margin-left: 20px;
+	width: 100%;
+}
+</style>
+<div class="wst-regist" id="regist">
+	<div class="mc" style="position: relative;">
+		<div
+			style="font-size: 30px; color: black; padding: 15px 0px 15px 355px; border-bottom: dotted 1px #ddd;">店铺注册</div>
+		<iframe name="upload" style="display: none"></iframe>
+		<form id="uploadform_Filedata" autocomplete="off"
+			style="position: absolute; top: 453px; left: 341px; z-index: 10;"
+			enctype="multipart/form-data" method="POST" target="upload"
+			action="{:U('Home/Shops/uploadPic')}">
+			<div style="position: relative;">
+				<input id="shopImg" name="shopImg" class="text" type="text"
+					value="{$object.shopImg}" readonly
+					style="margin-right: 4px; float: left; margin-left: 8px; width: 237px;" />
+				<div class="div1">
+					<div class="div2">浏览</div>
+					<input type="file" class="inputstyle" id="Filedata" name="Filedata"
+						onchange="updfile('Filedata');">
+				</div>
+				<div style="clear: both;"></div>
+				<div>&nbsp;图片大小:150 x 150 (px)(格式为 gif, jpg, jpeg, png)</div>
+				<input type="hidden" name="dir" value="shops"> <input
+					type="hidden" name="width" value="150"> <input
+					type="hidden" name="folder" value="Filedata"> <input
+					type="hidden" name="sfilename" value="Filedata"> <input
+					type="hidden" name="fname" value="shopImg"> <input
+					type="hidden" id="s_Filedata" name="s_Filedata" value="">
+
+			</div>
+		</form>
+		<form name="myform" method="post" id="myform" autocomplete="off">
+			<div class="form">
+				<div class="item" id="select-regName">
+					<span class="label"><b class="ftx04">*</b>登录账户：</span>
+					<div class="fl item-ifo">
+						<div class="o-intelligent-regName" style="position: relative;">
+							<input id="loginName" name="loginName" class="text" tabindex="1"
+								maxlength="30" type="text"
+								onkeypress="return WST.isNumberCharKey(event)" />
+							<div id="loginNameTip" style="display: inline-block;"></div>
+						</div>
+					</div>
+				</div>
+				<div id="o-password">
+					<div class="item">
+						<span class="label"><b class="ftx04">*</b>请设置密码：</span>
+						<div class="fl item-ifo">
+							<input id="loginPwd" name="loginPwd" class="text" tabindex="2"
+								style="ime-mode: disabled;" autocomplete="off" type="password" />
+							<label id="pwd_succeed" class="pwdblank"></label>
+						</div>
+					</div>
+					<div class="item">
+						<span class="label"><b class="ftx04">*</b>请确认密码：</span>
+						<div class="fl item-ifo">
+							<input id="reUserPwd" name="reUserPwd" class="text" tabindex="3"
+								autocomplete="off" type="password" /> <label
+								id="pwdRepeat_succeed" class="pwdblank"></label>
+						</div>
+					</div>
+					<div class="item">
+						<span class="label"><b class="ftx04">*</b>店铺名称：</span>
+						<div class="fl item-ifo">
+							<input id="shopName" name="shopName" class="text" tabindex="3"
+								type='text' /> <label id="shopName_succeed" class="pwdblank"></label>
+						</div>
+					</div>
+					<div class="item">
+						<span class="label"><b class="ftx04">*</b>店主姓名：</span>
+						<div class="fl item-ifo">
+							<input id="userName" name="userName" class="text" tabindex="3"
+								type='text' /> <label id="userName_succeed" class="pwdblank"></label>
+						</div>
+					</div>
+					<div class="item">
+						<span class="label"><b class="ftx04">*</b>公司名称：</span>
+						<div class="fl item-ifo">
+							<input id="shopCompany" name="shopCompany" class="text"
+								tabindex="3" autocomplete="off" style="" type="text" /> <label
+								id="shopCompany_succeed"></label>
+						</div>
+					</div>
+					<div class="item">
+						<span class="label"><b class="ftx04">*</b>店铺电话：</span>
+						<div class="fl item-ifo">
+							<input id="shopTel" name="shopTel" class="text" tabindex="3"
+								autocomplete="off" style="" type="text" />
+						</div>
+					</div>
+					<div class="item">
+						<span class="label">QQ：</span>
+						<div class="fl item-ifo">
+							<input id="qqNo" name="qqNo" class="text" tabindex="3"
+								autocomplete="off" style="" type="text" />
+						</div>
+					</div>
+					<div class="item" style='height: auto; position: relative;'>
+						<span class="label">店铺图标：</span>
+						<div class="fl item-ifo">
+							<div id="preview_Filedata" style="margin-top: 70px;">
+								<img id='preview' src='' ref='' width='100'
+									style='display: none' />
+							</div>
+						</div>
+					</div>
+
+					<div class="item">
+						<span class="label"><b class="ftx04">*</b>所属地区：</span>
+						<div class="fl item-ifo yj-select">
+							<select id='areaId1'
+								onchange='javascript:getAreaListForOpen("areaId2",this.value,-1)'>
+								<option value=''>请选择</option>
+								<volist name="areaList" id="vo">
+								<option value='{$vo['areaId']}' <if
+										condition="$area['parentId'] == $vo['areaId'] ">selected</if>>{$vo['areaName']}
+								</option>
+								</volist>
+							</select> <select id='areaId2'
+								onchange='javascript:getAreaListForOpen("areaId3",this.value,0);'>
+								<option value=''>请选择</option>
+							</select> <select id='areaId3'>
+								<option value=''>请选择</option>
+							</select> <label id="shopTel_succeed"></label>
+						</div>
+					</div>
+					<div class="item">
+						<span class="label"><b class="ftx04">*</b>店铺地址：</span>
+						<div class="fl item-ifo">
+							<input id="shopAddress" name="shopAddress" class="text"
+								tabindex="3" autocomplete="off" style="" type="text" /> <label
+								id="shopAddress_succeed"></label>
+						</div>
+					</div>
+					<div class="item" style='height: 440px;'>
+						<span class="label">&nbsp;</span>
+						<div class="fl item-ifo">
+							<div id="mapContainer" style='height: 400px; width: 660px;'>等待地图初始化...</div>
+							<div style='color: red'>(注意：提交开店申请之后店铺地址将无法修改)</div>
+							<div style='display: none'>
+								<input type='text' id='latitude' name='latitude' value="" /> <input
+									type='text' id='longitude' name='longitude' value="" /> <input
+									type='text' id='mapLevel' name='mapLevel' value="" />
+							</div>
+						</div>
+					</div>
+					<div class="item">
+						<span class="label"><b class="ftx04">*</b>行业：</span>
+						<div class="fl item-ifo yj-select">
+							<select id='goodsCatId1'>
+								<option value=''>请选择</option>
+								<volist name="goodsCatsList" id="vo">
+								<option value='{$vo['catId']}' <if
+										condition="$object['goodsCatId1'] == $vo['catId'] ">selected</if>>{$vo['catName']}
+								</option>
+								</volist>
+							</select> <label id="shopTel_succeed"></label>
+						</div>
+					</div>
+					<div class="item">
+						<span class="label"><b class="ftx04">*</b>营业状态：</span>
+						<div class="fl item-ifo">
+							<label> <input type="radio" id="shopAtive1"
+								name="shopAtive" value="1">营业中&nbsp;&nbsp;
+							</label> <label> <input type="radio" id="shopAtive0"
+								name="shopAtive" value="0" checked="">休息中
+							</label>
+						</div>
+					</div>
+					<div class="item" style='height: auto;'>
+						<span class="label"><b class="ftx04">*</b>配送区域：</span>
+						<div class="fl item-ifo yj-select" style='width: 670px;'>
+							<div id='areaTree'></div>
+						</div>
+					</div>
+					<div class="item">
+						<span class="label"><b class="ftx04">*</b>订单配送起步价：</span>
+						<div class="fl item-ifo">
+							<input type="text" id="deliveryStartMoney" class="text"
+								value="0.0" onkeypress="return WST.isNumberdoteKey(event)"
+								onkeyup="javascript:WST.isChinese(this,1)" maxlength="8">
+						</div>
+					</div>
+					<div class="item">
+						<span class="label"><b class="ftx04">*</b>包邮起步价：</span>
+						<div class="fl item-ifo">
+							<input type="text" id="deliveryFreeMoney" class='text'
+								value='0.0' onkeypress="return WST.isNumberdoteKey(event)"
+								onkeyup="javascript:WST.isChinese(this,1)" maxlength="8">
+						</div>
+					</div>
+					<div class="item">
+						<span class="label"><b class="ftx04">*</b>邮费：</span>
+						<div class="fl item-ifo">
+							<input type="text" id="deliveryMoney" class='text' value='0.0'
+								onkeypress="return WST.isNumberdoteKey(event)"
+								onkeyup="javascript:WST.isChinese(this,1)" maxlength="8">
+						</div>
+					</div>
+					<div class="item">
+						<span class="label"><b class="ftx04">*</b>平均消费金额：</span>
+						<div class="fl item-ifo">
+							<input type="text" id="avgeCostMoney" class='text' value='0.0'
+								onkeypress="return WST.isNumberdoteKey(event)"
+								onkeyup="javascript:WST.isChinese(this,1)" maxlength="8">
+						</div>
+					</div>
+					<div class="item">
+						<span class="label"><b class="ftx04">*</b>能否开发票：</span>
+						<div class="fl item-ifo">
+							<label> <input type="radio" id="isInvoice1"
+								onclick="javascript:isInvoce(true)" name="isInvoice" value="1">能&nbsp;&nbsp;
+							</label> <label> <input type="radio" id="isInvoice0"
+								onclick="javascript:isInvoce(false)" name="isInvoice" value="0"
+								checked>否
+							</label>
+						</div>
+					</div>
+					<div id='invoiceRemarkstr' class="item" style='display: none'>
+						<span class="label"><b class="ftx04">*</b>发票说明：</span>
+						<div class="fl item-ifo">
+							<input type='text' id='invoiceRemarks' class="text"
+								value='{$object.invoiceRemarks}' style='width: 350px;'
+								maxLength='100' />
+						</div>
+					</div>
+					<div class="item">
+						<span class="label"><b class="ftx04">*</b>转账银行：</span>
+						<div class="fl item-ifo yj-select">
+							<select id='bankId'>
+								<option value=''>请选择</option>
+								<volist name="bankList" id="vo">
+								<option value='{$vo['bankId']}'>{$vo['bankName']}</option>
+								</volist>
+							</select>
+						</div>
+					</div>
+					<div class="item">
+						<span class="label"><b class="ftx04">*</b>银行卡卡号：</span>
+						<div class="fl item-ifo">
+							<input type="text" class='text' id="bankNo" maxlength="25"
+								size="50">
+						</div>
+					</div>
+					<div class="item">
+						<span class="label"><b class="ftx04">*</b>营业时间：</span>
+						<div class="fl item-ifo yj-select">
+							<select id='serviceStartTime'></select>
+							<div class='tleft'>&nbsp;至&nbsp;</div>
+							<select id='serviceEndTime'></select>
+						</div>
+					</div>
+					<div class="item">
+						<span class="label"><b class="ftx04">*</b>手机号码：</span>
+						<div class="fl item-ifo">
+							<input id="userPhone" name="userPhone" class="text" tabindex="3"
+								autocomplete="off" type="text" maxlength="11" /> <label
+								id="userPhone_succeed"></label>
+						</div>
+					</div>
+
+					<div class="item" id="authcodeDiv">
+						<span class="label"><b class="ftx04">*</b>验证码：</span>
+						<div class="fl item-ifo">
+							<input id="authcode" style="ime-mode: disabled" name="authcode"
+								class="text text-1" tabindex="6" autocomplete="off"
+								maxlength="6" type="text" /> <label class="img"> <img
+								style='vertical-align: middle; cursor: pointer; height: 39px;'
+								class='verifyImg' src='' title='刷新验证码'
+								onclick='javascript:getVerify()' />
+							</label> <label class="ftx23">&nbsp;看不清？<a
+								href="javascript:getVerify()" onclick="setTimeout(verc,50);"
+								class="flk13">换一张</a></label>
+						</div>
+					</div>
+
+				</div>
+				<input name="qVoCgWxtvu" value="EqaRK" type="hidden" />
+				<div class="item item-new">
+					<span class="label">&nbsp;</span>
+					<div class="fl item-ifo">
+						<label> <input class="checkbox" id="protocol"
+							name="protocol" type="checkbox" /> 我已阅读并同意
+						</label><a href="javascript:;" class="blue" id="protocolInfo"
+							onclick="showXiey();">《用户注册协议》</a> <label id="protocol_error"
+							class="error hide">请接受服务条款</label>
+					</div>
+				</div>
+				<div class="item">
+					<span class="label">&nbsp;</span> <input class="btn-img btn-regist"
+						id="registsubmit" value="立即注册" tabindex="8" type="submit" />
+				</div>
+			</div>
+			<div class="phone"></div>
+			<span class="clr"></span>
+		</form>
+	</div>
+</div>
+</block>
+<block name="footer_static"> <script
+	src="__PUBLIC__/plugins/layer/layer.min.js"></script> <script
+	src="__PUBLIC__/plugins/formValidator/formValidator-4.1.3.js"></script>
+<script src="__JS__/open_shop.js"></script> <script
+	type="text/javascript"
+	src="http://webapi.amap.com/maps?v=1.3&key=2b53397482f52f92dcb7c528d99d9fca"></script>
+<script type="text/javascript">
+   $(function(){
+	   getAreaListForOpen("areaId2",'{$area["parentId"]}',0,'{$area["areaId"]}');
+	   getAreaListForOpen("areaId3",'{$area["areaId"]}',1);
+   })
+</script>
+<style>
+.layui-layer-btn a {
+	background: #e23c3d;
+}
+</style>
+</block>

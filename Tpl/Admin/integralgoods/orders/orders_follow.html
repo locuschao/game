@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{$CONF['shopTitle']['fieldValue']}后台管理中心</title>
+<link href="__PUBLIC__/plugins/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+<link href="__CSS__/AdminLTE.css" rel="stylesheet" type="text/css" />
+<!--[if lt IE 9]>
+      <script src="__PUBLIC__/js/html5shiv.min.js"></script>
+      <script src="__PUBLIC__/js/respond.min.js"></script>
+      <![endif]-->
+<script src="__PUBLIC__/js/jquery.min.js"></script>
+<script src="__PUBLIC__/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="__PUBLIC__/js/common.js"></script>
+<script src="__PUBLIC__/plugins/plugins/plugins.js"></script>
+<script src="__PUBLIC__/plugins/formValidator/formValidator-4.1.3.js"></script>
+</head>
+<body class="wst-page">
+	<form name="myform" method="post" id="myform">
+		<input type='hidden' id='id' value='{$object.bankId}' />
+		<table class="table table-hover table-striped table-bordered wst-form">
+			<tr>
+				<td style='font-weight: bold;'>物流信息</td>
+			</tr>
+			<tr>
+				<td>
+					<table width='700'>
+						<tr>
+							<td width='120' style='text-align: right'>物流单号：</td>
+							<td>{$object['orderEx']['trackNumber']}</td>
+						</tr>
+						<tr>
+							<td style='text-align: right'>快递公司：</td>
+							<td>{$object['express']['expressCompany']}</td>
+						</tr>
+						<tr>
+							<td style='text-align: right'>电话：</td>
+							<td>{$object['express']['telephone']}</td>
+						</tr>
+						<tr>
+							<td style='text-align: right'>官网：</td>
+							<td><a href="{$object['express']['website']}"
+								target="_blabk">{$object['express']['website']}</a></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+
+			<tr>
+				<td style='font-weight: bold;'>物流跟踪</td>
+			</tr>
+			<tr>
+				<td>
+					<table>
+						<tr>
+							<td style='text-align: center' width='40%'>时间</td>
+							<td style='text-align: center' width='60%'>地点和跟踪进度</td>
+						</tr>
+						<volist name="object['arr']" id="vo">
+						<tr>
+							<td style='text-align: center'>{$vo['time']}</td>
+							<td style='text-align: left'>{$vo["context"]}</td>
+						</tr>
+						</volist>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td colspan='2' align='center'>
+					<button type="button" class="btn btn-primary"
+						onclick='javascript:location.href="{$referer}"'>返&nbsp;回</button>
+				</td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>

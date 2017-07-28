@@ -1,0 +1,228 @@
+body {
+	background: #efeff4;
+	max-width: 800px;
+}
+
+.padd {
+	padding: 10px;
+}
+
+.padd-b {
+	padding: 10px;
+	padding-top: 0px;
+}
+
+.ft9 {
+	font-size: 90%;
+}
+
+.shouchong {
+	width: 90%;
+	margin: 8px auto;
+	text-align: left;
+	background: #fffdd9;
+	color: #8a500b;
+	padding: 5px;
+	border: #dc9320 solid 1px;
+	font-size: 90%;
+}
+
+.list {
+	width: 49.6%
+}
+
+.list:nth-child(odd) {
+	float: left;
+	border-right: #d5d7dc solid 1px;
+}
+
+.list:nth-child(even) {
+	float: left;
+}
+
+.list1 {
+	width: 90%;
+	margin: 0 auto;
+	padding: 8px;
+	background: #fff;
+	border-bottom: #d5d7dc solid 1px;
+}
+
+.shopImg img {
+	width: 60px;
+	height: 60px;
+}
+
+.ms {
+	margin-left: 5px;
+	line-height: 20px;
+}
+
+.ms, .title, .mc {
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.title {
+	font-size: 16px;
+	height: 20px;
+}
+
+
+
+.mc {
+	background: #e50f12;
+	font-size: 12px;
+	padding: 1px 5px;
+	color: #fff;
+	height: 15px;
+	line-height: 15px;
+	width: 25px;
+	border-radius: 2px;
+}
+
+.da {
+	color: #333333;
+	font-size: 18px;
+}
+
+.lh20 {
+	padding: 10px 0px;
+	background: #fff;
+}
+
+.jiathis_style_24x24 {
+	background: #fff;
+	clear: borth;
+	color: #999;
+	font-size: 12px;
+	height: 35px;
+	line-height: 35px;
+	padding: 5px;
+}
+
+#num {
+	background: transparent;
+	border: none;
+	width: 100%;
+	text-align: center;
+	height: 30px;
+	line-height: 30px
+}
+
+
+
+
+
+.lh30 {
+	height: 30px;
+	line-height: 30px;
+	padding-bottom: 10px;
+}
+
+.shopImg img {
+	width: 60px;
+	height: 60px;
+	border-radius: 4px;
+}
+
+.shopContent {
+	margin-left: 5px;
+}
+
+.shopName {
+	font-size: 120%;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	height: 25px;
+	line-height: 25px;
+	over-flow: hidden;
+}
+
+.fw {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	height: 20px;
+	line-height: 20px;
+	font-size: 90%;
+}
+
+.btn {
+	width: 80%;
+	margin: 0 auto;
+	text-align: center;
+	background: #fff600;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+#totalMoney {
+	color: #323232;
+	font-size: 18px;
+}
+
+.select, .jian, .jia {
+	cursor: pointer
+}
+
+.jiathis_txt {
+	display: none;
+}
+
+.jiathis_style_32x32 .jtico_renren {
+	display: none;
+}
+
+.jtico_jiathis {
+	background-size: 12px;
+}
+.goods-title{
+    margin-top:50px;
+}
+.voucher-block{
+    max-width:800px;
+    margin: 10px auto;
+}
+.fl{
+    float: left;
+}
+.voucherPrice{
+    
+    color: #CB2E2E;
+    font-size: 21px;
+    margin-top:15px;
+    margin-left:15px;
+}
+.contentLeft{
+    
+    padding:10px 20px;
+}
+.contentLeft .title{
+    font-size:14px;
+    color:#4A4141;
+}
+.contentLeft .expire{
+    margin-top: 4px;
+    color:#817b7b;
+    font-size:12px;
+}
+.contentLeft .remark{
+    margin-top:6px;
+    color:#686464;
+    font-size:12px;
+}
+.row{
+    background:#fff;
+    margin-bottom: 4px;
+}
+.clearfix:after {
+  content: " ";
+  display: block;
+  clear: both;
+  height: 0;
+}
+.clearfix {
+  zoom: 1;
+}

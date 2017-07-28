@@ -1,0 +1,118 @@
+<extend name="Shops:layout" />
+<block name="content">
+<style type="text/css">
+.wst-pagination {
+	margin-top: 10px;
+	text-align: center;
+	height: 25px;
+	line-height: 25px;
+}
+
+.wst-current {
+	background-color: rgb(226, 62, 61);
+	color: #fff;
+	padding: 0 12px;
+	border-radius: 2px;
+	height: 26px;
+	line-height: 26px;
+	display: inline-block;
+	vertical-align: top;
+	font-size: 12px;
+}
+
+.wst-num {
+	background-color: #f1eff0;
+	padding: 0 12px;
+	border-radius: 2px;
+	margin: 0 3px 6px;
+	height: 26px;
+	line-height: 26px;
+	text-decoration: none;
+	color: #666;
+	display: inline-block;
+	vertical-align: top;
+	font-size: 12px;
+}
+
+.wst-next, .wst-prev {
+	background-color: #f1eff0;
+	padding: 0 12px;
+	border-radius: 2px;
+	height: 26px;
+	line-height: 26px;
+	text-decoration: none;
+	color: #666;
+	display: inline-block;
+	vertical-align: top;
+	font-size: 12px;
+}
+</style>
+<script src="__PUBLIC__/plugins/plugins/plugins.js"></script> <script>
+$(document).ready(function(){
+    <notempty name='shopCatId1'>
+    getShopCatListForAppraises('{$shopCatId1}','{$shopCatId2}');
+    </notempty>
+});
+</script> <script type="text/javascript">
+  function down_youhui(id){
+  layer.confirm("待审核数据将会永久删除，审核通过的仅删除申请记录，确定删除吗？？",{icon: 3, title:'系统提示'},function(tips){
+    $.post(Think.U('Home/Youhui/down_youhui'),{id:id},function(data,textStatus){
+      layer.close(tips);
+        var json = WST.toJson(data);
+        if(json.status=='1'){
+          WST.msg('操作成功！等待管理员审核。', {icon: 1},function(){
+            location.reload();
+          });
+        }else{
+          WST.msg('操作失败', {icon: 5});
+        }
+    });
+  });
+}
+</script>
+<div class="wst-body">
+	<div class='wst-page-header'>卖家中心 > 优惠券审核列表</div>
+	<div class='wst-page-content'>
+		<button
+			style="border: 1px solid #ffffff; height: 35px; width: 120px; background-color: #e23e3d; color: #ffffff; cursor: pointer; float: right;"
+			onclick='javascript:window.location.href="{:U('Home/Youhui/shopindex')}"'>返回</button>
+		<button
+			style="border: 1px solid #ffffff; height: 35px; width: 120px; background-color: #e23e3d; color: #ffffff; cursor: pointer; float: right;"
+			onclick='javascript:window.location.href="{:U('Home/Youhui/add')}"'>发布新的优惠券</button>
+		<button
+			style="border: 1px solid #ffffff; height: 35px; width: 120px; background-color: #e23e3d; color: #ffffff; cursor: pointer; float: left;"
+			onclick='javascript:window.location.href="{:U('Home/Youhui/youhui_log')}"'>全部</button>
+		<button
+			style="border: 1px solid #ffffff; height: 35px; width: 120px; background-color: #e23e3d; color: #ffffff; cursor: pointer; float: left;"
+			onclick='javascript:window.location.href="{:U('
+			Home/Youhui/youhui_log',array('effect'=>1))}"'>未审核</button>
+		<table class='wst-list' style="margin: 10px auto 0 auto;">
+			<thead>
+				<tr>
+					<th>序号</th>
+					<th>标题</th>
+					<th>状态</th>
+					<th>操作时间</th>
+				</tr>
+			</thead>
+			<tbody>
+				<volist id='list' name='list'>
+				<tr>
+					<td>{$list['id']}</td>
+					<td>{$list['name']}</td>
+					<td><switch name="list['biz_apply_status']"> <case
+							value="1">新增申请--</case> <case value="2">修改申请--</case> <case
+							value="3">下架申请--</case> </switch> <switch
+							name="list['admin_check_status']"> <case value="0">（待审核）</case>
+						<case value="1">（通过）</case> <case value="2">（拒绝）</case> </switch></td>
+					<td>{$list['create_time']|date='Y-m-d H:i',###}</td>
+				</tr>
+				</volist>
+				<tr>
+					<td colspan='4'>{$show}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+</block>

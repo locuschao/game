@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>{:$_GET['t']}</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/layer.min.js"></script>
+<style>
+body {
+	margin-top: 45px;
+}
+
+._imgWidth img {
+	width: 40px;
+	text-align: center;
+}
+
+.ul_list {
+	width: 100%;
+	background: #fff;
+	margin-top: 10px;
+}
+
+.ul_list ul li {
+	background: #fff;
+	height: 45px;
+	line-height: 45px;
+	text-align: left;
+	text-indent: 10px;
+	border-bottom: #d5d7dc solid 1px;
+}
+
+.ul_list ul li a {
+	display: block;
+	width: 100%;
+	height: 45px;
+	line-height: 45px;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<div class="_top">
+		<div class="_left_top"
+			onclick="location.href='{:U('Service/index')}' "></div>
+		<div class="_title_top">{:$_GET['t']}</div>
+		<div class="_right_top no-bg"></div>
+	</div>
+	<div class="ul_list">
+		<ul>
+			<volist name="list" id="li">
+			<li><a
+				href="{:U('Service/article',array('id'=>$li['articleId']))}">{$li.articleTitle}</a></li>
+			</volist>
+		</ul>
+	</div>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script>
+	
+</script>
+</html>

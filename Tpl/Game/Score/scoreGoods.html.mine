@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>商品详情</title>
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<link rel="stylesheet" href="__CSS__/font.css" />
+<link rel="stylesheet" type="text/css" href="__CSS__/swiper.min.css">
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/layer.min.js"></script>
+<script src="__JS__/swiper.min.js"></script>
+<style>
+body{padding-bottom:50px;}
+.img{height:180px;width:100%; overflow:hidden;}
+.padd_10{padding:10px;}
+.padd_3{padding:3px 0px;}
+.btns{height:25px; line-height:25px; text-align:center; padding:0px 0px 20px 0px}
+.btns span{display:inline-block;color:#ff1b1b; border:#ff1b1b solid 1px; border-radius:4px; padding:3px 20px; background:url(__IMG__/w_r.png)95%  center no-repeat; background-size:12px 18px;}
+.swiper-container{min-height:180px ;text-aign:center;}
+.swiper-slide img{max-height:180px;max-width:100%;height:180px;text-aign:center;}
+#imgList{text-align:center;}
+</style>
+<script>
+$(function(){
+/* 	var ww=window.screen.availWidth;
+	$('.img').find('img').css('width',ww+'px');
+	$('.img').find('img').css('height','180px'); */
+	
+	var swiper = new Swiper('.one_swiper', {
+		autoplay : 3000,
+		paginationtouchendable : false,
+		pagination : '.one-pagination',
+	});
+	
+})
+</script>
+</head>
+<body>
+	<div class="_top">
+	<php> $refUrl=$_SERVER['HTTP_REFERER'];
+		if(stristr($refUrl,ACTION_NAME)){
+		$refUrl=U('Index/index');
+		} </php>
+		<div class="_left_top"
+		onclick='javascript:window.location.href="<php>echo $refUrl;</php>"'></div>
+		<div class="_title_top">商品详情</div>
+		<div class="_right_top nobackground"></div>
+	</div>
+	<div class="_content">
+	
+					<div class="swiper-container one_swiper visible-xs-block">
+					<div class="swiper-wrapper" id="imgList">
+						<volist name="img" id="ad">
+						<div class="swiper-slide">
+							<img src="{$ad.goodsImg}" />
+						</div>
+						</volist>
+					</div>
+					<div class="swiper-pagination one-pagination"></div>
+				</div>
+	
+	
+		<!-- 	<div class="img">
+				<img src="{$goodsInfo.goodsImg}">
+			</div> -->
+	</div>
+	<div class="padd_10 bg-ff bor_b">
+		<div class=" bg-ff ti10 col-3 padd_3">
+		{$goodsInfo.goodsName}
+		</div>
+		<div class=" bg-ff ti10 col-red padd_3">
+		{$goodsInfo.shopPrice}积分
+		</div>
+	</div>
+	<div class=" mar-t10 bg-ff bor_b padd_10" >
+		<div class="lh45 col-6 bold">商品简介:</div>
+		<div class="padd_10 col-9" style="padding-top:0">
+			{$goodsInfo.goodsContent}
+		</div>
+	</div>
+	<div class="lh35 ft-9 ti10 col-9">积分商城活动由E元夺宝提供,与Apple Inec无关
+	</div>
+	<div class="btns" >
+		<a href="{:U('Index/index',array('r'=>'score'))}"><span>查看更多好礼</span></a>
+	</div>
+	<div class="ub lh45 txt-c bg-red" style="width:100%;position:fixed;bottom:0;left:0;">
+	<div class="ub-f1 col-ff" onclick="goTo()">
+	立即兑换
+	</div></div>
+</body>
+<script>
+	function goTo(){
+		var num={$goodsInfo.goodsStock};
+		if(num<=0||isNaN(num)){
+			layer.msg('库存不足');
+			return;
+		}
+		location.href="{:U('Score/scorePay',array('id'=>$goodsInfo['goodsId'],'ref'=>'Score_scoreGoods_'.$goodsInfo['goodsId']))}";
+	}
+</script>
+</html>

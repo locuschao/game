@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>确认订单</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/swiper-3.3.1.min.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/font.css" />
+<script src="__JS__/index.js"></script>
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/layer.min.js"></script>
+<style>
+._imgWidth img {
+	height: 93px;
+	max-width: 100%;
+	overflow: hidden;
+}
+
+._img_jin {
+	min-height: 130px;
+	overflow: hidden;
+}
+
+.bg-f7 {
+	background: #f7f7f7;
+	padding: 5px 0px;
+}
+
+#fix-both ul li {
+	padding: 15px 10px;
+	background: #fff;
+	float: left;
+	margin-left: 10px;
+}
+
+body {
+	padding-bottom: 0;
+	background: #ebebeb;
+}
+
+.col_red {
+	color: #f00
+}
+
+.sonCat {
+	width: 100%;
+}
+
+.sonCat a {
+	padding: 10px 20px;
+	background: #fff;
+	border-radius: 4px;
+	display: inline-block;
+	margin-top: 10px;
+	color: #323232;
+	margin-left: 10px;
+}
+
+.sonCat a:first-child {
+	color: #f00;
+}
+
+.newAddAddr {
+	padding: 15px;
+	text-align: center;
+	overflow: hidden;
+	background: #fff url(__IMG__/slide_bg.png) center no-repeat;
+	background-size: 100% 100%;
+}
+
+.hidden {
+	display: none;
+}
+
+.input_transpart {
+	background: transparent;
+	border: none;
+	height: 30px;
+	line-height: 30px;
+	width: 90%;
+}
+
+.nobg {
+	background: none;
+}
+
+._content {
+	margin-bottom: 50px;
+}
+
+.selectAddr ul li {
+	text-align: left;
+	padding: 5px;
+}
+
+.selectAddr ul li:first-child {
+	border: none;
+}
+
+.noAddr {
+	padding: 10px;
+}
+
+.sel {
+	width: 100%;
+	text-align: center;
+	padding-top: 20px;
+}
+
+.white-checkbox input[type=checkbox]:before, .mui-radio input[type=radio]:before
+	{
+	color: #ccc;
+}
+
+select {
+	height: 35px;
+	line-height: 35px;
+	border: none;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<form action="{:U('Orders/submitOrder')}" method="POST">
+		<div class="_top" style="z-index: 99999">
+			<div class="_left_top"
+				onclick='javascript:window.location.href="{:U('
+				wx/index/index',array('r'=>'car'))}"'></div>
+			<div class="_title_top">确认订单</div>
+			<div class="_right_top" style="background: none;"></div>
+		</div>
+		<div class="_content">
+			<div class="newAddAddr col_6 ">
+				<div class="selectAddr">
+					<ul id="addr">
+						<volist name="addrInfo" id="ad">
+						<li class="list existsAddr" id="{$ad.addressId}">{$ad.userName}&nbsp;{$ad.userPhone}
+							&nbsp;{$ad.province}{$ad.city}{$ad.area}{$ad.address}</li>
+						</volist>
+					</ul>
+					<div class="noAddr list <if condition="$addrInfo">
+						hidden
+						</if>
+						"> +新增收货人地址
+					</div>
+				</div>
+			</div>
+			<volist name="info['cartgoods']" id="cat">
+			<div class="_son_title ub  margin_top10  "
+				onclick='javascript:window.location.href="{:U('
+				Shop/shop',array('id'=>
+				$key))}"'>
+				<php> $shopKey=$key; </php>
+				<div class="title_left_ico margin_left10 "
+					style="background: url(/ {$ cat [ 'shopgoods' ][ 0 ][ 'shopImg' ]"></div>
+				<div class="ub-f1 text-l">{$cat['shopgoods'][0]['shopName']}</div>
+				<div class="right_arrows"></div>
+			</div>
+			<volist name="cat['shopgoods']" id="gl"> <php>
+			$_attr=''; foreach($gl as $_k=>$_v){ if(is_numeric($_k)){
+			$_attr.=$_v["goodsAttrId"]."_"; } } $_attr=rtrim($_attr,"_");
+			if(!$_attr){ $_attr=0; } </php>
+			<div
+				class="bg-f7 ub  goods_{$gl.goodsId} goods_{$shopKey}_{$gl.goodsId}_{$_attr}_{$gl.isSeckill}_{$gl.isGroup}">
+				<div class="margin_left10 margin_right10"
+					style="width: 80px; overflow: hidden;">
+					<img style="height: 6rem; width: 80px;" src="/{$gl.goodsThums}"
+						alt="">
+				</div>
+				<div class="ub-f1 lh25 hei">
+					{$gl.goodsName} <span style="color: #ff4045;"><if
+							condition="$gl['isGroup']">【团】<elseif
+							condition="$gl['isSeckill']" />【秒】<else /></if></span>
+				</div>
+				<div class="margin_right10 text-r lh25">
+					<p class="font_col_red">
+						￥
+						<php> $_price=0; if($gl['isGroup']==1||$gl['isSeckill']==1){
+						$_price=$gl['shopPrice']; }else{ foreach($gl as $k=>$v){
+						if(is_numeric($k)){ $_price+=$v['shopPrice']; } } }
+						if($_price==0){ $_price=$gl['shopPrice']; } echo $_price; </php>
+					</p>
+					<p class="col_9">X{$gl.cnt}</p>
+				</div>
+			</div>
+			</volist> <if condition="$gl['isGroup']==0&& $gl['isSeckill']==0">
+			<div class="_son_title ub   ">
+				<div class="ub-f1 text-l">店铺优惠</div>
+				<div class="ub-f1 text-r">
+					<input type="hidden" data-shopId="{$shopKey}"
+						id="{$shopKey}_coupon" data-money="0" class="coupon" value="0" />
+					<select shopid="{$shopKey}">
+						<option value="0" data-money="0">满{$cat.deliveryFreeMoney}元包邮</option>
+						<volist name="cat['couponList']" id="coupon">
+						<option value="{$coupon.youhui_id}"
+							data-money="{$coupon.couponMoney}">{$coupon.name}</option>
+						</volist>
+					</select>
+				</div>
+				<div class="right_arrows"></div>
+			</div>
+			</if>
+			<div class="_son_title ub   ">
+				<div class="ub-f1 text-l">配送方式</div>
+				<input type="hidden" data-shopId="{$shopKey}" id="{$shopKey}-isSelf"
+					class="isSelf" name="{$shopKey}-isSelf" value="0" />
+				<php> $postageFree=$cat['deliveryMoney'];
+				if($cat['totalMoney'] >= $cat['deliveryFreeMoney']){
+				$postageFree=0.0; } </php>
+				<input type="hidden" data-shopId="{$shopKey}"
+					id="{$shopKey}-freight" class="freight" value="{$postageFree}" />
+				<div class="ub-f1 text-r" data-shopId="{$shopKey}"
+					onclick="isself(this)">
+					<span id="kuandi_{$shopKey}">快递<if
+							condition="$postageFree eq 0">免邮<else />{$postageFree}元</if></span><span
+						id="ziqi_{$shopKey}" style="display: none;">上门自取</span>
+				</div>
+				<div class="right_arrows "></div>
+			</div>
+			<div class="_son_title ub   ">
+				<div class=" text-l">买家留言:</div>
+				<div class="ub-f1 right_arrows nobg">
+					<input class="input_transpart remark"
+						data-shopid="<php>echo $shopKey;</php>" type="text"
+						name="{$shopKey}-leave" value="" placeholder="选填，可填写您和卖家达成一致的要求" />
+				</div>
+			</div>
+			<div class="_son_title ub font90">
+				<div class="ub-f1 text-r col-666 margin_right10">
+					<input type="hidden" data-shopId="{$shopKey}"
+						id="{$shopKey}-shopMoney" class="shopMoney"
+						value="{$cat.totalMoney}" /> 共{$cat.totalCnt}件商品 合计:<span
+						class="red">￥<span id="{$shopKey}_totalMoney"">{$cat.totalMoney}</span></span>元(含运费<span
+						id="postage_{$shopKey}" data-shopid="{$shopKey}" class="postage">{$postageFree}</span>)
+				</div>
+			</div>
+			</volist>
+			<div class="ub _bottom">
+				<div class="text-l ub-f2 pos-r" style="background: #a7a7aa">
+					<div class="pos-a">
+						共<font style="color: #ff4045">{$info.totalNum}</font>件 合计:￥<font
+							id="totalMoney" style="color: #ff4045">{$info['totalMoney']}</font>元(运<span
+							id="postageMoney">￥90</span>)
+					</div>
+				</div>
+				<div class="text-c ub-f1 pos-r" style="background: #ff4045"
+					onclick="submitOrder()">
+					<div class="pos-a">确认下单</div>
+				</div>
+			</div>
+			<input type="hidden" id="showAddr" value="0" /> <input type="hidden"
+				id="selectAddrId" value="{$addrInfo[0]['addressId']}" /> <input
+				type="hidden" id="isself" value="0" />
+			<div class="hidden" id="selectPS">
+				<div class="sel mui-input-row mui-radio  margin_right10 margin_top5">
+					<input type="radio" class="selt ps" name="isself" value="0" />
+					送货上门
+				</div>
+				<div class="sel mui-input-row mui-radio  margin_right10 margin_top5">
+					<input type="radio" class="selt zq" name="isself" value="1" /> 上门自取
+				</div>
+			</div>
+			<input type="hidden" name="province" id="province"
+				value="{$addrInfo[0].areaId1}" /> <input type="hidden" name="city"
+				id="city" value="{$addrInfo[0].areaId2}" /> <input type="hidden"
+				name="area" id="area" value="{$addrInfo[0].areaId3}" /> <input
+				type="hidden" name="community" id="community"
+				value="{$addrInfo[0].communityId}" />
+		</div>
+	</form>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script>
+$('select').change(function(){
+	var shopid=$(this).attr('shopid');
+	var money=$(this).find("option:selected").attr('data-money');
+	var couponId=$(this).find("option:selected").val();
+	$('#'+shopid+'_coupon').val(couponId);
+	$('#'+shopid+'_coupon').attr('data-money',money);
+	postage();
+})
+
+$(function(){
+	postage();
+})
+
+$("body").on("click",'.selt',function(){
+	var shopid=localStorage.shopid;
+	var val=$('#'+shopid+'-isSelf').val();
+	if(val==0){
+		$('#'+shopid+'-isSelf').val(1);
+		$('#ziqi_'+shopid).show();
+		$('#kuandi_'+shopid).hide();
+		$('#postage_'+shopid).text(0.0);
+		postage();
+	}else{
+		var free=$('#'+shopid+'-freight').val();
+		$('#'+shopid+'-isSelf').val(0);
+		$('#ziqi_'+shopid).hide();
+		$('#kuandi_'+shopid).show();
+		$('#postage_'+shopid).text(free);
+		postage();
+	}
+	
+})
+
+//运费选择处理
+function postage(){
+	var totalPostage=0;//总邮费
+	var shopPostage=0;//店铺的邮费
+	var totalMoney=0;//全部金额
+	var couponTotalMoney=0;//总优惠价
+	
+	$('.postage').each(function(){
+		//店铺ID
+		var shopid=$(this).attr('data-shopid');
+		//邮费
+		var shopPosatage=Number($(this).text());
+		//店铺优惠价
+		var couponShopMoney=0;
+		var coupon_money=$('#'+shopid+'_coupon').attr('data-money');
+		if(!isNaN(coupon_money)){
+			couponShopMoney=coupon_money;
+		}
+		//couponShopMoney=Number($('#'+shopid+'_coupon').attr('data-money'));
+	
+		//店铺价格
+		var shopMoney=Number($('#'+shopid+'-shopMoney').val());
+		shopMoney=shopMoney-couponShopMoney;
+		if(shopMoney<=0){
+			shopMoney=0;
+		}
+		//店铺总价
+		var shopTotalMoney=shopPosatage+shopMoney;
+		//总优惠价
+		couponTotalMoney+=couponShopMoney;
+		
+		//总邮费
+		totalPostage+=shopPosatage;
+		//所有总价
+		totalMoney+=shopTotalMoney;
+		$('#'+shopid+'_totalMoney').text(shopTotalMoney);
+	})
+	$('#postageMoney').text('￥'+totalPostage);
+	$('#totalMoney').text(totalMoney);
+}
+
+function isself(_this){
+	var shopid=$(_this).attr('data-shopId');
+	localStorage.shopid=shopid;
+	var val=$('#'+shopid+'-isSelf').val();
+    if($('#kuandi_'+shopid).is(':visible')) {
+    	$('#'+shopid+'-isSelf').val(0);
+    	$('.ps').attr("checked",true);
+    	$('.zq').attr("checked",false);
+	} else {
+		$('#'+shopid+'-isSelf').val(1);
+		$('.ps').attr("checked",false);
+		$('.zq').attr("checked",true);
+	}
+	var html=$('#selectPS').html();
+	layer.open({
+		  type: 1,
+		  title:'选择配送方式',
+		  skin: 'layui-layer-rim', //加上边框
+		  area: ['80%', '30%'], //宽高
+		  content:html
+		});
+}
+//提交订单
+function submitOrder(){
+	
+	var province=$('#province').val();
+  	var city=$('#city').val();
+  	var area=$('#area').val();
+  	var community=$('#community').val();
+	if(!province||typeof(province)=='undefined'){
+		layer.msg('请选择地址');
+		return;
+	}
+	if(!city||typeof(city)=='undefined'){
+		layer.msg('请选择地址');
+		return;
+	}
+	if(!area||typeof(area)=='undefined'){
+		layer.msg('请选择地址');
+		return;
+	}
+	//layer.msg('正在保存数据...', {icon: 16});
+	var url="{:U('Wx/Confirm/checkGoodsStock')}"
+		jQuery.post(url ,{province:province,city:city,area:area,community:community},function(data) {
+			console.log(data);
+		  if(data.status==-5){
+	  		  layer.msg('请填写收货地址');
+	  		  return;
+	  	  }else if(data.status==-6){
+	  		  var ww=window.screen.availWidth-2;
+	  		  var arr=data['data'].split(',');
+	  		  for(var i=0; i<arr.length;i++){
+	  			  $('.goods_'+arr[i]).css('width',ww+'px');
+		  		  $('.goods_'+arr[i]).css('border','#ff4045 dashed 1px');
+		  		  $('.goods_'+arr[i]).css('background','#D5D7DC');
+	  		  }
+	  		  layer.msg('部分商品不在配送范围');
+	  		  return;
+	  	  }
+		var flag = true;
+		var strSale='商品';
+		var ww=window.screen.availWidth-2;
+		$.each(data, function(key, value) {
+			if(value['isSale']==0){
+				//下架或库存不足
+				flag=false;
+				$('.goods_'+key).css('width',ww+'px');
+				 $('.goods_'+key).css('background','#D5D7DC');
+				 $('.goods_'+key).css('border','#ff4045 dashed 1px');
+				strSale+=value['goodsName']+',';
+			}
+		});
+		strSale=strSale.substring(0,strSale.length-1);
+		strSale+='商品下架或库存不足';
+		if(flag){
+			var consigneeId = $.trim($("#selectAddrId").val());	
+			if(!consigneeId||consigneeId==''||typeof(consigneeId)=='undefined'){
+				layer.msg('请选择地址');
+				return;
+			}
+			var payway = $('input:radio[name="payway"]:checked').val();
+			var isself = $('#isself').val();
+			var addressId=$('#selectAddrId').val();
+			
+			//留言
+			var remark='';
+			$('.remark').each(function(){
+				var shopid=$(this).attr('data-shopid');
+				var val=$(this).val();
+				if(val){
+					remark+=shopid+'|o_o|'+val+'|o2o|';
+				}
+			})
+			//留言结束
+			
+			//配送方式
+			var isSlef='';
+			$('.isSelf').each(function(){
+				var shopid=$(this).attr('data-shopId');
+				var val=$(this).val();
+				if(val){
+					isSlef+=shopid+'|o_o|'+val+'|o2o|';
+				}
+			})
+			//优惠卷
+			var coupon='';
+			$('.coupon').each(function(){
+				var shopid=$(this).attr('data-shopId');
+				var val=$(this).val();
+				if(val){
+					coupon+=shopid+'|o_o|'+val+'|o2o|';
+				}
+			})
+			var orderunique = new Date().getTime();
+		   $.ajax({
+	           type: "POST",
+	           url: "{:U('Wx/Orders/submitOrder')}",
+	           data: {coupon:coupon,payway:payway,consigneeId:consigneeId,isself:isSlef,remarks:remark,orderunique:orderunique,addressId:addressId},
+	           dataType: "json",
+	           success: function(data){
+	        		//layer.closeAll();
+	        	  	if(data.status==-1||data.status==-2||data.status==-3){
+	        	  		layer.msg(data.msg);
+	        	  		return;
+	        	  	}else if(data.status==1){
+	        	  		layer.msg(data.msg);
+	        	  		if(data.payid){
+	        	  			//存在订单号直接进入付款页
+	        	  			location.href="/Wx/Confirm/onlinkPay/payid/"+data.payid+"";
+	        	  		}else{
+	        	  			//跳转到订单列表页
+	        	  			location.href="{:U('Wx/Orders/orders')}";
+	        	  		}
+	        	  	}
+	            }
+	       });
+		}else{
+			layer.msg(strSale);
+			//alert(strSale);
+		}
+	});
+}
+
+/* $('body').on('click','.selectAddr ul li',function(){
+	var show=Number($('#showAddr').val());
+	if(show==1){
+		$('.list').hide();
+		$(this).show();
+		$('#showAddr').val(0);
+		$('#selectAddrId').val($(this).attr('id'));
+	}else{
+		$('.noAddr').show();
+		$('#showAddr').val(1);
+		$('.list').show();
+	}
+}) */
+//iframe层
+//不存在地址时
+$('body').on('click','.noAddr',function(){
+	layer.open({
+		  type: 2,
+		  title: false,
+		  shadeClose: 0,
+		  closeBtn :0,
+		  shade: 0.8,
+		  area: ['100%', '100%'],
+		  content: '{:U("Address/myAddr")}' //iframe的url
+		}); 
+})
+//已经存在
+$('body').on('click','.existsAddr',function(){
+	layer.open({
+		  type: 2,
+		  title: false,
+		  shadeClose: 0,
+		  closeBtn :0,
+		  shade: 0.8,
+		  area: ['100%', '100%'],
+		  content: '{:U("Address/myAddr")}' //iframe的url
+		}); 
+})
+function upAddr(){
+	var url='{:U("Address/getUserAddr")}';
+	  $.ajax({
+          type: "POST",
+          url: url,
+          data: {},
+          dataType: "json",
+          success: function(data){
+      			var html='';
+      			var def='';
+      			var community=data[0].community;
+        	  	$('#province').val(data[0].areaId1);
+        	  	$('#city').val(data[0].areaId2);
+        	  	$('#area').val(data[0].areaId3);
+        	  	if(community){
+        	  		$('#community').val(data[0].communityId);
+        	  	}else{
+        	  	  	$('#community').val('');
+        	  	}
+      			
+      		   $.each(data, function(commentIndex,cm){
+      			  def+='<li class="list existsAddr" id="'+cm["addressId"]+'">'+cm["userName"]+'&nbsp;'+cm["userPhone"]+' &nbsp;'+cm["province"]+cm["city"]+cm["area"]+cm["address"]+'</li>';
+      		   })
+      		   $("#selectAddrId").val(data[0]['addressId']);
+      		   if(data[0]['addressId']){
+      			   $('.noAddr').hide();
+      		   }
+      		   $('#addr').html(def+html);
+        	  }
+          })
+	layer.closeAll('iframe');
+}
+</script>
+</html>

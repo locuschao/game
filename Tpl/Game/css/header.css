@@ -1,0 +1,84 @@
+* {
+	margin: 0;
+	padding: 0;
+	outline: 0;
+}
+
+header {
+	background-color: #de0000;
+	border: 0px;
+	height: 50px;
+}
+
+html, body {
+	height: 100%;
+	width: 100%;
+}
+
+#wrap {
+	height: 100%;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-flex-flow: column;
+	flex-flow: column;
+}
+
+#wrap {
+	-webkit-animation: fadeIn .5s ease both;
+	animation: fadeIn .5s ease both;
+}
+
+.topbar {
+	background: #ff1b1c;
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
+	/*display: none;*/
+	color: #fff;
+	font-size: 20px;
+	font-weight: bold;
+	position: relative;
+}
+
+.topzuo {
+	width: 50px;
+	height: 50px;
+	left: 0px;
+	top: 0px;
+	position: absolute;
+	background-image: url('../image/return.png');
+	background-size: 11px 19px;
+	background-repeat: no-repeat;
+	background-position: 13px 15px;
+}
+
+.topzhong {
+	/*-webkit-box-flex: 1;
+            -webkit-flex: 1;
+            flex: 1;*/
+	float: inherit;
+	padding: 0 50px;
+}
+
+.topyou {
+	width: 50px;
+	height: 50px;
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	font-size: 15px;
+}
+
+.topyou_tu {
+	width: 50px;
+	height: 50px;
+	right: 0px;
+	top: 0px;
+	position: absolute;
+	background-image: url('../image/top_you_gwc.png');
+	background-size: 20px 20px;
+	background-repeat: no-repeat;
+	background-position: 13px 15px;
+}

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>支付密码修改</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/layer.min.js"></script>
+<style>
+body {
+	
+}
+
+.trsp {
+	background-color: transparent;
+	width: 80%;
+	height: 100%;
+	margin: 0 auto;
+	border: none;
+	height: 35px;
+	line-height: 35px;
+	background-size: 12px;
+}
+
+.password_ico {
+	background: url(__IMG__/ico_s.png) 5px center no-repeat;
+	background-size: 12px;
+}
+
+.login_btn {
+	display: block;
+	width: 80%;
+	height: 40px;
+	line-height: 40px;
+	margin: 0 auto;
+	background: #00b4ff;
+	border-radius: 4px;
+	text-align: center;
+	color: #fff;
+}
+
+.ub {
+	border-bottom: #d5d7dc solid 1px;
+}
+
+.submit {
+	margin-top: 20px;
+}
+
+.ti-10 {
+	text-indent: 10px;
+}
+
+.getCode {
+	background: #ffbc1b;
+	color: #fff;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<form id="form1" name="form1" method="post" action="">
+		<div class="_top">
+			<div class="_left_top"
+				onclick="location.href='{:U('Login/userInfo')}' "></div>
+			<div class="_title_top">支付密码修改</div>
+			<div class="_right_top no-bg"></div>
+		</div>
+		<div class="ub lh45 mr-t45 bg-ff"
+			style="border-bottom: #d5d7dc solid 1px;">
+			<div class="ti-10">原支付密码</div>
+			<div class="ub-f1 txt-c">
+				<input class="trsp no-bg" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" type="password" name="oldpwd" id="oldpwd"
+					value="" placeholder="请输入6位数字密码" />
+			</div>
+		</div>
+		<div class="ub lh45 bg-ff" style="border-bottom: #d5d7dc solid 1px;">
+			<div class="ti-10">新支付密码</div>
+			<div class="ub-f1 txt-c">
+				<input class="trsp no-bg" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" type="password" name="newpwd" id="newpwd"
+					value="" placeholder="请输入6位数字新密码" />
+			</div>
+		</div>
+		<div class="ub lh45 bg-ff" style="border-bottom: #d5d7dc solid 1px;">
+			<div class="ti-10">重复新密码</div>
+			<div class="ub-f1 txt-c">
+				<input class="trsp no-bg" type="password" name="rnewpwd"
+					id="rnewpwd" value="" placeholder="请再次确认密码" />
+			</div>
+		</div>
+		<div class="lh35 text-r" style="padding-right:10px;"><a href="{:U('Login/resetPaypwd')}"><span class="col-6 lh35" style="display:block;width:30%;float:right;">忘记支付密码</span></a></div>
+		<div class="ub lh35 submit" style="border: none;">
+			<div class="ub-f1" onclick="save()">
+				<span class="login_btn"> 保存 </span>
+			</div>
+		</div>
+	</form>
+	<input type="hidden" id="isrepeat" value="0" />
+	<input type="hidden" id="sendStatus" value="0" />
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script>
+	function save() {
+		if($('#isrepeat').val()==1){
+			layer.msg('请不要重复提交');
+			return;
+		}
+		var url = "{:U('Login/changePayPwdHandle')}"
+		var oldpwd = $.trim($('#oldpwd').val());
+		var newpwd=$.trim($('#newpwd').val());
+		var rewpwd=$.trim($('#rnewpwd').val());
+		if(isNaN(newpwd)){
+			layer.msg('密码只能是数字');
+			return;
+		}
+		if(oldpwd==''||newpwd==''||oldpwd.length!=6||newpwd.length!=6||rewpwd.length!=6){
+			layer.msg('密码长度不对');
+			return;
+		}
+		if(oldpwd==newpwd){
+			layer.msg('新密码不能与旧密码一样');
+			return;
+		}
+		if(rewpwd!=newpwd){
+			layer.msg('重复密码不正确');
+			return;
+		}
+		$('#isrepeat').val(1);
+		$.ajax({
+			type : "POST",
+			url : url,
+			data : {
+				oldpwd:oldpwd,
+				newpwd:newpwd,
+			},
+			dataType : "json",
+			success : function(data) {
+				if(data.status==-2){
+					$('#isrepeat').val(0);
+					layer.msg('原密码不正确');
+					return;
+				}else if(data.status==0){
+					layer.msg('密码修改成功');
+					setTimeout(function(){
+						location.href="{:U('Login/userInfo')}";
+					},2000);
+					return;
+				}else{
+					$('#isrepeat').val(0);
+					layer.msg('密码修改失败');
+					return;
+				}
+			}
+		});
+	}
+</script>
+</html>

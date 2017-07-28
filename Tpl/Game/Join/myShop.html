@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>我的店铺</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/layer.min.js"></script>
+<style>
+body {
+	margin-top: 45px;
+}
+
+.col-9 {
+	color: #999
+}
+
+.shop {
+	height: 60px;
+	background: #fff;
+	padding: 10px;
+	padding-right: 0;
+	padding-left: 0;
+	border-bottom: #d5d7dc solid 1px;
+	text-indent: 10px;
+}
+
+.shop img {
+	height: 60px;
+}
+
+.shopname p {
+	background: #fff;
+	height: 30px;
+	line-height: 30px;
+}
+
+.shopname p:first-child {
+	font-weight: bold;
+}
+
+.today {
+	background: url(__IMG__/myshop_bg.png) center no-repeat;
+	height: 300px;
+	background-size: 100% 100%;
+	margin-top: 10px;
+}
+
+.br_b {
+	border-bottom: #d5d7dc solid 1px
+}
+
+.col-6 {
+	color: #666666
+}
+
+.txt-p p {
+	background: #fff;
+	height: 20px;
+	line-height: 20px;
+}
+
+.txt-p p:first-child {
+	padding-top: 5px;
+}
+
+.txt-p p:last-child {
+	padding-bottom: 5px;
+}
+
+.notice {
+	height: 45px;
+	line-height: 45px;
+}
+
+.notice img {
+	height: 30px;
+	line-height: 45px;
+	margin-top: 7px;
+	margin-left: 10px;
+}
+
+body {
+	padding-bottom: 0px;
+}
+
+.hey {
+	width: 150px;
+	height: 100px;
+	margin: 0 auto;
+}
+
+.hey p {
+	background: none;
+	height: 33px;
+	line-height: 33px;
+	text-align: center;
+}
+
+.hey p:last-child {
+	color: #ff4045;
+	font-weight: bold;
+	font-size: 150%;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<div style="max-width: 640px; margin: 0 auto;">
+		<div class="_top">
+			<div class="_left_top" onclick="location.href='{:U('Index/index')}' "></div>
+			<div class="_title_top">我的店铺</div>
+			<div class="_right_top no-bg"></div>
+		</div>
+		<div class="ub shop">
+			<div class="ub-f1">
+				<img src="__IMG__/shop_ico.png" />
+			</div>
+			<div class="ub-f3 shopname">
+				<p>{$shopInfo.shopName}</p>
+				<p>店铺编号：{$shopInfo.shopSn}</p>
+			</div>
+		</div>
+		<div class="ub bg-ff  margin_top10 txt-c br_b" style="height: 50px;">
+			<div class="ub-f1 pos-r">
+				<div class="pos-a txt-p">
+					<p class="col-6">本月成交总额</p>
+					<p style="color: #fd9a2a">￥{$monthMoney}</p>
+				</div>
+			</div>
+			<div class="ub-f1 pos-r">
+				<div class="pos-a txt-p">
+					<p class="col-6">本月订单</p>
+					<p style="color: #fd9a2a">{$monthCount}</p>
+				</div>
+			</div>
+		</div>
+		<div class="ub lh45 bg-ff margin_top10 br_b">
+			<div class="notice">
+				<img src="__IMG__/toutiao.png" />
+			</div>
+			<div class="ub-f1"
+				style="color: #ff2c2c; text-indent: 10px; text-overflow: ellipsis; white-space: nowrap">
+				新入驻商家可以提供三个秒杀广告</div>
+		</div>
+		<div class="today">
+			<div style="width: 100%; height: 100px;"></div>
+			<div class="hey">
+				<p>
+					今天<font style="color: #ff4045; font-size: 150%;">{$todayCount}</font>个订单
+				</p>
+				<p>今天成交总额</p>
+				<p>￥{$todayMoney}</p>
+			</div>
+		</div>
+	</div>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script>
+	
+</script>
+</html>

@@ -1,0 +1,413 @@
+<extend name="Users:layout" />
+<block name="content">
+<link rel="stylesheet" type="text/css"
+	href="__CSS__/bootstrap/css/bootstrap.min.css">
+
+<link rel="stylesheet" type="text/css"
+	href="__CSS__/datatable/dataTables.bootstrap.min.css">
+
+<script src="__JS__/datatable/jquery.dataTables.js"></script> <script
+	src="__JS__/datatable/dataTables.bootstrap.min.js"></script>
+
+<style>
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover,
+	.pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover
+	{
+	background-color: #e23c3d;
+	border-color: #e23c3d;
+}
+
+.order_img {
+	width: 40px;
+}
+</style>
+<style>
+.agent-box {
+	border-bottom: 10px solid rgba(255, 0, 0, 0.58);
+	padding-bottom: 1em;
+	margin-top: 1em;
+	margin-bottom: 1em;
+}
+
+.agent-btn {
+	padding: 6px 12px;
+	margin-bottom: 0;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.42857143;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	-ms-touch-action: manipulation;
+	touch-action: manipulation;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	background-image: none;
+	border: 1px solid transparent;
+	border-radius: 4px;
+}
+</style>
+<div class="wst-body">
+	<div class='wst-page-header'>买家中心 > 佣金日志</div>
+	<div class='wst-page-content'>
+		<div style="padding-bottom: 4px;">
+			<div class="agent-box">
+				我的总佣金：{$info['agentTotalPrice']}<br>
+				我的余额：{$info['agentBalance']}<br>
+				申请中佣金：{$info['agentWaitPrice']}<br>
+				已提现佣金：{$info['agentPayPrice']}<br>
+				<button class="agent-btn btn-danger" id="apply">申请提现</button>
+				<button class="agent-btn btn-info" id="applylog-btn">提现记录</button>
+				<button class="agent-btn btn-success" id="agentlog-btn"
+					style="display: none">收入记录</button>
+			</div>
+		</div>
+		<div class='wst-page-content' id="one">
+			<table id="logInfo" class="table table-striped table-bordered"
+				cellspacing="0" width="100%">
+				<thead>
+					<tr>
+						<th>用户名</th>
+						<th>订单编号</th>
+						<th>商品数量</th>
+						<th>商品价格(元)</th>
+						<th>商品图片</th>
+						<th>商品名称</th>
+						<th>分佣金额(元)</th>
+						<th>时间</th>
+					</tr>
+				</thead>
+				<tbody>
+
+				</tbody>
+
+				<tfoot>
+					<tr>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+		<div class='wst-page-content' id="two" style="display: none">
+			<table id="applyLog" class="table table-striped table-bordered"
+				cellspacing="0" width="100%">
+				<thead>
+					<tr>
+						<th>金额</th>
+						<th>银行卡号</th>
+						<th>开户行地址</th>
+						<th>开户人姓名</th>
+						<th>银行名称</th>
+						<th>电话</th>
+						<th>状态</th>
+						<th>申请时间</th>
+					</tr>
+				</thead>
+				<tbody>
+
+				</tbody>
+
+
+				<tfoot>
+					<tr>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+	</div>
+</div>
+<script>
+        $(function(){
+
+            logInfo();
+            applylog();
+            applyBtn();
+
+
+//            applyOpen(1);
+
+
+
+
+            /*-------*/
+
+            <if  condition="$checkApplyTime['day'] gt 0">
+            //距离上次提现为到期
+            var time =  {$checkApplyTime["day"]};
+            applyOpen(time);
+            <else/>
+            <if condition="$info['agentWaitPrice'] neq 0">
+            applyHover();
+            <elseif condition="$info['agentWaitPrice'] eq 0"/>
+            open()
+            </if>
+
+            </if>
+
+
+
+
+
+
+
+        });
+
+
+        function applyOpen(i){
+            $("#apply").hover(
+                    function() {
+                        layer.tips('距离下次申请还要等待'+i+'天', '#apply', {
+                            tips: [4, 'red'],
+                            time: 3000
+                        });
+
+                    },
+                    function () {
+                        layer.tips('只需要'+i+'天,就可以申请了喔', '#apply', {
+                            tips: [4, 'blue'],
+                            time: 3000
+                        });
+
+                    }
+            );
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+        function applyHover(){
+            $("#apply").hover(
+                    function() {
+                        layer.tips('已有申请待审核', '#apply', {
+                            tips: [4, 'red'],
+                            time: 3000
+                        });
+
+                    },
+                    function () {
+                        layer.tips('已有申请待审核', '#apply', {
+                            tips: [4, 'blue'],
+                            time: 3000
+                        });
+
+                    }
+            );
+
+
+
+        }
+
+
+        function  open(){
+            $('#apply').on('click',function(){
+                openagent();
+
+            })
+        }
+
+
+
+
+
+
+        function applyBtn(){
+            $('#applylog-btn').on('click',function(){
+                $('#two').toggle();
+                $('#one').toggle();
+                $('#applylog-btn').toggle("fast");
+                $('#agentlog-btn').toggle("fast");
+
+            });
+
+            $('#agentlog-btn').on('click',function(){
+                $('#applylog-btn').toggle("fast");
+                $('#agentlog-btn').toggle("fast");
+                $('#two').toggle();
+                $('#one').toggle();
+            })
+
+
+        }
+
+
+        function logInfo(){
+
+
+            var data=eval({$apply});
+            $('#logInfo').DataTable(
+                    {"deferRender": true,
+                        data:data,
+                        columns: [
+                            { data: 'loginName' },
+                            { data: 'orderId' },
+                            { data: 'goodsNums' },
+                            { data: 'agentPrice' },
+                            { data: 'goodsThums' },
+                            { data: 'goodsName'},
+                            { data: 'gain_price'},
+                            { data: 'time'}
+
+
+                        ],
+                        "language": {
+                            "sProcessing": "处理中...",
+                            "sLengthMenu": "显示 _MENU_ 项结果",
+                            "sZeroRecords": "没有匹配结果",
+                            "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                            "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                            "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                            "sInfoPostFix": "",
+                            "sSearch": "搜索:",
+                            "sEmptyTable": "表中数据为空",
+                            "sLoadingRecords": "载入中...",
+                            "sInfoThousands": ",",
+                            "oPaginate": {
+                                "sFirst": "首页",
+                                "sPrevious": "上页",
+                                "sNext": "下页",
+                                "sLast": "末页"
+                            },
+                            "oAria": {
+                                "sSortAscending": ": 以升序排列此列",
+                                "sSortDescending": ": 以降序排列此列"
+                            }
+                        },
+                        "initComplete": function () {
+                            var api = this.api();
+
+                            api.columns().indexes().flatten().each( function ( i ) {
+
+                                var column = api.column( i );
+                                var select = $('<select class="form-control input-sm"><option value=""></option></select>')
+                                        .appendTo( $(column.footer()).empty() )
+                                        .on( 'change', function () {
+                                            var val = $.fn.dataTable.util.escapeRegex(
+                                                    $(this).val()
+                                            );
+                                            column
+                                                    .search( val ? '^'+val+'$' : '', true, false )
+                                                    .draw();
+                                        } );
+                                column.data().unique().sort().each( function ( d, j ) {
+                                    select.append( '<option value="'+d+'">'+d+'</option>' );
+                                } );
+                            } );
+                        }
+
+                    })
+        }
+
+
+
+        function applylog() {
+
+            var data=eval({$applyLog});
+            $('#applyLog').DataTable(
+                    {
+                        "deferRender": true,
+                        data: data,
+                        columns: [
+                            {data: 'applyPrice'},
+                            {data: 'bankNum'},
+                            {data: 'bankAccess'},
+                            {data: 'bankUserName'},
+                            {data: 'bankName'},
+                            {data: 'tel'},
+                            {data: 'status'},
+                            {data: 'time'}
+
+
+                        ],
+                        "language": {
+                            "sProcessing": "处理中...",
+                            "sLengthMenu": "显示 _MENU_ 项结果",
+                            "sZeroRecords": "没有匹配结果",
+                            "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                            "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                            "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                            "sInfoPostFix": "",
+                            "sSearch": "搜索:",
+                            "sEmptyTable": "表中数据为空",
+                            "sLoadingRecords": "载入中...",
+                            "sInfoThousands": ",",
+                            "oPaginate": {
+                                "sFirst": "首页",
+                                "sPrevious": "上页",
+                                "sNext": "下页",
+                                "sLast": "末页"
+                            },
+                            "oAria": {
+                                "sSortAscending": ": 以升序排列此列",
+                                "sSortDescending": ": 以降序排列此列"
+                            }
+                        }
+                        ,
+                        "initComplete": function () {
+                            var api = this.api();
+
+                            api.columns().indexes().flatten().each( function ( i ) {
+
+                                var column = api.column( i );
+                                var select = $('<select class="form-control input-sm"><option value=""></option></select>')
+                                        .appendTo( $(column.footer()).empty() )
+                                        .on( 'change', function () {
+                                            var val = $.fn.dataTable.util.escapeRegex(
+                                                    $(this).val()
+                                            );
+                                            column
+                                                    .search( val ? '^'+val+'$' : '', true, false )
+                                                    .draw();
+                                        } );
+                                column.data().unique().sort().each( function ( d, j ) {
+                                    select.append( '<option value="'+d+'">'+d+'</option>' );
+                                } );
+                            } );
+                        }
+
+                    });
+
+
+
+        }
+
+        function openagent(){
+            layer.open({
+                type: 2,
+                title:"申请提现",
+                shade: [0.6, '#000'],
+                border: [0],
+                content: [Think.U('Home/Agent/payview')],
+                area: ['805px', ($(window).height() - 150) +'px'],
+                end:function(){
+                    window.location.reload();
+                }
+            });
+        }
+
+    </script> </block>

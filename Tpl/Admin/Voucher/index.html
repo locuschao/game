@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link href="/Public/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/Tpl/Admin/css/page.css" rel="stylesheet">
+    <script src="__PUBLIC__/js/jquery.min.js"></script>
+    <style>
+        .voucherList{
+            margin-top:10px;
+        }
+        .voucherList form table tr td{
+            padding-right: 13px;
+        }
+        .voucherList table{
+            margin-bottom: 10px;
+        }
+    </style>
+    <script>
+       function dataDelete(voucherId,t) {
+           if(!confirm('您确定要删除id为'+voucherId+'的代金券吗？'))
+                   return;
+               $.ajax({
+                   url: '__CONTROLLER__/delVoucherAction',
+                   type: 'post',
+                   data: {voucherId:voucherId},
+                   dataType: 'json',
+                   success: function (res) {
+                       if (res.status == 0) {
+                           $(t).parents('td').html('<font color=red>已删除</font>');
+                       }
+                       else
+                           alert(res.msg);
+                   }
+               })
+       }
+    </script>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+            <div class="col-md-12">
+            <div class="voucherList">
+                <form action="" method="post">
+                    <table>
+                        <tr><td>代金券名称：</td><td><input class="form-control" name="voucherName" value="{$_POST['voucherName']}"></td><td><button class="btn btn-primary">搜索</button> </td></tr>
+                    </table>
+                </form>
+                <table class="list_tab">
+                    <tr><th>代金券ID</th><th>代金券名称</th><th>添加人</th><th>添加时间</th><th>备注</th><th>操作</th></tr>
+                    <volist name="voucherArr" id="vo">
+                        <tr><td>{$vo.id}</td><td>{$vo.name}（{$vo.validTime}天有效）</td><td>{$vo.loginName}</td><td>{$vo.add_time|date='Y-m-d H:i:s',###}</td><td>{$vo.remark}</td><td><a href="javascript:;" onclick="dataDelete({$vo.id},this)">删除</a><a  href="__CONTROLLER__/editVoucher/voucherId/{$vo.id}">修改</a></td></tr>
+                    </volist>
+                </table>
+                <div class="page_nav">
+                    {$page}
+                </div>
+            </div>
+            </div>
+    </div>
+</div>
+</body>
+</html>

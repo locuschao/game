@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{$CONF['mallTitle']}后台管理中心登录</title>
+<include file="./Tpl/homeHead.html" />
+<link href="__PUBLIC__/plugins/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+<link rel="stylesheet" href="__CSS__/logins.css">
+<script src="__PUBLIC__/js/jquery.min.js"></script>
+<script src="__PUBLIC__/plugins/lazyload/jquery.lazyload.min.js?v=1.9.1"></script>
+<script>
+        var ThinkPHP = window.Think = {
+            "ROOT"   : "__ROOT__",
+            "APP"    : "__APP__",
+            "PUBLIC" : "__PUBLIC__",
+            "DEEP"   : "{:C('URL_PATHINFO_DEPR')}",
+            "MODEL"  : ["{:C('URL_MODEL')}", "{:C('URL_CASE_INSENSITIVE')}", "{:C('URL_HTML_SUFFIX')}"],
+            "VAR"    : ["{:C('VAR_MODULE')}", "{:C('VAR_CONTROLLER')}", "{:C('VAR_ACTION')}"]
+        }
+        var domainURL = "{:WSTDomain()}";
+        var publicurl = "__PUBLIC__";
+        var currCityId = "{$currArea['areaId']}";
+        var currCityName = "{$currArea['areaName']}";
+        var currDefaultImg = "{:WSTDomain()}/{$CONF['goodsImg']}";
+        var wstMallName = "{$CONF['mallName']}";
+        $(function() {
+            $('.lazyImg').lazyload({ effect: "fadeIn",failurelimit : 10,threshold: 200,placeholder:currDefaultImg});
+        });
+    </script>
+<script src="__PUBLIC__/js/think.js"></script>
+<script src="__PUBLIC__/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="__PUBLIC__/js/common.js"></script>
+<script src="__PUBLIC__/plugins/plugins/plugins.js"></script>
+<script src="__JS__/login.js"></script>
+<script src="__JS__/common.js"></script>
+<script src="__JS__/head.js" type="text/javascript"></script>
+<!-- &lt;!&ndash;[if lte IE 8]>
+    <script src="__JS__/cart/ieBetter.js"></script>
+    <![endif]&ndash;&gt;
+    <script src="__JS__/cart/parabola.js"></script>>
+    <![if lt IE 9]>
+
+    <script src="__PUBLIC__/js/respond.min.js"></script>
+    <![endif]-->
+<script type="text/javascript" src="__JS__/cart/common.js?v=725"></script>
+<script type="text/javascript" src="__JS__/cart/quick_links.js"></script>
+<style>
+#loginbox .form-vertical {
+	padding-top: 180px;
+}
+
+#loginbox .form-actions {
+	top: -165px;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+
+<body>
+	<div id="loginbox">
+		<div class='logos'></div>
+		<div id="loginform" class="form-vertical" />
+		<span id="errmsg"
+			style='display: none; color: red; position: absolute; top: 20%; left: 30%; background: #f2f2f2; padding: 20px; border-radius: 4px;'></span>
+		<div class="control-group">
+			<div class="controls">
+				<div class="input-prepend">
+					<span class="add-on">账&nbsp;&nbsp;&nbsp;号：</span><input type="text"
+						name='loginName' id='loginName' placeholder="手机号" />
+				</div>
+			</div>
+		</div>
+		<div class="control-group">
+			<div class="controls">
+				<div class="input-prepend">
+					<span class="add-on">密&nbsp;&nbsp;&nbsp;码：</span><input
+						type="password" name='loginPwd' id='loginPwd' placeholder="密码" />
+				</div>
+			</div>
+		</div>
+		<div class="control-group">
+			<div class="controls">
+				<div class="input-prepend">
+					<span class="add-on">验证码：</span><input type="text" name='verify'
+						id='verify' placeholder="验证码" style="width: 70px; height: 35px;" |/>
+					<label class="img"> <img
+						style='vertical-align: middle; cursor: pointer; height: 36px;'
+						class='verifyImg'
+						src='__ROOT__/Apps/Home/View/default/images/clickForVerify.png'
+						title='刷新验证码' onclick='javascript:getVerify()' />
+					</label>
+				</div>
+			</div>
+		</div>
+		<div class="form-actions" id="loginsubmit"
+			onclick="javascript:logines();"></div>
+	</div>
+
+	</div>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+</html>

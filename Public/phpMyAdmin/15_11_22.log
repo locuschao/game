@@ -1,0 +1,20 @@
+[ 2015-11-22T02:22:42+08:00 ] 127.0.0.1 /index.php/Home/Cart/images/24_thumb_G_1241971981429.jpg
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000732s ]
+
+[ 2015-11-22T02:30:34+08:00 ] 127.0.0.1 /index.php/Home/Cart/images/24_thumb_G_1241971981429.jpg
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.002401s ]
+
+[ 2015-11-22T02:40:35+08:00 ] 127.0.0.1 /index.php/Home/Cart/images/logo.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000021s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000815s ]
+
+[ 2015-11-22T02:40:44+08:00 ] 127.0.0.1 /index.php/Home/Cart/images/logo.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000019s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000727s ]
+

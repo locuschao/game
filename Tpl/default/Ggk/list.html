@@ -1,0 +1,75 @@
+<extend name="Base:common" />
+<block name="static">
+<link rel="stylesheet" href="__CSS__/getggk.css" />
+<link rel="stylesheet" href="__CSS__/layer.css">
+<script type="text/javascript" src="__JS__/layer.js"></script> <script
+	type="text/javascript" src="__JS__/layer.ext.js"></script>
+
+<style type="text/css">
+.wst-pagination {
+	margin-top: 10px;
+	text-align: center;
+	height: 25px;
+	line-height: 25px;
+}
+
+.wst-current {
+	background-color: rgb(226, 62, 61);
+	color: #fff;
+	padding: 0 12px;
+	border-radius: 2px;
+	height: 26px;
+	line-height: 26px;
+	display: inline-block;
+	vertical-align: top;
+	font-size: 12px;
+}
+
+.wst-num {
+	background-color: #f1eff0;
+	padding: 0 12px;
+	border-radius: 2px;
+	margin: 0 3px 6px;
+	height: 26px;
+	line-height: 26px;
+	text-decoration: none;
+	color: #666;
+	display: inline-block;
+	vertical-align: top;
+	font-size: 12px;
+}
+
+.wst-next, .wst-prev {
+	background-color: #f1eff0;
+	padding: 0 12px;
+	border-radius: 2px;
+	height: 26px;
+	line-height: 26px;
+	text-decoration: none;
+	color: #666;
+	display: inline-block;
+	vertical-align: top;
+	font-size: 12px;
+}
+</style>
+</block>
+<block name="body">
+<div class="wrap_full">
+	<p class="wrap_name">刮刮卡抽奖列表</p>
+	<div class="ggk_box ">
+		<volist name="list" id="vo">
+		<div class="list">
+			<p>{$vo['title']}</p>
+			<span>商家：{$vo['shopName']}</span> <span>结束时间：{$vo['enddate']|date='Y-m-d
+				H:i',###}</span> <span>参与人数：{$vo['joinnum']}</span> <a
+				href="{:U('Home/Ggk/getggk',array('ggkid'=>$vo['id']))}"
+				target="_blank">点击进入抽奖</a>
+		</div>
+		</volist>
+	</div>
+	<div style="margin: 0 auto; width: 1200px;">{$show}</div>
+
+
+
+</div>
+</block>

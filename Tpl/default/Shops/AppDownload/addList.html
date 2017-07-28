@@ -1,0 +1,183 @@
+<extend name="Shops:layout" />
+<block name="content"> <script
+	src="__PUBLIC__/plugins/kindeditor/kindeditor.js"></script> <script
+	src="__PUBLIC__/plugins/kindeditor/lang/zh_CN.js"></script>
+
+<link rel="stylesheet" type="text/css"
+	href="__PUBLIC__/plugins/webuploader/style.css" />
+<link rel="stylesheet" type="text/css"
+	href="__PUBLIC__/plugins/webuploader/webuploader.css" />
+<link rel="stylesheet" type="text/css" href="__CSS__/home-goods.css" />
+<script type="text/javascript"
+	src="__PUBLIC__/plugins/webuploader/webuploader.js"></script> <script
+	type="text/javascript" src="__JS__/goodsbatchupload.js"></script> <script
+	type="text/javascript" src="__JS__/layer.js"></script> <script
+	type="text/javascript" src="__JS__/jquery-1.8.3.min.js"></script> <script
+	type="text/javascript" src="__PUBLIC__/plugins/jeDate/jedate.js"></script>
+
+<div class="wst-body">
+	<div class='wst-page-header'>下载管理 > 添加链接 </div>
+	<div class='wst-page-content'>
+		<div id='tab' class="wst-tab-box">
+			<ul class="wst-tab-nav">
+				<li>下载信息</li>
+				<!-- 	<li>属性</li> -->
+				<!--   <li>商品相册</li>
+	        <li>团购信息</li>
+			<li>秒杀信息</li> -->
+			</ul>
+			<div class="wst-tab-content" style='width: 99%; margin-bottom: 10px;'>
+				<!-- 商品基础信息 -->
+				<div class='wst-tab-item' style="position: relative;">
+					<iframe name="upload" style="display: none"></iframe>
+					<!--表单提交部分-->
+					<form name="myform" method="post" id="myform" autocomplete="off" action="__URL__/addSaveListHandle">
+					
+                        <table
+							class="table table-hover table-striped table-bordered wst-list wst-form">
+                             
+							<tr>
+								<th>选择游戏<font color='red'>*</font>：
+								</th>
+								<td colspan='4'><select name="game" id="game"<if
+											condition="$editInfo neq ''"> disabled=true</if>>
+										<option value="0">--请选择--</option>
+										<volist name="game" id="vo">
+										<option value="{$vo.id}"<if
+												condition="$editInfo['gameId'] eq $vo['id']">selected</if>
+											>{$vo.gameName}
+										</option>
+										</volist>
+								</select>
+									<input type="text" id="gameName" placeholder="请输入游戏名并搜索" >
+									<button class='wst-btn-query' type="button" 
+                                    <if
+									condition="$editInfo eq ''"> onclick="gameSearch()"
+                                    </if>
+                                    >搜索</button>
+									<br /></td>
+							</tr>
+							<tr>
+								<th>游戏版本<font color='red'>*</font>：
+								</th>
+								<td colspan='4'><select name="versions" id="versions" <if
+											condition="$editInfo neq ''"> disabled=true</if>>
+										<option value="0">--请选择--</option>
+                                        <?php if($editInfo) : ?>
+                                        <option value="{$editInfo.versionId}" selected="">
+                                        <?=M('versions')->where(['id'=>$editInfo['versionId']])->find()['vName'];?>
+                                        </option>
+                                        <?php endif;?>
+								</select> <br /></td>
+							</tr>
+                            <tr>
+								<th>下载链接<font color='red'>*</font>：</th>
+								<td colspan='4' ><input style="width:500px;" type="text" value="{$editInfo.downloadLink}" name="downloadLink" placeholder="下载链接..."/></td>
+							</tr>
+							<tr>
+								<td colspan='5' style='padding-left: 320px;'>
+									<button class='wst-btn-query' type="submit">保&nbsp;存</button> 
+								</td>
+							</tr>
+                        <?php if($editInfo) : ?>
+                        <input type="hidden" name="id" value="{$editInfo.id}"/>
+                        
+                         <?php endif;?>
+						</table>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div style='clear: both;'></div>
+</div>
+<script>
+
+$('body').on(
+			'change',
+			'#game',
+			function() {
+				var gameId = $(this).val();
+				if (gameId == 0) {
+					layer.msg('请选择所属游戏');
+					return;
+				}
+				$.ajax({
+					type : "POST",
+					url : '{:U("Goods/getGameVersions")}',
+					data : {
+						gameId : gameId
+					},
+					dataType : "json",
+					success : function(data) {
+						var html = '';
+						html += '	<option value="0">--请选择--</option>';
+						if (data.length > 0) {
+							for (var i = 0; i < data.length; i++) {
+								html += '<option value="'+data[i].id+'">'
+										+ data[i].vName + '</option>';
+							}
+							$('#versions').html(html);
+						}
+					}
+				});
+			})
+
+	/**
+	 * 魏永就
+	 * 函数名 gameSearch
+	 * 对用户输入的游戏名进行搜索，目的是判断游戏是否存在
+	 */
+	function gameSearch() {
+	   
+		var gameName = $('#gameName').val();
+		$.ajax({
+			url:'{:U("Goods/gameSearch")}',
+			type : "POST",
+			data:{gameName:gameName},
+			dataType:'json',
+			success:function (msg) {
+				if(msg.status == 0)
+				{
+					$('#game').find('option').removeAttr('selected');
+					$('#game').find('option[value='+msg.msg+']').attr('selected','selected');
+
+					var gameId = $('#game').find('option[selected=selected]').attr('value');
+					if (gameId == 0) {
+						layer.msg('请选择所属游戏');
+						return;
+					}
+					$.ajax({
+						type : "POST",
+						url : '{:U("Goods/getGameVersions")}',
+						data : {
+							gameId : gameId
+						},
+						dataType : "json",
+						success : function(data) {
+							var html = '';
+							html += '	<option value="0">--请选择--</option>';
+							if (data.length > 0) {
+								for (var i = 0; i < data.length; i++) {
+									html += '<option value="'+data[i].id+'">'
+											+ data[i].vName + '</option>';
+								}
+								$('#versions').html(html);
+							}
+						}
+					});
+
+				}else{
+					WST.msg(msg.msg, {icon: 5});
+				}
+			}
+		});
+
+
+	}
+
+
+	
+</script>
+
+ </block>

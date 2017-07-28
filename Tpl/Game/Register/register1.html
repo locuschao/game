@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>注册</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/layer.min.js"></script>
+<style>
+body {
+	background: #fff;
+}
+
+.trsp {
+	width: 90%;
+	text-indent: 10px;
+	background-color: transparent;
+	margin: 0 auto;
+	border: none;
+	height: 35px;
+	line-height: 35px;
+	background-color: transparent;
+}
+
+.no-i {
+	text-indent: 0;
+}
+
+.br-b {
+	border-bottom: #ccc solid 1px;
+}
+
+.getCode {
+	background: #1bc1ff;
+	color: #fff;
+	text-align: center;
+}
+
+.w20 {
+	width: 20px;
+}
+
+.login_btn {
+	display: block;
+	width: 80%;
+	height: 40px;
+	line-height: 40px;
+	margin: 0 auto;
+	background: #00b4ff;
+	border-radius: 4px;
+	text-align: center;
+	color: #fff;
+}
+
+body {
+	background: #efeff4;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<div class="_top">
+		<div class="_left_top" onclick='history.go(-1)'
+			style="width: 90px; background-position: 10px;"></div>
+		<div class="_title_top">注册</div>
+		<div class="_right_top no-bg"
+			style="width: auto; font-size: 12px; padding-right: 10px; width: 90px; cursor:pointer;"
+			id="yanzhenma">58s后重新获取</div>
+	</div>
+	<div class="lh45" style="height: 50px;"></div>
+	<div class="lh35 txt-c" style="color: #323232; font-size: 12px;">
+		验证码短信已经发送到{$phone}</div>
+	<div
+		style="width: 100%; background: #fff; border-bottom: #ccc solid 1px; padding: 5px 0px;">
+		<input class="trsp" type="text" name="code" id="code" value=""
+			placeholder="请输入短信中的验证码" />
+	</div>
+
+	<div class="ub  mr-t10" style="margin-top: 20px;">
+		<div class="ub-f1">
+			<span class="login_btn" onclick="checkRegisterCode()"> 提交验证码 </span>
+		</div>
+	</div>
+	<input type="hidden" name="isrepeat" id="isrepeat" value="0" />
+	<input type="hidden" name="sendStatus" id="sendStatus" value="1" />
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script>
+$(function(){
+	settime();
+})
+//60秒倒计时
+var countdown = 60;
+function settime(val) {
+	if(val==0){
+		countdown=0;
+		return;
+	}
+	if (countdown == 0) {
+		$('#sendStatus').val(0);
+		$('#yanzhenma').text('重新获取');
+		countdown = 60;
+		return;
+	} else {
+		$('#sendStatus').val(1);
+		var val = + countdown +"s重新获取";
+		$('#yanzhenma').text(val);
+		countdown--;
+	}
+	setTimeout(function() {
+		settime(val)
+	}, 1000)
+}
+
+$('body').on('click','#yanzhenma',function(){
+	repeatGetCode();
+})
+
+//获取验证码
+function repeatGetCode() {
+	if ($('#sendStatus').val() == 1) {
+		return;
+	}
+	settime();
+	$.ajax({
+		type : "POST",
+		url : "{:U('Register/repeatGetCode')}",
+		data : {
+			
+		},
+		dataType : "json",
+		success : function(data) {
+				if(data.status==0){
+					layer.msg('验证码已下发');
+				}else{
+					layer.msg(data.msg);
+				}
+		}
+	});
+}
+
+function checkRegisterCode(){
+	var code=$.trim($('#code').val());
+	if(isNaN(code)){
+		layer.msg('验证码格式不对');return;
+	}
+	if(code.length!=6){
+		layer.msg('验证码为6位数字');return;
+	}
+	$.ajax({
+		type:'POST',
+		url:"{:U('Register/checkRegisterCode')}",
+		data:{code:code},
+		dataType:'json',
+		success : function(data) {
+				if(data.status==0){
+					window.location.href="{:U('Register/register2')}";
+				}else{
+					layer.msg('验证码不正确');return;
+				}
+		}
+	})
+}
+
+
+</script>
+</html>

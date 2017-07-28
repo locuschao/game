@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{$CONF['mallTitle']}后台管理中心</title>
+<link href="__PUBLIC__/plugins/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+<link href="__CSS__/AdminLTE.css" rel="stylesheet" type="text/css" />
+<!--[if lt IE 9]>
+      <script src="__PUBLIC__/js/html5shiv.min.js"></script>
+      <script src="__PUBLIC__/js/respond.min.js"></script>
+      <![endif]-->
+<script src="__PUBLIC__/js/jquery.min.js"></script>
+<script src="__PUBLIC__/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="__PUBLIC__/js/common.js"></script>
+<script src="__PUBLIC__/plugins/plugins/plugins.js"></script>
+	<!--  二次开发 引入时间插件-->
+<script type="text/javascript" src="__PUBLIC__/js/jedate.js"></script>
+	<style>
+		/*二次开发 新增样式 start*/
+		.dataExp{
+			margin-bottom: 10px;
+			margin-top: 10px;
+		}
+		.dataExp table tr td{
+			padding-right: 5px;
+		}
+		/*二次开发 新增样式 end*/
+	</style>
+</head>
+<script>
+   function del(id){
+	   Plugins.confirm({title:'信息提示',content:'您确定要删除该公告吗?',okText:'确定',cancelText:'取消',okFun:function(){
+		   Plugins.closeWindow();
+		   Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
+		   $.post("{:U('Admin/Noticegame/del')}",{id:id},function(data,textStatus){
+					var json = WST.toJson(data);
+					if(json.status=='1'){
+						Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
+						   location.reload();
+						}});
+					}else{
+						Plugins.closeWindow();
+						Plugins.Tips({title:'信息提示',icon:'error',content:'操作失败!',timeout:1000});
+					}
+				});
+	   }});
+   }
+   /*二次开发  添加的js --start*/
+   $(function () {
+	   $('.datainp').click(function () {
+		   if($(this).attr('id') != 'datebut')
+		   {
+			   $('#datebut').attr('id','datebut1');
+			   $(this).attr('id','datebut');
+
+		   }
+		   jeDate({dateCell:'#datebut',isTime:true,format:'YYYY-MM-DD hh:mm:ss'});
+	   });
+   });
+   /*二次开发 添加的js  --end  */
+   </script>
+<body class='wst-page'>
+	<div style="padding-top: 6px;">
+		<div class='wst-tbar' style='height: 25px;'>
+			<form method='GET' action='{:U("Admin/Noticegame/index")}'
+				autocomplete="off">
+				<div style="float: left; width: 950px;">
+					标题：<input type='text' name='title' value='{$_GET["title"]}'
+						autocomplete="off" />
+					<button type="submit"
+						class="btn btn-primary glyphicon glyphicon-search">查询</button>
+			</form>
+			<!--二次开发 --start-->
+			<div class="dataExp">
+				<form action="__CONTROLLER__/noticeExp" method="post" id="timeForm">
+					<table>
+						<tr>
+							<td>
+								日期：
+							</td>
+							<td><input class="datainp" name="timeStart"  id="datebut" type="text" placeholder="请选择" value="2016-01-01 00:00:00"  readonly ></td>
+							<td>：</td>
+							<td><input class="datainp" name="timeEnd" id="datebut1" type="text" placeholder="请选择" value="2016-01-01 00:00:00"  readonly ></td>
+							<td><button type="submit" class="btn btn-primary">导出公告管理数据</button></td>
+							<td id="timeMsg">{$msg}</td>
+						</tr>
+					</table>
+				</form>
+			</div>
+			<!-- 二次开发 --end -->
+		</div>
+		<div class='wst-tbar' style='text-align: right; height: 25px;'>
+			<php>if(in_array('gglb_01',$WST_STAFF['grant'])){</php>
+			<a type="button" class="btn btn-success glyphicon glyphicon-plus"
+				href='{:U("Admin/Noticegame/toEdit")}' style='float: right'>新增</a>
+			<php>}</php>
+		</div>
+		<div style="clear: both;"></div>
+	</div>
+	<div class="wst-body">
+		<table class="table table-hover table-striped table-bordered wst-list">
+			<thead>
+				<tr>
+					<th width='40'>编号</th>
+					<th width='220'>标题</th>
+					<th width='80'>日期</th>
+					<th width='50'>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<volist name="Page['root']" id="vo" key='i'>
+				<tr>
+					<td>{$vo.id}</td>
+					<td>{$vo['title']}</td>
+					<td>{$vo['createTime']}</td>
+					<td><php>if(in_array('gglb_02',$WST_STAFF['grant'])){</php> <a
+						class="btn btn-default glyphicon glyphicon-pencil"
+						href='{:U("Admin/Noticegame/toEdit",array(' id'=>$vo['id']))}'>修改</a>&nbsp;
+						<php>}</php> <php>if(in_array('gglb_03',$WST_STAFF['grant'])){</php>
+						<a class="btn btn-default glyphicon glyphicon-trash"
+						onclick="javascript:del({$vo['id']})">刪除</a> <php>}</php></td>
+				</tr>
+				</volist>
+				<tr>
+					<td colspan='4' align='center'>{$Page['pager']}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

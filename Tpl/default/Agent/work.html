@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="UTF-8">
+<title></title>
+<include file="./Tpl/homeHead.html" />
+<link rel="stylesheet"
+	href="__JS__/from/vendor/bootstrap/css/bootstrap.css" />
+<link rel="stylesheet" href="__JS__/from/dist/css/formValidation.css" />
+<link rel="stylesheet" type="text/css"
+	href="__JS__/from/css/default.css">
+<link rel="stylesheet"
+	href="__JS__/from/vendor/bootstrap-datetimepicker.min.css" />
+
+<script type="text/javascript"
+	src="__JS__/from/vendor/jquery/jquery.min.js"></script>
+<script type="text/javascript"
+	src="__JS__/from/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript"
+	src="__JS__/from/dist/js/formValidation.js"></script>
+<script type="text/javascript"
+	src="__JS__/from/dist/js/framework/bootstrap.js"></script>
+
+<script type="text/javascript"
+	src="__JS__/from/dist/js/language/zh_CN.js"></script>
+
+<script type="text/javascript">
+        var ThinkPHP = window.Think = {
+            "ROOT"   : "__ROOT__",
+            "APP"    : "__APP__",
+            "PUBLIC" : "__PUBLIC__",
+            "DEEP"   : "{:C('URL_PATHINFO_DEPR')}",
+            "MODEL"  : ["{:C('URL_MODEL')}", "{:C('URL_CASE_INSENSITIVE')}", "{:C('URL_HTML_SUFFIX')}"],
+            "VAR"    : ["{:C('VAR_MODULE')}", "{:C('VAR_CONTROLLER')}", "{:C('VAR_ACTION')}"]
+        }
+    </script>
+<script src="__PUBLIC__/js/think.js"></script>
+    <include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-8 col-lg-offset-2">
+				<div class="page-header">
+					<h2>当前余额:{$user['agentBalance']}</h2>
+				</div>
+
+				<form id="agentForm" method="post" class="form-horizontal">
+					<input type="hidden" name="userId" value="{$user['userId']}">
+					<input type="hidden" name="userType" value="{$user['userType']}">
+					<input type="hidden" name="loginName" value="{$user['loginName']}">
+					<div class="form-group">
+						<label class="col-sm-3 control-label">申请金额</label>
+						<div class="col-sm-5">
+							<input type="text" class="form-control" name="applyPrice" />
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-3 control-label">银行名称：</label>
+						<div class="col-sm-5">
+							<input type="text" class="form-control" name="bankName" />
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-3 control-label">开户银行地址：</label>
+						<div class="col-sm-5">
+							<input type="text" class="form-control" name="bankAccesss" />
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-3 control-label">开户人姓名：</label>
+						<div class="col-sm-5">
+							<input type="text" class="form-control" name="bankUserName" />
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-3 control-label">银行账号：</label>
+						<div class="col-sm-5">
+							<input type="text" class="form-control" name="bankNum" />
+						</div>
+					</div>
+
+
+
+					<div class="form-group">
+						<label class="col-sm-3 control-label">联系电话：</label>
+						<div class="col-sm-5">
+							<input type="tel" class="form-control" name="tel" />
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-3 control-label">提现备注：</label>
+						<div class="col-sm-5">
+							<input type="text" class="form-control" name="remark" />
+						</div>
+					</div>
+					<if condition="$user['agentset']['applyPw'] neq 0">
+					<div class="form-group">
+						<label class="col-sm-3 control-label">登陆密码：</label>
+						<div class="col-sm-5">
+							<input type="text" class="form-control" name="password" />
+						</div>
+					</div>
+					</if>
+
+
+
+
+
+					<div class="form-group">
+						<label class="col-sm-3 control-label">验证码：</label>
+						<div class="col-sm-2">
+							<input type="text" class="form-control" name="captcha" />
+						</div>
+						<label class="col-sm-2 control-label" id="captcha"></label>
+					</div>
+
+
+
+					<div class="form-group">
+						<div class="col-sm-9 col-sm-offset-3">
+							<button type="submit" class="btn btn-primary" name="signup"
+								value="Sign up">提交</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<script>
+    $(function() {
+
+        //0就是不限制大小
+            var minPrice={$user['agentset']['minApplyPrice']};
+            var maxPrice={$user['agentset']['maxApplyPrice']};
+
+        function randomNumber(min, max) {
+            return Math.floor(Math.random() * (max - min + 1) + min);
+        };
+        $('#captcha').html([randomNumber(1, 100), '+', randomNumber(1, 200), ''].join(' '));
+
+        $('#agentForm').formValidation({
+            message: 'This value is not valid',
+            icon: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                applyPrice: {
+                    err: 'popover',
+                    validators: {
+                        notEmpty: {message: '请输入金额'},
+                        digits: {}
+                        <if condition="$user['agentset']['minApplyPrice'] neq 0">
+                        ,
+                        greaterThan: {
+                            value: minPrice  //提现最大值值提现最小值
+                        }
+                       </if>
+                        <if condition="$user['agentset']['maxApplyPrice'] neq 0">
+                        ,
+                        lessThan: {
+                            value: maxPrice //小于100
+                        }
+                                </if>
+                        ,
+                        remote: {url: Think.U('Home/Agent/Balance'),type : "post",message: '余额不足'
+                        }
+
+                    }
+                }
+        <if condition="$user['agentset']['applyPw'] neq 0">
+                ,
+                password : {
+                    err:'popover',
+                    validators: {
+                        notEmpty :{
+                            message :'请输入登陆密码'
+                        },
+                        remote : {
+                            url: Think.U('Home/Agent/applyPs'),type: "post" ,message:'密码错误'
+                        }
+                    }
+                }
+
+        </if>
+        ,
+
+         bankName: {
+            err: 'popover',
+                    validators: {
+                notEmpty: {message : '请输入银行名称'}
+            }
+        },
+                bankNum: {
+                    err: 'popover',
+                    validators: {
+                        notEmpty: {message : '请输入银行账号'},
+                        digits: {}
+                    }
+                },
+                bankAccesss: {
+                    err: 'popover',
+                    validators: {
+                        notEmpty: {message : '请输入开户银行地址'},
+                        stringLength: {
+                            min: 0,
+                            max: 40
+                        }
+                    }
+                },
+                bankUserName: {
+                    err: 'popover',
+                    validators: {
+                        notEmpty: {message : '请输入开户人姓名'},
+                        stringLength: {
+                            min: 0,
+                            max: 10
+                        }
+                    }
+                },
+                tel: {
+                    err: 'popover',
+                    validators: {
+                        notEmpty: {message : '请输入手机号码'},
+                        digits: {},
+                        phone: {country: 'CN'}
+                       // regexp: {regexp: /^[a-zA-Z0-9_\.]+$/,message : '手机号码格式不对'}
+                    }
+                },
+                captcha: {
+                    err: 'popover',
+                    validators: {
+                        notEmpty :{
+                            message : '请输入验证码'
+                        },
+                        callback: {
+                            message: '验证码错误',
+                            callback: function(value, validator, $field) {
+                                var items = $('#captcha').html().split(' '), sum = parseInt(items[0]) + parseInt(items[2]);
+                                return value == sum;
+                            }
+                        }
+                    }
+                }
+            }
+        }).on('success.form.fv', function(e) {
+        var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+                ii = parent.layer.msg('申请中', {icon: 16});
+
+            e.preventDefault();
+            var $form = $(e.target);
+
+            var bv = $form.data('formValidation');
+
+            $.post(Think.U('Home/Agent/apply'), $form.serialize(), function(result) {
+                parent.layer.close(ii);
+                console.log(result);
+                if(result){
+                    parent.layer.msg('申请成功,页面跳转,请稍候', {icon: 16});
+                    setTimeout(function(){
+                        parent.layer.close(index);
+                    }, 3000);
+
+                }else{
+                    parent.layer.msg('申请失败已有待处理申请,页面跳转,请稍候', {icon: 16});
+                    setTimeout(function(){
+                        parent.layer.close(index);
+                    }, 3000);
+                }
+            },'json');
+        });
+    });
+</script>
+    <include file="./Tpl/Public/commonFooter.html" />
+</body>
+</html>

@@ -1,0 +1,508 @@
+<extend name="Base:common" />
+<block name="static">
+<link rel="stylesheet" href="__CSS__/checkorderinfo.css" />
+<link rel="stylesheet" href="__CSS__/magnifier.css" />
+<style>
+.adsipt {
+	height: 28px;
+}
+
+textarea {
+	height: 60px;
+}
+
+.wst-chkod-dp-pbd div {
+	color: RGB(100, 100, 100);
+	font-size: 20px
+}
+
+.wst-chkod-dp-pbd div a {
+	color: RGB(251, 79, 28);
+	font-size: 20px
+}
+
+.wst-chkod-dp-pbd {
+	text-align: center
+}
+</style>
+<script>
+             function delGoods(){
+                $('.selgoods').hide();
+                 $('.wst-chkod-glist-tb').hide();
+                $('.wst-chkod-dp-pbd').show();
+                $('.wst-chkod-dp-pb5').hide();
+                $('#checkout-floatbar').hide();
+            }
+        </script> </block>
+<block name="body">
+<div class="w">
+	<div>
+
+		<div id="checkorderInfo">
+			<div class="wst-chkod-subox">
+				<div class="wst-chkod-title">填写并核对兑换信息</div>
+				<div>
+					<div id="consignee1"
+						<if condition="count($addressList) eq 0">style='display:none'</if>
+						>
+						<div>
+							<span class="wst-chkod-s1-title">收货人信息 </span> <input
+								type="hidden" id="paddressId"
+								value="{$addressList[0]['addressId']}" /> <span
+								class="wst-chkod-s1-upd"><a
+								href="javascript:toEditAddress({$addressList[0]['addressId']});">[修改]</a></span>
+						</div>
+						<volist name="addressList" key="k" id="address"> <if
+							condition="$k eq 1"> <input type="hidden" id="consigneeId"
+							name="consigneeId" value="{$address['addressId']}" />
+						<div id="showaddinfo">
+							<div>
+								<span style="font-weight: bold;">{$address["userName"]}&nbsp;&nbsp;&nbsp;&nbsp;</span>
+								<if condition="$address['userPhone'] neq ''">
+								{$address["userPhone"]} <else /> {$address["userTel"]} </if>
+							</div>
+							<div>
+								{$address["areaName1"]}{$address["areaName2"]}{$address["areaName3"]}{$address["communityName"]}{$address["address"]}&nbsp;&nbsp;&nbsp;&nbsp;
+							</div>
+						</div>
+						</if> </volist>
+						<if condition="count($addressList) eq 0">
+						<div id="showaddinfo"></div>
+						<input type="hidden" id="consigneeId" name="consigneeId" /> </if>
+					</div>
+
+					<div id="consignee2"
+						<if condition="count($addressList) gt 0">style='display:none'</if>
+						">
+						<div>
+							<span class="wst-chkod-cg-title">收货人信息 </span>
+						</div>
+						<div>
+							<div id="userAddressDiv">
+								<div id="flagdiv" style="display: none;"></div>
+								<volist name="addressList" key="key" id="address">
+								<div id="caddress_{$address['addressId']}">
+									<label> <input id="seladdress_{$address['addressId']}"
+										onclick="changeAddress({$address['addressId']});"
+										name="seladdress" type="radio"
+									<if condition="$key eq 1">checked="checked"</if>
+										value="{$address['addressId']}"/> <span
+										style="font-weight: bold;"
+										id="radusername_{$address['addressId']}">{$address["userName"]}&nbsp;&nbsp;&nbsp;&nbsp;</span>
+										<span id="radaddress_{$address['addressId']}">
+											{$address["areaName1"]}{$address["areaName2"]}{$address["areaName3"]}{$address["communityName"]}{$address["address"]}&nbsp;&nbsp;&nbsp;&nbsp;
+											<if condition="$address['userPhone'] neq ''">
+											{$address["userPhone"]} <else /> {$address["userTel"]} </if>
+									</span>
+									</label> <span class="optionspan wst-opt-upd">[<a
+										onclick="javascript:editAddress({$address['addressId']});">修改</a>]
+									</span> <span class="optionspan wst-opt-del">[<a
+										onclick="javascript:delAddress({$address['addressId']});">删除</a>]
+									</span>
+								</div>
+								</volist>
+							</div>
+							<div>
+								<label> <input id="seladdress_0" name="seladdress"
+									type="radio" value="0" onclick="changeAddress(0);"
+								<if condition="count($addressList) eq 0">checked="checked"</if>/>使用新地址
+								</label>
+							</div>
+						</div>
+						<div id="address_form" style="">
+							<input type='hidden' id='consignee_add_cityId'
+								name='consignee_add_cityId' value='{$areaId2}' /> <input
+								type='hidden' id='consignee_add_cityName'
+								name='consignee_add_cityName' />
+							<div class="wst-chkod-line35">
+								<div class="wst-chkod-cg-pp">
+									<span style="color: red;">*</span>收货人：
+								</div>
+								<div style="float: left; width: 700px;">
+									<input type="text" class="input adsipt" style="width: 200px;"
+										maxlength="50" name="consignee_add_userName"
+										id="consignee_add_userName" />&nbsp;
+								</div>
+								<div style="clear: both;"></div>
+							</div>
+							<div class="wst-chkod-line35">
+								<div class="wst-chkod-cg-ads">
+									<span style="color: red;">*</span>收货地址：
+								</div>
+								<div class="wst-chkod-area-box">
+									<select name="consignee_add_countyId"
+										id="consignee_add_countyId" class="adsipt"
+										onchange="loadCommunitys(this);">
+										<option value="0" selected="selected">请选择</option>
+										<volist name="areaList2" key="key" id="area">
+										<option value="{$area['areaId']}">{$area["areaName"]}</option>
+										</volist>
+									</select> <select name="consignee_add_CommunityId"
+										id="consignee_add_CommunityId" class="adsipt"
+										onchange="checkArea();">
+										<option value="0" selected="selected">请选择</option>
+									</select> <input type="text" class="input adsipt" style="width: 350px;"
+										maxlength="150" name="consignee_add_address"
+										id="consignee_add_address" />&nbsp;
+								</div>
+								<div style="clear: both;"></div>
+							</div>
+							<div class="wst-chkod-line35">
+								<div class="wst-chkod-cg-pno">
+									<span style="color: red;">*</span>手机号码：
+								</div>
+								<div class="wst-chkod-cg-pno-box">
+									<input type="text" class="input adsipt" style="width: 150px;"
+										maxlength="11" name="consignee_add_userPhone"
+										id="consignee_add_userPhone"
+										onkeyup="javascript:WST.isChinese(this,1)"
+										onkeypress="return WST.isNumberdoteKey(event)" />
+									&nbsp;或&nbsp;&nbsp;&nbsp;&nbsp; 固定电话:<input type="text"
+										class="input adsipt" style="width: 150px;" maxlength="15"
+										name="consignee_add_userTel" id="consignee_add_userTel" />(例：020-88888888)&nbsp;
+								</div>
+								<div style="clear: both;"></div>
+							</div>
+
+						</div>
+
+						<div class="wst-checkout wst-chkod-sbx" id="checkout">
+							<li onclick="saveAddress()"><span id="saveConsigneeTitleDiv"></span>
+							</li>
+							<div style="clear: both;"></div>
+						</div>
+					</div>
+				</div>
+				<div class="wst-chkod-pay">
+					<div>
+						<span class="wst-chkod-pay-tt">支付方式 </span>
+					</div>
+					<div id="newaddress">
+						<if condition="count($payments['unlines']) gt 0">
+						<div>
+							<div style="width: 200px; float: left;">
+								<label> <input id="pay_hd" name="payway"
+									checked="checked" type="radio" value="4" />积分支付
+								</label>
+							</div>
+							<div style="width: 800px; float: left;">
+								<span class="wst-chkod-sh-tips">使用您积累的积分完成交易</span>
+							</div>
+							<div style="clear: both;"></div>
+						</div>
+						</if>
+						<if condition="count($payments['onlines']) gt 0">
+						<div>
+							<div style="width: 200px; float: left;">
+								<label> <input id="pay_ali" name="payway" type="radio"
+									value="2" />在线支付<br /> <span
+									style="font-size: 18px; margin-left: 12px; color: red">￥{$goods['shopPrice']*$goods['gcount']/100}</span>元
+								</label>
+							</div>
+							<div style="width: 400px; float: left;">
+
+								<div>
+									<span class="wst-chkod-sh-tips">可在提交订单后选择，支持：</span>
+								</div>
+								<volist name="payments['onlines']" key="key" id="payment">
+								<if condition="$payment['isOnline'] eq 1">
+								<div style="float: left; width: 165px;">
+									<img src="__ROOT__/{$payment['payIcon']}" width="120"
+										height="45" />
+								</div>
+								</if> </volist>
+								<div style="clear: both;"></div>
+							</div>
+							<div style="clear: both;"></div>
+						</div>
+						</if>
+					</div>
+				</div>
+
+				<div class="wst-chkod-dp-box">
+
+					<!--商品表表头-->
+					<div>
+						<div class="wst-chkod-glist-tb">
+							<div class="wst-chkod-glist-tt1">&nbsp;&nbsp;商品</div>
+							<div class="wst-chkod-glist-tt2">单价</div>
+							<div class="wst-chkod-glist-tt3">数量</div>
+							<div class="wst-chkod-glist-tt4">总价</div>
+							<div class="wst-chkod-glist-tt5">库存状态</div>
+							<div class="wst-clear"></div>
+						</div>
+						<!--商品信息-->
+						<div class="selgoods" class="wst-chkod-dp-pb3">
+							<div class="wst-chkod-dp-pb4">
+								<div>
+									<div class="wst-cart-goods-img">
+										<a
+											href="{:U('Home/Goods/getGoodsDetails/',array('goodsId'=>$goods['goodsId']))}"
+											target="_blank"> <img src="{$goods['goodsThums']}"
+											width="60" height="60" /></a>
+									</div>
+									<div class="wst-cart-goods-name">
+										<a target="_blank"
+											href="{:U('Home/Goods/getGoodsDetails/',array('goodsId'=>$goods['goodsId']))}"
+											target="_blank"> {$goods["goodsName"]}</a>
+									</div>
+								</div>
+							</div>
+							<!--单价-->
+							<div class="wst-chkod-od-crt1">
+								<?php if($shopsPrice==0){ ?>
+								{$goods['shopPrice']}
+								<?php }else{ echo $shopsPrice; } ?>
+								积分
+							</div>
+							<!--数量-->
+							<div class="wst-chkod-od-crt2">{$goods['gcount']}</div>
+							<!--总价-->
+							<div class="wst-chkod-od-crt3">
+								<?php if($shopsPrice==0){ ?>
+								{$goods['shopPrice']*$goods['gcount']}
+								<?php }else{ echo $shopsPrice*$goods['gcount']; } ?>
+								积分
+							</div>
+							<!--库存状态-->
+							<div class="wst-chkod-od-crt4">
+								<if condition="$goods['goodsStock'] egt 1"> 有货 <elseif
+									condition="$goods['goodsStock'] eq 0" /> <span
+									style="color: red;">无货</span> <else> <span
+									style="color: red;">库存不足,仅剩{$goods["goodsStock"]}份</span></if>
+							</div>
+							<div class="wst-clear"></div>
+						</div>
+						<!--删除积分商品后显示-->
+						<div class="wst-chkod-dp-pbd" style="display: none">
+							<div>
+								购物车内暂时没有商品，您可以去 <a href="{:U('Home/Integral/index')}">积分兑换页</a>
+								挑选喜欢的商品
+							</div>
+							<div class="wst-clear"></div>
+						</div>
+
+					</div>
+					<div class="wst-chkod-dp-pb5">
+						<div style="width: 310px; float: right;">
+							<div>
+								<div class="wst-chkod-my1">
+									<span style="color: red;">{$goods['gcount']}</span> 件商品共：
+								</div>
+								<div class="wst-chkod-my2">{$goods['shopPrice']*$goods['gcount']}积分&nbsp;&nbsp;</div>
+								<div class="wst-clear"></div>
+							</div>
+							<div>
+								<div class="wst-chkod-my1">您共有积分：</div>
+								<div class="wst-chkod-my2">
+									<span id="userScore">{$userScore}</span>积分&nbsp;&nbsp;
+								</div>
+								<div class="wst-clear"></div>
+							</div>
+							<div>
+								<div class="wst-chkod-yy1">运费：</div>
+								<div class="wst-chkod-yy2">
+									<input type="hidden" id="deliveryMoney_{$key}"
+										value='<if condition='$shopgoods["totalMoney"] lt $shopgoods["shopgoods"][0]["deliveryFreeMoney"]'>¥{$shopgoods["shopgoods"][0]["deliveryMoney"]}
+									<else />
+									免运费
+									</if>
+									'/> <span id="deliveryMoney_span_{$key}"> <if
+											condition='$shopgoods["totalMoney"] lt $shopgoods["shopgoods"][0]["deliveryFreeMoney"]'>¥{$shopgoods["shopgoods"][0]["deliveryMoney"]}<else />免运费</if>
+									</span> &nbsp;&nbsp;
+								</div>
+								<div class="wst-clear"></div>
+							</div>
+						</div>
+						<div class="wst-clear"></div>
+					</div>
+					</volist>
+				</div>
+				<div class="checkout-buttons group" id="checkout-floatbar">
+					<div class="sticky-placeholder hide" style="display: none;"></div>
+					<div class="wst-chkod-yf1">
+						<span class="total">应付总额：<span style="color: red;">
+								<strong id="payPriceId"> <input type="hidden"
+									id="gtotalMoney" value="{$gtotalMoney}" /> <input type="hidden"
+									id="totalMoney" value="{$totalMoney}" /> <span
+									id="totalMoney_span">{$goods['shopPrice']*$goods['gcount']}</span>
+							</strong>积分
+						</span>
+						</span>
+					</div>
+					<div class="sticky-wrap">
+						<div class="wst-inner" style="padding: 15px;">
+							<button onclick="javascript:delGoods();" class="wst-prev-btn">
+								删除商品 <b></b>
+							</button>
+							<button target="_blank"
+								onclick="location.href='{:U('Home/Integral/index')}'"
+								class="wst-prev-btn">
+								兑换首页 <b></b>
+							</button>
+							<button class="wst-next-btn"
+								onclick="javascript:submitIntegralOrder({$goods['goodsId']},{$goods['gcount']});"
+								id="order-submit" class="checkout-submit" type="submit">
+								立即兑换 <b></b>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div style="clear: both;"></div>
+<div style="height: 20px;"></div>
+
+</block>
+<block name="footer_static"> <script type="text/javascript">
+	//删除积分商品
+
+	function subCheckArea(){
+	    var communityId = $("#consignee_add_CommunityId").val();
+	    <volist name="shopColleges" key="key" id="shopCollege">
+			var shopCollege = ',{$shopCollege},';
+			var idx = shopCollege.indexOf(","+communityId+",");
+			
+			if(idx==-1){
+				$("#areaOk").val("0");	
+				alert("店铺“"+$("#sp_{$key-1}").html()+"”中的商品不在配送区域内！");
+				return false;
+			}else{
+				$("#areaOk").val("1");
+			}
+		</volist>
+	 	return true;
+	}
+	function checkArea(obj){
+		var communityId = $("#consignee_add_CommunityId").val();
+		<volist name="shopColleges" key="key" id="shopCollege">
+			var shopCollege = ',{$shopCollege},';					
+			var idx = shopCollege.indexOf(","+communityId+",");
+			if(idx==-1){
+				$("#areaOk").val("0");
+				alert("店铺“"+$("#sp_{$key-1}").html()+"”中的商品不在配送区域内！");
+				return false;
+			}else{
+				$("#areaOk").val("1");
+			}
+		</volist>
+	
+		return true;
+	}
+	
+	
+	$(function(){
+		var myDate = new Date();
+	    var currHour = myDate.getHours();
+	    var currMinutes = myDate.getMinutes();
+	    var currdayFlag = true;           
+	
+	    var html = new Array();
+	    $("#requesttime").empty();		
+		var startNum = currHour*4+(Math.ceil(currMinutes/15))+4;
+		
+		if(startNum<{$startTime}){
+			startNum = {$startTime};
+		}
+		
+		if(startNum<96){
+			for(var i=startNum;i<={$endTime};i++){
+				if(times[i]){
+	                html.push('<option id="'+times[i]+'">'+times[i]+'</option>');   
+				}
+	        }
+		}
+		var daymark = 0;
+		if(html.length==0){
+			 daymark = 1;
+					 
+		}
+		
+	    $("#requesttime").html(html.join(""));
+	    var html2 = new Array();
+	    for(var i=daymark;i<3+daymark;i++){
+	        var cdate = addDate(i);  
+	       
+	        html2.push('<option id="'+cdate+'">'+cdate+'</option>');
+	    }
+	    $("#requestdate").html(html2.join(""));    
+	    
+	    if(html.length==0){			
+			 changeRequestdate();			 
+		}else{
+			$("#requesttime").html(html.join(""));
+		}
+	});
+		 
+	function changeRequestdate(){
+		var html = new Array();
+	 	$("#requesttime").empty();
+	 	var requestdate = $("#requestdate").val();
+	 	
+	 	var d=new Date();   
+	 	var currHour = d.getHours();
+		var currMinutes = d.getMinutes();
+	   	var m=d.getMonth()+1;
+	   	var currDate = d.getFullYear()+'-'+(m>=10?m:'0'+m)+'-'+(d.getDate()>=10?d.getDate():"0"+d.getDate());
+	   	var startNum = 0;
+
+	   	if(currDate == requestdate){
+	   		
+	   		var startNum = currHour*4+(Math.ceil(currMinutes/15))+4;
+			if(startNum<{$startTime}){
+				startNum = {$startTime};
+			}
+	 	}
+	 
+		for(var i=startNum;i<=96;i++){ 	
+			if(times[i]){	
+	      		html.push('<option id="'+times[i]+'">'+times[i]+'</option>');
+	   		}       
+	   	}
+		$("#requesttime").html(html.join(""));
+	}
+		
+	function backCart(){
+		location.href="{:U('Home/Cart/getCartInfo/',array('rnd'=>rand(100000000,999999999)))}";
+	}
+	
+	var times = ["00:00","00:15","00:30","00:45",
+	             "01:00","01:15","01:30","01:45",
+	             "02:00","02:15","02:30","02:45",
+	             "03:00","03:15","03:30","03:45",
+	             "04:00","04:15","04:30","04:45",
+	             "05:00","05:15","05:30","05:45",
+	             "06:00","06:15","06:30","06:45",
+	             "07:00","07:15","07:30","07:45",
+	             "08:00","08:15","08:30","08:45",
+	             "09:00","09:15","09:30","09:45",
+	             "10:00","10:15","10:30","10:45",
+	             "11:00","11:15","11:30","11:45",
+	             "12:00","12:15","12:30","12:45",
+	             "13:00","13:15","13:30","13:45",
+	             "14:00","14:15","14:30","14:45",
+	             "15:00","15:15","15:30","15:45",
+	             "16:00","16:15","16:30","16:45",
+	             "17:00","17:15","17:30","17:45",
+	             "18:00","18:15","18:30","18:45",
+	             "19:00","19:15","19:30","19:45",
+	             "20:00","20:15","20:30","20:45",
+	             "21:00","21:15","21:30","21:45",
+	             "22:00","22:15","22:30","22:45",
+	             "23:00","23:15","23:30","23:45"];
+function addDate(days){
+    var d=new Date();
+    d.setDate(d.getDate()+days);
+    var m=d.getMonth()+1;
+    return d.getFullYear()+'-'+(m>=10?m:'0'+m)+'-'+(d.getDate()>=10?d.getDate():"0"+d.getDate());
+} 
+$(document).ready(function(){
+	//alert('#seladdress_{$addressList[0]["addressId"]}');
+	$('#seladdress_{$addressList[0]["addressId"]}').click();
+});
+</script> <script src="__PUBLIC__/js/common.js"></script> <script
+	src="__JS__/index.js"></script> <script src="__JS__/common.js"></script>
+<script src="__PUBLIC__/plugins/layer/layer.min.js"></script> <script
+	src="__JS__/orders.js"></script> </block>

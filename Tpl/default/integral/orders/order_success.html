@@ -1,0 +1,50 @@
+<extend name="Base:common" />
+<block name="static">
+<link rel="stylesheet" href="__CSS__/ordersuccess.css" />
+<link rel="stylesheet" href="__CSS__/pslocation.css" />
+<link rel="stylesheet" href="__CSS__/magnifier.css" />
+</block>
+<block name="body">
+<div class="w">
+	<div>
+		<div class="wst-ods-success-tb">
+			<div class="wst-ods-success-tc">
+				<div class="wst-ods-success-td">
+					<if condition="count($orderInfos) gt 0"> <img
+						src="__IMG__/icon-succ.png" alt="" /> </if>
+				</div>
+				<div class="wst-ods-success-tf">
+					<div class="wst-ods-success-l25">
+						<if condition="count($orderInfos) gt 0"> <span
+							class="wst-ods-success-tg">积分兑换成功！</span> 订单号： <volist
+							name="orderInfos" key="key" id="order"> <if
+							condition="($key gt 1) AND ($isMoreOrder eq 1)">、</if> <a
+							href="{:U('Home/IntegralOrders/getOrderInfo',array('orderId'=>$order['orderId']))}"><span
+							class="wst-ods-success-th">{$order['orderNo']}</span></a>&nbsp; </volist>
+						消耗积分：<span class="wst-ods-success-ti">{$totalMoney}</span> 积分 <else />
+						<div class="wst-ods-success-tj">不能重复提交订单</div>
+						</if>
+					</div>
+				</div>
+				<div class="wst-clear"></div>
+			</div>
+
+			<div class="wst-clear"></div>
+			<div class="wst-ods-success-tk">
+				<div id="checkout" class="wst-checkout">
+					<a class="btn-submit" href="__ROOT__/index.php"> <span
+						id="saveConsigneeTitleDiv" class="wst_btn-continue"></span>
+					</a>
+					<div class="wst-clear"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="wst-clear"></div>
+<div style="height: 20px;"></div>
+
+</block>
+<block name="footer_static"> <script src="__JS__/index.js"></script>
+<script src="__JS__/orders.js"></script> </block>

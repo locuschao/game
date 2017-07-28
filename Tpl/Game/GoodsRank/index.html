@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>代金券商品</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<link rel="stylesheet" href="__CSS__/user-goods-level.css?2000170331" />
+<link rel="stylesheet" href="__CSS__/sm.css?20170303" />
+
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<include file="./Tpl/Public/commonHead.html" />
+<style>
+
+</style>
+</head>
+<body>
+
+	<div class="_top" style="z-index: 999">
+		<div class="_title_top">
+        <div class="_left_top" onclick='history.go(-1)'></div>
+			会员等级
+		</div>
+		
+	</div>
+    
+    <div class="goods-block">
+    <div class="content">
+    <div class="content-padded padded-tb">
+      <div class="main-cont-container">
+        <div class="grade-list-box">
+          <div class="list-block grade-list">
+            <ul>
+             <?php
+    
+     $goods_rank_arr=[1=>'钻石',2=>'白金',3=>'黄金'];
+     $rank=M('users')->find(session('oto_userId'))['rank'];
+     $remark_url = '/Game/Agent/explain.html';
+     $goods_rank_content=[
+        1=>'<p>1、商品价格享受钻石VIP优惠价。</p>
+								<p><a href="'.$remark_url.'">2、会员特权与推广有奖功能介绍。</a></p>
+								<p>3、专属VIP客服。</p>
+								<p>4、手游狗钻石VIP定制水杯</p>
+								<p>5、手游狗定制钻石VIP版充电宝</p>
+								<p>6、游戏陪玩服务（即将开通）</p>',
+        2=>'	<p>1、商品价格享受白金VIP优惠价。</p>
+								<p><a href="'.$remark_url.'">2、会员特权与推广有奖功能介绍。</a></p>
+								<p>3、专属VIP客服。</p>
+								<p>4、手游狗白金VIP定制水杯</p>',                       
+        3=>'<p>1、商品价格享受黄金VIP优惠价。</p>
+						<p><a href="'.$remark_url.'">2、会员特权与推广有奖功能介绍。</a></p>
+						<p>3、更多会员特权敬请期待...</p>',
+       
+        
+     ];
+    
+     foreach($goods_list as $row) :
+      
+     ?>
+        <li class="grade-item">
+                <div style="position:relative" class="item-content item-link
+                <?php if(!D('Game/Voucher')->has_buy($rank,$row['rank'])) echo 'item-link-hover';?>
+                " 
+                data-url="<?php if(!D('Game/Voucher')->has_buy($rank,$row['rank'])):?> 
+                <?=U('Game/GoodsRank/goodsDetail',['id'=>$row['id']])?>
+                <?php endif; ?>">
+                  <div class="item-inner">
+                  
+                    <div class="item-title"><?=$goods_rank_arr[$row['rank']]?>VIP特权</div><div class="buy_remark">购买<?=$goods_rank_arr[$row['rank']]?>会员</div>
+                  </div>
+                </div>
+                <div class="item-content">
+                  <div class="item-media">
+                    <img src="__PUBLIC__/images/jp{$row['rank']}.png">
+                  </div>
+                  <div class="item-inner">
+                    <div class="item-title">
+					<?=$goods_rank_content[$row['rank']]?>
+					</div>
+                  </div>
+                </div>
+              </li>
+    <?php endforeach;?>
+              
+				<!--grade-item end-->
+              
+            </ul>
+            <!--ul end-->
+          </div><!--grade-list end-->
+
+        </div><!--grade-list-box end-->
+      </div><!--main-cont-container end-->
+    </div>
+    <!--content-padded end-->
+
+	</div>
+    </div>
+    <include file="./Tpl/Public/commonFooter.html" />
+    <script>
+    $(function(){
+    	$('.item-link-hover').click(function(){
+    	   location.href=$(this).data('url');
+    	})
+    })
+    </script>
+</body>
+</html>

@@ -1,0 +1,290 @@
+/* CSS Document */
+* {
+	margin: 0;
+	padding: 0;
+}
+
+html {
+	font-size: 12px;
+}
+
+body {
+	position: relative;
+	font-family: "Open Sans", "Source Han Sans", "黑体-简", "微软雅黑", "宋体";
+	background-color: #ebebeb;
+}
+
+/* a {
+	width: 100%;
+	height: 100%;
+	border: none;
+	text-decoration: none;
+	color: inherit;
+} */
+img {
+	height: auto;
+	border: none;
+}
+
+ul, ol, li {
+	list-style: none;
+}
+
+.clear {
+	clear: both;
+	overflow: hidden;
+	height: 0;
+	font-size: 0;
+	line-height: 0;
+}
+
+/*indextop*/
+header {
+	height: 95px;
+	width: 100%;
+	position: relative;
+	background-color: #ffffff;
+	z-index: 2000;
+}
+
+.OldHeader {
+	display: block;
+	height: 44px;
+	font-family: "microsoft yahei", Verdana, Arial, Helvetica, sans-serif;
+}
+
+.OldHeader .OHeader {
+	position: fixed;
+	top: 0;
+	width: 100%;
+	box-shadow: 0 1px 0 rgba(0, 0, 0, .2);
+	background: rgba(247, 247, 247, .9);
+}
+
+.OldHeader .OHeader h1 {
+	height: 44px;
+	line-height: 44px;
+	text-align: center;
+	color: #5b5b5d;
+	font-weight: bold;
+	text-shadow: 0 1px 0 #fff;
+	font-size: 18px;
+}
+
+.OldHeader .OHeadBack {
+	position: absolute;
+	left: 10px;
+	top: 7px;
+}
+
+.OldHeader .OHeadBack a {
+	display: block;
+	background: url(/common/html5/images/common/back_btn.png) no-repeat;
+	background-size: 50px 30px;
+	width: 50px;
+	height: 30px;
+	line-height: 30px;
+	color: #333;
+	font-size: 14px;
+	text-indent: 20px;
+}
+
+/*品牌分类*/
+.ot-menu {
+	background: #eeeeee;
+}
+
+.ot-menu ul li {
+	text-align: center;
+	border-bottom: 1px solid #d5d7dc;
+}
+
+.ot-menu ul li a {
+	display: block;
+	font-size: 1.3rem;
+	padding: 15px 0px;
+}
+
+.ot-menu ul li.active {
+	color: #ff2c2c;
+	background: #ffffff;
+	border-bottom: none;
+	border-left: #ff2c2c solid 3px;
+	margin: 0;
+}
+
+.ot-maininfo {
+	float: left;
+	background: #ffffff;
+	overflow-y: auto
+}
+
+.menutype {
+	padding: 10px 12px;
+}
+
+.Menu_box {
+	clear: both;
+	width: 100%;
+}
+
+#left_Menu {
+	position: absolute;
+	z-index: 1;
+	top: 87px;
+	bottom: 0px;
+	left: 0;
+	width: 30%;
+	overflow: hidden;
+	background: #efeff4;
+}
+
+#right_Menu {
+	position: absolute;
+	z-index: 1;
+	top: 87px;
+	bottom: 0px;
+	left: 30%;
+	width: 70%;
+	background: #ffffff;
+	overflow: hidden;
+}
+
+.jin_img {
+	width: 100%;
+	display: box;
+	display: -webkit-box;
+	padding: 10px 0;
+	background: #ffffff;
+	border-bottom: #d5d7dc solid 1px;
+}
+
+#right_Menu  #scroller2, #left_Menu  #scroller {
+	position: absolute;
+	z-index: 1;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	width: 100%;
+	-webkit-transform: translateZ(0);
+	-moz-transform: translateZ(0);
+	-ms-transform: translateZ(0);
+	-o-transform: translateZ(0);
+	transform: translateZ(0);
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	-webkit-text-size-adjust: none;
+	-moz-text-size-adjust: none;
+	-ms-text-size-adjust: none;
+	-o-text-size-adjust: none;
+	text-size-adjust: none;
+}
+
+#cart_right_ad {
+	width: 100%;
+	overflow: hidden;
+	height: 65px;
+	text-align: center;
+}
+
+#cart_right_ad img {
+	width: 95%;
+	margin: 0 auto;;
+}
+
+img {
+	margin: 0;
+	padding: 0
+}
+
+.noborder {
+	border: none;
+}
+
+.cart_son_li {
+	background: #fff;
+}
+
+.cart_son_li ul {
+	background: #fff;
+}
+
+.cart_son_li ul li {
+	width: 33%;
+	display: block;
+	float: left;
+	height: 80px;
+	overflow: hidden;
+	background: #fff;
+	text-align: center;
+}
+
+.cart_son_li ul li img {
+	width: 90%;
+	border: #d5d7dc solid 1px;
+	margin: 0 auto;
+	text-align: center;
+	height: 60px;
+	margin: 0;
+	padding: 0;
+	background: #fff;
+}
+
+.cart_son_li ul li p {
+	display: block;
+	width: 90%;
+	margin: 0 auto;;
+	text-align: center;
+	height: 10px;
+	line-height: 10px;
+	font-size: 14px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	over-flow: hidden;
+	background: #fff;
+	text-overflow: ellipsis
+}
+
+.cart_son_li_title {
+	height: 40px;
+	line-height: 40px;
+	color: #00b4ff;
+	clear: both;
+}
+
+.car_search {
+	position: absolute;
+	top: 45px;
+	height: 41px;
+	line-height: 41px;
+	width: 100%;
+	border-bottom: #d5d7dc solid 1px;
+}
+
+.car_se {
+	width: 80%;
+	height: 30px;
+	line-height: 30px;
+	margin: 0 auto;
+	text-align: center;
+	background: #f0f0f0;
+	border-radius: 15px;
+	margin-top: 4px;
+	vertical-align: middle;
+	overflow: hidden;
+}
+
+.car_input {
+	width: 90%;
+	background: transparent;
+	border: none;
+	height: 20px;
+	outline: none;
+	line-height: 20px;
+	padding: 0;
+	margin: 0;
+	text-indent: 20px;
+	background: url(../image/blace_search.png ) left center no-repeat;
+	background-size: 20px
+}

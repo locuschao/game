@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>修改昵称</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/layer.min.js"></script>
+<style>
+body {
+	
+}
+.ub-f1{
+	max-width: 800px;
+}
+.trsp {
+	background-color: transparent;
+	width: 100%;
+	height: 100%;
+	text-indent: 20px;
+	margin: 0 auto;
+	border: none;
+	height: 35px;
+	line-height: 35px;
+	background-size: 12px;
+}
+
+.password_ico {
+	background: url(__IMG__/ico_s.png) 5px center no-repeat;
+	background-size: 12px;
+}
+
+.login_btn {
+	display: block;
+	width: 80%;
+	height: 40px;
+	line-height: 40px;
+	margin: 0 auto;
+	background: #48b2f2;
+	border-radius: 4px;
+	text-align: center;
+	color: #fff;
+}
+
+.submit {
+	position: fixed;
+	bottom: 50px;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<form id="form1" name="form1" method="post" action="">
+		<div class="_top">
+			<div class="_left_top"
+				onclick="location.href='{:U('Login/userInfo')}' "></div>
+			<div class="_title_top">修改昵称</div>
+			<div class="_right_top no-bg"></div>
+		</div>
+		<div class="ub lh45 mr-t45 bg-ff br-b1"
+			style="border-bottom: #d5d7dc solid 1px;">
+			<div class="ub-f1 txt-c">
+				<input class="trsp no-bg" type="text" name="nickname" id="nickname"
+					value="{$nickname}" placeholder="请输入昵称" />
+			</div>
+		</div>
+		<div class="ub lh45 " style="height: 30px; line-height: 30px;">
+			<div class="ub-f1 txt-c col-9"
+				style="color: #999; text-align: left; text-indent: 20px; font-size: 90%;">
+				建议：中文请使用2-6个汉字</div>
+		</div>
+		<div class="ub lh35 submit">
+			<div class="ub-f1" onclick="save()">
+				<span class="login_btn"> 保存 </span>
+			</div>
+		</div>
+	</form>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script>
+	function save() {
+		var url = "{:U('Login/nicknameHandle')}"
+		var nickname = $.trim($('#nickname').val());
+		if(nickname==''){
+			layer.msg('昵称不能为空');
+			return;
+		}
+		$.ajax({
+			type : "POST",
+			url : url,
+			data : {
+				nickname : nickname,
+			},
+			dataType : "json",
+			success : function(data) {
+				try {
+					if (data.status == 0) {
+						layer.msg('昵称修改成功');
+						setTimeout(function(){
+							location.href="{:U('Login/userInfo')}";
+						},2000);
+					}else{
+						layer.msg('昵称修改失败');
+					}
+				} catch (err) {
+
+				}
+			}
+		});
+	}
+</script>
+</html>

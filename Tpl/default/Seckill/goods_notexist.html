@@ -1,0 +1,19 @@
+<extend name="Base:common" />
+<block name="static">
+<link rel="stylesheet" href="__CSS__/goodsdetails.css" />
+<script src="__PUBLIC__/js/jquery.min.js"></script> </block>
+<block name="body"> <input id="goodsId" type="hidden"
+	value="{$goodsDetails['goodsId']}" /> <!----加载商品楼层start----->
+<div class="wst-container">
+	<div class="wst-nvg-title" style='display: none;'></div>
+	<div class="wst-goods-details">
+		<div class="wst-goods-notext">相关商品不存在，或已下架</div>
+	</div>
+</div>
+</block>
+<block name="footer_static"> <script src="__JS__/goods.js"></script>
+</block>
+
+
+
+

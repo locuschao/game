@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <title>会员商品</title>
+    <include file="./Tpl/head.html" />
+    <link rel="stylesheet" href="__CSS__/supermarket.css"/>
+    <link rel="stylesheet" href="__CSS__/orderDetail.css"/>
+    <link rel="stylesheet" href="__CSS__/base.css"/>
+    <script src="__JS__/jquery2.1.1.min.js"></script>
+    <script src="__JS__/base.js"></script>
+    <style>
+        body {
+            background: #efeff4;
+            max-width: 800px;
+        }
+        ._top{
+            max-width: 800px;
+        }
+        .toubu {
+            width: 100%;
+            height: 85px;
+            background: url(__IMG__/my_bg.png) center no-repeat;
+            background-size: 100% 100%;
+        }
+
+        .shop {
+            width: 90%;
+            margin: 0 auto;
+            padding: 10px 0;
+        }
+
+        .shopImg img {
+            width: 60px;
+            height: 60px;
+            border-radius: 4px;
+        }
+
+        .shopName {
+            height: 20px;
+            line-height: 20px;
+            font-size: 120%;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .fw {
+            font-size: 90%;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            height: 20px;
+            line-height: 20px;
+        }
+
+        .bor {
+            border-bottom: #d5d7dc solid 1px;
+        }
+
+        .bor-r {
+            border-right: #d5d7dc solid 1px;
+        }
+
+        .mc {
+            background: #e50f12;
+            color: #fff;
+            width: 30px;
+            border-radius: 2px;
+            font-size: 12px;
+            text-align: center;
+            height: 18px;
+            line-height: 18px;
+        }
+
+        .money {
+            font-size: 120%;
+        }
+
+        .type {
+            color: #783500
+        }
+
+        .jiage {
+            height: 45px;
+            line-height: 45px;
+            width: 50px;
+            margin: 0 auto;
+            text-align: center;
+            display: block;
+        }
+
+        .arrows_d {
+            background: url(__IMG__/arrows_d.png) right center no-repeat;
+            background-size: 8px;
+        }
+
+        .arrows_u {
+            background: url(__IMG__/arrows_u.png) right center no-repeat;
+            background-size: 8px;
+        }
+
+        #cate {
+            width: 80%;
+            position: fixed;
+            left: 0px;
+            top: 0px;
+            z-index: 9999999;
+            text-align: center;
+        }
+
+        li {
+            padding: 10px;
+            text-align: left;
+
+            cursor: pointer;
+        }
+
+        .firstMenu {
+            background: #eee
+        }
+
+        .firstMenu ul li {
+            border-bottom: #d5d7dc solid 1px;
+            height: 40px;
+            line-height: 40px;
+            color: #999999;
+        }
+
+        .right_transparent {
+            position: fixed;
+            right: 0;
+            top: 0;
+            width: 20%;
+            background: rgba(0, 0, 0, .3)
+        }
+
+        .cate, all {
+            display: block;
+            cursor: pointer;
+        }
+
+        .second {
+            display: none;
+        }
+
+        .jiage, .loadMore {
+            cursor: pointer
+        }
+
+        .second ul li {
+            cursor: pointer
+        }
+
+        .firstMenu ul li {
+            cursor: pointer
+        }
+
+        #hideCate, #allGoods {
+            cursor: pointer
+        }
+
+        .all {
+            display: block;
+        }
+    </style>
+    <include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+<div class="_top" style="z-index: 999">
+    <div class="_left_top" onclick='history.go(-1)'></div>
+    <div class="_title_top">会员商品</div>
+    <div class="_right_top mess"
+         onclick="location.href='/Game/Mess/mess/r/shop_goodsList'"></div>
+</div>
+<form id="form1" action="{:U('Shop/memberGoodsList')}" method="get">
+    <div class="lh45" style="height: 44px;"></div>
+    <div class="toubu">
+        <div class="shop ub">
+            <div class="shopImg">
+                <img src="/{$shopInfo.shopImg|default='__IMG__/shopImg.png'}"/>
+            </div>
+            <div class=" ub-f1" style="margin-left: 5px;">
+                <div class="shopName">{$shopInfo.shopName}</div>
+                <div class="fw">经营范围：{$fanwei}</div>
+                <div class="xl">销量：{$sales|default=0}</div>
+            </div>
+        </div>
+    </div>
+    <div class="lh45 back-ff ub txt-c bor">
+        <div class="ub-f1 bor-r">
+            <span class="all">最新发布</span>
+        </div>
+        <div class="ub-f1 bor-r">
+            <span class="jiage arrows_d <if condition=" $_GET['orderby'] eq 'ASC' ">arrows_u</if>
+            ">价格
+            </span>
+        </div>
+        <div class="ub-f1">
+            <span class="cate">商品分类</span>
+        </div>
+    </div>
+    <div class="append">
+        <volist name="goodsInfo" id="sc">
+            <div class="back-ff bor">
+                <if condition="$sc['scopeId'] eq '2'"><a
+                        href="{:U('Validatadc/yanzhen',array('id'=>$sc['goodsId'],'goodsType'=>1))}">
+                    <else/>
+                    <a href="{:U('Goods/index',array('id'=>$sc['goodsId']))}"></if>
+                <div class="shop ub ">
+                    <div class="shopImg">
+                        <img src="/{$sc.goodsThums|default='__IMG__/shopImg.png'}"/>
+                    </div>
+                    <div class=" ub-f1" style="margin-left: 5px;">
+                        <div class="shopName">
+                            <span class="type">【{$sc.type}】</span>{$sc.goodsName}
+                        </div>
+                        <div class="fw col-9">{$sc.goodsSpec}</div>
+                        <if condition="$sc['isMiao'] eq 1">
+                            <div class="mc">秒充</div>
+                        </if>
+                    </div>
+                    <div style="text-align: center;">
+                        <div class="col-9 lh20">
+                            <s>￥{$sc.shopPrice}</s>
+                        </div>
+                        <div class="col-red lh20 money">￥{$sc.attrPrice}</div>
+                    </div>
+                </div>
+                </a>
+            </div>
+        </volist>
+    </div>
+    <div class="ub lh45 "></div>
+    <input type="hidden" id="orderby" name="orderby"
+           value="{$_GET['orderby']|default='ASC'}"/> <input type="hidden"
+                                                             id="scondCate" name="scondCate"
+                                                             value="{$_GET['scondCate']|default='0'}"/> <input
+        type="hidden"
+        id="firstCate" name="firstCate"
+        value="{$_GET['firstCate']|default='0'}"/> <input type="hidden"
+                                                          id="id" name="id" value="{$_GET['id']|default='0'}"/> <input
+        type="hidden" id="page" name="page" value="0"/>
+    <div id="cate" style="display: none;">
+        <div class=" back-ff bor lh45 text-c">
+            <div class="ub text-c">
+                <div class="ub-f1 text-c" id="allGoods">全部商品</div>
+                <div id="hideCate"
+                     style="width: 40px; background: #fff url(__IMG__/left_arrows.png) center no-repeat; background-size: 9px;"></div>
+            </div>
+        </div>
+        <div class="ub  back-ff">
+            <div class="ub-f1  pos-r">
+                <div class="firstMenu pos-a">
+                    <ul>
+                        <volist name="firstCate" id="vo">
+                            <li data-cid="{$key}"
+                            <if
+                                    condition="$_GET['firstCate'] eq $key">style="color:#e50f12;background:#fff;"
+                            </if>
+                            >{$vo}</li>
+                        </volist>
+                    </ul>
+                </div>
+            </div>
+            <div class="ub-f1 back-ff secondDiv pos-r">
+                <div class=" pos-a">
+                    <volist name="secondCate" id="sc">
+                        <ul class="second" id="{$key}"
+                        <if condition="$_GET['firstCate'] eq $key">
+                            style="display:block;"
+                        </if>
+                        >
+                        <volist name='sc' id="vo">
+                            <li data-cid="{$vo.id}"
+                            <if
+                                    condition="$_GET['scondCate'] eq $vo['id']">style="color:#e50f12"
+                            </if>
+                            >{$vo.PY}
+                            {$vo.gameName}</li>
+                        </volist>
+                        </ul>
+                    </volist>
+                </div>
+            </div>
+        </div>
+        <div class="right_transparent"></div>
+    </div>
+</form>
+<div class=" lh45 txt-c back-ff loadMore"
+     style="position: fixed; bottom: 0; left: 0; width: 100%; display: none;; cursor: pointer;margin: 0 auto;max-width: 800px;left:0;right: 0px;">加载更多
+</div>
+<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script>
+    var page = 1;
+    $(function () {
+        var h = $(document).height();
+        $('#cate').css('min-height', h + 'px');
+        $('.secondDiv').css('min-height', h + 'px');
+        $('.right_transparent').css('min-height', h + 'px');
+    })
+
+    $('body').on('click', '#allGoods', function () {
+        $('#firstCate').val(0);
+        $('#scondCate').val(0);
+        $('#form1').submit();
+    })
+
+    $('body').on('click', '.jiage', function () {
+        if ($(this).hasClass('arrows_d') && !$(this).hasClass('arrows_u')) {
+            $('.jiage').addClass('arrows_u');
+            $('#orderby').val('ASC');
+        } else if ($(this).hasClass('arrows_u')) {
+            $('.jiage').removeClass('arrows_u');
+            $('#orderby').val('DESC');
+        }
+        $('#form1').submit();
+    })
+
+    $('body').on('click', '.cate', function () {
+        $('#cate').show();
+    })
+    $('body').on('click', '#hideCate', function () {
+        $('#cate').hide();
+    })
+    $('body').on('click', '.right_transparent', function () {
+        $('#cate').hide();
+    })
+
+    $('body').on('click', '.firstMenu ul li', function () {
+        var index = $(this).index();
+        var cid = $(this).attr('data-cid');
+        $('#firstCate').val(cid);
+        $(this).css('background', '#fff');
+        $(this).siblings().css('background', '#eeeeee');
+        $('.second').hide();
+        $('.second').eq(index).show();
+        $(this).css('color', '#e50f12');
+        $(this).siblings().css('color', '#999999');
+    })
+    $('body').on('click', '.second  li', function () {
+        var cid = $(this).attr('data-cid');
+        $('#scondCate').val(cid);
+        $(this).css('color', '#e50f12');
+        $(this).siblings().css('color', '#333333');
+        $('#form1').submit();
+    })
+
+    $('body').on('click', '.all', function () {
+        $('#orderby').val('NEW');
+        $('#form1').submit();
+    })
+
+    $(window).scroll(function () {
+        // 当滚动到最底部以上100像素时， 加载新内容
+        if ($(document).height() - $(this).scrollTop() - $(this).height() < 100) {
+            $('.loadMore').fadeIn();
+        } else {
+            $('.loadMore').fadeOut();
+        }
+    });
+
+    $('body').on('click', '.loadMore', function () {
+        var order = $('#orderby').val();
+        var scondCate = $('#scondCate').val();
+        var firstCate = $('#firstCate').val();
+        var id = $('#id').val();
+        var pg = page;
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            data: {order: order, scondCate: scondCate, firstCate: firstCate, id: id, page: pg},
+            url: "{:U('Shop/memberGoodsList')}",
+            success: function (data) {
+                if (isDefine(data)) {
+                    page++;
+                    var html = '';
+                    for (var i = 0; i < data.length; i++) {
+                        html += '<div class="back-ff bor">';
+                        if (data[i].scopeId == 2) {
+                            html += '	<a href="/Game/Validatadc/yanzhen/id/' + data[i].goodsId + '/goodsType/1">';
+                        } else {
+                            html += '	<a href="/Game/Goods/index/id/' + data[i].goodsId + '">';
+                        }
+                        html += '<div class="shop ub ">';
+                        html += '<div class="shopImg"><img src="/' + data[i].goodsThums + '"/></div>';
+                        html += '<div class=" ub-f1" style="margin-left:5px;">';
+                        html += '<div class="shopName"><span class="type">【' + data[i].type + '】</span>' + data[i].goodsName + '</div>';
+                        html += '<div class="fw col-9">' + data[i].goodsSpec + '</div>';
+                        html += '	<div class="mc">秒充</div>';
+                        html += '	</div>	<div style="text-align:center;">';
+                        html += '<div class="col-9 lh20"><s>￥' + data[i].marketPrice + '</s></div>';
+                        html += '<div class="col-red lh20 money">￥' + data[i].shopPrice + '</div>';
+                        html += '</div></div></a></div>';
+                    }
+                    $('.append').append(html);
+                } else {
+                    $('.loadMore').text('没有更多了');
+                    setTimeout(function () {
+                        $('.loadMore').text('加载更多');
+                    }, 2000);
+                }
+            }
+        })
+    })
+
+</script>
+</html>

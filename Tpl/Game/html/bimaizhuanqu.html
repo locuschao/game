@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>title</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" type="text/css" href="../css/api.css" />
+<style>
+body {
+	
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>必买专区
+<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript">
+	apiready = function(){
+			var MNNavigationMenu = api.require('MNNavigationMenu');
+			MNNavigationMenu.open({
+			    rect: {
+			        x: 0,
+			        y: 0,
+			        w: api.winWidth,
+			        h: 50
+			    },
+			    index: 0,
+			    animation: true,
+			    styles: {
+			        column: 6,
+			        bg: '#eee',
+			        item: {
+			            width: api.winWidth / 6,
+			            bg: '#ff1b1c',
+			            active: '#fff',
+			            highlight: '#ccc',
+			            title: {
+			                marginB: 4,
+			                size: 12,
+			                height: 12,
+			                color: '#fff',
+			                active: '#000',
+			                highlight: '#666'
+			            },
+			            icon: {
+			                marginT: 4,
+			                width: 30,
+			                height: 30,
+			                corner: 2
+			            }
+			        }
+			    },
+			    items: [{
+			        title: '手机',
+			        icon: 'widget://image/cs_sp1.png',
+			        active: 'widget://image/cs_sp1.png',
+			        highlight: 'widget://image/cs_sp1.png'
+			    }, {
+			        title: '电脑相关',
+			        icon: 'widget://image/sp_2.png',
+			        active: 'widget://image/sp_2.png',
+			        highlight: 'widget://image/sp_2.png'
+			    }, {
+			        title: '笔记本电脑',
+			        icon: 'widget://image/sp_3.png',
+			        active: 'widget://image/sp_3.png',
+			        highlight: 'widget://image/sp_3.png'
+			    }, {
+			        title: '影音玩乐',
+			        icon: 'widget://image/sp_4.png',
+			        active: 'widget://image/sp_4.png',
+			        highlight: 'widget://image/sp_4.png'
+			    }, {
+			        title: '摄影器材',
+			        icon: 'widget://image/cs_sp1.png',
+			        active: 'widget://image/cs_sp1.png',
+			        highlight: 'widget://image/cs_sp1.png'
+			    },{
+			        title: '母婴',
+			        icon: 'widget://image/sp_2.png',
+			        active: 'widget://image/sp_2.png',
+			        highlight: 'widget://image/sp_2.png'
+			    }, {
+			        title: '￥9.9',
+			        icon: 'widget://image/sp_3.png',
+			        active: 'widget://image/sp_3.png',
+			        highlight: 'widget://image/sp_3.png'
+			    }, {
+			        title: '￥9.9',
+			        icon: 'widget://image/sp_4.png',
+			        active: 'widget://image/sp_4.png',
+			        highlight: 'widget://image/sp_4.png'
+			    }, {
+			        title: '￥9.9',
+			        icon: 'widget://image/cs_sp1.png',
+			        active: 'widget://image/cs_sp1.png',
+			        highlight: 'widget://image/cs_sp1.png'
+			    }],
+			    fixedOn: api.frameName,
+			    fixed: false
+			},
+			function(ret, err) {
+			    if (ret) {
+			        alert(JSON.stringify(ret));
+			    } else {
+			        alert(JSON.stringify(err));
+			    }
+			});
+	};
+</script>
+</html>

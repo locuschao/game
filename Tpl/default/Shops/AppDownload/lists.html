@@ -1,0 +1,119 @@
+<extend name="Shops:layout" />
+<block name="content"> <script
+	src="__PUBLIC__/plugins/kindeditor/kindeditor.js"></script> <script
+	src="__PUBLIC__/plugins/kindeditor/lang/zh_CN.js"></script>
+
+<link rel="stylesheet" type="text/css"
+	href="__PUBLIC__/plugins/webuploader/style.css" />
+<link rel="stylesheet" type="text/css"
+	href="__PUBLIC__/plugins/webuploader/webuploader.css" />
+<script type="text/javascript"
+	src="__PUBLIC__/plugins/webuploader/webuploader.js"></script> <script
+	type="text/javascript" src="__JS__/goodsbatchupload.js"></script> <script
+	type="text/javascript" src="__JS__/layer.js"></script> <script
+	type="text/javascript" src="__JS__/jquery-1.8.3.min.js"></script> <script
+	type="text/javascript" src="__PUBLIC__/plugins/jeDate/jedate.js"></script>
+
+<style>
+.datainp {
+	width: 150px;
+}
+
+.bor tr td, th {
+	border: #efefef solid 1px;
+}
+
+.tableinput input {
+	width: 60px;
+}
+
+.wst-form tr th {
+	text-align: center;
+}
+
+.wst-form tr td {
+	text-align: center;
+	border: #efefef solid 1px;
+}
+
+.btn {
+	border: #ff1515 solid 1px;
+	border-radius: 4px;
+	text-indent: 0;
+	padding: 5px 10px;
+	text-align: center;
+	color: #ff3035;
+}
+.wst-pagination .wst-current{
+    padding:4px 12px;
+    background:#e23e3d;
+    color:#fff;
+    margin-right:2px;
+}
+.wst-pagination .wst-num,
+.wst-pagination .wst-next,
+.wst-pagination .wst-end,
+.wst-pagination .wst-prev{
+    display:inline-block;
+    padding:4px 12px;
+    background:#f1eff0;
+    
+    margin-right:2px;
+}
+</style>
+<?php
+$condition = [
+    'shopId'=>session('WST_USER.shopId')
+    
+];
+
+$game_version_download = M('game_version_download');
+$pager = new \Think\Page($game_version_download->where($condition)->count(), 10);
+$data = $game_version_download->where($condition)
+->join('gvd left join '.C('DB_PREFIX').'game g on gvd.gameId=g.id')
+->field('gvd.*,g.gameName')
+->order('gvd.gameId,gvd.id asc')
+->limit($pager->firstRow,$pager->listRows)
+->select();
+
+foreach(M('versions')->select() as $row){
+    $version_arr[$row['id']] = $row['vName'];
+}
+
+?>
+<div class="wst-body">
+	<div class='wst-page-header'>卖家中心 > 下载管理 > 链接列表</div>
+
+	<div class='wst-page-content'>
+		
+		<table class="table table-hover table-striped table-bordered wst-list wst-form">
+			<tr>
+                <th style="width: 80px;">游戏</th>
+                <th style="width: 80px;">版本</th>
+				<th style="width: 200px;">下载链接</th>
+				<th style="width: 80px;">操作</th>
+			</tr>
+			<volist name="data" id="vo">
+			<tr>
+				<td>{$vo.gameName}</td>
+				<td><?=$version_arr[$vo['versionId']]?></td>
+				<td>{$vo.downloadLink}</td>
+				<td>
+                <a href="__URL__/addList/id/{$vo.id}" style="color: blue;">修改</a>
+                <a href="__URL__/delRow/id/{$vo.id}"  class="delBtn" style="color: red;">删除</a>
+               </td>
+			</tr>
+			</volist>
+		</table>
+		<div style="text-align: center;" style="margin-top: 10px;"><?=$pager->show()?></div>
+	</div>
+    <script>
+    $('.delBtn').click(function(){
+        if(!confirm('确定删除')){
+            return false;
+        }
+        
+    })
+    
+    </script>
+</block>

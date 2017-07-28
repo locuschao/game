@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{$CONF['mallTitle']}后台管理中心</title>
+<link href="__PUBLIC__/plugins/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+<link href="__CSS__/AdminLTE.css" rel="stylesheet" type="text/css" />
+<!--[if lt IE 9]>
+      <script src="__PUBLIC__/js/html5shiv.min.js"></script>
+      <script src="__PUBLIC__/js/respond.min.js"></script>
+      <![endif]-->
+<script src="__PUBLIC__/js/jquery.min.js"></script>
+<script src="__PUBLIC__/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="__PUBLIC__/js/common.js"></script>
+<script src="__PUBLIC__/plugins/plugins/plugins.js"></script>
+<link rel="stylesheet" href="__CSS__/layer.css">
+<script type="text/javascript" src="__JS__/layer.js"></script>
+<script type="text/javascript" src="__JS__/layer.ext.js"></script>
+</head>
+<script>
+     $(function(){
+     layer.config({
+                extend: 'extend/layer.ext.js'
+      });
+  })
+   </script>
+<script>
+   function del(id){
+     Plugins.confirm({title:'信息提示',content:'您确定要删除该中奖纪录吗?',okText:'确定',cancelText:'取消',okFun:function(){
+       Plugins.closeWindow();
+       Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
+       $.post("{:U('Admin/Ggk/delcheat')}",{id:id},function(data,textStatus){
+          var json = WST.toJson(data);
+          if(json.status=='1'){
+            Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
+              location.reload();
+            }});
+          }else{
+            Plugins.closeWindow();
+            parent.showMsg({msg:'操作失败!',status:'danger'});
+          }
+        });
+        }});
+   }
+
+
+   function checksn(){
+     var sn=$('input[name="sn"]').val();
+      $.post("{:U('Home/Ggk/checksn')}",{sn:sn},function(data,textStatus){
+        var json = WST.toJson(data);
+          switch(json.status){
+            case 1:
+            layer.confirm('<b style="color:red;">'+sn+'</b>中奖码可以使用。<br>奖品：<b style="color:red;">'+json.title+'</b>尚未兑奖。',{btn:['确定']});
+            break;
+            case 2:
+            layer.msg("查询不到该中奖码",{time:2500});
+            break;
+            case 3:
+            layer.msg('你没有查询任何东西');
+            break;
+            case 4:
+            layer.msg('该中奖码已兑奖');
+            break;
+          }
+        });
+   }
+
+   </script>
+<body class='wst-page'>
+	<div class='wst-body'>
+		<table class="table table-hover table-striped table-bordered wst-list">
+			<tr>
+				<th width='200'>活动名称：</th>
+				<td><input type="text" value="{$data['title']}"
+					AutoComplete="off" name="title" id="title" disabled="true">
+				</td>
+			</tr>
+			<tr>
+				<th width='200'>用户名称：</th>
+				<td><input type="text" value="{$data['userName']}"
+					AutoComplete="off" name="title" id="title" disabled="true">
+				</td>
+			</tr>
+			<tr>
+				<th width='200'>所中奖项：</th>
+				<td id="prizenum" value="{$data['prize']}"><label id="fist"><input
+						name="prize" type="radio" value="1">一等奖：{$data['jp'][0]}</label> <?php if(!empty($data['jp'][1])){
+               echo "<label id='second'><input name='prize' type='radio' value='2'>二等奖：".$data['jp'][1]."</label>";
+               } ?> <?php if(!empty($data['jp'][2])){
+               echo "<label id='third'><input name='prize' type='radio' value='3'>三等奖：".$data['jp'][2]."</label>";
+               } ?></td>
+			</tr>
+			<tr>
+				<th width='200'>快递公司：</th>
+				<td><select name="express" id="express">
+						<volist name="data['express']" id='vo'>
+						<option id="{$vo['id']}" value="{$vo['id']}">{$vo['expressCompany']}</option>
+						</volist>
+				</select></td>
+			</tr>
+			<tr>
+				<th width='200'>快递单号：</th>
+				<td>
+					<?php if($data['kdnum']!=0){
+               $kdnum=$data['kdnum'];
+               }else{
+               $kdnum='';
+               }
+                echo "<input type='text' id='kdnum' name='kdnum' value='".$kdnum."'>";
+               ?>
+				</td>
+			</tr>
+			<tr>
+				<td colspan='2' style='padding: 20px 0; text-align: center;'>
+					<button type="button" onclick='javascript:update({$data["id"]});'
+						id="tijiao" class="btn btn-success">保&nbsp;存</button>
+					<button type="button"
+						onclick="window.location.href='/Admin/ggk/manage/id/{$data["
+						ggkId"]}.html'" class="btn btn-primary">返&nbsp;回</button>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<script type="text/javascript">
+         function update(id){
+          var prize = $('input[name="prize"]:checked').val();
+          var kdnum = $('#kdnum').val();
+          var express = $('#express').val();
+          $.ajax({
+            url:"/Admin/Ggk/update.html",
+            data:{
+              id:id,
+              prize:prize,
+              kdnum:kdnum,
+              expressId:express,
+              xg:'x'
+            },
+            beforesend:function(){
+              layer.load();
+            },
+            success:function(data){
+              layer.closeAll();
+              if (data.status==1) {
+                layer.msg('保存成功', {
+                  icon: 1,
+                  skin: 'layer-ext-moon' 
+                });
+                window.location.href="/Admin/ggk/manage?id={$data['ggkId']}.html";
+              }else{
+                layer.msg('出现异常，请稍后再试', {
+                  icon: 2,
+                  skin: 'layer-ext-moon' 
+                });
+              }
+            }
+          });
+         }
+       </script>
+	<script type="text/javascript">
+       $(function(){
+          var prize = $("#prizenum").attr('value');
+          switch(prize){
+            case '1':
+            $('#fist input').attr('checked','checked');
+            break;
+            case '2':
+            $('#second input').attr('checked','checked');
+            break;
+            case '3':
+            $('#third input').attr('checked','checked');
+            break;
+          }
+          $('#{$data["expressId"]}').attr('selected','selected');
+       })
+       </script>
+</body>
+</html>

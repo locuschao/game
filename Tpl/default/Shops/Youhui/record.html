@@ -1,0 +1,112 @@
+<extend name="Shops:layout" />
+<block name="content">
+<style type="text/css">
+.wst-pagination {
+	margin-top: 10px;
+	text-align: center;
+	height: 25px;
+	line-height: 25px;
+}
+
+.wst-current {
+	background-color: rgb(226, 62, 61);
+	color: #fff;
+	padding: 0 12px;
+	border-radius: 2px;
+	height: 26px;
+	line-height: 26px;
+	display: inline-block;
+	vertical-align: top;
+	font-size: 12px;
+}
+
+.wst-num {
+	background-color: #f1eff0;
+	padding: 0 12px;
+	border-radius: 2px;
+	margin: 0 3px 6px;
+	height: 26px;
+	line-height: 26px;
+	text-decoration: none;
+	color: #666;
+	display: inline-block;
+	vertical-align: top;
+	font-size: 12px;
+}
+
+.wst-next, .wst-prev {
+	background-color: #f1eff0;
+	padding: 0 12px;
+	border-radius: 2px;
+	height: 26px;
+	line-height: 26px;
+	text-decoration: none;
+	color: #666;
+	display: inline-block;
+	vertical-align: top;
+	font-size: 12px;
+}
+</style>
+<script src="__PUBLIC__/plugins/plugins/plugins.js"></script> <script>
+$(document).ready(function(){
+    <notempty name='shopCatId1'>
+    getShopCatListForAppraises('{$shopCatId1}','{$shopCatId2}');
+    </notempty>
+});
+</script> <script type="text/javascript">
+  function del(id){
+  layer.confirm("确定删除该记录吗？用户的已使用记录也将同时删除。",{icon: 3, title:'系统提示'},function(tips){
+    $.post(Think.U('Home/Youhui/del_use_record'),{id:id},function(data,textStatus){
+      layer.close(tips);
+        var json = WST.toJson(data);
+        if(json.status=='1'){
+          WST.msg('删除成功！', {icon: 1},function(){
+            location.reload();
+          });
+        }else{
+          WST.msg('删除失败', {icon: 5});
+        }
+    });
+  });
+}
+</script>
+<div class="wst-body">
+	<div class='wst-page-header'>卖家中心 > 已使用优惠券列表</div>
+	<div class='wst-page-content'>
+		<button
+			style="border: 1px solid #ffffff; height: 35px; width: 120px; background-color: #e23e3d; color: #ffffff; cursor: pointer; float: right;"
+			onclick='javascript:window.location.href="{:U('Home/Youhui/shopindex')}"'>优惠券列表</button>
+		<button
+			style="border: 1px solid #ffffff; height: 35px; width: 120px; background-color: #e23e3d; color: #ffffff; cursor: pointer; float: right;"
+			onclick='javascript:window.location.href="{:U('Home/Youhui/add')}"'>发布新的优惠券</button>
+		<table class='wst-list' style="margin: 10px auto 0 auto;">
+			<thead>
+				<tr>
+					<th>序号</th>
+					<th>用户名称</th>
+					<th>优惠券名称</th>
+					<th>减免金额</th>
+					<th>使用时间</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<volist id='list' name='list'>
+				<tr>
+					<td>{$list['id']}</td>
+					<td>{$list['username']}</td>
+					<td>{$list['youhuiname']}</td>
+					<td>{$list['money']}元</td>
+					<td>{$list['useTime']|date='Y-m-d H:i',###}</td>
+					<td><a style="cursor: pointer;"
+						onclick="javascript:del({$list['id']})">[删除记录]</a></td>
+				</tr>
+				</volist>
+				<tr>
+					<td colspan='6'>{$show}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+</block>

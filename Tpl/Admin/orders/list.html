@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{$CONF['shopTitle']['fieldValue']}后台管理中心</title>
+<link href="__PUBLIC__/plugins/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+<link href="__CSS__/AdminLTE.css" rel="stylesheet" type="text/css" />
+<!--[if lt IE 9]>
+      <script src="__PUBLIC__/js/html5shiv.min.js"></script>
+      <script src="__PUBLIC__/js/respond.min.js"></script>
+      <![endif]-->
+<script src="__PUBLIC__/js/jquery.min.js"></script>
+<script src="__PUBLIC__/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="__PUBLIC__/js/common.js"></script>
+<script src="__PUBLIC__/plugins/plugins/plugins.js"></script>
+	<!--二次开发 引入时间插件-->
+<script type="text/javascript" src="__PUBLIC__/js/jedate.js"></script>
+	<style>
+		/*二次开发 新增样式 start*/
+		.dataExp{
+			margin-bottom: 10px;
+			margin-top: 10px;
+		}
+		.dataExp table tr td{
+			padding-right: 5px;
+		}
+		/*二次开发 新增样式 end*/
+	</style>
+</head>
+<script>
+	/*二次开发  添加的js --start*/
+	$(function () {
+		$('.datainp').click(function () {
+			if($(this).attr('id') != 'datebut')
+			{
+				$('#datebut').attr('id','datebut1');
+				$(this).attr('id','datebut');
+
+			}
+			jeDate({dateCell:'#datebut',isTime:true,format:'YYYY-MM-DD hh:mm:ss'});
+		});
+		$('.datainp1').click(function () {
+			if($(this).attr('id') != 'datebu')
+			{
+				$('#datebu').attr('id','datebu1');
+				$(this).attr('id','datebu');
+
+			}
+			jeDate({dateCell:'#datebu',isTime:true,format:'YYYY-MM-DD hh:mm:ss'});
+		});
+	});
+	function todayTime() {
+		var todayStart = '{$todayStart}';
+		var todayEnd = '{$todayEnd}';
+		$('.datainp1').eq(0).val(todayStart);
+		$('.datainp1').eq(1).val(todayEnd);
+	}
+	/*二次开发 添加的js  --end  */
+   </script>
+<body class='wst-page'>
+	<form method="GET" action="{:U('Admin/Orders/index')}">
+		<input type="hidden" name="isGroup" value="{$isGroup}" /> <input
+			type="hidden" name="isSeckill" value="{$isSeckill}" />
+		<div class='wst-tbar'>
+			店铺：<input type='text' name='shopName' id='shopName'
+				value='{$shopName}' /> 订单：<input type='text' name='orderNo'
+				id='orderNo' value='{$orderNo}' />
+			充值类型：<select name="type">
+			<option value="">请选择</option>
+			<if condition="$_GET['type'] eq 1">
+				<option value="1" selected>首充号</option>
+				<else/>
+				<option value="1">首充号</option>
+			</if>
+			<if condition="$_GET['type'] eq 2">
+				<option value="2" selected>会员首充</option>
+				<else/>
+				<option value="2">会员首充</option>
+			</if>
+			<if condition="$_GET['type'] eq 3">
+				<option value="3" selected>首充号代充</option>
+				<else/>
+				<option value="3">首充号代充</option>
+			</if>
+			<if condition="$_GET['type'] eq 4">
+				<option value="4" selected>会员首代</option>
+				<else/>
+				<option value="4">会员首代</option>
+			</if>
+
+		</select>
+			游戏版本：
+			<select name="version">
+				<option value="0">请选择</option>
+				<volist name="versions" id="vo">
+					<if condition="$vo.id eq $_GET['version']">
+						<option value="{$vo.id}" selected>{$vo.vName}</option>
+					</if>
+					<option value="{$vo.id}">{$vo.vName}</option>
+				</volist>
+			</select>
+			游戏名称：<input type="text" name="gameName" value="{$_GET['gameName']}">
+			订单状态：
+			<select name="orderStatus">
+				<option value="">请选择</option>
+				<option value="1">等待发货</option>
+				<option value="-2">待付款</option>
+				<option value="2">已发货</option>
+				<option value="-3">退款中</option>
+				<option value="-4">买家取消订单</option>
+				<option value="-5">退款成功</option>
+				<option value="-6">拒绝退款</option>
+				<option value="3">已完成</option>
+				<option value="-7">商家取消订单</option>
+				<option value="-8">平台拒绝退款</option>
+				<option value="-9">订单无效</option>
+			</select>
+			<br><br>
+			订单时间段：<input class="datainp1" name="timeS"  id="datebu" type="text" placeholder="请选择" value="{$_GET['timeS']}"  readonly >：
+			<input class="datainp1" name="timeE" id="datebu1" type="text" placeholder="请选择" value="{$_GET['timeE']}"  readonly >
+
+			<!-- 订单状态：  <select name='orderStatus' id='orderStatus'>
+             <option value='-9999'>请选择</option>
+             <option value='-2'>未支付</option>
+             <option value='0'>未受理</option>
+             <option value='1'>已受理</option>
+             <option value='2'>打包中</option>
+             <option value='3'>配送中</option>
+             <option value='4'>已到货</option>
+             <option value='-100'>用户取消</option>
+             <option value='-3'>用户拒收</option>
+             <option value='-4'>店铺同意拒收</option>
+             <option value='-5'>店铺不同意拒收</option>
+          </select> -->
+			<!--<button onclick="todayTime()" class="btn btn-primary">今天时间段</button>-->
+			<input type="button" onclick="todayTime()" value="今天时间段">
+			<button type="submit" class="btn btn-primary glyphicon glyphicon-search">查询</button>
+		</div>
+	</form>
+	<!--二次开发 --start-->
+	<div class="dataExp">
+		<form action="__CONTROLLER__/dataExp" method="post" id="timeForm">
+			<table>
+				<tr>
+					<td>
+						订单时间段：
+					</td>
+					<td><input class="datainp" name="timeStart"  id="datebut" type="text" placeholder="请选择" value="{$todayStart}"  readonly ></td>
+					<td>：</td>
+					<td><input class="datainp" name="timeEnd" id="datebut1" type="text" placeholder="请选择" value="{$todayEnd}"  readonly ></td>
+					<td><button type="submit" class="btn btn-primary">导出订单列表数据</button></td>
+					<td id="timeMsg">{$Msg}</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+	<!-- 二次开发 --end -->
+	<div class="wst-body">
+		<table class="table table-hover table-striped table-bordered wst-list">
+			<volist name="Page['root']" id="vo" key='key'>
+			<thead>
+				<tr>
+					<th colspan='6'>{$key}.订单：{$vo['orderNo']}<span
+						style='margin-left: 100px;'>{$vo['shopName']}</span></th>
+				</tr>
+			</thead>
+			<tbody>
+            
+				<tr>
+					<td>
+						<div style='width: 150px;'>
+							<img style='margin: 2px;' src="__ROOT__/{$vo['goodsThums']}"
+								height="50" width="50" title='{$goods[' goodsName']}'/>
+						</div>
+					</td>
+					<td>{$vo['scope']}</td>
+					<td>{$vo['gameName']}</td>
+					<td>{$vo.vName}</td>
+					<td>￥{$vo['needPay']}<!--<br /> <if
+							condition="$vo['orderStatus'] gt 0"> <if condition="$vo['payType'] eq 2 ">微信支付<elseif condition="$vo['payType'] eq 1 " />支付宝支付<else/>余额支付</if> <else />
+						待付款 </if>-->
+					</td>
+					<td>原价：{$vo.marketPrice}，数量：{$vo.goodsNums}，总价：<php>echo $vo['marketPrice']*$vo['goodsNums']</php></td>
+					<td>下单时间：{$vo['createTime']}</td>
+					
+                    <td><if condition="$vo['fahuoTime'] neq ''">发货时间：{$vo['fahuoTime']}</if></td>
+					<td><if condition="$vo['fahuoTime'] gt 0">
+                            发货方式：
+                            <if condition='$vo["fahuoType"] eq 0'>手动<elseif
+        							condition='($vo["fahuoType"] eq 1) or ($vo["fahuoType"] eq 2)' />自动 
+        					</if>
+                        </if>
+                    </td>
+                    
+                    <td><if condition='$vo["orderStatus"] eq 1'>等待发货 <elseif
+							condition='$vo["orderStatus"] eq -2' />待付款 <elseif
+							condition='$vo["orderStatus"] eq 2' />已发货 <elseif
+							condition='$vo["orderStatus"] eq -3' />退款中 <elseif
+							condition='$vo["orderStatus"] eq -4' />买家取消订单<elseif
+							condition='$vo["orderStatus"] eq -5' />退款成功 <elseif
+							condition='$vo["orderStatus"] eq -6' />拒绝退款 <elseif
+							condition='$vo["orderStatus"] eq 3' />已完成 <elseif
+							condition='$vo["orderStatus"] eq -7' />商家取消订单<elseif
+							condition='$vo["orderStatus"] eq -8' />平台拒绝退款<elseif
+							condition='$vo["orderStatus"] eq -9' />订单无效
+					</if></td>
+					<td><a class="btn btn-primary glyphicon"
+						href="{:U('Admin/Orders/toView',array('id'=>$vo['orderId']))}"">查看</a>&nbsp;
+					</td>
+				</tr>
+			</volist>
+			<tr>
+				<td colspan='6' align='center'>{$Page['pager']}</td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

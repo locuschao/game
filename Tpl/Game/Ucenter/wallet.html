@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>我的钱包</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/layer.min.js"></script>
+<style>
+body {
+	background: #efeff4;
+}
+
+.chongzi {
+	width: 85%;
+	padding: 10px;
+	margin: 10px auto 10px auto;
+	background: #fff;
+	border-radius: 4px;
+}
+
+.ye {
+	height: 25px;
+	line-height: 25px;
+}
+
+.ye_l {
+	display: inline-block;
+	width: 50%;
+	text-align: left;
+}
+
+.ye_r {
+	display: inline-block;
+	text-align: right;
+	float: right;
+	padding-left: 20px;
+	background: url(__IMG__/question.png) left center no-repeat;
+	background-size: 18px;
+}
+
+.balance {
+	height: 35px;
+	line-height: 35px;
+	font-size: 24px;
+	text-align: left;
+	color: #ff9e40
+}
+
+.balance span {
+	font-size: 14px;
+}
+
+.tx {
+	width: 80px;
+	text-align: center;
+	height: 35px;
+	line-height: 35px;
+	border-radius: 4px;
+	background: #fff600;
+	color: #323232;
+}
+
+.cz {
+	width: 80px;
+	text-align: center;
+	height: 35px;
+	line-height: 35px;
+	border-radius: 4px;
+	background: #00b4ff;
+	color: #fff;
+	float: right;
+	padding: 0
+}
+
+.list {
+	padding: 10px;
+	background: #fff;
+}
+
+.li {
+	border-bottom: #d5d7dc solid 1px;
+	padding: 10px;
+}
+
+.xf {
+	color: #323232;
+	font-size: 120%;
+}
+
+.time, .inc {
+	padding: 0;
+	background: none;
+}
+
+.inc {
+	color: #ff9e40
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<div class="_top">
+		<div class="_left_top"
+			onclick="location.href='{:U('Index/index',array('r'=>'my'))}' "></div>
+		<div class="_title_top">我的钱包</div>
+		<div class="_right_top no-bg mess"
+			onclick="location.href='/Game/Mess/mess/r/Ucenter_wallet'"></div>
+	</div>
+	<div class="lh45"></div>
+	<div class="chongzi">
+		<div class="ye">
+			<span class="ye_l col-32">当前余额</span> <a href="{:U('explain')}"><span
+				class="ye_r col-9">余额说明</span></a>
+		</div>
+		<div class="balance">
+			{$YE|default="0.00"}<span>元</span>
+		</div>
+		<div class="ye" style="height: auto; margin-top: 10px;">
+			<a href="{:U('TX/tixian')}"><span class="ye_l col-32  tx">提现</span></a>
+			<a href="{:U('Ucenter/TopUp')}"<span class="ye_r col-9 cz">充值</span></a>
+		</div>
+	</div>
+	<div class="lh35 txt-l col-6" style="text-indent: 5%;">最近30天收支明细</div>
+	<if condition="$balanceList">
+	<div class="list">
+		<volist name="balanceList" id="bl">
+		<div class="li">
+			<div class="ye">
+				<span class="ye_l col-32 xf">{$bl.yongtu}</span> <span
+					class="ye_r col-9 time"><if condition="$bl['time']">{$bl.time|date="Y-m-d",###}</if></span>
+			</div>
+			<div class="ye">
+				<span class="ye_l col-32 yes col-9">余额：{$bl.balance}</span> <span
+					class="ye_r col-9 inc">
+					<if condition ="$bl['payWay'] eq 1">支付宝支付<elseif condition="$bl['payWay'] eq 2"/>微信支付<else/>余额支付</if>
+					<if condition="($bl['payWay'] eq 1 or $bl['payWay'] eq 2) and $bl['type'] eq 1 "><else/>
+					<if condition="$bl['IncDec'] eq 0">-<else />+</if></if>{$bl.money}</span>
+			</div>
+		</div>
+		</volist>
+	</div>
+	</if>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+</html>

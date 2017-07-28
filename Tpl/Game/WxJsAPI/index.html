@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>我的</title>
+<include file="./Tpl/head.html" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<!--标准mui.css-->
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/mui.min.css">
+<link rel="stylesheet" href="__CSS__/font.css" />
+<!--App自定义的css-->
+<link rel="stylesheet" type="text/css" href="__CSS__/pub.css" />
+<link rel="stylesheet" type="text/css" href="__CSS__/app.css" />
+<link rel="stylesheet" type="text/css" href="__CSS__/swiper.min.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/home.css" />
+<link rel="stylesheet" type="text/css" href="__CSS__/goshop.css" />
+<link rel="stylesheet" href="__CSS__/my.css" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script type="text/javascript" src="__JS__/iscroll.js"></script>
+<script src="__JS__/swiper.min.js"></script>
+<script src="__JS__/index.js"></script>
+<script src="__JS__/base.js"></script>
+<script src="__JS__/cartpaylist.js"></script>
+<script src="__JS__/layer.min.js"></script>
+<script type="text/javascript">
+$(function() {  
+		//菜单框架自动获取高度
+		var doc_H=window.screen.height-145;	
+		$('.Menu_box').height(doc_H);
+		window.onresize=function(){
+			var doc_H=document.body.clientHeight-145;	
+			$('.Menu_box').height(doc_H);
+		}
+	});
+	var myScroll_left;
+	var myScroll_right;
+	function loaded () {
+		setTimeout(function(){
+			myScroll_left = new IScroll('#left_Menu', { mouseWheel: true, click: true });
+			myScroll_right = new IScroll('#right_Menu', { mouseWheel: true, click: true });
+			  $(".ot-maininfo").children(".menutype").hide();
+	          $(".ot-maininfo").children(".menutype").eq(0).show();	
+		})
+		
+	}
+	//document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+
+    $(document).ready(function() {	//tbl切换
+        $(".ot-menu  li").click(function(){
+            tabIndex = $(this).index();
+            $(this).siblings("li").removeClass("active");
+            $(this).addClass("active");
+            $(".ot-maininfo").children(".menutype").hide();
+            $(".ot-maininfo").children(".menutype").eq(tabIndex).show();
+            myScroll_right.refresh();
+        });
+    });
+</script>
+<style>
+.title {
+	margin: 20px 15px 10px;
+	color: #6d6d72;
+	font-size: 15px;
+}
+
+.showDel {
+	display: none;
+	text-align: right;
+}
+
+.delCartGoods {
+	text-align: right;
+	margin: 2px 8px;
+}
+
+.delSelect {
+	display: none;
+}
+
+.oa-contact-cell.mui-table .mui-table-cell {
+	padding: 11px 0;
+	vertical-align: middle;
+}
+
+.oa-contact-cell {
+	position: relative;
+	margin: -11px 0;
+}
+
+.oa-contact-avatar {
+	width: 75px;
+}
+
+.oa-contact-avatar img {
+	border-radius: 50%;
+}
+
+.oa-contact-content {
+	width: 100%;
+}
+
+.oa-contact-name {
+	margin-right: 20px;
+}
+
+.oa-contact-name, oa-contact-position {
+	float: left;
+}
+
+.mar-t10 {
+	margin-top: 8px;
+}
+
+ul, li {
+	margin: 0;
+	padding: 0;
+}
+
+.swiper-slide img {
+	height: 180px;
+	min-width: 100%;
+}
+
+body {
+	padding-bottom: 50px;
+	font-size: 14px;
+}
+
+.hideDiv {
+	display: none;
+}
+
+._dian {
+	background: url(__IMG__/dianjia_logo.png) center no-repeat;
+	width: 25px;
+	background-size: 20px;
+}
+
+.font90 {
+	font-size: 90%;
+}
+
+#max_lists {
+	background: #fff;
+}
+
+.text {
+	border: #ccc solid 1px;;
+	background: transparent;
+}
+
+#max_lists {
+	border-bottom: none;
+}
+
+p, ul, li, h1, h2, input, select, hr {
+	background: none;
+}
+
+#max_lists li {
+	width: 25%;
+	over-flow: hidden;
+	line-height: 80px;
+	height: 80px;
+}
+
+#max_lists ul li img {
+	padding-top: 10px;
+}
+
+#lists li {
+	height: 55px;
+}
+
+.lh35 {
+	height: 35px;
+	line-height: 35px;
+	text-align: center;
+}
+
+.price p {
+	height: 15px;
+	line-height: 15px;
+}
+
+._car_jian {
+	background: url(__IMG__/jian_.png) center no-repeat;
+	background-size: 80% 80%;
+}
+
+._car_jia {
+	background: url(__IMG__/jia_.png) center no-repeat;
+	background-size: 80% 80%;
+}
+
+input[placeholder], [placeholder], *[placeholder] {
+	color: #ccc;
+	font-size: 90%;
+}
+
+::-webkit-input-placeholder {
+	color: #ccc;
+	font-size: 90%;
+}
+
+.indexSearch {
+	background: url(__IMG__/index_searc_ico.png) 5px no-repeat;
+	background-size: 25px;
+	color: #fff;
+	width: 100%;
+	height: 25px;
+	text-indent: 30px;
+	line-height: 25px;
+	border: none;
+	border-radius: 15px;
+	color: #fff;
+	background-color: rgba(0, 0, 0, 0.3);
+}
+
+.location_ico {
+	width: 5rem;
+	line-height: 4rem;
+	background: url(__IMG__/location_ico.png) 5px no-repeat;
+	background-size: 15px;
+	text-indent: 25px;
+	color: #fff
+}
+
+.searchNav {
+	position: fixed;
+	top: 45px;
+	left: 0;
+	z-index: 9999;
+	height: 44px;
+	line-height: 44px;
+}
+
+._imgWidth img {
+	height: 93px;
+	overflow: hidden;
+}
+
+._img_jin {
+	height: 130px;
+}
+
+.cash {
+	display: block;
+	padding: 10px;
+	border-radius: 4px;
+	margin: 0 auto;
+	text-align: center;
+	border: #00baff solid 1px;
+	color: #00baff;
+	width: 80%;
+}
+
+.noborder {
+	border: none;
+}
+
+.imgH50 img {
+	height: 50px;
+}
+
+.nomargin {
+	margin: 0;
+}
+
+._imgHeight img {
+	height: 145px;
+}
+
+._new_img_jin {
+	height: auto;
+	margin: 0;
+	background: #fff;
+	margin-right: 3px;
+	padding: 8px;
+}
+
+.margin_top2 {
+	margin-top: 2px;
+}
+
+.margin-top8 {
+	margin-top: 8px;
+}
+
+.nobg, .nopadding {
+	background: none;
+	padding: 0
+}
+
+.duanMoney {
+	display: block;
+	padding: 5px 10px;
+	text-align: center;
+}
+
+.dhuan {
+	display: block;
+	color: #fff;
+	background: #00baff;
+	border-radius: 4px;
+	padding: 5px 10px;
+	text-align: center;
+}
+
+#editCart {
+	display: none;
+	text-align: center;
+	color: #fff;
+}
+
+.lh45 {
+	height: 45px;
+	line-height: 45px;
+}
+
+._contain {
+	width: 100%;
+	height: 150px;
+	background: #fff;
+}
+
+._contain a {
+	display: block;
+	float: left;
+	width: 33%;
+}
+
+._imgs {
+	width: 100%;
+	overflow: hidden;
+	text-align: center;
+	height: 90px;
+	padding: 8px;
+}
+
+._imgs img {
+	width: 100%;
+	height: 100%;
+}
+
+.goodstitle {
+	padding: 0px 8px;
+	width: 90%;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	height: 20px;
+}
+
+.col-red {
+	color: #ff4045;
+}
+
+._titles {
+	text-align: center;
+	color: #fff;
+	font-size: 16px;
+}
+
+;
+.layui-layer-btn a {
+	font-weight: normal;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body onLoad="loaded()">
+	<div class="ub"
+		style="height: 45px; line-height: 45px; position: fixed; top: 0; left: 0; width: 100%; background: #ff1b1b; z-index: 999;">
+		<div style="width: 4rem;"></div>
+		<div class="ub-f1 _titles">首页</div>
+		<div style="width: 4rem;">
+			<span id="editCart" data-status="0">编辑</span>
+		</div>
+	</div>
+	<div class="ub searchNav">
+		<div style="width: 5rem;"></div>
+		<div class="ub-f1 ">
+			<form action="{:U('Search/search',array('type'=>'goods'))}"
+				method="get">
+				<input class="indexSearch" type="input" name="key" value=""
+					placeholder="输入商品名称/店铺名称" style="" />
+			</form>
+		</div>
+		<div class="location_ico">{$cityInfo['city']}</div>
+	</div>
+	<nav class="mui-bar mui-bar-tab"
+		style="border-top: #d5d7dc solid 1px; background: #fff;">
+		<a class="mui-tab-item" href="#tabbar" onclick="page(1)"> <span
+			class="mui-icon"><img id="one" style="width: 20px;"
+				src="__IMG__/home_click_2.png"></span> <span class="mui-tab-label">首页</span>
+		</a> <a class="mui-tab-item" href="#tabbar-with-chat" onclick="page(2)">
+			<span class="mui-icon "><img id="two" style="width: 20px;"
+				src="__IMG__/fenlei_click_1.png"></span> <span class="mui-tab-label">分类</span>
+		</a> <a class="mui-tab-item" href="#tabbar-with-contact" onclick="page(3)">
+			<span class="mui-icon "><img id="three" style="width: 20px;"
+				src="__IMG__/jifen_click_1.png"></span> <span class="mui-tab-label">积分乐园</span>
+		</a> <a class="mui-tab-item" href="#tabbar-with-map" onclick="page(4)">
+			<span class="mui-icon"><img id="four" style="width: 20px;"
+				src="__IMG__/goshop_click_1.png"></span> <span class="mui-badge"
+			style="position: absolute; top: 0;">{$goodsCnt}</span> <span
+			class="mui-tab-label">购物车</span>
+		</a> <a class="mui-tab-item" href="#tabbar-with-my" onclick="page(5)">
+			<span class="mui-icon "><img id="five" style="width: 20px;"
+				src="__IMG__/my_click_1.png"></span> <span class="mui-tab-label">我的</span>
+		</a>
+	</nav>
+	<div class="" style="margin-top: 44px;">
+		<div id="page1">
+			<!--第一个TAB-->
+			<div class="one_swiper">
+				<div class="swiper-container">
+					<div class="swiper-wrapper" id="imgList">
+						<volist name="adInfo" id="ad">
+						<div class="swiper-slide">
+							<a href="{$ad.adurl}"><img src="/{$ad.adfile}" /></a>
+						</div>
+						</volist>
+					</div>
+					<div class="swiper-pagination"></div>
+				</div>
+			</div>
+			<div id="banner">
+				<ul>
+					<li class="ban1"
+						onclick="javascript:window.location.href='{:U('supermarket',array('parentId'=>335))}'"><img
+						src="__IMG__/fzc.png" /><a>服装城</a></li>
+					<li
+						onclick="javascript:window.location.href='{:U('supermarket',array('parentId'=>334))}'"
+						class="ban2"><img src="__IMG__/chaoshi.png" /><a>超市</a></li>
+					<li
+						onclick="javascript:window.location.href='{:U('MustBuy/index',array('parentId'=>334))}'"
+						class="ban3"><img src="__IMG__/bimai.png" /><a>必买专区</a></li>
+					<li
+						onclick="javascript:window.location.href='{:U('Group/search')}'"
+						class="ban4"><img src="__IMG__/tuangou.png" /><a>团购</a></li>
+				</ul>
+			</div>
+
+			<div class="_son_title  _margin_top10">
+				<input type="hidden" id="secKill_page" value="1" />
+				<div class="_margin_left10 _dian" style=""></div>
+				<div class="_son_title_left">天天秒杀</div>
+				<div class="_son_title_right" onclick="javascript:secKill(this);"
+					data-url="{:U('secKill')}">换一组</div>
+			</div>
+			<div class="_contain" id="secKill_html">
+				<volist name="secKillInfo" id="sk"> <a
+					href="{:U('Index/goodsDetail',array('id'=>$sk['goodsId'],'secKill'=>1))}">
+					<div class="_imgs">
+						<img src="/{$sk.goodsThums}" />
+					</div>
+					<div class="txt-l goodstitle">{$sk.goodsName}</div>
+					<div class="txt-l goodstitle col-red">￥{$sk.shopPrice}</div>
+				</a> </volist>
+			</div>
+
+			<!-- ------------
+			
+			<div class="_contain">
+				<a href="#">
+				<div class="_imgs"><img src="__IMG__/cs_sp1.png" /></div>
+					<div class="txt-l goodstitle">丹丹麦蓝丹麦蓝麦进...</div>
+					<div class="txt-l goodstitle col-red">￥347.00</div>
+				</a>
+				
+			---------------- -->
+
+
+			<div class="tu-title  _margin_top10"
+				onclick="javascript:window.location.href='{$indexHotAd.adurl}'">
+				<span class="tt1"></span><span class="tt2">商城头条:</span><span
+					class="tt3"><a href="{$indexHotAd.adurl}"><font
+						style="color: red;">HOT</font>&nbsp;&nbsp;&nbsp;{$indexHotAd.adName}</a></span>
+			</div>
+			<div id="tu-list">
+				<div class="t-l-1"
+					style="background-image: url('__IMG__/tu_1.png'); background-size: 100% 100%;"></div>
+				<div class="t-l-2"></div>
+				<div class="t-l-3">
+					<div class="t-l-31"
+						onclick="javascript:window.location.href='{:U('MustBuy/index')}'"
+						style="background-image: url('__IMG__/tu_2.png'); background-size: 100% 100%;"></div>
+					<div class="t-l-32"></div>
+					<div class="t-l-33"
+						onclick="javascript:window.location.href='{:U('group/search')}'"
+						style="background-image: url('__IMG__/tu_3.png'); background-size: 100% 100%;"></div>
+				</div>
+			</div>
+			<div id="tu-one"
+				onclick="javascript:window.location.href='{$indexImg.adurl}'"
+				style="background-image: url('/{$indexImg.adFile}'); background-size: 100% 100%;">
+			</div>
+			<div class="_son_title  _margin_top10">
+				<div class="_son_title_left">精品选购</div>
+				<input type="hidden" id="isSale_page" value="1" />
+				<div class="_son_title_right" onclick="javascript:isSale(this);"
+					data-url="{:U('boutique')}" data-type="isBest"
+					data-input="isSale_page" data-id="isSale">换一组</div>
+			</div>
+			<!-- -----精品------ -->
+			<div class="_contain" id="isSale">
+				<volist name="isBest" id="sk"> <a
+					href="{:U('Index/goodsDetail',array('id'=>$sk['goodsId']))}">
+					<div class="_imgs">
+						<img src="/{$sk.goodsThums}" />
+					</div>
+					<div class="txt-l goodstitle">{$sk.goodsName}</div>
+					<div class="txt-l goodstitle col-red">￥{$sk.shopPrice}</div>
+				</a> </volist>
+			</div>
+
+			<!-- -----精品------ -->
+
+
+			<!-- 新品上市 -->
+			<div class="_son_title  _margin_top10">
+				<div class="_son_title_left">新品上市</div>
+				<input type="hidden" id="isNew_page" value="1" />
+				<div class="_son_title_right" onclick="javascript:isSale(this);"
+					data-url="{:U('boutique')}" data-type="isNew"
+					data-input="isNew_page" data-id="isNew">换一组</div>
+			</div>
+			<div class="_contain" id="isNew">
+				<volist name="isNew" id="sk"> <a
+					href="{:U('Index/goodsDetail',array('id'=>$sk['goodsId']))}">
+					<div class="_imgs">
+						<img src="/{$sk.goodsThums}" />
+					</div>
+					<div class="txt-l goodstitle">{$sk.goodsName}</div>
+					<div class="txt-l goodstitle col-red">￥{$sk.shopPrice}</div>
+				</a> </volist>
+			</div>
+
+			<!-- 热销商品 -->
+			<div class="_son_title  _margin_top10">
+				<div class="_son_title_left">热销商品</div>
+				<input type="hidden" id="isHot_page" value="1" />
+				<div class="_son_title_right" onclick="javascript:isSale(this);"
+					data-url="{:U('boutique')}" data-type="isHot"
+					data-input="isHot_page" data-id="isHot">换一组</div>
+			</div>
+			<div class="_contain" id="isHot">
+				<volist name="isHot" id="sk"> <a
+					href="{:U('Index/goodsDetail',array('id'=>$sk['goodsId']))}">
+					<div class="_imgs">
+						<img src="/{$sk.goodsThums}" />
+					</div>
+					<div class="txt-l goodstitle">{$sk.goodsName}</div>
+					<div class="txt-l goodstitle col-red">￥{$sk.shopPrice}</div>
+				</a> </volist>
+			</div>
+			<!--第一个TAB结束-->
+
+		</div>
+		<!--------------------------- 分类 ----------------------->
+		<div id="page2" class="hideDiv">
+			<div class=" back-ff car_search">
+				<div class="car_se">
+					<form action="{:U('Search/search',array('type'=>'goods'))}"
+						method="get">
+						<input type="text" class="car_input" name="key" id="searchKey"
+							value="" placeholder="输入你喜欢的商店、商品" />
+					</form>
+				</div>
+			</div>
+			<div class="">
+				<div class="mg-auto overflow">
+					<!--菜单-->
+					<div class="Menu_box">
+						<!---------左侧菜单---------->
+						<div id="left_Menu">
+							<div class="ot-menu" id="scroller">
+								<ul>
+									<li class="active"><a href="#">热门推荐</a></li>
+									<volist name="cate" id="ca">
+									<li><a href="#">{$ca['info']['catName']}</a></li>
+									</volist>
+								</ul>
+							</div>
+						</div>
+
+						<!---------右侧侧菜单---------->
+						<div id="right_Menu">
+							<div class="ot-maininfo">
+								<div class="menutype">
+									<!-- --------右侧广告----------- -->
+									<div id="cart_right_ad">
+										<a href="#"><img src="__IMG__/cart_ad.png"></a>
+									</div>
+									<div class="cart_son_li">
+										<div class="cart_son_li_title">标题</div>
+										<ul>
+											<li><img src="__IMG__/cart_ad.png" />
+												<p>子标题</p></li>
+										</ul>
+									</div>
+								</div>
+								<volist name="cate" id="ca">
+								<div class="menutype">
+									<!-- --------右侧广告----------- -->
+									<div id="cart_right_ad">
+										<a href="#"><img src="__IMG__/cart_ad.png"></a>
+									</div>
+									<volist name="ca['child']" id="son">
+									<div class="cart_son_li">
+										<div class="cart_son_li_title">{$son['info'].catName}</div>
+										<ul>
+											<volist name="son['child']" id="Grandson">
+											<li><a href="{:U('Cate/cate',array('id'=>$key))}"><img
+													src="{$Grandson['info'].catImg}" />
+													<p>{$Grandson['info'].catName}</p></a></li>
+											</volist>
+										</ul>
+									</div>
+									</volist>
+								</div>
+								</volist>
+							</div>
+						</div>
+					</div>
+					<!--菜单end-->
+				</div>
+			</div>
+
+		</div>
+		<!-- ---------------------分类结束-------------------------- -->
+		<!------------------------------- 职分乐园 ------------------->
+		<div id="page3" class="hideDiv">
+			<div class="four_swiper">
+				<div class="swiper-container">
+					<div class="swiper-wrapper" id="imgList">
+						<volist name="adInfo" id="ad">
+						<div class="swiper-slide">
+							<a href="{$ad.adurl}"><img src="/{$ad.adfile}" /></a>
+						</div>
+						</volist>
+					</div>
+					<div class="swiper-pagination"></div>
+				</div>
+			</div>
+			<!-- -----轮播结束------- -->
+			<div class="ub back-ff padding_bottom10 padding_top10">
+				<div class="ub-f2">
+					<p class="col_6 text-l lh20 font110">
+						我的积分:<font class="col_red">{$userScore}</font>
+					</p>
+					<p class="col_9 text-l lh20">如何获得更多积分?</p>
+				</div>
+				<div class="ub-f1">
+					<a
+						href="{:U('Score/record',array('r'=>'score','ref'=>'Index_index'))}">
+						<span class="cash">兑换记录</span>
+					</a>
+				</div>
+			</div>
+			<!-- --兑换记录- -->
+			<div id="max_lists" class="imgH50 noborder" style="height: 100px;">
+				<ul>
+					<li
+						onclick="location.href='{:U('Score/scoreList',array('catid'=>1))}'"
+						class="noborder " style="border: none;"><img
+						style="height: 50px;" src="__IMG__/today_new.png" /><a>今日新品</a></li>
+					<li
+						onclick="location.href='{:U('Score/scoreList',array('catid'=>2))}'"
+						class="noborder imgH50 " style="border: none;"><img
+						style="height: 50px;" src="__IMG__/meizhuan.png" /><a>个护美妆</a></li>
+					<li
+						onclick="location.href='{:U('Score/scoreList',array('catid'=>3))}'"
+						class="noborder" style="border: none;"><img
+						style="height: 50px;" src="__IMG__/jiaji.png" /><a>日常家居</a></li>
+					<li
+						onclick="location.href='{:U('Score/scoreList',array('catid'=>4))}'"
+						class="noborder" style="border: none;"><img
+						style="height: 50px;" src="__IMG__/jiadian.png" /><a>数码家电</a></li>
+				</ul>
+			</div>
+			<div class="ub height35 back-ff back-ef font90 ">
+				<div class="ub-f1 margin_left10 ">
+					<hr
+						style="margin-top: 17px; border: 0; background-color: #999; height: 1px;">
+				</div>
+				<div class="ub-f1 col_9 pos-r text-c">
+					<div class="pos-a">兑换商品</div>
+
+				</div>
+				<div class="ub-f1 margin_right10">
+					<hr
+						style="margin-top: 17px; border: 0; background-color: #999; height: 1px;">
+				</div>
+			</div>
+			<style>
+._contain a {
+	background: #fff;
+}
+
+.lh30 {
+	height: 30px;
+	line-height: 30px;
+}
+
+.score_a a:nth-child(odd) {
+	float: left;
+	width: 49.5%;
+	margin-bottom: 4px;
+}
+
+.score_a a:nth-child(even) {
+	float: right;
+	width: 49.5%;
+	margin-bottom: 4px;
+}
+</style>
+			<div class="_contain score_a"
+				style="height: 218px; background: none;">
+				<volist name="scoreGoodsInfo" id="sk"> <a
+					href="{:U('Score/scoreGoods',array('id'=>$sk['goodsId']))}">
+					<div class="_imgs" style='height: 145px'>
+						<img src="{$sk.goodsThums}" />
+					</div>
+					<div class="txt-l goodstitle lh30">{$sk.goodsName}</div>
+					<div class="_jin_money ub">
+						<div class="ub-f1 ">
+							<span class="duanMoney col-red">{$sk.shopPrice}积分</span>
+						</div>
+						<div class="" style="margin-right: 8px; width: 60px">
+							<span class="dhuan">兑换</span>
+						</div>
+					</div>
+				</a> </volist>
+			</div>
+		</div>
+		<!-- ------------------职分乐园结束---------------------- -->
+		<!-- ----------------------购物车 ----------------------------->
+		<div id="page4" class="hideDiv" style="margin-bottom: 50px;">
+			<div class="_content">
+				<volist name="cartInfo['cartgoods']" id="cart">
+				<div class="_son_title ub mar-t10"
+					onclick="javascript:window.location.href='{:U("
+					Shop/shop",array("id"=>
+					$key))}'">
+					<div class="title_left_ico margin_left10 "
+						style="background: url(/ {$ cart [ 'shopgoods' ][ 0 ][ 'shopImg' ]"></div>
+					<div class="ub-f1 text-l">{$cart['shopgoods'][0]['shopName']}</div>
+					<div class="right_arrows"></div>
+				</div>
+				<volist name="cart['shopgoods']" id="list"> <input
+					data-id="{$list['goodsId']}_{$list['goodsAttrId']}_{$list['isSeckill']}_{$list['isGroup']}"
+					id="stock_{$list['goodsId']}_{$list['goodsAttrId']}_{$list['isSeckill']}_{$list['isGroup']}"
+					type="hidden" value="<if condition="$list['isGroup'] eq 1 || $list['isSeckill'] eq 1">
+				<if condition="$list['goodsStock'] lt $list['cnt']">-1<else />1</if>
+				><else />
+				<if condition="$list['goodsAttrId'] eq 0">
+				<if condition="$list['goodsStock'] lt $list['cnt']">-1<else />1</if>
+				<else /> <if condition="$list[0]['goodsStock'] lt $list['cnt']">-2<else />1</if></if>
+				</if>"class="goodsStockFlag"/> <if condition="$list['isGroup'] eq 1">
+				<input
+					data-id="{$list['goodsId']}_{$list['goodsAttrId']}_{$list['isSeckill']}_{$list['isGroup']}"
+					id="group_{$list['goodsId']}_{$list['goodsAttrId']}_{$list['isSeckill']}_{$list['isGroup']}"
+					type="hidden" value="<if condition="$list['groupStatus'] eq 1">1<else />-1</if>"
+				class="groupFlag"/> </if> <if condition="$list['isSeckill'] eq 1"> <input
+					data-id="{$list['goodsId']}_{$list['goodsAttrId']}_{$list['isSeckill']}_{$list['isGroup']}"
+					id="group_{$list['goodsId']}_{$list['goodsAttrId']}_{$list['isSeckill']}_{$list['isGroup']}"
+					type="hidden" value="<if condition="$list['seckillStatus'] eq 1">1<else />-1</if>"
+				class="secKillFlag"/> </if> <input
+					data-id="{$list['goodsId']}_{$list['goodsAttrId']}_{$list['isSeckill']}_{$list['isGroup']}"
+					id="deliveryStarMoney_{$list['goodsId']}_{$list['goodsAttrId']}_{$list['isSeckill']}_{$list['isGroup']}"
+					type="hidden" value="{$list['deliveryStartMoney']}"
+					class="deliveryFlag" />
+				<div class="ub"
+					id="color_{$list['goodsId']}_{$list['goodsAttrId']}_{$list['isSeckill']}_{$list['isGroup']}"
+					<if condition="$list['isGroup'] eq 1 || $list['isSeckill'] eq 1">
+					<if condition="$list['isGroup'] eq 1"> <if
+						condition="$list['groupStatus'] eq 1&&$list['goodsStock'] egt $list['cnt']">
+					style="background: #fff; padding-top: 10px;" <else />
+					style="background: #D5D7DC; padding-top: 10px;" </if> </if> <if
+						condition="$list['isSeckill'] eq 1"> <if
+						condition="$list['seckillStatus'] eq 1&&$list['goodsStock'] egt $list['cnt']">
+					style="background: #fff; padding-top: 10px;" <else />
+					style="background: #D5D7DC; padding-top: 10px;" </if> </if> > <else /> <if
+						condition="$list['goodsAttrId'] eq 0"> <if
+						condition="$list['goodsStock']  lt $list['cnt']">
+					style="background: #D5D7DC; padding-top: 10px;"<else />
+					style="background: #fff; padding-top: 10px;" </if> <else /> <if
+						condition="$list[0]['goodsStock'] lt $list['cnt'] || $list[0]['goodsStock'] lt 1">
+					style="background: #D5D7DC; padding-top: 10px;" <else />
+					style="background: #fff; padding-top: 10px;" </if> </if> > </if>
+					<div class="margin_left10 margin_right10"
+						style="width: 80px; overflow: hidden;">
+						<img style="height: 6rem; width: 80px;" src="/{$list.goodsThums}"
+							alt="">
+					</div>
+					<div class="ub-f1  ub  b-v">
+						<div class="ub ">
+							<div class="ub-f1 pos-r " style="height: 40px; overflow: hidden;">
+								<div class="pos-a  " style="text-align: left;">
+									{$list.goodsName}
+									<php> if($list['isSeckill']){ echo '(秒)'; }else
+									if($list['isGroup']){ echo '(团)'; } </php>
+								</div>
+							</div>
+							<div class="">
+								<div class="">
+									<div
+										class="mui-input-row mui-checkbox  margin_right10 margin_top5">
+										<input type="checkbox" class="chkall"
+											dataid="{$list['goodsAttrId']}" data-gid="{$list['goodsId']}"
+											data-isground="{$list['isGroup']}"
+											data-isSeckill="{$list['isSeckill']}"
+											id="chk_goods_{$list['goodsId']}_{$list['goodsAttrId']}_{$list['isSeckill']}_{$list['isGroup']}"
+											name="chk_goods_{$list['shopId']}"
+											value="{$list['goodsId']}_{$goods['goodsAttrId']}"
+											parent="{$list['shopId']}" isBook="{$list['isBook']}"
+										<if condition="$list['ischk'] eq 1">checked</if>
+										/> <input type="hidden" class="cgoodsId"
+											value="{$list['goodsId']}_{$list['goodsAttrId']}_{$list['isSeckill']}_{$list['isGroup']}" />
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="ub-f1 ub pos-r">
+							<div class="ub-f1 pos-r">
+								<div class="pos-a price">
+									<p class="col_red">
+										<php> $shopsPrice=0;
+										if($list['isGroup']||$list['isSeckill']){
+										$shopsPrice=$list['shopPrice']; }else{ foreach($list as
+										$k=>$v){ if(is_numeric($k)){ $shopsPrice+=$v['shopPrice']; } }
+										} </php>
+										￥
+										<php> $totalMoney=0; if($shopsPrice==0){
+										$totalMoney=$list['shopPrice']*$list['cnt']; echo
+										$list['shopPrice']; }else{
+										$totalMoney=$shopsPrice*$list['cnt']; echo $shopsPrice; } </php>
+									</p>
+									<input type="hidden"
+										id="price_{$list['goodsId']}_{$list['goodsAttrId']}_{$list['isSeckill']}_{$list['isGroup']}"
+										value="	<php>echo $shopsPrice;</php>" />
+									<p class="">
+										<span class="col_9">小计:</span>￥ <span
+											id="prc_{$list['goodsId']}_{$list['goodsAttrId']}_{$list['isSeckill']}_{$list['isGroup']}">
+											<php> echo $totalMoney;</php>
+										</span>
+									</p>
+								</div>
+							</div>
+							<div class="ub-f1 pos-r">
+								<div class="pos-a">
+									<div class="ub lh35 editCart">
+										<div class="ub-f1 txt-c showDel">
+											<span class="delCartGoods"
+												data-id="{$list['goodsId']}_{$list['goodsAttrId']}_{$list['isSeckill']}_{$list['isGroup']}">删除</span>
+										</div>
+										<div class="ub-f1 pos-r">
+											<div class="pos-a _car_jian"
+												id="numl_{$list['goodsId']}_{$list['goodsAttrId']}"
+												onclick="changeCatGoodsnum(1,{$list['shopId']},{$list['goodsId']},'{$list['goodsAttrId']}',{$list['isBook']},{$list['isSeckill']},{$list['isGroup']})"></div>
+										</div>
+										<div class="ub-f1 pos-r ">
+											<div class="pos-a font110">
+												<input
+													id="buy-num_{$list['goodsId']}_{$list['goodsAttrId']}_{$list['isSeckill']}_{$list['isGroup']}"
+													dataid="{$list['goodsAttrId']}"
+													data-isground="{$list['isGroup']}" class="text "
+													style="width: 30px; text-align: center;" maxlength="3"
+													value="{$list['cnt']}"
+													onkeypress="return WST.isNumberKey(event);"
+													onkeyup="changeCatGoodsnum(0,{$list['shopId']},{$list['goodsId']},'{$list['goodsAttrId']}',{$list['isBook']},{$list['isSeckill']},{$list['isGroup']});" />
+											</div>
+										</div>
+										<div class="ub-f1 pos-r">
+											<div class="pos-a _car_jia"
+												id="numr_{$list['goodsId']}_{$list['goodsAttrId']}"
+												onclick="changeCatGoodsnum(2,{$list['shopId']},{$list['goodsId']},'{$list['goodsAttrId']}',{$list['isBook']},{$list['isSeckill']},{$list['isGroup']})"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				</volist> </volist>
+				<!-- 底部总金额 -->
+				<div class="ub"
+					style="height: 45px; line-height: 45px; color: #fff; position: fixed; bottom: 50px; left: 0;">
+					<div class="ub-f2 pos-r" style="background: #a7a7aa;">
+						<div clas="pos-a ">
+							<div class="ub ">
+								<div class=" ">
+									<div class="ub">
+										<div
+											class="text-l mui-input-row mui-checkbox  margin_right10 margin_top5 white-checkbox">
+											<input id="chk_all" name="checkbox" value="2" type="checkbox">
+										</div>
+										<div class="ub-f1">全选</div>
+									</div>
+								</div>
+								<div class="ub-f1 text-l">
+									<div class="total_select">
+										合计：￥ <span id="wst_cart_totalmoney"
+											class="wst-cart-totalmoney">{$cartInfo['totalMoney']}</span>
+									</div>
+									<!-- <span id="shop_totalMoney_{$list['shopId']}">{$cartInfo.totalMoney}</span> -->
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="ub-f1 pos-r" style="background: #ff961b;">
+						<div clas="pos-a ">
+							<div class="ub">
+								<div class="ub-f1 delSelect text-c">删除所选</div>
+								<div class="ub-f1 text-c toPay" onclick="goToPay()">
+									去结算(<span id="productNum">{$goodsCnt}</span>)
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- 底部总金额 -->
+			</div>
+			<!-- ----------------------购物车结束 ----------------------------->
+		</div>
+		<div id="page5" class="hideDiv">
+			<!--页面5-->
+			<div id="tou">
+				<div id='tou-list-1'>
+					<div id="tou-list-11"></div>
+					<div id="tou-list-12">
+						<div id="yq-w">
+							<div id="yq-z" style=""$uinfo['userPhoto']" >
+								background-image:url(/{$uinfo['userPhoto']});
+								background-size:100%;background-position:center;
+								</if>
+								" onclick="location.href='{:U('Login/userInfo')}'">
+								<div id="yq-n"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id='tou-list-2'>{$uinfo.userPhone}</div>
+				<div id="shezhi"></div>
+			</div>
+			<div class="ub lh45 back-ff border_bottom1 ">
+				<div class="col_9 ub-f1 text-l">我的订单</div>
+				<div class="col_9  font90 text-l "
+					onclick="location.href='{:U('Orders/orders',array('r'=>'my'))}'">
+					查看全部订单</div>
+				<div class="right_arrows"></div>
+			</div>
+			<div style="height: 10px; width: 100%; background: #fff;"></div>
+			<div id="lists">
+				<ul>
+					<li
+						onclick="location.href='{:U('Orders/waitPay',array('r'=>'my'))}'"><img
+						src="__IMG__/daifukuan.png" /><a>待付款</a><span>{$stats.waitPay}</span></li>
+					<li
+						onclick="location.href='{:U('Orders/waitDeliver',array('r'=>'my'))}'"><img
+						src="__IMG__/daifahuo.png" /><a>待发货</a><span>{$stats.waitDeliver}</span></li>
+					<li
+						onclick="location.href='{:U('Orders/waitReceiving',array('r'=>'my'))}'"><img
+						src="__IMG__/daishouhuo.png" /><a>待收货</a><span>{$stats.waitReceiving}</span></li>
+					<li
+						onclick="location.href='{:U('Comment/evaluate',array('r'=>'my'))}'"><img
+						src="__IMG__/daipingjia.png" /><a>待评价</a><span>{$stats.waitEvaluate}</span></li>
+					<li
+						onclick="location.href='{:U('Orders/refundList',array('r'=>'my'))}'"
+						style="border: 0px;"><img src="__IMG__/tuikuan.png" /><a>退款/售后</a><span>{$stats.waitRefund}</span></li>
+				</ul>
+			</div>
+			<div id="max_lists">
+				<ul>
+					<li
+						onclick="location.href='{:U('Ucenter/wallet',array('r'=>'my'))}'"><img
+						src="__IMG__/wodeqianbao.png" /><a>我的钱包</a></li>
+					<li ontouchend="javascript:window.location.href='/Wx/Agent/Index'"><img
+						src="__IMG__/fenxiaozhognxin.png" /><a>分销中心</a></li>
+					<li
+						onclick="location.href='{:U('Ucenter/score',array('r'=>'my'))}'"><img
+						src="__IMG__/wodejifen.png" /><a>我的积分</a></li>
+					<li onclick="location.href='{:U('Join/protocol')}'"><img
+						src="__IMG__/woshishagnjia.png" /><a>我是商家</a></li>
+				</ul>
+				<ul>
+					<li><img src="__IMG__/yiyuanmaidao.png" /><a>一元买到</a></li>
+					<li
+						ontouchend="javascript:window.location.href='{:U('Favorites/index')}'"><img
+						src="__IMG__/shoucangjia.png" /><a>收藏夹</a></li>
+					<li
+						onclick="location.href='{:U('Coupon/coupon',array('r'=>'my'))}'"><img
+						src="__IMG__/coupon.png" /><a>优惠卷</a></li>
+					<li onclick="location.href='{:U('Service/index')}'"><img
+						src="__IMG__/bangzhufankui.png" /><a>帮助与反馈</a></li>
+				</ul>
+				<ul>
+					<li><img src="__IMG__/nianhuojie.png" /><a>年货节</a></li>
+					<li onclick="location.href='{:U('Group/search',array('r'=>'my'))}'"><img
+						src="__IMG__/tuangoujie.png" /><a>团购节</a></li>
+					<li
+						onclick="location.href='{:U('SecKill/index',array('r'=>'my'))}'"><img
+						src="__IMG__/miaoshahuodong.png" /><a>秒杀活动</a></li>
+					<li><img src="__IMG__/ershougoumai.png" /><a>二手购买</a></li>
+				</ul>
+			</div>
+			<div class="_son_title  _margin_top10">
+				<div class="_margin_left10 _dian"
+					style="background-image: url(__IMG__/xin.png)"></div>
+				<div class="_son_title_left font90">猜你喜欢</div>
+				<div class="_son_title_right font90"
+					onclick="javascript:guess(this);" data-url="{:U('guess')}">换一组</div>
+			</div>
+			<div class="_contain" id="guess_html">
+				<volist name="guessInfo" id="sk"> <a
+					href="{:U('Index/goodsDetail',array('id'=>$sk['goodsId'],'secKill'=>1))}">
+					<div class="_imgs">
+						<img src="/{$sk.goodsThums}" />
+					</div>
+					<div class="txt-l goodstitle">{$sk.goodsName}</div>
+					<div class="txt-l goodstitle col-red">￥{$sk.shopPrice}</div>
+				</a> </volist>
+			</div>
+			<!--页面5结束-->
+		</div>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+
+<script>
+$(function(){
+	var swiper = new Swiper('.one_swiper .swiper-container', {
+		autoplay : 3000,
+		paginationtouchendable : false,
+		pagination : '.one_swiper .swiper-pagination',
+	});
+
+	
+	var r="{$_GET['r']}";
+	if(r=='car'){
+		page(4);
+	}else if(r=='index'){
+		page(1);
+	}else if(r=='cate'){
+		page(2);
+	}else if(r=='score'){
+		page(3);
+	}else if(r=='my'){
+		page(5);
+	}
+	$(window).scroll(function(){
+		if($(this).scrollTop()<100){
+		  if($("#page1").css("display")=='none') return;
+            $(".searchNav").show();
+        } else {
+            $(".searchNav").hide();
+        }
+	})
+})
+
+$('#editCart').click(function(){
+	var status=$(this).attr('data-status');
+	if(status==0){
+		$(this).attr('data-status',1);
+		$('#editCart').text('取消');
+		$('.editCart').find('div').hide();
+		$('.showDel').show();
+		$('.delSelect').show();
+		$('.toPay').hide();
+		$('.total_select').hide();
+	}else{
+		$(this).attr('data-status',0);
+		$('#editCart').text('编辑');
+		$('.editCart').find('div').show();
+		$('.showDel').hide();
+		$('.delSelect').hide();
+		$('.toPay').show();
+		$('.total_select').show();
+	}
+})
+
+//删除单个
+$('.delCartGoods').click(function(){
+	  var goodsId=$(this).attr('data-id');
+	layer.confirm('确定删除吗?', {icon: 3, title:'删除商品'}, function(index){
+			 $.ajax({
+		         type: "POST",
+		         url: "{:U('Orders/delCartGoods')}",
+		         data: {ids:goodsId},
+		         dataType: "json",
+		         success: function(data){
+		        	 	if(data.status==0){
+		        	 		layer.msg('删除成功');;
+		        	 		setTimeout(function(){
+		        	 			location.href="{:U('Index/index',array('r'=>'car'))}";
+		        	 		})
+		        	 	}else{
+		        	 		layer.msg('删除失败');
+		        	 	}
+		           }
+		     });
+		  layer.close(index);
+		});
+})
+
+
+//批量删除所选
+$('.delSelect').click(function(){
+	var ids='';
+	$('.chkall').each(function(){
+			if($(this).prop('checked')){
+				ids+=$(this).attr('data-gid')+'_'+$(this).attr('dataid')+'_'+$(this).attr('data-isseckill')+'_'+$(this).attr('data-isground')+',';
+			}
+		})
+		ids=ids.substring(0,ids.length-1);
+		layer.confirm('确定删除吗?', {icon: 3, title:'删除商品'}, function(index){
+			 $.ajax({
+			         type: "POST",
+			         url: "{:U('Orders/delCartGoods')}",
+			         data: {ids:ids},
+			         dataType: "json",
+			         success: function(data){
+			        	 	if(data.status==0){
+			        	 		layer.msg('删除成功');;
+			        	 		setTimeout(function(){
+			        	 			location.href="{:U('Index/index',array('r'=>'car'))}";
+			        	 		})
+			        	 	}else{
+			        	 		layer.msg('删除失败');
+			        	 	}
+			           }
+			     });
+		  layer.close(index);
+		});
+})
+
+var swiper = new Swiper('.four_swiper .swiper-container', {
+		autoplay : 3000,
+		paginationtouchendable : false,
+		pagination : '.four_swiper .swiper-pagination',
+	});
+
+	function page(page) {
+		$('#editCart').hide();
+		switch (page) {
+		case 1:
+			$('title').text('首页');
+			$('.searchNav').show();
+			$('#page1').show();
+			$('#page2').hide();
+			$('#page3').hide();
+			$('#page4').hide();
+			$('#page5').hide();
+			$('#page1');
+			$('._titles').text('首页');
+			$('#one').attr('src', '__IMG__/home_click_2.png');
+			$('#two').attr('src', '__IMG__/fenlei_click_1.png');
+			$('#three').attr('src', '__IMG__/jifen_click_1.png');
+			$('#four').attr('src', '__IMG__/goshop_click_1.png');
+			$('#five').attr('src', '__IMG__/my_click_1.png');
+			break;
+		case 2:
+			loaded();
+			$('title').text('分类');
+			$('.searchNav').hide();
+			$('#page2').show();
+			$('#page1').hide();
+			$('#page3').hide();
+			$('#page4').hide();
+			$('#page5').hide();
+			$('._titles').text('分类');
+			$('title').text('分类');
+			$('#one').attr('src', '__IMG__/home_click_1.png');
+			$('#two').attr('src', '__IMG__/fenlei_click_2.png');
+			$('#three').attr('src', '__IMG__/jifen_click_1.png');
+			$('#four').attr('src', '__IMG__/goshop_click_1.png');
+			$('#five').attr('src', '__IMG__/my_click_1.png');
+			break;
+		case 3:
+			$('title').text('积分乐园');
+			$('.searchNav').hide();
+			$('#page3').show();
+			$('#page1').hide();
+			$('#page2').hide();
+			$('#page4').hide();
+			$('#page5').hide();
+			$('._titles').text('积分乐园');
+			$('#one').attr('src', '__IMG__/home_click_1.png');
+			$('#two').attr('src', '__IMG__/fenlei_click_1.png');
+			$('#three').attr('src', '__IMG__/jifen_click_2.png');
+			$('#four').attr('src', '__IMG__/goshop_click_1.png');
+			$('#five').attr('src', '__IMG__/my_click_1.png');
+			break;
+		case 4:
+			$('title').text('购物车');
+			$('.searchNav').hide();
+			$('#page4').show();
+			$('#page1').hide();
+			$('#page3').hide();
+			$('#page2').hide();
+			$('#page5').hide();
+			$('#editCart').show();
+			$('._titles').text('购物车');
+			$('#one').attr('src', '__IMG__/home_click_1.png');
+			$('#two').attr('src', '__IMG__/fenlei_click_1.png');
+			$('#three').attr('src', '__IMG__/jifen_click_1.png');
+			$('#four').attr('src', '__IMG__/goshop_click_2.png');
+			$('#five').attr('src', '__IMG__/my_click_1.png');
+			break;
+		case 5:
+			$('title').text('我的');
+			$('.searchNav').hide();
+			$('#page5').show();
+			$('#page1').hide();
+			$('#page3').hide();
+			$('#page4').hide();
+			$('#page2').hide();
+			$('._titles').text('我的');
+			$('#one').attr('src', '__IMG__/home_click_1.png');
+			$('#two').attr('src', '__IMG__/fenlei_click_1.png');
+			$('#three').attr('src', '__IMG__/jifen_click_1.png');
+			$('#four').attr('src', '__IMG__/goshop_click_1.png');
+			$('#five').attr('src', '__IMG__/my_click_2.png');
+			break;
+		}
+		
+	}
+	$(function(){
+		//没达到起送价
+		return;
+		$('.deliveryFlag').each(function(){
+			var id=$(this).attr('data-id');
+			var val=parseFloat($(this).val());
+			var money=parseFloat($('#prc_'+id).text());
+			if(val>money){
+				$("#color_"+id).css('background','#4CD964');
+			}
+		})
+	})
+</script>
+</html>

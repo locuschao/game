@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>商家入驻</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<link rel="stylesheet" href="__CSS__/font.css" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/layer.min.js"></script>
+<script type="text/javascript" src="__JS__/ajaxupload.js"></script>
+<style>
+.col-9 {
+	color: #999
+}
+
+body {
+	padding-top: 50px;
+}
+
+.btn {
+	width: 100%;
+	margin-top: 20px;
+}
+
+.noborder {
+	border: none;
+}
+
+.btn span {
+	width: 40%;
+	margin: 0 auto;
+	height: 40px;
+	line-height: 40px;
+	background: #ff4045;
+	border-radius: 4px;
+	display: block;
+	text-align: center;
+	color: #fff;
+}
+
+.explain {
+	padding: 10px;
+	color: #999;
+	background: #fff;
+}
+
+.explain p {
+	color: #ff4045;
+	background: #fff;
+}
+
+.col_red {
+	color: #f00
+}
+
+.sonCat {
+	width: 100%;
+}
+
+.sonCat a {
+	padding: 10px 20px;
+	background: #fff;
+	border-radius: 4px;
+	display: inline-block;
+	margin-top: 10px;
+	color: #323232;
+	margin-left: 10px;
+}
+
+.sonCat a:first-child {
+	color: #f00;
+}
+
+.newAddAddr {
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
+	-moz-border-image: url(__IMG__/border.png) 10 10 round;
+	/* Old Firefox */
+	-webkit-border-image: url(__IMG__/border.png) 10 10 round;
+	/* Safari and Chrome */
+	-o-border-image: url(__IMG__/border.png) 10 10 round;
+	/* Opera */
+	border-image: url(__IMG__/border.png) 10 10 round;
+}
+
+.input_transpart {
+	background: transparent;
+	border: none;
+	height: 30px;
+	line-height: 30px;
+	width: 90%;
+}
+
+.nobg {
+	background: none;
+}
+
+._content {
+	margin-bottom: 50px;
+}
+
+input[type=color], input[type=date], input[type=datetime-local], input[type=datetime],
+	input[type=email], input[type=month], input[type=number], input[type=password],
+	input[type=search], input[type=tel], input[type=text], input[type=time],
+	input[type=url], input[type=week], select, textarea {
+	border: none;
+	border-radius: 0;
+	margin-bottom: 0;
+	background: none;
+}
+
+input {
+	background: none;
+	background-color: transparent;
+}
+
+.span-r {
+	display: inline-block;
+	width: 45%;
+	height: 40px;
+	border-bottom: #d5d7dc solid 1px;
+	background: url(images/dowlistico.png) 95% center no-repeat;
+	background-size: 9px
+}
+
+.span-r select {
+	border: none;
+	width: 90%;
+	margin: 0;
+	padding: 0;
+	color: #bbbbbb;
+	padding: 10px;
+	width: 90%;
+}
+
+span, select, input {
+	outline: none;
+}
+
+.w90 {
+	background: #fff;
+	width: 90%;
+	margin: 0 auto;
+	text-align: left;
+	height: 40px;
+	line-height: 40px;
+	border-bottom: #d5d7dc solid 1px;
+	width: 90%;
+	background: url(__IMG__/ico_red.png) left center no-repeat;
+	background-size: 10px;
+	text-indent: 15px;
+}
+
+.w90 input {
+	height: 40px;
+	line-height: 40px;
+	width: 90%;
+}
+
+.file input {
+	background: #40c2ff;
+	border: none;
+	border-radius: 4px;
+	width: 80%;
+	height: 35px;
+	line-height: 35px;
+	color: #fff;
+	margin-bottom: 2px;
+}
+
+.pic_title {
+	background: #fff;
+	padding: 5px 10px 0px 20px;
+	color: #323232;
+}
+
+input[readonly] {
+	border: #d5d7dc solid 1px;
+	height: 30px;
+	line-height: 30px;
+	text-indent: 5px;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<form id="form1" name="form1" method="post" action="">
+		<div class="_top">
+			<div class="_left_top"
+				onclick="location.href='{:U('Wx/Index/index',array('r'=>'my'))}' "></div>
+			<div class="_title_top">商家入驻</div>
+			<div class="_right_top no-bg"></div>
+		</div>
+		<div class="explain">
+			以下所需要上传的电子版资质文件公支持JPG/GIF/PNG格式图片，大小请控制在256K之内
+			<p>备注：带星号为必填项，请确保图片清晰，文字可辨</p>
+		</div>
+		<div class="_son_title ub   noborder margin_top10 ">
+			<div class="w90">
+				<input type="text" name="shopname" id="shopname" value=""
+					placeholder="店铺名称" />
+			</div>
+		</div>
+		<div class="_son_title ub   noborder ">
+			<div class="ub-f1 text-l">
+				<span class="span-r"> <select id="cmbCountry">
+						<option>中国</option>
+				</select></span> <span class="span-r"> <select id="cmbProvince"
+					style="clear: right;">
+						<volist name="areaInfo" id="province">
+						<option value="{$province.areaId}">{$province.areaName}</option>
+						</volist>
+				</select>
+				</span>
+			</div>
+		</div>
+		<div class="_son_title ub  noborder ">
+			<div class="ub-f1 text-l">
+				<span class="span-r"> <select id="cmbCity"></select></span> <span
+					class="span-r"><select id="cmbArea" style="clear: right;"></select></span>
+			</div>
+		</div>
+		<div class="_son_title ub  noborder  ">
+			<div class="ub-f1 text-l  w90">
+				<span class="span-r" style="width: 100%;"> <select id="srot">
+						<option value="0">请选择店铺类型</option>
+						<volist name="sort" id="s">
+						<option value="{$s.catId}">{$s.catName}</option>
+						</volist>
+				</select></span>
+			</div>
+		</div>
+		<div class="_son_title ub   noborder  ">
+			<div class="w90">
+				<input type="text" name="shop_address" id="shop_address" value=""
+					placeholder="店铺详细地址" />
+			</div>
+		</div>
+		<div class="_son_title ub   noborder  ">
+			<div class="w90">
+				<input type="text" name="userName" id="userName" value=""
+					placeholder="联系人姓名" />
+			</div>
+		</div>
+		<div class="_son_title ub   noborder  ">
+			<div class="w90">
+				<input type="text" name="userPhone" id="userPhone" value=""
+					placeholder="联系人电话" />
+			</div>
+		</div>
+		<div class="_son_title ub   noborder  ">
+			<div class="w90 nobg" style="background: none;">
+				<input type="text" name="email" id="email" value=""
+					placeholder="电子邮件" />
+			</div>
+		</div>
+		<div class="_son_title ub   noborder  ">
+			<div class="w90 " style="background: none;">
+				<input type="text" name="license" id="license" value=""
+					placeholder="营业执照编号" />
+			</div>
+		</div>
+		<div class="_son_title ub   noborder  ">
+			<div class="w90 ">
+				<input type="text" name="identity" id="identity" value=""
+					placeholder="身份证号码" />
+			</div>
+		</div>
+		<div class="pic_title">营业执照副本电子版</div>
+		<div class="_son_title    noborder   bg-ff">
+			<div class="ub  w90 noborder" style="border: none">
+				<div class="ub-f2 bg-ff pos-r">
+					<div class="pos-a">
+						<input readonly="readonly" type="text" name="license_img"
+							id="license_img" value="" placeholder="营业执照副本电子版" />
+					</div>
+				</div>
+				<div class=" file ub-f1 bg-ff pos-r">
+					<div class="pos-a">
+						<input type="button" id="u_license_imgfile"
+							onclick="uploadImg('u_license_imgfile','license_imgfile')"
+							value="上传图片" />
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="pic_title">身份证正面电子版</div>
+		<div class="_son_title    noborder   bg-ff">
+			<div class="ub  w90 noborder" style="border: none">
+				<div class="ub-f2 bg-ff pos-r">
+					<div class="pos-a">
+						<input readonly="readonly" type="text" name="id_img" value=""
+							id="id_img" placeholder="身份证正面电子版" />
+					</div>
+				</div>
+				<div class=" file ub-f1 bg-ff pos-r">
+					<div class="pos-a">
+						<input type="button" id="u_id_imgfile"
+							onclick="uploadImg('u_id_imgfile','id_imgfile')" value="上传图片" />
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="pic_title">身份证反面电子版</div>
+		<div class="_son_title   bg-ff">
+			<div class="ub  w90 noborder no-bg" style="border: none">
+				<div class="ub-f2 bg-ff pos-r">
+					<div class="pos-a">
+						<input readonly="readonly" type="text" name="id_r_img"
+							id="id_r_img" value="" id="id_r_img" placeholder="身份证反面电子版" />
+					</div>
+				</div>
+				<div class=" file ub-f1 bg-ff pos-r">
+					<div class="pos-a">
+						<input type="button" id="u_id_r_imgfile"
+							onclick="uploadImg('u_id_r_imgfile','id_r_imgfile')" value="上传图片" />
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="btn">
+			<span onclick="next()">提交</span>
+		</div>
+	</form>
+	<input type="file" style="display: none" name="license_imgfile">
+	<input type="file" style="display: none" name="id_imgfile">
+	<input type="file" style="display: none" name="id_r_imgfile">
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script>
+function uploadImg(btnid,filename){
+	var button = $('#'+btnid), interval;
+    var fileType = "pic",fileNum = "one"; 
+    new AjaxUpload(button,{
+        action: "{:U('Join/uppic')}",
+        name: filename,
+        onSubmit : function(file, ext){
+            if(fileType == "pic")
+            {
+                if (ext && /^(jpg|png|jpeg|gif|JPG)$/.test(ext)){
+                    this.setData({
+                        'info': '文件类型为图片'
+                    });
+                } else {
+                	 layer.msg('仅支持.png .jpg .jpeg的图片');  
+                    return false;               
+                }
+            }
+            layer.msg('文件上传中');            
+            if(fileNum == 'one')
+                this.disable();
+        },
+        onComplete: function(file, response){
+			if(response != "success"){
+				if(response =='2'){
+					 layer.msg('图片格式错误');            
+				}else{
+					if(response.length>35){
+						 layer.msg('上传失败');   
+					}else{
+						 layer.msg('上传完成');   
+					 	switch(btnid){
+					 		case 'u_license_imgfile' :
+					 		$('#license_img').val(response);
+					 		break;
+					 		case 'u_id_imgfile':
+					 		$('#id_img').val(response);
+					 		break;
+					 		case 'u_id_r_imgfile':
+					 		$('#id_r_img').val(response);
+					 		break;
+					 	}		
+					}
+				}
+			}
+            window.clearInterval(interval);
+            this.enable();
+            if(response == "success")
+            	layer.msg('上传成功');   
+        }
+    });
+}
+
+function next(){
+	var shopname=$.trim($('#shopname').val());
+	if(shopname==''){layer.msg('请输入店铺名称');return;}
+	var province=$('#cmbProvince').val();
+	if(province==''){layer.msg('请选择省份');return;}
+	var city=$('#cmbCity').val();
+	if(city==''){layer.msg('请选择城市');return;}
+	var area=$('#cmbArea').val();
+	if(area==''){layer.msg('请选择地区');return;}
+	var cate=$('#srot').val();
+	if(cate==''){layer.msg('请选择分类');return;}
+	var shopAddr=$.trim($('#shop_address').val());
+	if(shopAddr==''){layer.msg('请填写店铺地址');return;}
+ 	var userName=$.trim($('#userName').val());
+ 	if(userName==''){layer.msg('请填用户名');return;}
+ 	var userPhone=$.trim($('#userPhone').val());
+ 	if(userPhone==''){layer.msg('请填写手机');return;}
+ 	var telReg = !!userPhone.match(/^1[3|7|4|5|8]{1}\d{9}$/);
+    if (telReg == false) {
+    	layer.msg('手机号码不正确');
+        return;
+    }
+ 	var email=$.trim($('#email').val());
+ 	if(email){
+ 		  var emailReg = !!email.match(/^([0-9a-z_\.-]+)@([0-9a-z\.-]+)\.([a-z]{2,6})$/);
+          if (emailReg == false) {
+        		layer.msg('邮件格式不正确');
+              return;
+          }
+ 	}
+ 	var license=$.trim($('#license').val());
+ 	var identity=$.trim($('#identity').val());
+ 	if(identity==''){layer.msg('请填写身份证号码');return;}
+ 	 var identityReg = !!identity.match(/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/);
+     if (identityReg == false) {
+    	 layer.msg('身份证号码不正确');
+         return;
+     }
+ 	var license_img=$.trim($('#license_img').val());
+ 	var id_img=$.trim($('#id_img').val());
+ 	var id_r_img=$.trim($('#id_r_img').val());
+	$.ajax({
+        type: "POST",
+        url:"{:U('Join/toJoinHandle')}",
+        data:{
+        	shopname:shopname,
+        	sort:cate,
+        	shopAddr:shopAddr,
+        	phone:userPhone,
+        	identity:identity,
+        	permit:license,
+        	identity_zhen:id_img,
+        	identity_fan:id_r_img,
+        	permitImg:license_img,
+        	province:province,
+        	city:city,
+        	area:area,
+        	email:email,
+        	name:userName
+        },
+        success: function(data) {
+        	if(data.status==0){
+        		layer.msg('申请成功');
+        		setTimeout(function(){
+        			location.href="{:U('Index/index',array('r'=>'my'))}";
+        		},2000);
+        	}else if(data.status==-1){
+        		layer.msg('申请失败');
+        		return;
+        	}else if(data.status==-1){
+        		layer.msg('已经申请过');
+        		setTimeout(function(){
+        			location.href="{:U('Index/index',array('r'=>'my'))}";
+        		},2000);
+        		return;
+        	}
+        }
+    });
+}
+
+
+$('#cmbProvince').change(function() {
+    var parentid = $('#cmbProvince').val();
+    $('#cmbCity').html('');
+    $('#cmbArea').html('');
+    getprovince(1, parentid);
+})
+$('#cmbCity').change(function() {
+    var parentid = $('#cmbCity').val();
+    if (parentid == 0) {
+        $('#cmbArea').html('');
+        return;
+    }
+    $('#cmbArea').html('');
+    getprovince(2, parentid);
+})
+//默认获取省份
+function getprovince(id, parentid) {
+	var url="{:U('Address/getCity')}";
+    	  $.ajax({
+              type: "POST",
+              url: url,
+              data: {parentId:parentid},
+              dataType: "json",
+              success: function(data){
+            	  var res = data;
+            	  var html = "<option value='0'>请选择</option>";
+                  for (var i = 0; i < res.length; i++) {
+                      html += '<option value="' + res[i].areaId + '">' + res[i].areaName + '</option>';
+                  }
+                  switch(id) {
+                  case 0:
+                      $('#cmbProvince').html(html);
+                      break;
+                  case 1:
+                      $('#cmbCity').html(html);
+                      break;
+                  case 2:
+                      $('#cmbArea').html(html);
+                      break;
+                  }
+               }
+          });
+    };
+</script>
+</html>

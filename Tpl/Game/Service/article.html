@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>{$info.articleTitle}</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/layer.min.js"></script>
+<style>
+body {
+	margin-top: 45px;
+	background: #fff;
+}
+
+p {
+	background: none;
+	text-align: left;
+}
+
+._imgWidth img {
+	width: 40px;
+	text-align: center;
+}
+
+.ul_list {
+	width: 95%;
+	background: #fff;
+	padding-top: 10px;
+	background: #fff;
+	margin: 0 auto;
+}
+
+.ul_list p {
+	text-align: left;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<div class="_top">
+		<div class="_left_top"
+			onclick="location.href='{:U('Service/index')}' "></div>
+		<div class="_title_top">{$info.articleTitle}</div>
+		<div class="_right_top no-bg"></div>
+	</div>
+	<div class="ul_list">{$info.articleContent}</div>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script>
+	
+</script>
+</html>

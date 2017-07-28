@@ -1,0 +1,267 @@
+<extend name="Shops:layout" />
+<block name="content"> <script>
+	var statusMark = 0;
+	$(function () {
+		$('#tab').TabPanel({tab:statusMark,callback:function(tab){
+			statusMark = tab;
+			queryOrderPager(statusMark,0);
+		}});
+	});
+	</script>
+<style>
+.wst-btn-delivery {
+	border: 1px solid #00CDCD;
+	height: 30px;
+	width: 100px;
+	background-color: #00CDCD;
+	color: #ffffff;
+	border-radius: 2px;
+	cursor: pointer;
+	margin: 2px;
+}
+
+.deliveryType {
+	width: 300px;
+	height: 180px;
+	display: none;
+	position: fixed;
+	left: 0px;
+	right: 0px;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: #fff;
+	border-radius: 2px;
+	border: 1px solid blue;
+	font-size: 20px;
+}
+
+.deliveryExpress {
+	width: 300px;
+	height: 180px;
+	display: none;
+	position: fixed;
+	left: 0px;
+	right: 0px;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: #fff;
+	border-radius: 2px;
+	border: 1px solid blue;
+	font-size: 20px;
+	z-index: 10;
+}
+/**
+ * @author peng
+ * @copyright 2016
+ * @remark
+ */
+ table.wst-list thead tr th {
+    text-align: center;
+ }
+</style>
+<div class='deliveryType' id="deliveryType"></div>
+<div class='deliveryExpress' id="deliveryExpress"></div>
+<div class="wst-body" style="margin-bottom: 8px;">
+	<div class='wst-page-header'>卖家中心 > 订单管理</div>
+	<div class='wst-page-content' style="padding-top: 10px;">
+		<div id='tab' class="wst-tab-box">
+			<ul class="wst-tab-nav">
+				<li id="wst-msg-li-0">全部订单<span style="display: none;"
+					class="wst-order-tips-box"></span></li>
+				<li id="wst-msg-li-0">未处理<span style="display: none;"
+					class="wst-order-tips-box"></span></li>
+				<li id="wst-msg-li-1">已发货<span style="display: none;"></span></li>
+				<li id="wst-msg-li-4">已完成<span style="display: none;"
+					class="wst-order-tips-box"></span></li>
+			</ul>
+			<div class="wst-tab-content" style='width: 98%;'>
+				<!-- 待受理 -->
+				<div class='wst-tab-item'>
+					<div>
+						<table class='wst-list' style="font-size: 13px;">
+							<thead>
+								<tr>
+									<th colspan="7" class="wst-form">订单编号：<input type="text"
+										id="orderNo_0" style='width: 120px;' autocomplete="off" />
+										所属游戏：<input type="text" id="gameName_0" style='width: 120px;'
+										autocomplete="off" /> 游戏版本：<input type="text" id="versions_0"
+										style='width: 120px;' autocomplete="off" /> 下单日期：<input
+										class="laydate-icon" onclick="laydate()" type='text'
+										id='starDay_0' name='starDay_0' value='' /> - <input
+										class="laydate-icon" onclick="laydate()" type='text'
+										id='endDay_0' name='endDay' value='' />
+										<button class='wst-btn-query' onclick="queryOrderPager(0,0)">查询</button>
+									</th>
+								</tr>
+								<tr>
+									<th width='20'><input type='checkbox'
+										onclick='WST.checkChks(this,".chk_0")' /></th>
+									<th width='100'>订单编号</th>
+									<th width='100'>订单类型</th>
+									<th width='100'>商品标题</th>
+									<th width='100'>商品所属游戏</th>
+									<th width='100'>版本</th>
+									<th width='100'>商品数量</th>
+									<th width='100'>总计金额</th>
+									<th width='100'>下单时间</th>
+									<th width='100'>操作</th>
+								</tr>
+							</thead>
+							<tbody id="otbody0">
+							</tbody>
+							<tfoot>
+								<tr>
+									<td colspan='10' align='center' id="opage_0">
+										<div id="wst-page-0" class='wst-page'
+											style="float: right; padding-bottom: 10px;"></div>
+									</td>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+					<div style='clear: both;'></div>
+				</div>
+				<!-- 待处理 -->
+				<div class='wst-tab-item' style="display: none;">
+					<div>
+						<table class='wst-list' style="font-size: 13px;">
+							<thead>
+								<tr>
+									<th colspan="7" class="wst-form">订单编号：<input type="text"
+										id="orderNo_1" style='width: 120px;' autocomplete="off" />
+										所属游戏：<input type="text" id="gameName_1" style='width: 120px;'
+										autocomplete="off" /> 游戏版本：<input type="text" id="versions_1"
+										style='width: 120px;' autocomplete="off" /> 下单日期：<input
+										class="laydate-icon" onclick="laydate()" type='text'
+										id='starDay_1' name='starDay_0' value='' /> - <input
+										class="laydate-icon" onclick="laydate()" type='text'
+										id='endDay_1' name='endDay' value='' />
+										<button class='wst-btn-query' onclick="queryOrderPager(1,0)">查询</button>
+									</th>
+								</tr>
+								<tr>
+									<th width='20'><input type='checkbox'
+										onclick='WST.checkChks(this,".chk_1")' /></th>
+									<th width='100'>订单编号</th>
+									<th width='100'>订单类型</th>
+									<th width='100'>商品标题</th>
+									<th width='100'>商品所属游戏</th>
+									<th width='100'>版本</th>
+									<th width='100'>商品数量</th>
+									<th width='100'>总计金额</th>
+									<th width='100'>下单时间</th>
+									<th width='100'>操作</th>
+								</tr>
+							</thead>
+							<tbody id="otbody1">
+							</tbody>
+							<tfoot>
+								<tr>
+									<td colspan='10' align='center' id="opage_1">
+										<div id="wst-page-1" class="wst-page"
+											style="float: right; padding-bottom: 10px;"></div>
+									</td>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+					<div style='clear: both;'></div>
+				</div>
+				<!-- 已发货 -->
+				<div class='wst-tab-item' style="display: none;">
+					<div>
+						<table class='wst-list' style="font-size: 13px;">
+							<thead>
+								<tr>
+									<th colspan="7" class="wst-form">订单编号：<input type="text"
+										id="orderNo_2" style='width: 120px;' autocomplete="off" />
+										所属游戏：<input type="text" id="gameName_2" style='width: 120px;'
+										autocomplete="off" /> 游戏版本：<input type="text" id="versions_2"
+										style='width: 120px;' autocomplete="off" /> 下单日期：<input
+										class="laydate-icon" onclick="laydate()" type='text'
+										id='starDay_2' name='starDay_2' value='' /> - <input
+										class="laydate-icon" onclick="laydate()" type='text'
+										id='endDay_2' name='endDay' value='' />
+										<button class='wst-btn-query' onclick="queryOrderPager(2,0)">查询</button>
+									</th>
+								</tr>
+								<tr>
+									<th width='20'><input type='checkbox'
+										onclick='WST.checkChks(this,".chk_2")' /></th>
+									<th width='100'>订单编号</th>
+									<th width='100'>订单类型</th>
+									<th width='100'>商品标题</th>
+									<th width='100'>商品所属游戏</th>
+									<th width='100'>版本</th>
+									<th width='100'>商品数量</th>
+									<th width='100'>总计金额</th>
+									<th width='100'>下单时间</th>
+									<th width='100'>操作</th>
+								</tr>
+							</thead>
+							<tbody id="otbody2">
+							</tbody>
+							<tfoot>
+								<tr>
+									<td colspan='10' align='center' id="opage_2">
+										<div id="wst-page-2" class="wst-page"
+											style="float: right; padding-bottom: 10px;"></div>
+									</td>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+					<div style='clear: both;'></div>
+				</div>
+				<!-- 已完成 -->
+				<div class='wst-tab-item' style="display: none;">
+					<div>
+						<table class='wst-list' style="font-size: 13px;">
+							<thead>
+								<tr>
+									<th colspan="7" class="wst-form">订单编号：<input type="text"
+										id="orderNo_3" style='width: 120px;' autocomplete="off" />
+										所属游戏：<input type="text" id="gameName_3" style='width: 120px;'
+										autocomplete="off" /> 游戏版本：<input type="text" id="versions_3"
+										style='width: 120px;' autocomplete="off" /> 下单日期：<input
+										class="laydate-icon" onclick="laydate()" type='text'
+										id='starDay_3' name='starDay_2' value='' /> - <input
+										class="laydate-icon" onclick="laydate()" type='text'
+										id='endDay_3' name='endDay' value='' />
+										<button class='wst-btn-query' onclick="queryOrderPager(3,0)">查询</button>
+									</th>
+								</tr>
+								<tr>
+									<th width='20'><input type='checkbox'
+										onclick='WST.checkChks(this,".chk_3")' /></th>
+									<th width='100'>订单编号</th>
+									<th width='100'>订单类型</th>
+									<th width='100'>商品标题</th>
+									<th width='100'>商品所属游戏</th>
+									<th width='100'>版本</th>
+									<th width='100'>商品数量</th>
+									<th width='100'>总计金额</th>
+									<th width='100'>下单时间</th>
+									<th width='100'>操作</th>
+								</tr>
+							</thead>
+							<tbody id="otbody3">
+							</tbody>
+							<tfoot>
+								<tr>
+									<td colspan='10' align='center' id="opage_3">
+										<div id="wst-page-2" class="wst-page"
+											style="float: right; padding-bottom: 10px;"></div>
+									</td>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+					<div style='clear: both;'></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div style='clear: both;'></div>
+</div>
+</block>

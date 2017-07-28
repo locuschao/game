@@ -1,0 +1,126 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="cache-control" content="no-cache">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>订单信息 - {$CONF['mallTitle']}</title>
+	<include file="./Tpl/homeHead.html" />
+<link rel="stylesheet" href="__CSS__/common.css" />
+<link rel="stylesheet" href="__CSS__/checkorderinfo.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<link rel="stylesheet" href="__CSS__/head.css" />
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<include file="Public:header_common" />
+	<div class="w">
+		<div style="">
+			<br />
+			<div class="wst-odetal-box">
+				<table cellspacing="0" cellpadding="0" class="wst-tab" width="1210">
+					<caption class="wst-tab-cpt">
+						日志信息 <span style="color: blue; float: right;"> <if
+								condition='$order["orderStatus"] eq 1)'> 待处理 <elseif
+								condition='$orderInfo["order"]["orderStatus"] eq 2' />已发货 <elseif
+								condition='$orderInfo["order"]["orderStatus"] eq 3' />已完成 </if>
+					</caption>
+					</span>
+					<tbody>
+						<volist name="orderInfo['logs']" id="log" key='key1'>
+						<tr>
+							<td width="200">{$log["logTime"]}</td>
+							<td class="wst-td-content">{$log["logContent"]}</td>
+						</tr>
+						</volist>
+					</tbody>
+				</table>
+			</div>
+			<br />
+			<br />
+			<div class="wst-odetal-box">
+				<table cellspacing="0" cellpadding="0" class="wst-tab" width="1210">
+					<caption class="wst-tab-cpt">订单信息</caption>
+					<tbody>
+						<tr>
+							<td class="wst-td-title">订单编号：</td>
+							<td class="wst-td-content">{$orderInfo["order"]["orderNo"]}</td>
+						</tr>
+						<tr>
+							<td class="wst-td-title">支付方式：</td>
+							<td class="wst-td-content"><if
+									condition='$orderInfo["order"]["payType"]==0'>货到付款<else />在线支付</if></td>
+						</tr>
+						<tr>
+							<td class="wst-td-title">下单时间：</td>
+							<td class="wst-td-content">{$orderInfo["order"]["createTime"]}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<br />
+			<br />
+			<div class="wst-odetal-box">
+				<table cellspacing="0" cellpadding="0" class="wst-tab" width="1210">
+					<caption class="wst-tab-cpt">收货人信息</caption>
+					<tbody>
+						<tr>
+							<td class="wst-td-title">收货人姓名：</td>
+							<td class="wst-td-content">{$orderInfo["order"]["userName"]}</td>
+						</tr>
+						<tr>
+							<td class="wst-td-title">手机号：</td>
+							<td class="wst-td-content">{$orderInfo["order"]["userPhone"]}</td>
+						</tr>
+						<tr>
+							<td class="wst-td-title">QQ号：</td>
+							<td class="wst-td-content">{$orderInfo["order"]["qq"]}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<br />
+			<br />
+			<div class="wst-odetal-box" style='padding-bottom: 5px;'>
+				<table cellspacing="0" cellpadding="0" class="wst-tab" width="1210"
+					style="margin: 0 auto;">
+					<caption class="wst-tab-cpt">商品信息</caption>
+					<tbody>
+						<tr>
+							<td class="wst-td-title">商品名称：</td>
+							<td class="wst-td-content">{$orderInfo["order"]["goodsName"]}</td>
+						</tr>
+						<tr>
+							<td class="wst-td-title">所属游戏：</td>
+							<td class="wst-td-content">{$orderInfo["order"]["gameName"]}</td>
+						</tr>
+						<tr>
+							<td class="wst-td-title">游戏版本：</td>
+							<td class="wst-td-content">{$orderInfo["order"]["vName"]}</td>
+						</tr>
+						<tr>
+							<td class="wst-td-title">商品数量：</td>
+							<td class="wst-td-content">{$orderInfo["order"]["goodsNums"]}</td>
+						</tr>
+						<tr>
+							<td class="wst-td-title">商品总金额：</td>
+							<td class="wst-td-content">{$orderInfo["order"]["needPay"]}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div style="clear: both;"></div>
+	<div style="height: 20px;"></div>
+	<include file="./Apps/Home/View/default/footer.html" />
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+
+<script src="__PUBLIC__/js/common.js"></script>
+<script src="__ROOT__/Apps/Home/View/default/js/index.js"></script>
+<script src="__ROOT__/Apps/Home/View/default/js/common.js"></script>
+<script src="__ROOT__/Apps/Home/View/default/js/orders.js"></script>
+
+</html>

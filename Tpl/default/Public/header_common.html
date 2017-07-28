@@ -1,0 +1,128 @@
+<include file="Public:header_nav" />
+<div style="height: 132px;">
+	<div id="mainsearchbox" style="text-align: center;">
+		<div id="wst-search-pbox">
+			<div style="float: left; width: 240px;" class="wst-header-car">
+				<a href='{:WSTDomain()}'> <img id="wst-logo"
+					style="margin-top: 30px; margin-left: 35px; width: 178px; height: 60px;"
+					src="{:WSTDomain()}/{$CONF['mallLogo']}" />
+				</a>
+			</div>
+			<div id="wst-search-container">
+				<div id="wst-search-type-box">
+					<input id="wst-search-type" type="hidden" value="{$searchType}" />
+					<div id="wst-panel-goods"
+						class="<if condition='$searchType eq 1'>wst-panel-curr<else/>wst-panel-notcurr</if>">商品</div>
+					<div id="wst-panel-shop"
+						class="<if condition='$searchType eq 2'>wst-panel-curr<else/>wst-panel-notcurr</if>">店铺</div>
+					<div class="wst-clear"></div>
+				</div>
+				<div id="wst-searchbox">
+					<input id="keyword" class="wst-search-keyword"
+						data="wst_key_search" onkeyup="getSearchInfo(this,event);"
+						placeholder="<if condition='$searchType eq 2'>搜索 店铺<else/>搜索 商品</if>"
+						autocomplete="off" value="{$keyWords}">
+					<div id="btnsch" class="wst-search-button"></div>
+					<div id="wst_key_search_list"
+						style="position: absolute; top: 38px; left: -1px; border: 1px solid #b8b8b8; min-width: 567px; display: none; background-color: #ffffff; z-index: 1000;">dfdf</div>
+				</div>
+				<div id="wst-hotsearch-keys"></div>
+			</div>
+			<div id="wst-search-des-container">
+				<div class="des-box">
+					<div class='wst-reach'>
+						<img src="__IMG__/sadn.png" height="24" width="32"
+							style="margin-top: 5px;" />
+						<div
+							style="float: left; position: absolute; top: 0px; left: 38px;">
+							<span style="font-weight: bolder;">闪电配送</span><br />
+							<span style="color: #fe3689;">最快1小时送达</span>
+						</div>
+					</div>
+					<div class='wst-since'>
+						<img src="__IMG__/sqzt.png" height="32" width="32"
+							style="margin-top: 2px;" />
+						<div
+							style="float: left; position: absolute; top: 0px; left: 38px;">
+							<span style="font-weight: bolder;">社区自提</span><br />
+							<span style="color: #fe3689;">330家自提点</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="headNav">
+	<div class="navCon w1020">
+		<div class="wst-slide-controls">
+			<volist name="indexAds" id="vo" key="k"> <if
+				condition="$k eq 1"> <span class="curr">
+				<!-- {$k} -->
+			</span> <else /> <span class="">
+				<!-- {$k} -->
+			</span> </if> </volist>
+		</div>
+		<div class="navCon-cate fl navCon_on">
+			<div class="navCon-cate-title">
+				<a href="{:U('Home/goods/getGoodsList')}">全部商品分类<img
+					src="__IMG__/jiantou.png"></a>
+			</div>
+
+			<if condition="$ishome eq 1">
+			<div class="cateMenu1">
+				<else />
+				<div class="cateMenu2" style="display: none;">
+			</if>
+			<div id="wst-nvg-cat-box" style="position: relative; display: none;">
+				<div class="wst-nvgbk" style="diplay: none;"></div>
+				<volist name=":WSTGoodsCats()" key="k1" id="vo1"> <if
+					condition="$k1 lt 7">
+				<li class="wst-nvg-cat-nlt6" style="border-top: none;"><else /><li class="wst-nvg-cat-gt6" style="border-top: none;display:none;" >
+				    	
+				</if>
+				<div>
+					<div class="cate-tag">
+						<div class="listModel ">
+							<p>
+								<strong><s{$k1}></s{$k1}>&nbsp;<a style="font-weight: bold;"
+									href="{:U('Home/goods/getGoodsList',array('c1Id'=>$vo1['catId']))}">{$vo1["catName"]}</a></strong>
+							</p>
+						</div>
+					</div>
+				</div>
+				</li>
+
+				</volist>
+
+				<li style="display: none;"></li>
+			</div>
+		</div>
+	</div>
+
+	<div class="navCon-menu fl">
+		<ul class="fl" style="background-color: #fe3689;">
+			<volist name=":WSTNavigation(0)" id="vo">
+			<li><a href="{$vo['navUrl']}"<if
+						condition="$vo['isOpen'] eq 1">target="_blank"</if> <if
+						condition="$vo['active'] eq 1">class="curMenu"</if>>&nbsp;&nbsp;{$vo['navTitle']}&nbsp;&nbsp;</a></li>
+			</volist>
+		</ul>
+	</div>
+	<li id="wst-nvg-cart">
+		<div class='wst-nvg-cart-cost'>
+			&nbsp;<span class="wst-nvg-cart-cnt">购物车0</span>件&nbsp;|&nbsp;<span
+				class="wst-nvg-cart-price">0.00</span>￥
+		</div>
+	</li>
+	<div class="wst-cart-box">
+		<div class="wst-nvg-cart-goods">购物车中暂无商品</div>
+	</div>
+</div>
+</div>
+<script>
+		$(function(){
+			checkCart();
+		});
+		</script>
+

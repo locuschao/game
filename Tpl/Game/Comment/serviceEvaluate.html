@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>服务评价</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/layer.min.js"></script>
+<style>
+.star {
+	width: 130px;
+}
+
+.star ul li {
+	background-color: none;
+	width: 20px;
+	text-align: right;
+	margin-left: 5px;
+	background: url(__IMG__/star_d.png) center no-repeat;
+	background-size: 20px;
+	height: 45px;
+	line-height: 45px;
+	float: left;
+}
+
+.pj {
+	width: 100%;
+	text-align: right;
+}
+
+.pj span {
+	padding: 5px 10px 5px 20px;
+	color: #ff4045;
+	border: #ff4045 solid 1px;
+	border-radius: 3px;
+	margin-right: 10px;
+	background: url(__IMG__/pen.png) 3px center no-repeat;
+	background-size: 14px;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<div class="_top">
+		<php> $url=explode('_',$_GET['ref']); $a=$url[0]; $m=$url[1];
+		$p=$url[2]; $refUrl=U("$a/$m",array('id'=>$p)); </php>
+		<div class="_left_top"
+			onclick='javascript:window.location.href="<php>echo $refUrl;</php>"'></div>
+		<div class="_title_top">评价中心</div>
+		<div class="_right_top nobackground"></div>
+	</div>
+	<div class="_content">
+		<div class="ub lh45 bg-ff bor_b">
+			<div class="ub-f1 text-l">物流服务评价</div>
+			<div class="ub-f1 text-r margin_right10 col-9">物流服务评价</div>
+		</div>
+		<div class="ub lh45 bg-ff ">
+			<div class="ub-f1 text-l col-9">商品包装满意度</div>
+			<div class=" text-r margin_right10 star one" data-type="0">
+				<ul>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+				</ul>
+			</div>
+		</div>
+		<div class="ub lh45 bg-ff ">
+			<div class="ub-f1 text-l col-9">送货速度满意度</div>
+			<div class=" text-r margin_right10 star two" data-type="1">
+				<ul>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+				</ul>
+			</div>
+		</div>
+		<div class="ub lh45 bg-ff ">
+			<div class="ub-f1 text-l col-9">配送人员的服务满意度</div>
+			<div class=" text-r margin_right10 star three" data-type="2">
+				<ul>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="ub lh45 bg-ff  bor_b">
+		<div class="pj ub-f1 ">
+			<span id="submit">评价晒单</span>
+		</div>
+	</div>
+	<input type="hidden" id="pack" name="pack" value="" />
+	<input type="hidden" id="gid" name="gid" value="{$_GET['gid']}" />
+	<input type="hidden" id="oid" name="oid" value="{$_GET['oid']}" "/>
+	<input type="hidden" id="speed" name="speed" value="" />
+	<input type="hidden" id="service" name="service" value="" />
+	<input type="hidden" id="isrepeat" name="isrepeat" value="0" />
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script>
+	$('body').on('click','#submit',function(){
+		var pack=$.trim($('#pack').val());
+		var speed=$.trim($('#speed').val());
+		var service=$.trim($('#service').val());
+		var oid=$('#oid').val();
+		var gid=$('#gid').val();
+		if(pack==''||speed==''||service==''){
+			layer.msg('请认真评分');
+			return;
+		}
+		  $.ajax({
+	            type: "POST",
+	            url: "{:U('Comment/serviceEvaluateHandle')}",
+	            data: {
+	            	pack:pack,
+	            	speed:speed,
+	            	service:service,
+	            	oid:oid,
+	            	gid:gid
+	            },
+	            dataType: "json",
+	            success: function(data){
+	                try{
+	                    if(data.status==0){
+	                        layer.msg('评价成功！');
+	                        setTimeout(function(){
+	                            window.location.href="<php>echo $refUrl;</php>";
+	                        },2000)
+	                    }else if(data.status==-2){
+	                    	  layer.msg('已经评价过了');
+	                    }else if(data.status==-3){
+	                    	  layer.msg('请先登录');
+	                    }else{
+	                    	  layer.msg('提交失败');
+	                    }
+	                }catch(err){
+
+	                }
+	                console.log(data);
+	            }
+	        });
+	})
+
+
+
+	$('body').on('click','.star ul li',function(){
+		  var type=$(this).parent().parent().attr('data-type');
+		  var id='';
+		  var Index = $(this).index();
+		  switch(Number(type)){
+		  case 0:id='.one';$('#pack').val(Index+1);break;
+		  case 1:id='.two';$('#speed').val(Index+1);break;
+		  case 2:id='.three';$('#service').val(Index+1);break;
+		  }
+		  for(var i=0; i<=Index;i++){
+			  $(id+' ul li').eq(i).css({
+				  'background':'url(__IMG__/star_a.png) center no-repeat',
+				  'background-size':'20px',
+			  });
+		  }
+		  for(var j=4; j>Index;j--){
+			  $(id+' ul li').eq(j).css({
+				  'background':'url(__IMG__/star_d.png) center no-repeat',
+				  'background-size':'20px',
+			  });
+		  } 
+	})
+</script>
+</html>

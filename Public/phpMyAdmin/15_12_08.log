@@ -1,0 +1,280 @@
+[ 2015-12-08T00:07:30+08:00 ] 127.0.0.1 /index.php/Admin/images/top_loader.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000021s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000698s ]
+
+[ 2015-12-08T00:07:30+08:00 ] 127.0.0.1 /index.php/Admin/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000779s ]
+
+[ 2015-12-08T00:11:52+08:00 ] 127.0.0.1 /index.php/Admin/Index/Public/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000674s ]
+
+[ 2015-12-08T00:22:22+08:00 ] 127.0.0.1 /index.php/Admin/Index/Public/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000024s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001071s ]
+
+[ 2015-12-08T00:35:34+08:00 ] 127.0.0.1 /index.php/Admin/Index/Public/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000763s ]
+
+[ 2015-12-08T00:55:03+08:00 ] 127.0.0.1 /index.php/Admin/Index/Public/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000690s ]
+
+[ 2015-12-08T00:56:27+08:00 ] 127.0.0.1 /index.php/Admin/Index/Public/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000024s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000908s ]
+
+[ 2015-12-08T00:57:09+08:00 ] 127.0.0.1 /index.php/Admin/Index/Public/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000862s ]
+
+[ 2015-12-08T00:57:54+08:00 ] 127.0.0.1 /index.php/Admin/Index/Public/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000184s ]
+INFO: [ app_init ] --END-- [ RunTime:0.003303s ]
+
+[ 2015-12-08T00:58:25+08:00 ] 127.0.0.1 /index.php/Admin/Index/Public/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000017s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000668s ]
+
+[ 2015-12-08T00:59:11+08:00 ] 127.0.0.1 /index.php/Admin/Index/Public/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000021s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000853s ]
+
+[ 2015-12-08T01:00:09+08:00 ] 127.0.0.1 /index.php/Admin/Index/Public/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000797s ]
+
+[ 2015-12-08T01:00:40+08:00 ] 127.0.0.1 /index.php/Admin/Index/Public/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000025s ]
+INFO: [ app_init ] --END-- [ RunTime:0.005855s ]
+
+[ 2015-12-08T01:29:58+08:00 ] 127.0.0.1 /index.php/Admin/Index/Public/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000892s ]
+
+[ 2015-12-08T01:30:59+08:00 ] 127.0.0.1 /index.php/Admin/Index/Public/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000021s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000650s ]
+
+[ 2015-12-08T01:36:22+08:00 ] 127.0.0.1 /index.php/Admin/Index/Public/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000758s ]
+
+[ 2015-12-08T01:57:45+08:00 ] 127.0.0.1 /index.php/Admin/images/top_loader.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000026s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000972s ]
+
+[ 2015-12-08T01:57:45+08:00 ] 127.0.0.1 /index.php/Admin/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000020s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000657s ]
+
+[ 2015-12-08T02:05:14+08:00 ] 127.0.0.1 /index.php/Admin/Index/Public/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000020s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000679s ]
+
+[ 2015-12-08T02:32:38+08:00 ] 127.0.0.1 /index.php/Admin/Index/Public/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000802s ]
+
+[ 2015-12-08T03:38:40+08:00 ] 127.0.0.1 /index.php/Admin/Index/Public/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000019s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000657s ]
+
+[ 2015-12-08T03:44:42+08:00 ] 127.0.0.1 /index.php/Admin/Index/Public/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.002947s ]
+
+[ 2015-12-08T03:46:44+08:00 ] 127.0.0.1 /index.php/Admin/Index/Public/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000020s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000743s ]
+
+[ 2015-12-08T03:46:55+08:00 ] 127.0.0.1 /index.php/Admin/Index/Public/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000019s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000627s ]
+
+[ 2015-12-08T03:50:25+08:00 ] 127.0.0.1 /index.php/Admin/Index/Public/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000019s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000631s ]
+
+[ 2015-12-08T04:04:53+08:00 ] 127.0.0.1 /index.php/Admin/Index/Public/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000020s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000681s ]
+
+[ 2015-12-08T04:07:53+08:00 ] 127.0.0.1 /index.php/Admin/Index/Public/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000019s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000656s ]
+
+[ 2015-12-08T04:08:39+08:00 ] 127.0.0.1 /index.php/Admin/Index/Public/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.001472s ]
+INFO: [ app_init ] --END-- [ RunTime:0.002222s ]
+
+[ 2015-12-08T04:09:57+08:00 ] 127.0.0.1 /index.php/Admin/Index/Public/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000021s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000771s ]
+
+[ 2015-12-08T04:23:43+08:00 ] 127.0.0.1 /index.php/Admin/Index/Public/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000020s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000684s ]
+
+[ 2015-12-08T04:49:27+08:00 ] 127.0.0.1 /index.php/Admin/Index/Public/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000026s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000614s ]
+
+[ 2015-12-08T04:59:23+08:00 ] 127.0.0.1 /index.php/Admin/Index/Public/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000846s ]
+
+[ 2015-12-08T05:00:38+08:00 ] 127.0.0.1 /index.php/Admin/Index/Public/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000021s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000672s ]
+
+[ 2015-12-08T05:08:18+08:00 ] 127.0.0.1 /index.php/Admin/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000019s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000634s ]
+
+[ 2015-12-08T05:41:47+08:00 ] 127.0.0.1 /index.php/Admin/Index/Public/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.008619s ]
+
+[ 2015-12-08T06:06:27+08:00 ] 127.0.0.1 /index.php/Admin/Index/Public/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000020s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000669s ]
+
+[ 2015-12-08T06:21:00+08:00 ] 127.0.0.1 /index.php/Admin/Index/Public/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000020s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000675s ]
+
+[ 2015-12-08T06:32:33+08:00 ] 127.0.0.1 /index.php/Admin/Index/Public/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000650s ]
+
+[ 2015-12-08T06:33:09+08:00 ] 127.0.0.1 /index.php/Admin/Index/Public/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000021s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000679s ]
+
+[ 2015-12-08T06:37:26+08:00 ] 127.0.0.1 /index.php/Admin/Index/Public/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000019s ]
+INFO: [ app_init ] --END-- [ RunTime:0.002684s ]
+
+[ 2015-12-08T06:39:27+08:00 ] 127.0.0.1 /index.php/Admin/Index/Public/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000793s ]
+
+[ 2015-12-08T06:58:08+08:00 ] 127.0.0.1 /index.php/Admin/Index/Public/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000020s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000756s ]
+
+[ 2015-12-08T07:15:27+08:00 ] 127.0.0.1 /index.php/Admin/Index/Public/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000021s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000769s ]
+
+[ 2015-12-08T07:23:28+08:00 ] 127.0.0.1 /index.php/Admin/Index/Public/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000020s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000659s ]
+
+[ 2015-12-08T07:24:07+08:00 ] 127.0.0.1 /index.php/Admin/Index/Public/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000020s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000626s ]
+
+[ 2015-12-08T09:07:44+08:00 ] 127.0.0.1 /index.php/Admin/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000025s ]
+INFO: [ app_init ] --END-- [ RunTime:0.002187s ]
+
+[ 2015-12-08T09:07:44+08:00 ] 127.0.0.1 /index.php/Admin/images/top_loader.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000017s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000706s ]
+
+[ 2015-12-08T09:07:51+08:00 ] 127.0.0.1 /index.php/Admin/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000686s ]
+
+[ 2015-12-08T09:07:54+08:00 ] 127.0.0.1 /index.php/Admin/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000020s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000619s ]
+
+[ 2015-12-08T09:07:54+08:00 ] 127.0.0.1 /index.php/Admin/images/top_loader.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000018s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000596s ]
+
+[ 2015-12-08T09:07:55+08:00 ] 127.0.0.1 /index.php/Admin/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000019s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000605s ]
+
+[ 2015-12-08T09:07:55+08:00 ] 127.0.0.1 /index.php/Admin/images/top_loader.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000021s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000685s ]
+
+[ 2015-12-08T09:08:15+08:00 ] 127.0.0.1 /index.php/Admin/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000020s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000643s ]
+
+[ 2015-12-08T09:11:07+08:00 ] 127.0.0.1 /index.php/Admin/images/top_loader.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000020s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000693s ]
+
+[ 2015-12-08T09:11:07+08:00 ] 127.0.0.1 /index.php/Admin/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000698s ]
+
+[ 2015-12-08T09:11:09+08:00 ] 127.0.0.1 /index.php/Admin/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000021s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000679s ]
+

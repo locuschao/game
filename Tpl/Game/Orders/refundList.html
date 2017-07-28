@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>退款/售后</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<link rel="stylesheet" href="__CSS__/font.css" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/layer.min.js"></script>
+<style>
+.font90 {
+	font-size: 90%;
+}
+
+.layui-layer-btn a {
+	font-weight: normal
+}
+
+body {
+	padding-bottom: 50px;
+}
+
+.col-red {
+	color: #ff4045
+}
+
+.right_arrows {
+	background-size: 7px;
+}
+
+.imgwh img {
+	width: 72px;
+	height: 72px;
+}
+
+.padd-tb {
+	padding: 10px 0px;
+}
+
+.lh35 {
+	height: 35px;
+	line-height: 35px;
+}
+
+.bv {
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+}
+
+.h40 {
+	height: 35px;
+	overflow: hidden;
+}
+
+.color, .sev {
+	height: 20px;
+	line-height: 20px;
+	color: #999;
+	font-size: 90%;
+}
+
+.sev span {
+	background: #ff4045;
+	padding: 3px 6px;
+	width: auto;
+	color: #fff;
+	border-radius: 2px;
+}
+
+.btn span {
+	border: #666 solid 1px;
+	border-radius: 2px;
+	color: #666
+}
+
+.btns span:last-child {
+	border: #ff4045 solid 1px;
+	border-radius: 2px;
+	color: #ff4045
+}
+
+.white-checkbox input[type=checkbox]:before, .mui-radio input[type=radio]:before
+	{
+	color: #ccc;
+}
+
+.mui-checkbox input[type=checkbox]:before, .mui-radio input[type=radio]:before
+	{
+	font-size: 20px;
+}
+
+.fw {
+	font-weight: 550;
+}
+
+.hbpay span {
+	display: block;
+	width: 50%;
+	height: 35px;
+	line-height: 35px;
+	border-radius: 4px;
+	border: #ff4045 solid 1px;
+	color: #ff4045;
+	margin: 0 auto;
+	margin-top: 12px;
+}
+
+#refundReason {
+	width: 90%;
+	height: 40px;
+	line-height: 40px;
+	background: transparent;
+	border: none;
+}
+
+#refundMoney, #explain {
+	background: none;
+	background: transparent;
+	border: none;
+	height: 40px;
+	line-height: 40px;
+}
+
+#explain {
+	width: 95%;
+	height: 40px;
+	line-height: 40px;
+}
+
+.upImg {
+	width: 90%;
+	margin: 10px auto 10px auto;
+	text-align: right;
+	padding: 10px;
+	border: #999 dashed 1px;
+	background: url(__IMG__/upimg_ico.png) 10px center no-repeat;
+	background-size: 20px;
+}
+
+.lx {
+	width: 100px;
+	text-align: left;
+	text-indent: 30px;
+	margin-top: 5px;
+	background: url(__IMG__/lx.png) 5px center no-repeat;
+	background-size: 15px;
+	display: block;
+	height: 30px;
+	line-height: 30px;
+	float: right;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<div class="_top">
+		<div class="_left_top" onclick='javascript:window.location.href="{:U('
+			Index/index',array('r'=>'my'))}"'></div>
+		<div class="_title_top">退款/售后</div>
+		<div class="_right_top nobackground"></div>
+	</div>
+	<div class="_content">
+		<volist name="refund" id="rf">
+		<div id="refund{$rf.orderId}">
+			<div class="_son_title ub margin_top10 ti10">
+				<div class="title_left_ico mar_l10"
+					style="background: url(/ {$ rf [ 'shopImg' ]"></div>
+				<div class=" text-l">
+					<a href="{:U('Shop/shop',array('id'=>$rf['shopId']))}">{$rf.shopName}</a>
+				</div>
+				<div class="right_arrows"></div>
+				<div class="ub-f1 txt-r margin_right10 col-red">
+					<switch name="rf.isRefund"> <case value="1">退款处理中</case> <case
+						value="2">退款成功</case> <case value="3">退款关闭</case> </switch>
+				</div>
+			</div>
+
+			<volist name="rf['goods']" id='rg'>
+			<div class="ub padd-tb  bor_b "
+				onclick='javascript:window.location.href="{:U('
+				Orders/refundDetail',array('id'=>
+				$rf['orderId'],'ref'=>'Orders_refundList'))}"'>
+				<div class="margin_left10 margin_right10 imgwh ">
+					<img style="height: 6rem;" src="/{$rg.goodsThums}" alt="">
+				</div>
+				<div class="ub-f1  ub bv">
+					<div class=" ub h40">
+						<div class="ub-f1 ">{$rg.goodsName}</div>
+					</div>
+					<div class="color ub">
+						<div class="ub-f1">{$rg.goodsAttrName}</div>
+					</div>
+				</div>
+			</div>
+			<div class="_son_title lh35 ub font90">
+				<div class="ub-f1 text-r margin_right10 col-666">交易金额￥{$rf.needPay}
+					退款金额￥{$rf.refundMoney|default="0"}</div>
+			</div>
+			<div class="_son_title lh45 ub font90">
+				<div class="ub-f1 pos-r">
+					<div class="pos-a"></div>
+				</div>
+				<div class=" margin_right10 col-666 btns ub-f1 txt-r  pos-r">
+					<div class="pos-a">
+						<span class="lx" data-tel="{$rf.shopTel}">联系商家</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		</volist>
+		</volist>
+	</div>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script>
+$('body').on('click','.lx',function(){
+	var id=$(this).attr('data-tel');
+	if(!id){
+		return;
+	}
+	layer.confirm(id, {title:'联系商家'}, function(index){
+		  location.href="tel:"+id;
+		  layer.close(index);
+		});
+})
+</script>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>积分说明</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<link rel="stylesheet" href="__CSS__/font.css" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/layer.min.js"></script>
+<style>
+.r_arrows {
+	background: url(__IMG__/youjiantou.png) center no-repeat;
+	width: 30px;
+	background-size: 9px 14px;
+}
+
+.li {
+	height: 100px;
+}
+
+.l_img {
+	padding: 10px;
+	width: 100px;
+	height: 80px;
+	background: url(__IMG__/sp_5.png) center no-repeat;;
+	background-size: 100px 80px;
+}
+
+.title_ {
+	height: 25px;
+	line-height: 20px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.score_ {
+	height: 25px;
+	line-height: 25px;
+}
+
+.success_ {
+	height: 25px;
+	line-height: 25px;
+}
+
+.padd_10 {
+	padding: 10px 0px;
+}
+
+.no-bg {
+	background: none;
+}
+
+body {
+	background: #fff;
+}
+
+.lh45 {
+	height: 45px;
+	line-height: 45px;
+}
+
+.p10 {
+	padding: 10px 0px;
+	color: #01b4ff
+}
+
+.ft12 {
+	font-size: 120%;
+	color: #ff1b1b;
+}
+
+.pdt5 {
+	padding-top: 5px;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<div class="_top">
+		<div class="_left_top" onclick='javascript:window.location.href="{:U('
+			Index/Index',array('r'=>'score'))}"'></div>
+		<div class="_title_top">积分说明</div>
+		<div class="_right_top nobackground"></div>
+	</div>
+	<div class="_content" style="padding: 20px;">
+
+		<div class="p10 ft12">Q1:怎么获得积分?</div>
+		<div class="p10 pdt5">消费得积分:消费1元有1积分</div>
+		<div class="p10 ft12">Q2:积分用来做什么?</div>
+		<div class="p10 pdt5">可以在积分商城总换各种礼品.</div>
+		<div class="p10 ft12">Q3:礼品兑换很多天了还没有收到,该怎么办?</div>
+		<div class="p10 pdt5">礼品从兑换日起,7个工作日(周末不算)内处理发催缴,发货
+			后,通常会在3个工作日左右送达.</div>
+
+	</div>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+
+</html>

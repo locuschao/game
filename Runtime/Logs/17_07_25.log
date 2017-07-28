@@ -1,0 +1,256 @@
+[ 2017-07-25T18:53:21+08:00 ] 127.0.0.1 /index.php/improveAPI/GameGift/gameGiftCode
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000020s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000437s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000441s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000528s ]
+NOTIC: [8] Undefined index: expire D:\xiangmu\Common\functions.php 第 1464 行.
+NOTIC: [2048] Declaration of ImproveAPI\Controller\BaseController::Get() should be compatible with Think\Controller::get($name = '') D:\xiangmu\Application\ImproveAPI\Controller\BaseController.class.php 第 63 行.
+NOTIC: [8] Undefined index: TOKEN D:\xiangmu\Application\ImproveAPI\Common\function.php 第 12 行.
+NOTIC: [8] Undefined index: SHOPID D:\xiangmu\Application\ImproveAPI\Common\function.php 第 13 行.
+NOTIC: [8] Undefined index: VERSION D:\xiangmu\Application\ImproveAPI\Common\function.php 第 14 行.
+NOTIC: [8] Undefined index: CLIENT D:\xiangmu\Application\ImproveAPI\Common\function.php 第 15 行.
+NOTIC: [8] Undefined index: data D:\xiangmu\Application\ImproveAPI\Common\function.php 第 46 行.
+NOTIC: [8] Undefined index: data D:\xiangmu\Application\ImproveAPI\Common\function.php 第 46 行.
+NOTIC: [2] Invalid argument supplied for foreach() D:\xiangmu\Application\ImproveAPI\Common\function.php 第 48 行.
+NOTIC: [8] Undefined index: data D:\xiangmu\Application\ImproveAPI\Common\function.php 第 46 行.
+NOTIC: [8] Undefined index: data D:\xiangmu\Application\ImproveAPI\Common\function.php 第 46 行.
+NOTIC: [2] Invalid argument supplied for foreach() D:\xiangmu\Application\ImproveAPI\Common\function.php 第 48 行.
+NOTIC: [8192] mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead D:\xiangmu\Library\Think\Db\Driver\Mysql.class.php 第 52 行.
+SQL: SHOW COLUMNS FROM `oto_game_code` [ RunTime:0.006975s ]
+SQL: SELECT * FROM `oto_game_code` WHERE ( `ggId` = 1 ) AND ( `received` = 0 ) LIMIT 1   [ RunTime:0.000312s ]
+SQL: UPDATE `oto_game_code` SET `received`=1 WHERE ( `id` = 44 ) [ RunTime:0.000252s ]
+SQL: SHOW COLUMNS FROM `oto_game_gift` [ RunTime:0.006179s ]
+ERR: 错误的查询条件:[ggId=>1]
+
+[ 2017-07-25T18:53:21+08:00 ] 127.0.0.1 /index.php/improveAPI/GameGift/gameGiftCode
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000036s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000522s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000485s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000574s ]
+NOTIC: [8] Undefined index: expire D:\xiangmu\Common\functions.php 第 1464 行.
+NOTIC: [2048] Declaration of ImproveAPI\Controller\BaseController::Get() should be compatible with Think\Controller::get($name = '') D:\xiangmu\Application\ImproveAPI\Controller\BaseController.class.php 第 63 行.
+NOTIC: [8] Undefined index: TOKEN D:\xiangmu\Application\ImproveAPI\Common\function.php 第 12 行.
+NOTIC: [8] Undefined index: SHOPID D:\xiangmu\Application\ImproveAPI\Common\function.php 第 13 行.
+NOTIC: [8] Undefined index: VERSION D:\xiangmu\Application\ImproveAPI\Common\function.php 第 14 行.
+NOTIC: [8] Undefined index: CLIENT D:\xiangmu\Application\ImproveAPI\Common\function.php 第 15 行.
+NOTIC: [8] Undefined index: data D:\xiangmu\Application\ImproveAPI\Common\function.php 第 46 行.
+NOTIC: [8] Undefined index: data D:\xiangmu\Application\ImproveAPI\Common\function.php 第 46 行.
+NOTIC: [2] Invalid argument supplied for foreach() D:\xiangmu\Application\ImproveAPI\Common\function.php 第 48 行.
+NOTIC: [8] Undefined index: data D:\xiangmu\Application\ImproveAPI\Common\function.php 第 46 行.
+NOTIC: [8] Undefined index: data D:\xiangmu\Application\ImproveAPI\Common\function.php 第 46 行.
+NOTIC: [2] Invalid argument supplied for foreach() D:\xiangmu\Application\ImproveAPI\Common\function.php 第 48 行.
+NOTIC: [8192] mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead D:\xiangmu\Library\Think\Db\Driver\Mysql.class.php 第 52 行.
+SQL: SHOW COLUMNS FROM `oto_game_code` [ RunTime:0.006955s ]
+SQL: SELECT * FROM `oto_game_code` WHERE ( `ggId` = 1 ) AND ( `received` = 0 ) LIMIT 1   [ RunTime:0.000363s ]
+SQL: UPDATE `oto_game_code` SET `received`=1 WHERE ( `id` = 44 ) [ RunTime:0.000289s ]
+SQL: SHOW COLUMNS FROM `oto_game_gift` [ RunTime:0.006025s ]
+ERR: 错误的查询条件:[ggId=>1]
+
+[ 2017-07-25T18:53:21+08:00 ] 127.0.0.1 /index.php/improveAPI/GameGift/gameGiftCode
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000020s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000442s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000445s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000544s ]
+NOTIC: [8] Undefined index: expire D:\xiangmu\Common\functions.php 第 1464 行.
+NOTIC: [2048] Declaration of ImproveAPI\Controller\BaseController::Get() should be compatible with Think\Controller::get($name = '') D:\xiangmu\Application\ImproveAPI\Controller\BaseController.class.php 第 63 行.
+NOTIC: [8] Undefined index: TOKEN D:\xiangmu\Application\ImproveAPI\Common\function.php 第 12 行.
+NOTIC: [8] Undefined index: SHOPID D:\xiangmu\Application\ImproveAPI\Common\function.php 第 13 行.
+NOTIC: [8] Undefined index: VERSION D:\xiangmu\Application\ImproveAPI\Common\function.php 第 14 行.
+NOTIC: [8] Undefined index: CLIENT D:\xiangmu\Application\ImproveAPI\Common\function.php 第 15 行.
+NOTIC: [8] Undefined index: data D:\xiangmu\Application\ImproveAPI\Common\function.php 第 46 行.
+NOTIC: [8] Undefined index: data D:\xiangmu\Application\ImproveAPI\Common\function.php 第 46 行.
+NOTIC: [2] Invalid argument supplied for foreach() D:\xiangmu\Application\ImproveAPI\Common\function.php 第 48 行.
+NOTIC: [8] Undefined index: data D:\xiangmu\Application\ImproveAPI\Common\function.php 第 46 行.
+NOTIC: [8] Undefined index: data D:\xiangmu\Application\ImproveAPI\Common\function.php 第 46 行.
+NOTIC: [2] Invalid argument supplied for foreach() D:\xiangmu\Application\ImproveAPI\Common\function.php 第 48 行.
+NOTIC: [8192] mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead D:\xiangmu\Library\Think\Db\Driver\Mysql.class.php 第 52 行.
+SQL: SHOW COLUMNS FROM `oto_game_code` [ RunTime:0.006353s ]
+SQL: SELECT * FROM `oto_game_code` WHERE ( `ggId` = 1 ) AND ( `received` = 0 ) LIMIT 1   [ RunTime:0.000257s ]
+SQL: UPDATE `oto_game_code` SET `received`=1 WHERE ( `id` = 44 ) [ RunTime:0.000281s ]
+SQL: SHOW COLUMNS FROM `oto_game_gift` [ RunTime:0.008308s ]
+ERR: 错误的查询条件:[ggId=>1]
+
+[ 2017-07-25T18:53:21+08:00 ] 127.0.0.1 /index.php/improveAPI/GameGift/gameGiftCode
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000020s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000440s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000499s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000610s ]
+NOTIC: [8] Undefined index: expire D:\xiangmu\Common\functions.php 第 1464 行.
+NOTIC: [2048] Declaration of ImproveAPI\Controller\BaseController::Get() should be compatible with Think\Controller::get($name = '') D:\xiangmu\Application\ImproveAPI\Controller\BaseController.class.php 第 63 行.
+NOTIC: [8] Undefined index: TOKEN D:\xiangmu\Application\ImproveAPI\Common\function.php 第 12 行.
+NOTIC: [8] Undefined index: SHOPID D:\xiangmu\Application\ImproveAPI\Common\function.php 第 13 行.
+NOTIC: [8] Undefined index: VERSION D:\xiangmu\Application\ImproveAPI\Common\function.php 第 14 行.
+NOTIC: [8] Undefined index: CLIENT D:\xiangmu\Application\ImproveAPI\Common\function.php 第 15 行.
+NOTIC: [8] Undefined index: data D:\xiangmu\Application\ImproveAPI\Common\function.php 第 46 行.
+NOTIC: [8] Undefined index: data D:\xiangmu\Application\ImproveAPI\Common\function.php 第 46 行.
+NOTIC: [2] Invalid argument supplied for foreach() D:\xiangmu\Application\ImproveAPI\Common\function.php 第 48 行.
+NOTIC: [8] Undefined index: data D:\xiangmu\Application\ImproveAPI\Common\function.php 第 46 行.
+NOTIC: [8] Undefined index: data D:\xiangmu\Application\ImproveAPI\Common\function.php 第 46 行.
+NOTIC: [2] Invalid argument supplied for foreach() D:\xiangmu\Application\ImproveAPI\Common\function.php 第 48 行.
+NOTIC: [8192] mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead D:\xiangmu\Library\Think\Db\Driver\Mysql.class.php 第 52 行.
+SQL: SHOW COLUMNS FROM `oto_game_code` [ RunTime:0.006262s ]
+SQL: SELECT * FROM `oto_game_code` WHERE ( `ggId` = 1 ) AND ( `received` = 0 ) LIMIT 1   [ RunTime:0.000270s ]
+SQL: UPDATE `oto_game_code` SET `received`=1 WHERE ( `id` = 44 ) [ RunTime:0.000262s ]
+SQL: SHOW COLUMNS FROM `oto_game_gift` [ RunTime:0.007509s ]
+ERR: 错误的查询条件:[ggId=>1]
+
+[ 2017-07-25T18:54:46+08:00 ] 127.0.0.1 /index.php/improveAPI/GameGift/gameGiftCode
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000026s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000494s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000530s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000631s ]
+NOTIC: [8] Undefined index: expire D:\xiangmu\Common\functions.php 第 1464 行.
+NOTIC: [2048] Declaration of ImproveAPI\Controller\BaseController::Get() should be compatible with Think\Controller::get($name = '') D:\xiangmu\Application\ImproveAPI\Controller\BaseController.class.php 第 63 行.
+NOTIC: [8] Undefined index: TOKEN D:\xiangmu\Application\ImproveAPI\Common\function.php 第 12 行.
+NOTIC: [8] Undefined index: SHOPID D:\xiangmu\Application\ImproveAPI\Common\function.php 第 13 行.
+NOTIC: [8] Undefined index: VERSION D:\xiangmu\Application\ImproveAPI\Common\function.php 第 14 行.
+NOTIC: [8] Undefined index: CLIENT D:\xiangmu\Application\ImproveAPI\Common\function.php 第 15 行.
+NOTIC: [8] Undefined index: data D:\xiangmu\Application\ImproveAPI\Common\function.php 第 46 行.
+NOTIC: [8] Undefined index: data D:\xiangmu\Application\ImproveAPI\Common\function.php 第 46 行.
+NOTIC: [2] Invalid argument supplied for foreach() D:\xiangmu\Application\ImproveAPI\Common\function.php 第 48 行.
+NOTIC: [8] Undefined index: data D:\xiangmu\Application\ImproveAPI\Common\function.php 第 46 行.
+NOTIC: [8] Undefined index: data D:\xiangmu\Application\ImproveAPI\Common\function.php 第 46 行.
+NOTIC: [2] Invalid argument supplied for foreach() D:\xiangmu\Application\ImproveAPI\Common\function.php 第 48 行.
+NOTIC: [8192] mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead D:\xiangmu\Library\Think\Db\Driver\Mysql.class.php 第 52 行.
+SQL: SHOW COLUMNS FROM `oto_game_code` [ RunTime:0.006224s ]
+SQL: SELECT * FROM `oto_game_code` WHERE ( `ggId` = 1 ) AND ( `received` = 0 ) LIMIT 1   [ RunTime:0.000381s ]
+SQL: UPDATE `oto_game_code` SET `received`=1 WHERE ( `id` = 44 ) [ RunTime:0.000436s ]
+SQL: SHOW COLUMNS FROM `oto_game_gift` [ RunTime:0.006788s ]
+ERR: 错误的查询条件:[ggId=>1]
+
+[ 2017-07-25T18:54:49+08:00 ] 127.0.0.1 /index.php/improveAPI/GameGift/gameGiftCode
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000501s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000431s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000524s ]
+NOTIC: [8] Undefined index: expire D:\xiangmu\Common\functions.php 第 1464 行.
+NOTIC: [2048] Declaration of ImproveAPI\Controller\BaseController::Get() should be compatible with Think\Controller::get($name = '') D:\xiangmu\Application\ImproveAPI\Controller\BaseController.class.php 第 63 行.
+NOTIC: [8] Undefined index: TOKEN D:\xiangmu\Application\ImproveAPI\Common\function.php 第 12 行.
+NOTIC: [8] Undefined index: SHOPID D:\xiangmu\Application\ImproveAPI\Common\function.php 第 13 行.
+NOTIC: [8] Undefined index: VERSION D:\xiangmu\Application\ImproveAPI\Common\function.php 第 14 行.
+NOTIC: [8] Undefined index: CLIENT D:\xiangmu\Application\ImproveAPI\Common\function.php 第 15 行.
+NOTIC: [8] Undefined index: data D:\xiangmu\Application\ImproveAPI\Common\function.php 第 46 行.
+NOTIC: [8] Undefined index: data D:\xiangmu\Application\ImproveAPI\Common\function.php 第 46 行.
+NOTIC: [2] Invalid argument supplied for foreach() D:\xiangmu\Application\ImproveAPI\Common\function.php 第 48 行.
+NOTIC: [8] Undefined index: data D:\xiangmu\Application\ImproveAPI\Common\function.php 第 46 行.
+NOTIC: [8] Undefined index: data D:\xiangmu\Application\ImproveAPI\Common\function.php 第 46 行.
+NOTIC: [2] Invalid argument supplied for foreach() D:\xiangmu\Application\ImproveAPI\Common\function.php 第 48 行.
+NOTIC: [8192] mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead D:\xiangmu\Library\Think\Db\Driver\Mysql.class.php 第 52 行.
+SQL: SHOW COLUMNS FROM `oto_game_code` [ RunTime:0.005845s ]
+SQL: SELECT * FROM `oto_game_code` WHERE ( `ggId` = 1 ) AND ( `received` = 0 ) LIMIT 1   [ RunTime:0.000301s ]
+SQL: UPDATE `oto_game_code` SET `received`=1 WHERE ( `id` = 44 ) [ RunTime:0.000240s ]
+SQL: SHOW COLUMNS FROM `oto_game_gift` [ RunTime:0.007596s ]
+ERR: 错误的查询条件:[ggId=>1]
+
+[ 2017-07-25T18:54:49+08:00 ] 127.0.0.1 /index.php/improveAPI/GameGift/gameGiftCode
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000023s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000342s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000485s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000582s ]
+NOTIC: [8] Undefined index: expire D:\xiangmu\Common\functions.php 第 1464 行.
+NOTIC: [2048] Declaration of ImproveAPI\Controller\BaseController::Get() should be compatible with Think\Controller::get($name = '') D:\xiangmu\Application\ImproveAPI\Controller\BaseController.class.php 第 63 行.
+NOTIC: [8] Undefined index: TOKEN D:\xiangmu\Application\ImproveAPI\Common\function.php 第 12 行.
+NOTIC: [8] Undefined index: SHOPID D:\xiangmu\Application\ImproveAPI\Common\function.php 第 13 行.
+NOTIC: [8] Undefined index: VERSION D:\xiangmu\Application\ImproveAPI\Common\function.php 第 14 行.
+NOTIC: [8] Undefined index: CLIENT D:\xiangmu\Application\ImproveAPI\Common\function.php 第 15 行.
+NOTIC: [8] Undefined index: data D:\xiangmu\Application\ImproveAPI\Common\function.php 第 46 行.
+NOTIC: [8] Undefined index: data D:\xiangmu\Application\ImproveAPI\Common\function.php 第 46 行.
+NOTIC: [2] Invalid argument supplied for foreach() D:\xiangmu\Application\ImproveAPI\Common\function.php 第 48 行.
+NOTIC: [8] Undefined index: data D:\xiangmu\Application\ImproveAPI\Common\function.php 第 46 行.
+NOTIC: [8] Undefined index: data D:\xiangmu\Application\ImproveAPI\Common\function.php 第 46 行.
+NOTIC: [2] Invalid argument supplied for foreach() D:\xiangmu\Application\ImproveAPI\Common\function.php 第 48 行.
+NOTIC: [8192] mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead D:\xiangmu\Library\Think\Db\Driver\Mysql.class.php 第 52 行.
+SQL: SHOW COLUMNS FROM `oto_game_code` [ RunTime:0.006067s ]
+SQL: SELECT * FROM `oto_game_code` WHERE ( `ggId` = 1 ) AND ( `received` = 0 ) LIMIT 1   [ RunTime:0.000252s ]
+SQL: UPDATE `oto_game_code` SET `received`=1 WHERE ( `id` = 44 ) [ RunTime:0.000250s ]
+SQL: SHOW COLUMNS FROM `oto_game_gift` [ RunTime:0.007776s ]
+ERR: 错误的查询条件:[ggId=>1]
+
+[ 2017-07-25T18:55:52+08:00 ] 127.0.0.1 /index.php/improveAPI/GameGift/gameGiftCode
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000040s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000579s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000519s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000628s ]
+NOTIC: [8] Undefined index: expire D:\xiangmu\Common\functions.php 第 1464 行.
+NOTIC: [2048] Declaration of ImproveAPI\Controller\BaseController::Get() should be compatible with Think\Controller::get($name = '') D:\xiangmu\Application\ImproveAPI\Controller\BaseController.class.php 第 63 行.
+NOTIC: [8] Undefined index: TOKEN D:\xiangmu\Application\ImproveAPI\Common\function.php 第 12 行.
+NOTIC: [8] Undefined index: SHOPID D:\xiangmu\Application\ImproveAPI\Common\function.php 第 13 行.
+NOTIC: [8] Undefined index: VERSION D:\xiangmu\Application\ImproveAPI\Common\function.php 第 14 行.
+NOTIC: [8] Undefined index: CLIENT D:\xiangmu\Application\ImproveAPI\Common\function.php 第 15 行.
+NOTIC: [8] Undefined index: data D:\xiangmu\Application\ImproveAPI\Common\function.php 第 46 行.
+NOTIC: [8] Undefined index: data D:\xiangmu\Application\ImproveAPI\Common\function.php 第 46 行.
+NOTIC: [2] Invalid argument supplied for foreach() D:\xiangmu\Application\ImproveAPI\Common\function.php 第 48 行.
+NOTIC: [8] Undefined index: data D:\xiangmu\Application\ImproveAPI\Common\function.php 第 46 行.
+NOTIC: [8] Undefined index: data D:\xiangmu\Application\ImproveAPI\Common\function.php 第 46 行.
+NOTIC: [2] Invalid argument supplied for foreach() D:\xiangmu\Application\ImproveAPI\Common\function.php 第 48 行.
+NOTIC: [8192] mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead D:\xiangmu\Library\Think\Db\Driver\Mysql.class.php 第 52 行.
+SQL: SHOW COLUMNS FROM `oto_game_code` [ RunTime:0.006703s ]
+SQL: SELECT * FROM `oto_game_code` WHERE ( `ggId` = 1 ) AND ( `received` = 0 ) LIMIT 1   [ RunTime:0.000314s ]
+
+[ 2017-07-25T18:56:30+08:00 ] 127.0.0.1 /index.php/improveAPI/GameGift/gameGiftCode
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000024s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000415s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000644s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000752s ]
+NOTIC: [8] Undefined index: expire D:\xiangmu\Common\functions.php 第 1464 行.
+NOTIC: [2048] Declaration of ImproveAPI\Controller\BaseController::Get() should be compatible with Think\Controller::get($name = '') D:\xiangmu\Application\ImproveAPI\Controller\BaseController.class.php 第 63 行.
+NOTIC: [8] Undefined index: TOKEN D:\xiangmu\Application\ImproveAPI\Common\function.php 第 12 行.
+NOTIC: [8] Undefined index: SHOPID D:\xiangmu\Application\ImproveAPI\Common\function.php 第 13 行.
+NOTIC: [8] Undefined index: VERSION D:\xiangmu\Application\ImproveAPI\Common\function.php 第 14 行.
+NOTIC: [8] Undefined index: CLIENT D:\xiangmu\Application\ImproveAPI\Common\function.php 第 15 行.
+NOTIC: [8] Undefined index: data D:\xiangmu\Application\ImproveAPI\Common\function.php 第 46 行.
+NOTIC: [8] Undefined index: data D:\xiangmu\Application\ImproveAPI\Common\function.php 第 46 行.
+NOTIC: [2] Invalid argument supplied for foreach() D:\xiangmu\Application\ImproveAPI\Common\function.php 第 48 行.
+NOTIC: [8] Undefined index: data D:\xiangmu\Application\ImproveAPI\Common\function.php 第 46 行.
+NOTIC: [8] Undefined index: data D:\xiangmu\Application\ImproveAPI\Common\function.php 第 46 行.
+NOTIC: [2] Invalid argument supplied for foreach() D:\xiangmu\Application\ImproveAPI\Common\function.php 第 48 行.
+NOTIC: [8192] mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead D:\xiangmu\Library\Think\Db\Driver\Mysql.class.php 第 52 行.
+SQL: SHOW COLUMNS FROM `oto_game_code` [ RunTime:0.007740s ]
+SQL: SELECT * FROM `oto_game_code` WHERE ( `ggId` = 1 ) AND ( `received` = 0 ) LIMIT 1   [ RunTime:0.000246s ]
+
+[ 2017-07-25T18:58:27+08:00 ] 127.0.0.1 /index.php/improveAPI/GameGift/gameGiftCode
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000042s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000647s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000476s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000569s ]
+NOTIC: [8] Undefined index: expire D:\xiangmu\Common\functions.php 第 1464 行.
+NOTIC: [2048] Declaration of ImproveAPI\Controller\BaseController::Get() should be compatible with Think\Controller::get($name = '') D:\xiangmu\Application\ImproveAPI\Controller\BaseController.class.php 第 63 行.
+NOTIC: [8] Undefined index: TOKEN D:\xiangmu\Application\ImproveAPI\Common\function.php 第 12 行.
+NOTIC: [8] Undefined index: SHOPID D:\xiangmu\Application\ImproveAPI\Common\function.php 第 13 行.
+NOTIC: [8] Undefined index: VERSION D:\xiangmu\Application\ImproveAPI\Common\function.php 第 14 行.
+NOTIC: [8] Undefined index: CLIENT D:\xiangmu\Application\ImproveAPI\Common\function.php 第 15 行.
+NOTIC: [8] Undefined index: data D:\xiangmu\Application\ImproveAPI\Common\function.php 第 46 行.
+NOTIC: [8] Undefined index: data D:\xiangmu\Application\ImproveAPI\Common\function.php 第 46 行.
+NOTIC: [2] Invalid argument supplied for foreach() D:\xiangmu\Application\ImproveAPI\Common\function.php 第 48 行.
+NOTIC: [8] Undefined index: data D:\xiangmu\Application\ImproveAPI\Common\function.php 第 46 行.
+NOTIC: [8] Undefined index: data D:\xiangmu\Application\ImproveAPI\Common\function.php 第 46 行.
+NOTIC: [2] Invalid argument supplied for foreach() D:\xiangmu\Application\ImproveAPI\Common\function.php 第 48 行.
+NOTIC: [8192] mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead D:\xiangmu\Library\Think\Db\Driver\Mysql.class.php 第 52 行.
+SQL: SHOW COLUMNS FROM `oto_game_code` [ RunTime:0.006283s ]
+SQL: SELECT * FROM `oto_game_code` WHERE ( `ggId` = 1 ) AND ( `received` = 0 ) LIMIT 1   [ RunTime:0.000375s ]
+SQL: UPDATE `oto_game_code` SET `received`=1 WHERE ( `id` = 44 ) [ RunTime:0.000405s ]
+SQL: SHOW COLUMNS FROM `oto_game_gift` [ RunTime:0.007308s ]
+SQL: UPDATE `oto_game_gift` SET `remainNumber`=remainNumber-1 WHERE ( `id` = 1 ) AND ( `remainNumber` > 0 ) [ RunTime:0.000765s ]
+SQL: SHOW COLUMNS FROM `oto_game_gift_log` [ RunTime:0.005456s ]
+SQL: INSERT INTO `oto_game_gift_log` (`userId`,`gameType`,`update`) VALUES (1,1,'2017-07-25 18:58:27') [ RunTime:0.000353s ]
+

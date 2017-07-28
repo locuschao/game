@@ -1,0 +1,71 @@
+/*余额变动记录*/
+CREATE TABLE `oto_money_record` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `type` tinyint(2) DEFAULT '0' COMMENT '操作类型,1下单成功，2取消订单，3充值，4提现,5订单无效',
+  `money` float(10,2) DEFAULT NULL COMMENT '金额',
+  `time` varchar(10) CHARACTER SET utf8 DEFAULT NULL COMMENT '时间',
+  `ip` varchar(20) CHARACTER SET utf8 DEFAULT NULL COMMENT 'IP地址',
+  `orderNo` varchar(500) DEFAULT NULL COMMENT '订单表orderNo或者充值表的topupNo',
+  `IncDec` tinyint(2) DEFAULT NULL COMMENT '余额变动 0为减，1加',
+  `userid` int(10) DEFAULT '0' COMMENT '用户id',
+  `balance` float(10,2) DEFAULT '0.00' COMMENT '操作后余额',
+  `remark` varchar(255) CHARACTER SET utf32 DEFAULT NULL COMMENT '其它备注信息',
+  `payWay` tinyint(2) NOT NULL DEFAULT '0' COMMENT '0货到付款，1支付宝，2微信，3余额支付',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=624 DEFAULT CHARSET=utf8;
+
+/*充值表*/
+CREATE TABLE `oto_top_up` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `userid` int(10) NOT NULL,
+  `topupNo` varchar(50) NOT NULL COMMENT '充值订单编号，建议用时间戳',
+  `time` varchar(30) CHARACTER SET utf8 DEFAULT NULL COMMENT '充值时间',
+  `out_trade_no` varchar(50) NOT NULL COMMENT '支付宝或者微信支付流水号',
+  `money` float(10,2) DEFAULT NULL COMMENT '充值金额',
+  `status` tinyint(2) DEFAULT '0' COMMENT '充值状态，0为没充值，1为成功',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=103 DEFAULT CHARSET=utf8;
+
+/*付款记录表*/
+CREATE TABLE `oto_pay_record` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `payType` tinyint(4) NOT NULL COMMENT '支付类型 0货到付款，1支付宝，2微信，3余额支付',
+  `orderNo` varchar(500) CHARACTER SET utf8 NOT NULL COMMENT '订单编号或者充值编号',
+  `payTime` varchar(20) CHARACTER SET utf8 NOT NULL COMMENT '支付时间',
+  `out_trade_no` varchar(50) CHARACTER SET utf8 DEFAULT NULL COMMENT '支付成功的流水号',
+  `payMoney` float(10,2) NOT NULL COMMENT '支付金额',
+  `userId` int(10) DEFAULT NULL COMMENT '用户ID',
+  `type` tinyint(2) DEFAULT '0' COMMENT '0订单，1充值',
+  `notify_id` varchar(50) CHARACTER SET utf8 DEFAULT NULL COMMENT '支付成功后，异步通知的id',
+  `notify_time` varchar(20) CHARACTER SET utf8 DEFAULT NULL COMMENT '通知的发送时间',
+  `buyer_email` varchar(50) CHARACTER SET utf8 DEFAULT NULL COMMENT '买家支付宝帐号或者微信OPENID',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=244 DEFAULT CHARSET=utf8;
+
+/*积分变动记录*/
+CREATE TABLE `oto_score_record` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `userid` int(10) DEFAULT NULL COMMENT '用户id',
+  `orderNo` VARCHAR(500) DEFAULT NULL COMMENT '订单号或者充值单号',
+  `score` int(10) DEFAULT NULL COMMENT '变动的积分',
+  `totalscore` int(10) DEFAULT NULL COMMENT '剩余总积分',
+  `time` int(10) DEFAULT NULL COMMENT '操作时间',
+  `ip` varchar(20) CHARACTER SET utf8 DEFAULT NULL COMMENT 'IP地址',
+  `IncDec` tinyint(2) DEFAULT NULL COMMENT '0为减，1为加',
+  `type` int(4) DEFAULT NULL COMMENT '1下单成功，2取消订单，3充值，4订单无效，5活动',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=484 DEFAULT CHARSET=utf8;
+
+
+/*/注册，找回密码等发送短信*/
+CREATE TABLE `oto_sendmes` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `phone` varchar(12) DEFAULT NULL,
+  `ip` varchar(30) DEFAULT NULL,
+  `type` TINYINT(2) DEFAULT 1 comment '1注册，2找回密码',
+  `info` varchar(255) DEFAULT NULL,
+  `time` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+
+

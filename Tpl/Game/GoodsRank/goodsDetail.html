@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>商品详情</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<link rel="stylesheet" href="__CSS__/goods-detail.css?t=20170123" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/base.js"></script>
+<script src="__JS__/layer.min.js"></script>
+
+	<include file="./Tpl/Public/commonHead.html" />
+<style>
+.select {
+	width: 20px;
+	background: url(__IMG__/select_f.png) top center no-repeat;
+	background-size: 18px;;
+}
+.jia {
+	background: url(__IMG__/add.png) center no-repeat;
+	background-size: contain;
+}
+.jian {
+	background: url(__IMG__/down.png) center no-repeat;
+	background-size: contain;
+}
+</style>
+</head>
+<body>
+<?php
+$goods_info=M('goods_voucher')->find(I('id'));
+$voucher_ids=M('voucher_goods_relation')->where(['goods_id'=>I('id')])->getField('voucher_id',true);
+$voucherList=M('voucher')->where(['id'=>['in',$voucher_ids]])->select();
+
+?>
+	<div class="_top" style="z-index: 999">
+		<div class="_left_top" onclick='history.go(-1)'></div>
+		<div class="_title_top">商品详情</div>
+		<div class="_right_top mess"
+			onclick="location.href='/Game/Mess/mess/r/Goods_index'"></div>
+	</div>
+	
+	<div class="padd back-ff goods-title">
+		<span class="col-red">【购买<?php $rank_text=[1=>'钻石VIP特权',2=>'白金VIP特权',3=>'黄金VIP特权']; echo $rank_text[$goods_info['rank']] ?>会员】</span>
+	</div>
+    
+	<div class="voucher-block clearfix">
+    <?php  foreach($voucherList as $row) : ?>
+    <div class="row clearfix">
+        <div class="fl contentLeft">
+        <div class="title"><?=$row['name']?></div>
+        <div class="expire">有效期：<?=$row[validTime]?>天</div>
+        <div class="remark"><?=$row['remark']?></div>
+        </div>
+        
+    </div>
+    <?php endforeach; ?>
+    </div>
+   
+	<div class="ub lh20">
+		<div class="ub-f1 ti10 ">
+			<span class="col-9">价格：</span>
+            <span id="attrPrice"><?=number_format($goods_info['price'],2)?></span>元
+                 
+		</div>
+		
+	</div>
+    
+	<div class="lh30 back-ff ub bor">
+		<div class="col-9 ti10 ub-f1 pos-r">
+			<div class="pos-a">购买数量:</div>
+		</div>
+		<div class="ub-f1 pos-r">
+			<div class="pos-a ub txt-c">
+				<div class="ub-f1 pos-r">
+					<div class="pos-a jian"></div>
+				</div>
+				<div class="ub-f1 pos-r">
+					<form action="__URL__/addOrder" method="post" id="buy">
+						<div class="pos-a">
+							<input onchange="check()"
+								onkeyup="this.value=this.value.replace(/\D/g,'')"
+								onafterpaste="this.value=this.value.replace(/\D/g,'')"
+								type="text" id="num" name="num" value="1" />
+						</div>
+						<input type="hidden" name="goodsId" value="<?=$goods_info['id']?>" />
+						
+					</form>
+				</div>
+				<div class="ub-f1 pos-r">
+					<div class="pos-a jia"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="ub  lh35 back-ff  " style="text-align: right; width: 100%;">
+		<div
+			style="text-align: right; width: 95%; margin-right: 10px; color: #999">
+			总计：<span id="totalMoney"><?=number_format($goods_info['price'],2)?></span>元
+		</div>
+	</div>
+    
+	<div class="lh45 back-ff"   style="padding: 10px;margin-top:20px;">
+		<div class="btn" onclick="$('#buy').submit()">会员购买</div>
+	</div>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+
+<script>
+//add by peng
+var rank='<?=$rank?>';
+
+
+$('body').on('click','.jia',function(){
+	var num=parseInt($('#num').val());
+	if(isNaN(num)){
+		$('#num').val(1);
+		num=1;
+	}
+	$('#num').val(num+1);
+    sum_amount()
+	
+})
+$('body').on('click','.jian',function(){
+	var num=parseInt($('#num').val());
+    
+	if(isNaN(num)){
+		$('#num').val(1);
+		num=1;
+	}
+	var newNum=num-1;
+	if(newNum<=0){
+		newNum=1;
+	}
+	$('#num').val(newNum);
+    sum_amount()
+	
+})
+function sum_amount(){
+    var amount=$('#num').val()*parseFloat($('#attrPrice').text());
+    $("#totalMoney").text(amount.toFixed(2))
+}
+
+</script>
+</html>

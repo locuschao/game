@@ -1,0 +1,37 @@
+<extend name="Base:common" />
+<block name="static">
+<link rel="stylesheet" href="__CSS__/ordersuccess.css" />
+<script src="__PUBLIC__/js/jquery.min.js"></script> <script
+	src="__JS__/index.js"></script> </block>
+<block name="body">
+<div class="w">
+	<div>
+		<div class="wst-sys-msg-pb">
+			<div class="wst-sys-msg-cb">
+				<div class="wst-sys-msg-vb">
+					<if condition="count($orderInfos) gt 0"> <img
+						src="__IMG__/icon-succ.png" alt="" /> </if>
+				</div>
+				<div class="wst-sys-msg-cb">
+					<div class="wst-sys-msg-l25">
+						<div class="wst-sys-msg-ub">{$msg}</div>
+					</div>
+				</div>
+				<div style="clear: both;"></div>
+			</div>
+
+			<div style="clear: both;"></div>
+			<div style="margin-top: 15px;">
+				<div id="checkout" class="wst-checkout">
+					<a class="btn-submit" href="__ROOT__/index.php"> <span
+						id="saveConsigneeTitleDiv" class="wst_btn-continue"></span>
+					</a>
+					<div style="clear: both;"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div style="clear: both;"></div>
+<div style="height: 20px;"></div>
+</block>

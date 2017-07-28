@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>我的消息</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<style>
+body {
+	background: #efeff4;
+	max-width: 800px;
+}
+._top{
+	max-width: 800px;
+}
+input[type=text] {
+	height: 30px;
+	line-height: 30px;
+	background: transparent;
+	border: #ccc solid 1px;
+	border-radius: 4px;
+	width: 95%;
+	text-indent: 10px;
+}
+
+.search {
+	background: #fff600;
+	height: 35px;
+	line-height: 35px;
+	border-radius: 4px;
+	padding: 0px 15px;
+}
+
+.list {
+	padding-top:10px;
+	height: 60px;
+	/*background: #fff;*/
+    
+	width: 95%;
+	margin: 10px auto 0px auto;
+}
+
+.shopImg img {
+	width: 60px;
+	height: 60px;
+	border-radius: 4px;
+}
+
+.shopContent {
+	margin-left: 5px;
+}
+
+.shopName {
+	padding:2px 0px;
+	font-size: 120%;
+	
+}
+.list{height:auto;min-height:60px;}
+.fw {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	height: 20px;
+	line-height: 20px;
+	font-size: 90%;
+	color: #999;
+}
+
+.messList {
+	width: 95%;
+	margin: 0 auto;
+	background: #f3f3f3;
+	border-radius: 4px;
+	border-bottom: #d5d7dc solid 1px;
+}
+.messList.notRead{
+    background: #fff;
+}
+.messContent {
+	padding: 3px 0px;
+	width: 90%;
+	margin: 0 auto;
+}
+
+.account {
+	padding-bottom: 10px;
+}
+.fahuo-top{
+    color: #ff4045;
+    padding-top:10px;
+}
+.badge {
+	position: relative;
+	left: 33px;
+	top: -13px;
+	display: inline-block;
+	min-width: 10px;
+	padding: 3px 7px;
+	font-size: 12px;
+	font-weight: 700;
+	line-height: 1;
+	color: #fff;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: baseline;
+	background-color: red;
+	border-radius: 10px;
+}
+
+.loadmore {
+    background: #b4b453 none repeat scroll 0 0;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    height: 10px;
+    line-height: 10px;
+    margin-top: 10px;
+    padding: 10px 0;
+    text-align: center;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<div class="_top" style="z-index: 999">
+		<!--<div class="_left_top" ontouchend='history.go(-1);'></div>-->
+        <!--
+        @author peng
+        @date 2016
+        @remark 修复不能后退的bug
+         -->
+		<div class="_left_top" onclick='turn_back();'></div>
+		<div class="_title_top">我的消息</div>
+		<div class="_right_top mess"><if condition="$notRead neq 0"><span class="badge">{$notRead}</span></if></div>
+	</div>
+	<div class="lh45"></div>
+    <div id="messBlock">
+    
+    </div>
+    <div class="loadmore" id="loadmore">加载更多</div>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script>
+$('body').on('click','.search',function(){
+	   $('#shopSearch').submit();
+})
+    
+//peng
+var page=0;
+var end = 0;
+function list_load(){
+    $.get("{:U('Mess/messageList')}",{page:page},function(data){
+        if(!data){
+            $('#loadmore').html('没有更多了');
+            end = 1;
+            return;
+        }
+        $('#messBlock').append(data);
+    });
+}
+
+
+$(function(){
+    list_load();
+    $('#loadmore').click(function(){
+        if(end == 1) return;
+        page++;
+        list_load();
+    })
+});
+
+var turn_back=function(){
+    
+    if(history.length>0) history.go(-1); else location.href="/";
+}
+</script>
+</html>

@@ -1,0 +1,121 @@
+<meta charset="utf-8">
+<style>
+    .wst-btn-query {
+        text-align: center;
+        background-color: #e23e3d;
+        border: 1px solid #ffffff;
+        color: #ffffff;
+        cursor: pointer;
+        height: 25px;
+        margin: 2px;
+        width: 60px;
+    }
+
+    button:hover {
+        background: #ff0000 none repeat scroll 0 0;
+        border: 1px solid #ff0080;
+        color: #ffffff;
+        font-weight: bold;
+    }
+
+    a:hover, a:active, a:focus {
+        background: #ff0000 none repeat scroll 0 0;
+        border: 1px solid #ff0080;
+        color: #ffffff;
+        font-weight: bold;
+    }
+</style>
+
+<script>
+    $(function () {
+//        $.formValidator.initConfig({
+//            theme:'Default',mode:'AutoTip',formID:"myform",debug:true,submitOnce:true,onSuccess:function(){
+//                edit();
+//                return false;
+//            }});
+
+    });
+    function edit(){
+        var params = {};
+        params.money = $.trim($('#refundMoney').val());
+        params.payWay = $('input[name="refundWay"]:checked').val();
+        params.agree = 1;
+        params.id = $('#id').val();
+        Plugins.waitTips({title:'信息提示',content:'正在提交数据，请稍后...'});
+        $.post("{:U('Admin/Refund/fcRefund')}",params,function(data,textStatus){
+//            alert(data);
+//            return;
+            var json = WST.toJson(data);
+            if(json.status=='1'){
+                Plugins.setWaitTipsMsg({ content:'操作成功',timeout:1000,callback:function(){
+                    location.href='{:U("Admin/Refund/refundList")}';
+                }});
+            }else{
+                Plugins.closeWindow();
+                Plugins.Tips({title:'信息提示',icon:'error',content:'操作失败!',timeout:1000});
+            }
+        });
+    }
+</script>
+<form name="myform" method="post" id="myform" autocomplete="off">
+    <input type='hidden' id='id' value='{$_GET["id"]}' />
+    <table class="table table-hover table-striped table-bordered wst-form">
+
+        <tr>
+            <th align='right'>订单信息</th>
+            <td><switch name="orderInfo['orderType']"> <case
+                    value="1">首充号</case> <case value="2">首充号代充</case> <case value="3">首充号分销</case>
+                <case value="4">自主充值</case> <default /> </switch> &nbsp;
+                区服：{$orderInfo.userAddress} &nbsp;QQ:{$orderInfo.qq}
+                &nbsp;角色:{$orderInfo.roleName} &nbsp;职业:{$orderInfo.profession}</td>
+        </tr>
+        <tr>
+            <th align='right'>所属游戏</th>
+            <td>{$gameName}</td>
+        </tr>
+        <tr>
+            <th width='100' align='right'>客户支付方式：</th>
+            <td><switch name="orderInfo.payType"> <case value="3">余额支付</case>
+                <case value="1">支付宝支付</case> <case value="2">微信支付</case> <default />
+            </switch></td>
+        </tr>
+        <tr>
+            <th width='100' align='right'>支付流水号：</th>
+            <td>{$orderInfo.out_trade_no|default="无"}</td>
+        </tr>
+        <tr>
+            <th width='100' align='right'>用户信息：</th>
+            <td>{$orderInfo.userName}&nbsp;{$orderInfo.userPhone}</td>
+        </tr>
+
+        <tr>
+            <th width='120' align='right'>退款金额 <font color='red'>*</font> ：
+            </th>
+            <td><input type='text' id='refundMoney'
+                       class="form-control wst-ipt-10" value='{$orderInfo.needPay}'
+                       maxLength='20' readonly="readonly" /></td>
+        </tr>
+        <tr>
+            <th align='right'>退款方式 <font color='red'>*</font> ：
+            </th>
+            <td><label> <input type='radio' id='balance' value='0'
+                               name='refundWay' checked />余额
+            </label> <!-- 	<label>
+					<input type='radio' id='alipay' value='1' name='refundWay'
+					<if condition="$orderInfo['payType']==1">checked</if>
+					/>支付宝
+				</label>
+				<label>
+					<input type='radio' id='weixin' value='2' name='refundWay'
+					<if condition="$orderInfo['payType']==2">checked</if>
+					/>微信
+				</label> --></td>
+        </tr>
+        <tr>
+            <td colspan='2' align="center">
+                <button type="button" class="btn btn-success" onclick="edit()">确认并给买家退款</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">返&nbsp;回</button>
+            </td>
+        </tr>
+    </table>
+</form>

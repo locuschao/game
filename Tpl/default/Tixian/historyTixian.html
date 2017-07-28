@@ -1,0 +1,86 @@
+<extend name="Shops:layout" />
+<block name="content"> <script
+	src="__PUBLIC__/plugins/kindeditor/kindeditor.js"></script> <script
+	src="__PUBLIC__/plugins/kindeditor/lang/zh_CN.js"></script>
+
+<link rel="stylesheet" type="text/css"
+	href="__PUBLIC__/plugins/webuploader/style.css" />
+<link rel="stylesheet" type="text/css"
+	href="__PUBLIC__/plugins/webuploader/webuploader.css" />
+<script type="text/javascript"
+	src="__PUBLIC__/plugins/webuploader/webuploader.js"></script> <script
+	type="text/javascript" src="__JS__/goodsbatchupload.js"></script> <script
+	type="text/javascript" src="__JS__/layer.js"></script> <script
+	type="text/javascript" src="__JS__/jquery-1.8.3.min.js"></script> <script
+	type="text/javascript" src="__PUBLIC__/plugins/jeDate/jedate.js"></script>
+
+<style>
+.datainp {
+	width: 150px;
+}
+
+.bor tr td, th {
+	border: #efefef solid 1px;
+}
+
+.tableinput input {
+	width: 60px;;
+}
+
+.wst-form tr th {
+	text-align: center;
+}
+
+.wst-form tr td {
+	text-align: center;
+	border: #efefef solid 1px;
+}
+
+.wst-page-content .btn {
+	padding: 5px 10px;
+}
+
+.btn {
+	border: #ccc solid 1px;
+	border-radius: 4px;
+	text-indent: 0;
+	padding: 5px 10px;
+	text-align: center;
+	color: #ccc;
+    /*peng*/
+    color:#000;
+    border-color:#7a7474
+}
+</style>
+<div class="wst-body">
+	<div class='wst-page-header'>卖家中心 >提现记录</div>
+	<div class='wst-page-content'>
+		<br />
+		<table class="table table-hover table-striped table-bordered wst-list wst-form">
+			<tr>
+				<th>提现ID</th>
+				<th>提现时间</th>
+				<th>提现金额</th>
+				<th>帐户余额</th>
+				<th>提现状态</th>
+				<th>查看订单</th>
+			</tr>
+			<volist name="Page['root']" id="vo">
+			<tr>
+				<td>{$vo.id}</td>
+				<td>{$vo.txTime}</td>
+				<td>￥{$vo.txMoney}</td>
+				<td>￥0.00</td>
+				<td><if condition="$vo['txStatus'] eq 0">处理中<elseif
+						condition="$vo['txStatus'] eq -1" />已拒绝<else />已成功</if></td>
+				<td><a href="{:U('Tixian/orderList',array('id'=>$vo['id']))}"><span
+						class="btn" >查看订单</span></a></td>
+			</tr>
+			</volist>
+		</table>
+		<div style="text-align: center;">{$Page['pager']}</div>
+		<div>
+			<a href="{:U('Tixian/tixianList')}"><span class="btn">返回</span></a>
+		</div>
+	</div>
+</block>

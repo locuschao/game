@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>必买专区</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<!--demo展示所用css，不用关心 begin-->
+<!--demo展示所用css end-->
+<!--组件依赖css begin-->
+<link rel="stylesheet" type="text/css"
+	href="__CSS__/widget/navigator/navigator.css" />
+<link rel="stylesheet" type="text/css"
+	href="__CSS__/widget/navigator/navigator.iscroll.css" />
+<!--组件依赖css end-->
+<!--组件依赖js begin-->
+<script type="text/javascript" src="__JS__/zepto.js"></script>
+<script type="text/javascript" src="__JS__/zepto.extend.js"></script>
+<script type="text/javascript" src="__JS__/zepto.ui.js"></script>
+<script type="text/javascript" src="__JS__/zepto.iscroll.js"></script>
+<script type="text/javascript" src="__JS__/widget/navigator.js"></script>
+<script type="text/javascript" src="__JS__/widget/navigator.iscroll.js"></script>
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/layer.min.js"></script>
+<!--组件依赖js end-->
+<style>
+body{
+	max-width: 800px;
+	margin:0 auto;
+}
+._top{
+	max-width: 800px;
+}
+._imgWidth img {
+	height: 93px;
+	max-width: 100%;
+	overflow: hidden;
+}
+
+._img_jin {
+	min-height: 130px;
+	overflow: hidden;
+}
+
+#fix-both ul li {
+	padding: 15px 10px;
+	background: #fff;
+	float: left;
+	margin-left: 10px;
+}
+
+body {
+	padding-bottom: 0;
+	background: #efeff4;
+}
+
+.col_red {
+	color: #f00
+}
+
+.sonCat {
+	width: 100%;
+	text-align: center;
+}
+
+.sonCat a {
+	font-size: 90%;
+	width: 20%;
+	display: block;
+	height: 28px;
+	line-height: 28px;
+	text-align: center;
+	background: #fff;
+	border-radius: 4px;
+	display: inline-block;
+	margin-top: 10px;
+	color: #323232;
+	margin: 5px;
+}
+
+.sonCat a:first-child {
+	color: #f00;
+}
+
+.bottoms {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	text-align: center;
+	z-index: 999;
+}
+
+.mar-l10 {
+	margin-left: 10px;
+}
+
+.goodsImg {
+	width: 95%;
+	margin: 0 auto;
+	float: left;
+	margin-left: 2%;
+	margin-bottom: 5%;
+	margin-bottom: 45px;
+}
+
+.li {
+	width: 49%;
+	background: #fff;
+	float: left;
+	text-align: center;
+	height: 200px;
+	margin-top: 8px;
+	padding-top: 8px;
+}
+
+.li:nth-child(even) {
+	margin-left: 2%;
+}
+
+.li_img {
+	text-align: center;
+	height: 140px;
+}
+
+.li_img img {
+	width: 90%;
+	height: 140px
+}
+
+.li_title {
+	text-align: left;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	width: 90%;
+	margin: 0 auto;
+	padding: 5px 0px;
+	max-height: 26px;
+	overflow: hidden;
+}
+
+.li_price {
+	color: #323232;
+	font-size: 16px;
+	text-align: left;
+	width: 90%;
+	margin: 0 auto;
+}
+
+.menu {
+	width: 100%;
+	height: 45px;
+	overflow-y: scroll;
+	line-height: 45px;
+	white-space: nowrap;
+	background: #fff;
+}
+
+.menu ul {
+	background: #fff;
+}
+
+.menu ul li {
+	background: #fff;
+	display: inline-block;
+	height: 45px;
+	white-space: nowrap;
+	line-height: 45px;
+	margin: 0px 5px;
+}
+
+.hideDiv {
+	display: none;
+}
+
+.hideDiv:first-child {
+	display: block;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+
+<body>
+	<div class="_top" style="z-index: 99999">
+		<div class="_left_top" onclick='javascript:window.location.href="{:U('Index/Index')}"'></div>
+		<div class="_title_top">必买专区</div>
+		<div class="_right_top"
+			onclick='javascript:window.location.href="{:U(' index',array('r'=>'car'))}"'></div>
+	</div>
+	<div class="_content">
+		<script type="text/javascript">
+	var jq = $.noConflict();
+		$(function(){
+			$('.sonMenu').hide();
+			$('.sonMenu').eq(0).show();
+			defaultStyle();
+			$('.firstMenu').eq(0).css('background','#fff');
+			var ico=$('.firstMenu').eq(0).children('.cate_ico').attr('data-activce');
+			$('.firstMenu').eq(0).children('.cate_ico').css('background','url('+ico+') center no-repeat');
+			$('.firstMenu').eq(0).children('.cate_ico').css('background-size','contain');
+			$('.firstMenu').eq(0).children('.text').css('color','#323232');
+			 $('#nav-smartSetup').navigator();    //smart setup方式创建 推荐方式
+			 $('.sonMenu').navigator();    //smart setup方式创建 推荐方式
+		})
+		$("body").on("click",".firstMenu",function(){
+			var bg_ico=$(this).children('.cate_ico').attr('data-activce');
+			var id=$(this).attr('data-id');
+			$('.sonMenu').hide();
+			$('#'+id).show();
+			defaultStyle();
+			$(this).children('.cate_ico').css('background','url('+bg_ico+') center no-repeat');
+			$(this).children('.cate_ico').css('background-size','contain');
+			$(this).children('.text').css('color','#323232');
+			$('.firstMenu').css('background','none');
+			$(this).css('background','#fff');
+		});
+		function defaultStyle(){
+			var arr=$('.cate_ico');
+			$.each(arr,function(index,val){
+				var ico=$(this).attr('data-default');
+				$(this).css('background','url('+ico+') center no-repeat');
+				$(this).css('background-size','contain');
+				$(this).siblings('.text').css('color','#fff');
+			})
+		}
+	</script>
+		<style>
+#nav-smartSetup {
+	height: 60px;
+	background: #ff4045;
+	border-top: #fff solid 1px;
+}
+
+#nav-smartSetup ul li {
+	height: 60px;
+}
+
+.cate_ico {
+	background: url(__IMG__/notePc.png) center no-repeat;
+	height: 30px;
+	margin: 5px 0px;
+	width: 80px;
+	background-size: contain;
+}
+
+.text {
+	height: 20px;
+	line-height: 20px;
+	text-align: center;
+	color: #fff;
+	font-size: 12px;
+}
+
+.sonMenu {
+	background: #fff;
+	border-bottom: #d5d7dc solid 1px;
+	height: 30px;
+}
+
+.sonMenu ul li {
+	height: 35px;
+	line-height: 35px;
+	padding: 0px 10px;
+}
+</style>
+		<div id="nav-smartSetup">
+			<ul>
+				<volist name="cat" id="sc">
+				<li class="firstMenu" data-id="{$sc.catId}">
+					<div class="cate_ico" data-default="__IMG__/phone_d.png"
+						data-activce="__IMG__/phone-a.png"></div>
+					<div class="text">{$sc.catName}</div>
+				</li>
+				</volist>
+			</ul>
+			<!--  <ul>
+        <li class="firstMenu">
+        <div class="cate_ico"  data-default="__IMG__/phone_d.png" data-activce="__IMG__/phone-a.png">
+        </div>
+        <div class="text">手机</div>
+        </li>
+        <li class="firstMenu" >
+        <div class="cate_ico"  data-default="__IMG__/pc.png" data-activce="__IMG__/pc_s.png">
+        </div>
+        <div class="text">电脑相关</div>
+        </li>
+        <li class="firstMenu">
+        <div class="cate_ico"  data-default="__IMG__/notePc.png" data-activce="__IMG__/notePc_s.png">
+        </div>
+        <div class="text">笔记本电脑</div>
+        </li>
+        <li class="firstMenu">
+        <div class="cate_ico"  data-default="__IMG__/game.png" data-activce="__IMG__/game_s.png">
+        </div>
+        <div class="text">影音玩乐</div>
+        </li>
+        <li class="firstMenu">
+        <div class="cate_ico"  data-default="__IMG__/cam.png" data-activce="__IMG__/cam_s.png">
+        </div>
+        <div class="text">摄影器材</div>
+        </li>
+        <li class="firstMenu">
+        <div class="cate_ico"  data-default="__IMG__/child.png" data-activce="__IMG__/child_s.png">
+        </div>
+        <div class="text">母婴</div>
+        </li>
+    </ul> -->
+		</div>
+		<volist name="third" id="td">
+		<div class="sonMenu " id="{$key}">
+			<ul>
+				<volist name="td" id="tson">
+				<li onclick="thirdCat({$tson.catId})">{$tson.catName}</li>
+				</volist>
+			</ul>
+		</div>
+		</volist>
+
+		<input type="hidden" value="1" id="page" />
+		<php>$firstCatid=0; foreach($third as $k=>$v){ if(!$firstCatid){
+		$firstCatid=$v[0]['catId']; } }</php>
+		<input type="hidden" value="<php>echo $firstCatid;</php>"
+			id="thirdCatId" />
+		<script>
+		//点击三级分类加载分类数据 
+		function thirdCat(catId){
+			var parentId="{$_GET['parentId']}"
+			$('.goodsImg').html('');
+			layer.msg('正在加载...');
+			$('#page').val(1);
+			$('#thirdCatId').val(catId);
+			var url="{:U('thirdCatGoodsInfo')}";
+			 jq.ajax({
+		           type: "POST",
+		           url: url,
+		           data: {id:catId,page:0,parentId:parentId},
+		           dataType: "json",
+		           success: function(data){
+		        	   console.log(data);
+		        	   layer.closeAll();
+		        		var html='';
+		        		   try{
+		           			   if(data.length>0){
+			        				var html='';
+			        			   for(var i=0;i<data.length;i++){
+			        				   html+='<div class="li" >';
+			        				   html+='<a href="'+data[i].url+'">';
+			        				   html+='<div class="li_img">	<img src="/'+data[i].goodsThums+'"/></div>';
+			        				   html+='<div class="li_title">'+data[i].goodsName+'</div>';
+			        				   html+='<div class="li_price">￥'+data[i].shopPrice+'</div>';
+			        				   html+='</a></div>';
+			        			   }
+			        			   $('.goodsImg').append(html);
+		        			   }else{
+		        				   layer.msg('没有更多了');
+		        				   return;
+		        			   }
+		           		   }catch(err){
+		           			  layer.msg('没有更多了');
+	        				   return;
+		           		   }
+		            }
+		       });
+		}
+
+		//加载更多
+		function loadMore(){
+			var parentId="{$_GET['parentId']}"
+			layer.msg('正在加载...');
+			var url="{:U('moreSupermarket')}";
+			var page=$('#page').val();
+			var catid3=$('#thirdCatId').val();
+			$('#loadText').text('正在加载更多...');
+			 $.ajax({
+		           type: "POST",
+		           url: url,
+		           data: {page:page,catid3:catid3,parentId:parentId},
+		           dataType: "json",
+		           success: function(data){
+		           layer.closeAll();
+		           $('#loadText').text('加载更多');
+	           		   try{
+	           			   if(data.length>0){
+	        				   page++;
+		        			   $('#page').val(page);  
+		        				var html='';
+		        			   for(var i=0;i<data.length;i++){
+		        				   html+='<div class="li" >';
+		        				   html+='<a href="'+data[i].url+'">';
+		        				   html+='<div class="li_img">	<img src="/'+data[i].goodsThums+'"/></div>';
+		        				   html+='<div class="li_title">'+data[i].goodsName+'</div>';
+		        				   html+='<div class="li_price">￥'+data[i].shopPrice+'</div>';
+		        				   html+='</a></div>';
+		        			   }
+		        			   $('.goodsImg').append(html);
+	        			   }else{
+	        				   layer.msg('没有更多了');
+	        				   return;
+	        			   }
+	           		   }catch(err){
+	           			  layer.msg('没有更多了');
+        				   return;
+	           		   }
+		            }
+		       });
+		}
+		</script>
+		<div class="goodsImg">
+			<volist name="hotGoods" id="hts">
+			<div class="li">
+				<a href="{:U('Index/goodsDetail',array('id'=>$hts['goodsId']))}">
+					<div class="li_img">
+						<img src="/{$hts.goodsThums}" />
+					</div>
+					<div class="li_title">{$hts.goodsName}</div>
+					<div class="li_price">￥{$hts.shopPrice}</div>
+				</a>
+			</div>
+			</volist>
+		</div>
+		<div class="ub height35 back-ff  margintop10 bottoms"
+			id="_moveComment" onclick="loadMore()" style="display: none;">
+			<div class="ub-f1 col_9 pos-r">
+				<div class="pos-a text-c">
+					<span id="loadText">加载更多</span><span class="w_right_ico">&nbsp;&nbsp;</span>
+				</div>
+			</div>
+		</div>
+		<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script>
+$(window).scroll(function(){
+	// 当滚动到最底部以上100像素时， 加载新内容
+	if (jq(document).height() - jq(this).scrollTop() - jq(this).height()<100) {
+		jq('#_moveComment').fadeIn();
+	}else{
+		jq('#_moveComment').fadeOut();
+	}
+});
+</script>
+</html>

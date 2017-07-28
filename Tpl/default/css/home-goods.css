@@ -1,0 +1,59 @@
+.datainp {
+	width: 150px;
+}
+
+.bor tr td, th {
+	border: #efefef solid 1px;
+}
+
+.tableinput input {
+	width: 60px;
+}
+
+.add {
+	padding: 5px 10px;
+	border-radius: 4px;
+	background: #ab774b;
+	color: #fff;
+	text-align: center;
+	cursor: pointer;
+}
+
+.jian {
+	padding: 5px 10px;
+	border-radius: 4px;
+	background: #ab774b;
+	color: #fff;
+	text-align: center;
+	cursor: pointer;
+}
+label{
+    display:inline-block;
+    min-width: 120px;
+}
+.priceList input{
+    width:60px;
+}
+.btnBlock{
+    display:inline-block;
+}
+.homeBtn{
+    background: #3385ff;     
+    border-radius: 4px;     
+    color: #fff;     
+    display: inline-block;     
+    padding:0 6px;     
+    font-size:12px;
+    cursor:pointer;
+    height:25px;
+    line-height:25px;
+}
+.homeBtnCancel{
+    background:#888;
+}
+.homeBtn:hover{
+    background:#2f71d5 ;
+}
+.homeBtnCancel:hover{
+    background:#666;
+}

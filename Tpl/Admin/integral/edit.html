@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{$CONF['shopTitle']['fieldValue']}后台管理中心</title>
+<link href="__PUBLIC__/plugins/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+<link href="__CSS__/AdminLTE.css" rel="stylesheet" type="text/css" />
+<!--[if lt IE 9]>
+      <script src="__PUBLIC__/js/html5shiv.min.js"></script>
+      <script src="__PUBLIC__/js/respond.min.js"></script>
+      <![endif]-->
+<script src="__PUBLIC__/js/jquery1.11.1.min.js"></script>
+<script src="__PUBLIC__/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="__PUBLIC__/js/common.js"></script>
+<script src="__PUBLIC__/plugins/plugins/plugins.js"></script>
+<script src="__PUBLIC__/plugins/formValidator/formValidator-4.1.3.js"></script>
+<script src="__PUBLIC__/plugins/kindeditor/kindeditor.js"></script>
+<script src="__PUBLIC__/plugins/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/ajaxfileupload.js"></script>
+</head>
+<script>
+   $(function () {
+	   KindEditor.ready(function(K) {
+			editor1 = K.create('textarea[name="articleContent"]', {
+				height:'350px',
+				allowFileManager : false,
+				allowImageUpload : true,
+				items:[
+				        'source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', 'code', 'cut', 'copy', 'paste',
+				        'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+				        'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+				        'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen', '/',
+				        'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+				        'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|','image','table', 'hr', 'emoticons', 'baidumap', 'pagebreak',
+				        'anchor', 'link', 'unlink', '|', 'about'
+				],
+				afterBlur: function(){ this.sync(); }
+			});
+		});
+	   $.formValidator.initConfig({
+		   theme:'Default',mode:'AutoTip',formID:"myform",debug:true,submitOnce:true,onSuccess:function(){
+				   edit();
+			       return false;
+			},onError:function(msg){
+		}});
+	   $("#goodsName").formValidator({onFocus:"请输入商品名称"}).inputValidator({min:1,max:100,onError:"请输入100字以内商品名称"});
+	   $("#goodsPrice").formValidator({onFocus:"请输入为数字的商品积分"}).inputValidator({min:1,max:100,onError:"请输入商品积分"});
+   });
+
+   //使用ajaxfileupload插件异步上传图片
+      jQuery(function(){   
+        var url = "{:U('Admin/Integral/uploadImg')}";
+          $("#buttonUpload").click(function(){
+            $.ajaxFileUpload({
+                url:url,//处理图片脚本
+                secureuri :false,
+                fileElementId :'fileToUpload1',//file控件id
+                dataType : 'json',
+                success : function (data, status){
+                    if(data){
+                      alert(data);
+                    }
+                },
+                 error : function (data, status){
+                    alert("上传错误");
+                },
+          });
+           $.ajaxFileUpload({
+                url:url,//处理图片脚本
+                secureuri :false,
+                fileElementId :'fileToUpload2',//file控件id
+                dataType : 'json',
+                success : function (data, status){
+                    if(data){
+                      alert(data);
+                    }
+                },
+                 error : function (data, status){
+                    alert("上传错误");
+                },
+          });
+           $.ajaxFileUpload({
+                url:url,//处理图片脚本
+                secureuri :false,
+                fileElementId :'fileToUpload3',//file控件id
+                dataType : 'json',
+                success : function (data, status){
+                    if(data){
+                      alert(data);
+                    }
+                },
+                 error : function (data, status){
+                    alert("上传错误");
+                },
+          });
+          });
+      })
+    //保存修改
+   function edit(){
+	   var params = {};
+	   params.id = $('#id').val();
+	   params.goodsName = $('#goodsName').val();
+	   params.goodsContent = $('#goodsContent').val();
+     params.description = $('#description').val();
+     params.goodsPrice = $('#goodsPrice').val();
+     params.description = $('#description').val();
+     params.path2 = $('#file2').attr('fileId');
+     params.path3 = $('#file3').attr('fileId');
+     console.log(params);
+	   if(params.goodsContent==''){
+		   Plugins.Tips({title:'信息提示',icon:'error',content:'请输入商品详情!',timeout:1000});
+		   return;
+	   }
+	   Plugins.waitTips({title:'信息提示',content:'正在提交数据，请稍后...'});
+	   $.post("{:U('Admin/Integral/edit')}",params,function(data,textStatus){
+			var json = WST.toJson(data);
+      console.log(json);
+			if(json.status=='1'){
+				Plugins.setWaitTipsMsg({ content:'操作成功',timeout:1000,callback:function(){
+				   location.href="{:U('Admin/Integral/index')}";
+				}});
+			}else if(json.status=='0'){
+          Plugins.closeWindow();
+        Plugins.Tips({title:'信息提示',icon:'error',content:'请点击上传图片!',timeout:1000});
+      }else{
+				Plugins.closeWindow();
+				Plugins.Tips({title:'信息提示',icon:'error',content:'操作失败!',timeout:1000});
+			}
+		});
+   }
+   </script>
+<body class="wst-page">
+	<form name="myform" method="post" id="myform" autocomplete="off">
+		<input type='hidden' id='id' value='{$goods.goodsId}' />
+		<table class="table table-hover table-striped table-bordered wst-form">
+			<tr>
+				<th width='120' align='right'>商品名称 <font color='red'>*</font>：
+				</th>
+				<td><input type='text' id='goodsName'
+					class="form-control wst-ipt" value='{$goods.goodsName}'
+					maxLength='25' /></td>
+			</tr>
+			<tr>
+				<th align='right'>商品描述 ：</th>
+				<td><textarea name="description" id="description"
+						class="form-control wst-ipt"
+						onKeyUp="gbcount(this,250,'textdescription');"
+						style="height: 60px">{$goods.goodsDesc}</textarea></td>
+			</tr>
+			<tr>
+				<th width='120' align='right'>商品积分 <font color='red'>*</font>：
+				</th>
+				<td><input type='text' id='goodsPrice' value='{$goods.price}'
+					onKeyUp="value=value.replace(/\D/g,'')" maxLength='50' /></td>
+			</tr>
+			<tr>
+				<th align="right" style="width: 120px">展示图片 <font color='red'>*</font>：
+				</th>
+				<td>
+					<fieldset class="uploadpicarr">
+						<div class="item">
+							<div class='content'>
+								缩略图<font color='red'>*</font>：<input id="fileToUpload1"
+									type="file" size="20" name="fileToUpload1"
+									style="display: inline">
+								<if condition="$goods.goodsImg neq ''">
+								<input id="file1" name="file1" class="form-control wst-ipt"
+									type="text" value='{$goods.goodsImg}' readonly /></if>
+							</div>
+							<div style="clear: both;"></div>
+						</div>
+
+						<div class="item">
+							<div class='content'>
+								图片2 &nbsp;&nbsp;：<input id="fileToUpload2" type="file" size="20"
+									name="fileToUpload2" style="display: inline">
+								<if condition="$goods[gallerys][0] neq ''">
+								<input id="file2" name="file2" class="form-control wst-ipt"
+									type="text" value='{$goods[gallerys][0][goodsImg]}'
+									fileId={$goods[gallerys][0][id]} readonly /></if>
+							</div>
+							<div style="clear: both;"></div>
+						</div>
+
+						<div class="item">
+							<div class='content'>
+								图片3 &nbsp;&nbsp;：<input id="fileToUpload3" type="file" size="20"
+									name="fileToUpload3" style="display: inline">
+								<if condition="$goods[gallerys][1] neq ''">
+								<input id="file3" name="file3" class="form-control wst-ipt"
+									type="text" value='{$goods[gallerys][1][goodsImg]}'
+									fileId={$goods[gallerys][2][id]} readonly /></if>
+							</div>
+							<div style="clear: both;"></div>
+						</div>
+					</fieldset>
+					<input type="button" class="btn btn-primary" id="buttonUpload"
+					value="上传图片"></input>
+				</td>
+			</tr>
+			<tr>
+				<th align='right'>商品详情<font color='red'>*</font>：
+				</th>
+				<td><textarea id='goodsContent' name='articleContent'
+						style='width: 80%; height: 400px;'>{$goods.goodsContent}</textarea>
+				</td>
+			</tr>
+			<tr>
+				<td colspan='2' style='padding-left: 250px;'>
+					<button type="submit" class="btn btn-success">保&nbsp;存</button>
+					<button type="button" class="btn btn-primary"
+						onclick='javascript:location.href="{:U('Admin/Integral/index')}'>返&nbsp;回</button>
+				</td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>

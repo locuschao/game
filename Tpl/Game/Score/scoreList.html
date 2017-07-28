@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>{$catName}</title>
+<include file="./Tpl/head.html" />
+<!--标准mui.css-->
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/mui.min.css">
+<link rel="stylesheet" href="__CSS__/font.css" />
+<!--App自定义的css-->
+<link rel="stylesheet" type="text/css" href="__CSS__/app.css" />
+<link rel="stylesheet" type="text/css" href="__CSS__/swiper.min.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/home.css" />
+<link rel="stylesheet" type="text/css" href="__CSS__/goshop.css" />
+<link rel="stylesheet" href="__CSS__/my.css" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" type="text/css" href="__CSS__/pub.css" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/layer.min.js"></script>
+<style>
+html{
+	max-width: 800px;
+	margin:0 auto;
+}
+body {
+	background: #efeff4;
+	max-width: 800px;
+	margin:0 auto;
+}
+._top{
+	max-width: 800px;
+}
+
+.title {
+	margin: 20px 15px 10px;
+	color: #6d6d72;
+	font-size: 15px;
+}
+
+.oa-contact-cell.mui-table .mui-table-cell {
+	padding: 11px 0;
+	vertical-align: middle;
+}
+
+.oa-contact-cell {
+	position: relative;
+	margin: -11px 0;
+}
+
+.oa-contact-avatar {
+	width: 75px;
+}
+
+.oa-contact-avatar img {
+	border-radius: 50%;
+}
+
+.oa-contact-content {
+	width: 100%;
+}
+
+.oa-contact-name {
+	margin-right: 20px;
+}
+
+.oa-contact-name, oa-contact-position {
+	float: left;
+}
+
+.mar-t10 {
+	margin-top: 8px;
+}
+
+ul, li {
+	margin: 0;
+	padding: 0;
+}
+
+.swiper-slide img {
+	height: 180px;
+	min-width: 100%;
+}
+
+body {
+	padding-bottom: 50px;
+	font-size: 14px;
+}
+
+.hideDiv {
+	display: none;
+}
+
+._dian {
+	background: url(__IMG__/dianjia_logo.png) center no-repeat;
+	width: 25px;
+	background-size: 20px;
+}
+
+.font90 {
+	font-size: 90%;
+}
+
+#max_lists {
+	background: #fff;
+}
+
+.text {
+	border: #ccc solid 1px;;
+	background: transparent;
+}
+
+#max_lists {
+	border-bottom: none;
+}
+
+p, ul, li, h1, h2, input, select, hr {
+	background: none;
+}
+
+#max_lists li {
+	width: 25%;
+	over-flow: hidden;
+	line-height: 80px;
+	height: 80px;
+}
+
+#max_lists ul li img {
+	padding-top: 10px;
+}
+
+#lists li {
+	height: 55px;
+}
+
+.lh35 {
+	height: 35px;
+	line-height: 35px;
+	text-align: center;
+}
+
+.price p {
+	height: 15px;
+	line-height: 15px;
+}
+
+._car_jian {
+	background: url(__IMG__/jian_.png) center no-repeat;
+	background-size: 80% 80%;
+}
+
+._car_jia {
+	background: url(__IMG__/jia_.png) center no-repeat;
+	background-size: 80% 80%;
+}
+
+input[placeholder], [placeholder], *[placeholder] {
+	color: #ccc;
+	font-size: 90%;
+}
+
+::-webkit-input-placeholder {
+	color: #ccc;
+	font-size: 90%;
+}
+
+.indexSearch {
+	background: url(__IMG__/index_searc_ico.png) 5px no-repeat;
+	background-size: 25px;
+	color: #fff;
+	width: 100%;
+	height: 25px;
+	text-indent: 30px;
+	line-height: 25px;
+	border: none;
+	border-radius: 15px;
+	color: #fff;
+	background-color: rgba(0, 0, 0, 0.3);
+}
+
+.location_ico {
+	width: 5rem;
+	line-height: 4rem;
+	background: url(__IMG__/location_ico.png) 5px no-repeat;
+	background-size: 15px;
+	text-indent: 25px;
+	color: #fff
+}
+
+.searchNav {
+	position: fixed;
+	top: 45px;
+	left: 0;
+	z-index: 9999;
+	height: 44px;
+	line-height: 44px;
+}
+
+._imgWidth img {
+	height: 93px;
+	overflow: hidden;
+}
+
+._img_jin {
+	height: 130px;
+}
+
+.cash {
+	display: block;
+	padding: 10px;
+	border-radius: 4px;
+	margin: 0 auto;
+	text-align: center;
+	border: #00baff solid 1px;
+	color: #00baff;
+	width: 80%;
+}
+
+.noborder {
+	border: none;
+}
+
+.imgH50 img {
+	height: 50px;
+}
+
+.nomargin {
+	margin: 0;
+}
+
+._imgHeight img {
+	height: 145px;
+}
+
+._new_img_jin {
+	height: auto;
+	margin: 0;
+	background: #fff;
+	margin-right: 3px;
+	padding: 8px;
+}
+
+.margin_top2 {
+	margin-top: 2px;
+}
+
+.margin-top8 {
+	margin-top: 8px;
+}
+
+.nobg, .nopadding {
+	background: none;
+	padding: 0
+}
+
+.duanMoney {
+	display: block;
+	padding: 5px 10px;
+	text-align: center;
+}
+
+.dhuan {
+	display: block;
+	color: #fff;
+	background: #00baff;
+	border-radius: 4px;
+	padding: 5px 10px;
+	text-align: center;
+}
+
+.lh45 {
+	height: 45px;
+	line-height: 45px;
+}
+
+._contain {
+	width: 100%;
+	height: 150px;
+	background: #fff;
+}
+
+._contain a {
+	display: block;
+	float: left;
+	width: 50%;
+}
+
+._imgs {
+	width: 100%;
+	overflow: hidden;
+	text-align: center;
+	height: 90px;
+	padding: 8px;
+}
+
+._imgs img {
+	width: 100%;
+	height: 100%;
+}
+
+.goodstitle {
+	padding: 0px 8px;
+	width: 90%;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	height: 20px;
+}
+
+.col-red {
+	color: #ff4045;
+}
+
+._contain {
+	background: none;
+}
+
+._contain a {
+	background: #fff;
+}
+
+.lh30 {
+	height: 30px;
+	line-height: 30px;
+}
+
+.score_a a:nth-child(odd) {
+	float: left;
+	width: 49.5%;
+	margin-bottom: 4px;
+}
+
+.score_a a:nth-child(even) {
+	float: right;
+	width: 49.5%;
+	margin-bottom: 4px;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<form action="#" method="post">
+		<div class="_top">
+			<php></php>
+			<div class="_left_top"
+				onclick='javascript:window.location.href="/Wx/Index/index/r/score"'></div>
+			<div class="_title_top">{$catName}</div>
+			<div class="_right_top nobackground"></div>
+		</div>
+		<div class="_content">
+			<div class="_contain score_a" style="height: 218px;">
+				<volist name="scoreGoodsInfo" id="sk"> <a
+					href="{:U('Score/scoreGoods',array('id'=>$sk['goodsId']))}">
+					<div class="_imgs" style='height: 145px'>
+						<img src="{$sk.goodsThums}" />
+					</div>
+					<div class="txt-l goodstitle lh30">{$sk.goodsName}</div>
+					<div class="_jin_money ub">
+						<div class="ub-f1 ">
+							<span class="duanMoney col-red">{$sk.shopPrice}积分</span>
+						</div>
+						<div class="" style="margin-right: 8px; width: 60px">
+							<span class="dhuan">兑换</span>
+						</div>
+					</div>
+				</a> </volist>
+			</div>
+		</div>
+	</form>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+
+</html>

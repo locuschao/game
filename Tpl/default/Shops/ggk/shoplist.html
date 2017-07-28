@@ -1,0 +1,181 @@
+<extend name="Shops:layout" />
+<block name="content">
+<style type="text/css">
+.wst-pagination {
+	margin-top: 10px;
+	text-align: center;
+	height: 25px;
+	line-height: 25px;
+}
+
+.wst-current {
+	background-color: rgb(226, 62, 61);
+	color: #fff;
+	padding: 0 12px;
+	border-radius: 2px;
+	height: 26px;
+	line-height: 26px;
+	display: inline-block;
+	vertical-align: top;
+	font-size: 12px;
+}
+
+.wst-num {
+	background-color: #f1eff0;
+	padding: 0 12px;
+	border-radius: 2px;
+	margin: 0 3px 6px;
+	height: 26px;
+	line-height: 26px;
+	text-decoration: none;
+	color: #666;
+	display: inline-block;
+	vertical-align: top;
+	font-size: 12px;
+}
+
+.wst-next, .wst-prev {
+	background-color: #f1eff0;
+	padding: 0 12px;
+	border-radius: 2px;
+	height: 26px;
+	line-height: 26px;
+	text-decoration: none;
+	color: #666;
+	display: inline-block;
+	vertical-align: top;
+	font-size: 12px;
+}
+</style>
+<script src="__PUBLIC__/plugins/plugins/plugins.js"></script> <script>
+$(document).ready(function(){
+    <notempty name='shopCatId1'>
+    getShopCatListForAppraises('{$shopCatId1}','{$shopCatId2}');
+    </notempty>
+});
+</script> <script type="text/javascript">
+  $(function(){
+    var val_r={$return};
+  })
+</script> <script>
+    function del(id){
+  layer.confirm("您确定要删除该活动？",{icon: 3, title:'系统提示'},function(tips){
+    $.post(Think.U('Home/Ggk/ggkdel'),{id:id},function(data,textStatus){
+      layer.close(tips);
+        var json = WST.toJson(data);
+        if(json.status=='1'){
+          WST.msg('操作成功！', {icon: 1},function(){
+            location.reload();
+          });
+        }else{
+          WST.msg('操作失败', {icon: 5});
+        }
+    });
+  });
+}
+
+function over(id){
+  layer.confirm("您确定要结束此次活动？",{icon: 3, title:'系统提示'},function(tips){
+    $.post(Think.U('Home/Ggk/overggk'),{id:id,biz_apply_status:'3'},function(data,textStatus){
+      layer.close(tips);
+        var json = WST.toJson(data);
+        if(json.status=='1'){
+          WST.msg('操作成功！', {icon: 1},function(){
+            location.reload();
+          });
+        }else{
+          WST.msg('操作失败', {icon: 5});
+        }
+    });
+  });
+}
+
+</script>
+<div class="wst-body">
+	<div class='wst-page-header'>卖家中心 > 刮刮卡列表</div>
+	<div class='wst-page-content'>
+
+		<button
+			style="border: 1px solid #ffffff; height: 35px; width: 120px; background-color: #e23e3d; color: #ffffff; cursor: pointer; float: right;"
+			onclick='javascript:window.location.href="{:U('Home/ggk/ggklog')}"'>审核记录</button>
+
+		<button
+			style="border: 1px solid #ffffff; height: 35px; width: 120px; background-color: #e23e3d; color: #ffffff; cursor: pointer; float: right;"
+			onclick='javascript:window.location.href="{:U('
+			Home/ggk/add',array('biz_apply_status'=>1))}"'>发布新的刮刮卡</button>
+
+		<button
+			style="border: 1px solid #ffffff; height: 35px; width: 60px; background-color: #e23e3d; color: #ffffff; cursor: pointer; float: left;"
+			onclick="window.location.href='/Home/ggk/shoplist?val=1'">全部</button>
+
+		<button
+			style="border: 1px solid #ffffff; height: 35px; width: 60px; background-color: #e23e3d; color: #ffffff; cursor: pointer; float: left;"
+			onclick="window.location.href='/Home/ggk/shoplist?val=2'">进行中</button>
+
+		<button
+			style="border: 1px solid #ffffff; height: 35px; width: 60px; background-color: #e23e3d; color: #ffffff; cursor: pointer; float: left;"
+			onclick="window.location.href='/Home/ggk/shoplist?val=3'">已结束</button>
+
+		<button
+			style="border: 1px solid #ffffff; height: 35px; width: 60px; background-color: #e23e3d; color: #ffffff; cursor: pointer; float: left;"
+			onclick="window.location.href='/Home/ggk/shoplist?val=4'">已抽完</button>
+
+
+		<table class='wst-list' style="margin: 0 auto;">
+			<thead>
+				<tr>
+					<th width='100'>活动名称</th>
+					<th width="50">参与人数</th>
+					<th width="100">状态</th>
+					<th width="100" style="padding-right: 60px;">开始/结束时间</th>
+					<th width='200' style="text-align: center;">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<volist name='list' id='vo'>
+				<tr>
+					<td>{$vo['title']}</td>
+					<td>{$vo['joinnum']}</td>
+					<td>
+						<?php
+              switch ($vo['state']) {
+                  case '0':
+                    echo "<font color='blue'>活动审核中</font>";
+                    break;
+                  case '1':
+                  echo "<font color='green'>活动进行中</font>";
+                    break;
+                  case '2':
+                  echo "<font color='red'>活动已结束</font>";
+                    break;
+                  case '3':
+                  echo "<font color='red'>奖品被抽完</font>";
+                    break;
+                }
+             ?>
+					</td>
+					<td style="padding-right: 50px;">{$vo['statdate']|date='Y-m-d
+						H:i',###}
+						<p style="line-height: 5px;">/</p>{$vo['enddate']|date='Y-m-d
+						H:i',###}
+					</td>
+
+					<td style="width: 150px; text-align: center; font-size: 15px;"><a
+						style="font-size: 15px;"
+						href="{:U('Home/ggk/manage',array('id'=>$vo['id']))}">[中奖管理]</a>|<a
+						style="font-size: 15px;"
+						href="{:U('Home/Ggk/add',array('id'=>$vo['id'],'biz_apply_status'=>2))}">[编辑]</a>|<a
+						style="font-size: 15px; cursor: pointer;"
+						onclick="javascript:over({$vo['id']})">[结束]</a>|<a
+						style="font-size: 15px; cursor: pointer;"
+						onclick="javascript:del({$vo['id']})">[删除]</a></td>
+				</tr>
+				</volist>
+				<tr>
+					<td colspan='7' class="nav_down">{$show}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+</block>

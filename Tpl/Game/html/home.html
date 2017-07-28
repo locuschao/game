@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>title</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" type="text/css" href="../css/api.css" />
+<link rel="stylesheet" type="text/css" href="../css/home.css" />
+
+<!--组件依赖css begin-->
+<link rel="stylesheet" type="text/css" href="../css/slider.css" />
+<!--<link rel="stylesheet" type="text/css" href="../css/home.css" />-->
+<!--组件依赖css end-->
+<!--组件依赖js begin-->
+<script type="text/javascript" src="../script/zepto.js"></script>
+<script type="text/javascript" src="../script/zepto.extend.js"></script>
+<script type="text/javascript" src="../script/zepto.ui.js"></script>
+<script type="text/javascript" src="../script/slider.js"></script>
+
+<!--组件依赖js end-->
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<div id="main">
+		<div id="banner">
+			<ul>
+				<li tapmode="a" onclick="fremove(this,'a');" class="ban1"><img
+					src="../image/fzc.png" /><a>服装城</a></li>
+				<li tapmode="a" onclick="fremove(this,'a');" class="ban2"><img
+					src="../image/chaoshi.png" /><a>超市</a></li>
+				<li tapmode="a" onclick="fremove(this,'a');fopen_bimaizhuanqu();"
+					class="ban3"><img src="../image/bimai.png" /><a>必买专区</a></li>
+				<li tapmode="a" onclick="fremove(this,'a');" class="ban4"><img
+					src="../image/tuangou.png" /><a>团购</a></li>
+			</ul>
+		</div>
+		<div id="ttms">
+			<div class="min-title">
+				<span class="t1">天天秒杀</span><span class="t3"></span><span class="t2">全场9.9元起</span>
+			</div>
+			<div class="neirong" id="slider">
+				<ul>
+					<li class="ban1"><img src="../image/cs_sp1.png" /><a
+						class="a1">￥9.9</a><a class="a2">￥137</a></li>
+					<li class="ban2"><img src="../image/cs_sp1.png" /><a
+						class="a1">￥9.9</a><a class="a2">￥137</a></li>
+					<li class="ban3"><img src="../image/cs_sp1.png" /><a
+						class="a1">￥9.9</a><a class="a2">￥137</a></li>
+					<li class="ban4"><img src="../image/cs_sp1.png" /><a
+						class="a1">￥9.9</a><a class="a2">￥137</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="tu-title">
+			<span class="tt1"></span><span class="tt2">商城头条:</span><span
+				class="tt3"><a style="color: red;">HOT&nbsp;&nbsp;&nbsp;</a>19英寸显示屏低至399</span>
+		</div>
+		<div id="tu-list">
+			<div class="t-l-1"
+				style="background-image: url('../image/tu_1.png'); background-size: 100% 100%;"></div>
+			<div class="t-l-2"></div>
+			<div class="t-l-3">
+				<div class="t-l-31"
+					style="background-image: url('../image/tu_2.png'); background-size: 100% 100%;"></div>
+				<div class="t-l-32"></div>
+				<div class="t-l-33"
+					style="background-image: url('../image/tu_3.png'); background-size: 100% 100%;"></div>
+			</div>
+		</div>
+		<div id="tu-one"
+			style="background-image: url('../image/tu_4.png'); background-size: 100% 100%;">
+
+		</div>
+		<div class="title-list">
+			<div class="min-title">
+				<span class="t4">精品选购</span><span tapmode="a" class="ty"><span
+					class="t5">换一组</span><span class="t6"></span></span>
+			</div>
+			<div class="neirong2">
+				<ul>
+					<li class="ban1"><img src="../image/sp_2.png" /><a class="a1">丹麦进口丹麦皇冠曲奇</a><a
+						class="a2">￥137.00</a></li>
+					<li class="ban2"><img src="../image/sp_2.png" /><a class="a1">丹麦进口丹麦皇冠曲奇</a><a
+						class="a2">￥137.00</a></li>
+					<li class="ban3"><img src="../image/sp_2.png" /><a class="a1">丹麦进口丹麦皇冠曲奇</a><a
+						class="a2">￥137.00</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="title-list">
+			<div class="min-title">
+				<span class="t4">新品上市</span><span tapmode="a" class="ty"><span
+					class="t5">换一组</span><span class="t6"></span></span>
+			</div>
+			<div class="neirong2">
+				<ul>
+					<li class="ban1"><img src="../image/sp_3.png" /><a class="a1">丹麦进口丹麦皇冠曲奇</a><a
+						class="a2">￥137.00</a></li>
+					<li class="ban2"><img src="../image/sp_3.png" /><a class="a1">丹麦进口丹麦皇冠曲奇</a><a
+						class="a2">￥137.00</a></li>
+					<li class="ban3"><img src="../image/sp_3.png" /><a class="a1">丹麦进口丹麦皇冠曲奇</a><a
+						class="a2">￥137.00</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="title-list">
+			<div class="min-title">
+				<span class="t4">热销商品</span><span tapmode="a" class="ty"><span
+					class="t5">换一组</span><span class="t6"></span></span>
+			</div>
+			<div class="neirong2">
+				<ul>
+					<li class="ban1"><img src="../image/sp_4.png" /><a class="a1">丹麦进口丹麦皇冠曲奇</a><a
+						class="a2">￥137.00</a></li>
+					<li class="ban2"><img src="../image/sp_4.png" /><a class="a1">丹麦进口丹麦皇冠曲奇</a><a
+						class="a2">￥137.00</a></li>
+					<li class="ban3"><img src="../image/sp_4.png" /><a class="a1">丹麦进口丹麦皇冠曲奇</a><a
+						class="a2">￥137.00</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script>
+    //创建slider组件
+    var slider = $.ui.slider('#slider', {
+        autoPlay:false,
+        showArr:true,
+        viewNum:3,
+        imgZoom:true,
+        stopPropagation:true,
+        content:[
+            {
+                href: "search.html",
+                pic: "../image/cs_sp1.png",
+                title:'￥99.99<br/><span style="text-decoration:line-through;font-size:13px !important;color:red;">￥100</span>',
+                
+            }, {
+                href: "search.html",
+                pic: "../image/cs_sp1.png",
+                title:'￥99.99<br/><span style="text-decoration:line-through;font-size:13px !important;color:red;">￥100</span>',
+            }, {
+                href: "search.html",
+                pic: "../image/cs_sp1.png",
+                title:'￥99.99<br/><span style="text-decoration:line-through;font-size:13px !important;color:red;">￥100</span>',
+            }, {
+                href: "search.html",
+                pic: "../image/cs_sp1.png",
+                title:'￥99.99<br/><span style="text-decoration:line-through;font-size:13px !important;color:red;">￥100</span>',
+            },
+            {
+                href: "search.html",
+                pic: "../image/cs_sp1.png",
+                title:'￥99.99<br/><span style="text-decoration:line-through;font-size:13px !important;color:red;">￥100</span>',
+            },
+            {
+                href: "search.html",
+                pic: "../image/cs_sp1.png",
+                title:'￥99.99<br/><span style="text-decoration:line-through;font-size:13px !important;color:red;">￥100</span>',
+            },
+            {
+                href: "search.html",
+                pic: "../image/cs_sp1.png",
+                title:'￥99.99<br/><span style="text-decoration:line-through;font-size:13px !important;color:red;">￥100</span>',
+            },
+            {
+                href: "search.html",
+                pic: "../image/cs_sp1.png",
+                title:'￥99.99<br/><span style="text-decoration:line-through;font-size:13px !important;color:red;">￥100</span>',
+            }
+        ]
+    });
+</script>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/config.js"></script>
+<script type="text/javascript">
+	window.apiready = function() {
+			setTimeout("api.parseTapmode()", 100);
+			var gao = api.winHeight;
+			var tugao = gao * 0.25;
+			var obj = api.require('UIScrollPicture');
+			var paths = ['widget://image/01.jpg', 'widget://image/02.jpg', 'widget://image/03.jpg', 'widget://image/04.jpg', 'widget://image/05.jpg'];
+			document.getElementById("main").style.marginTop = tugao + "px";
+			obj.open({
+				rect : {
+					x : 0,
+					y : 0,
+					w : 'auto',
+					h : tugao
+				},
+				data : {
+					paths : paths,
+				},
+				styles : {
+					caption : {
+						height : 35,
+						color : '#E0FFFF',
+						size : 13,
+						bgColor : '#696969',
+						position : 'bottom'
+					},
+					indicator : {
+						align : 'center',
+						color : '#FFFFFF',
+						activeColor : '#DA70D6'
+					}
+				},
+				placeholderImg : 'widget://image/01.jpg',
+				contentMode : 'scaleToFill',
+				interval : 3,
+				loop : true,
+				fixedOn : api.frameName,
+				fixed : false
+			}, function(ret, err) {
+				if (ret.status) {
+					if (ret.eventType == 'click') {
+						//点击图片的操作
+						//alert(ret.index);
+					}
+				}
+			});
+			head_h=55;
+	        if(api.systemType=='ios'){
+	       		head_h=70;
+	    	}
+	    	else
+	    	{
+	    		var sVer = api.systemVersion;
+	    		var banben=parseFloat(sVer);
+	    		if(banben>=4.4)
+	    		{
+	    			head_h=70;
+	    		}
+	    	}
+			
+//			api.openFrame({
+//			    name: 'shoplist',
+//			    bounces:true,
+//			    url: 'shoplist/shoplist.html',
+//			    rect: {
+//				    x:0,
+//				    y:tugao+head_h,
+//				    w:'auto',
+//				    h:gao-tugao-head_h-50
+//			    }
+//		    });
+
+		}
+function fopen_bimaizhuanqu()
+			{
+				api.openWin({
+			        name: 'bimaizhuanqu_header',
+			        url: 'bimaizhuanqu_header.html'
+		        });
+			}
+function fremove(obj,n)
+{
+	$api.removeCls(obj,n);
+}	
+</script>
+</html>

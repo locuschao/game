@@ -1,0 +1,182 @@
+<extend name="Shops:layout" />
+<block name="content">
+<style type="text/css">
+#preview {
+	border: 1px solid #cccccc;
+	background: #CCC;
+	color: #fff;
+	padding: 5px;
+	display: none;
+	position: absolute;
+}
+</style>
+<script>
+$(document).ready(function(){
+    $('.imgPreview').imagePreview();
+    <notempty name='shopCatId1'>
+    getShopCatListForGoods('{$shopCatId1}','{$shopCatId2}');
+    </notempty>
+});
+function giveUp(auctionId){
+    layer.confirm('您确定要放弃拍卖申请吗？',{icon: 3, title:'系统提示'}, function(){
+        var ll = layer.load('数据处理中，请稍候...');
+        $.post("{:U('Home/Auction/giveUpAuction')}",{auctionId:auctionId},function(data){
+            layer.close(ll);
+            var json = WST.toJson(data);
+            if(json==1){
+                WST.msg('操作成功!', {icon: 1});
+                window.location.reload();
+            }else{
+                WST.msg('操作失败!', {icon: 5});
+            }
+        });
+    });
+}
+function payMarginMoney(auctionId){
+    layer.confirm('您确定要支付保证金吗？',{icon: 3, title:'系统提示'}, function(){
+        var ll = layer.load('数据处理中，请稍候...');
+        $.post("{:U('Home/Auction/payMarginMoney')}",{auctionId:auctionId},function(data){
+            layer.close(ll);
+            var json = WST.toJson(data);
+            if(json==1){
+                WST.msg('操作成功!', {icon: 1});
+                window.location.reload();
+            }else{
+                WST.msg('操作失败!', {icon: 5});
+            }
+        });
+    });
+}
+</script>
+<div class="wst-body">
+	<div class='wst-page-header'>卖家中心 > 拍卖活动</div>
+	<div class='wst-page-content'>
+		<div class='wst-tbar-query'>
+			分类：<select id='shopCatId1' autocomplete="off"
+				onchange='javascript:getShopCatListForGoods(this.value,"{$object['shopCatId2']}")'>
+				<option value='0'>请选择</option>
+				<volist name="shopCatsList" id="vo">
+				<option value='{$vo['catId']}' <if
+						condition="$shopCatId1 == $vo['catId'] ">selected</if>>{$vo['catName']}
+				</option>
+				</volist>
+			</select> <select id='shopCatId2' autocomplete="off">
+				<option value='0'>请选择</option>
+			</select> 名称：<input type='text' id='goodsName' value='{$goodsName}' /> 审核状态： <select
+				id='goodsAuctionStatus'>
+				<option value='-1'<if
+						condition="$goods['goodsAuctionStatus'] eq -1">selected</if> >全部
+				</option>
+				<option value='0'<if
+						condition="$goods['goodsAuctionStatus'] eq 0">selected</if> >未审核
+				</option>
+				<option value='1'<if
+						condition="$goods['goodsAuctionStatus'] eq 1">selected</if> >已通过
+				</option>
+				<option value='2'<if
+						condition="$goods['goodsAuctionStatus'] eq 2">selected</if> >不通过
+				</option>
+			</select>
+
+			<button class='wst-btn-query'
+				onclick='javascript:queryAuctionAction()'>查询</button>
+		</div>
+		<table class='wst-list'>
+			<thead>
+				<tr>
+					<th width='40'>序号<!--<input type='checkbox' onclick='javascript:checkAll(this)'/>--></th>
+					<th>商品名称</th>
+					<if condition='$goods["goodsAuctionStatus"] eq 2'>
+					<th width="540">不通过的原因<br /></th>
+					<else />
+					<th width="80">活动状态</th>
+					<th width="120">结束时间</th>
+					<th width="60">起拍价</th>
+					<th width="60">递增价</th>
+					<th width="60">中标数</th>
+					<th width="60">保证金</th>
+					</if>
+					<th width='110'>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<volist name="goods['root']" id="vo" key='i'>
+				<tr>
+					<td>{$i}<!--<input class='chk' type='checkbox' value='{$vo['goodsId']}'/>--></td>
+					<td<if condition="$vo['goodsThums'] neq ''">img='{$vo['goodsThums']}'
+						class='imgPreview'</if>> <img class='lazyImg'
+						data-original="__ROOT__/{$vo['goodsThums']}" height="50"
+						width="50" /> {$vo['goodsName']}</td>
+					<if condition='$goods["goodsAuctionStatus"] eq 2'>
+					<td>{$vo['notPassReason']}</td>
+					<td><a href="###" onclick="giveUp({$vo['goodsId']})">放弃</a> |
+						<a
+						href="javascript:toEditGoods({$vo['goodsId']},'queryOnSaleByPage')">修改</a>
+						&nbsp;</td>
+					<else />
+					<td><if condition='$vo["goodsAuctionStatus"] eq 0'> 待审核 <else />
+						<if condition='$vo["goodsAuctionStatus"] eq 2'> 不通过 <else />
+						<if condition="$vo['auctionStatus'] eq 0">未开始</if> <if
+							condition="$vo['auctionStatus'] eq 1">进行中</if> <if
+							condition="$vo['auctionStatus'] eq 2">已结束</if> </if> </if></td>
+					<td><php> echo date('Y-m-d
+						H:i:s',$vo['auctionEndTime']);</php></td>
+					<td>{$vo['auctionLowPrice']}</td>
+					<td>{$vo['auctionAddPrice']}</td>
+					<td>{$vo['auctionWinNum']}</td>
+					<td><if condition="$vo['isPay'] eq 0"> <if
+							condition="$vo['goodsAuctionStatus'] eq 1"> <a
+							href="javascript:payMarginMoney({$vo['goodsId']});">支付</a> <else />
+						支付 </if> </if> <if condition="$vo['isPay'] eq 1">已付</if></td>
+
+					<td><a href="javascript:queryGroupOrders({$vo['id']})">订单</a>
+						| <a
+						href="{:U('Home/Group/getGoodsDetails',array('goodsId'=>$vo['goodsId'],'isGroup'=>1))}">详情</a>
+						| <a
+						href="javascript:toEditGoods({$vo['goodsId']},'queryOnSaleByPage')">修改</a>
+						&nbsp;</td>
+					</if>
+				</tr>
+				</volist>
+			<tfoot>
+				<tr>
+					<td colspan='12'>
+						<div class="wst-page" style="float: right; padding-bottom: 10px;">
+							<div id="wst-page-items"></div>
+						</div> <script>
+			    <if condition="$goods['totalPage'] gt 1">
+			    $(document).ready(function(){
+					laypage({
+					    cont: 'wst-page-items',
+					    pages: {$goods['totalPage']}, //总页数
+					    skip: true, //是否开启跳页
+					    skin: '#e23e3d',
+					    groups: 3, //连续显示分页数
+					    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
+					        var page = location.search.match(/p=(\d+)/);
+					        return page ? page[1] : 1;
+					    }(), 
+					    jump: function(e, first){ //触发分页后的回调
+					        if(!first){ //一定要加此判断，否则初始时会无限刷新
+					        	var nuewurl = WST.splitURL("p");
+					        	var ulist = nuewurl.split("?");
+					        	if(ulist.length>1){
+					        		location.href = nuewurl+'&p='+e.curr;
+					        	}else{
+					        		location.href = '?p='+e.curr;
+					        	}
+					            
+					        }
+					    }
+					});
+			    });
+				</if>
+				</script>
+					</td>
+				</tr>
+			</tfoot>
+			</tbody>
+		</table>
+	</div>
+</div>
+</block>

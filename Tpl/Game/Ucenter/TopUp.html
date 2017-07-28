@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>在线支付</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/font.css" />
+<link rel="stylesheet" type="text/css" href="__CSS__/wxzf.css">
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/layer.min.js"></script>
+<script src="__PUBLIC__/js/baiduTJ.js"></script>
+
+<style>
+html{
+	margin:0 auto;
+	max-width: 800px;
+}
+body{
+	max-width: 800px;
+}
+._top{
+	max-width: 800px;
+}
+.font90 {
+	font-size: 90%;
+}
+
+.money_ico {
+	background-image: url(__IMG__/yie_Ico.png);
+	background-size: 20px;
+}
+
+.wx_ico {
+	background-image: url(__IMG__/weixin_ico.png);
+	background-size: 20px;
+}
+
+.ali_ico {
+	background-image: url(__IMG__/alipay_ico.png);
+	background-size: 20px;
+}
+.weChat_ico{
+	background-image: url(__IMG__/weChat_ico.jpg);
+	background-size: 28px;
+}
+
+.margin_top5 {
+	margin-top: 5px;
+}
+
+.height25 {
+	height: 35px;
+	line-height: 35px;
+}
+
+.submit {
+	display: block;
+	background: #00b4ff;
+	padding: 5px;
+	color: #fff;
+	border-radius: 4px;
+	width: 40%;
+	height: 35px;
+	line-height: 35px;
+	margin: 0 auto;
+}
+
+.ti10 {
+	text-indent: 10px;
+}
+
+._center {
+	
+}
+
+.white-checkbox input[type=checkbox]:before, .mui-radio input[type=radio]:before
+	{
+	color: #ccc;
+}
+
+.inputpwd input {
+	background: transparent;
+	border: none;
+	height: 30px;
+	line-height: 30px;
+	margin-left: 10px;
+	border-bottom: #ccc solid 1px;
+}
+
+.mon {
+	background: none;
+	border: #d5d7dc solid 1px;
+	height: 25px;
+	line-height: 25px;
+	text-indent: 10px;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+
+<body>
+	<div id="pay">
+		<div class="_top">
+			<div class="_left_top" onclick='history.go(-1)'></div>
+			<div class="_title_top">在线充值</div>
+			<div class="_right_top nobackground"></div>
+		</div>
+		<div class="_content">
+			<div class="_son_title ub lh45 ">
+				<div class="ti10">充值金额</div>
+				<div class="ub-f1 text-l font90 col_9">
+					<input onkeypress="keyPress(this)"  onkeyup="keyUp(this)"  onblur="onBlur(this)" class="mon"
+						name="money" id="money" value="" type="text" placeholder="请输入充值金额" />
+				</div>
+			</div>
+			<div class="_son_title ub height35 margintop10">
+				<div class="ub-f1 text-l  col_9">选择支付方式</div>
+			</div>
+		<!--	<div class="_son_title ub noborder border_bottom1 ">
+				<div class="title_left_ico margin_left10 wx_ico "></div>
+				<div class="ub-f1 text-l">微信支付</div>
+				<div class="mui-input-row mui-radio  margin_right10 margin_top5">
+					<input class="payType" name="checkbox" value="2" type="radio">
+				</div>
+			</div>-->
+			<!-- 支付宝支付 -->
+			<div class="_son_title ub noborder border_bottom1 ">
+            <div class="title_left_ico margin_left10 ali_ico"></div>
+            <div class="ub-f1 text-l">支付宝支付</div>
+            <div class="mui-input-row mui-radio  margin_right10 margin_top5">
+                <input class="payType" name="checkbox" value="1" type="radio">
+            </div>
+        </div>
+			<!-- 微信支付  -->
+				<div class="_son_title ub noborder border_bottom1 ">
+				<div class="title_left_ico margin_left10 wx_ico "></div>
+				<div class="ub-f1 text-l">微信支付</div>
+				<div class="mui-input-row mui-radio  margin_right10 margin_top5">
+					<input class="payType" name="checkbox" value="2" type="radio">
+				</div>
+			</div>
+
+			<!--<div class="_son_title ub noborder border_bottom1 ">-->
+				<!--<div class="title_left_ico margin_left10 weChat_ico"></div>-->
+				<!--<div class="ub-f1 text-l">微信支付</div>-->
+				<!--<div class="mui-input-row mui-radio  margin_right10 margin_top5">-->
+					<!--<input class="payType" name="checkbox" value="2" type="radio">-->
+				<!--</div>-->
+			<!--</div>-->
+
+			<div class="_son_title ub noborder nobackground _center"
+				style="margin-top: 30px;">
+				<div class="ub-f1 text-c">
+					<span class="submit" onclick="showPay()">确认充值</span>
+				</div>
+			</div>
+		</div>
+		<input type="hidden" id="isrepeat" value="0" />
+        <include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script type="text/javascript">
+	function showPay() {
+		var payType = $(".payType:checked").val();
+		if (payType == null || payType == '' || payType == 'undefined') {
+			layer.msg('请选择付款方式');
+			return;
+		}
+		if (payType == 1||payType == 2) {
+
+			if ($('#isrepeat').val() == 1) {
+				layer.msg('请不要重复提交');
+				return;
+			}
+
+			var money = Number($('#money').val());
+			if (isNaN(money)) {
+				layer.msg('非法金额');
+				return;
+			}
+			if (money <= 0) {
+				layer.msg('非法金额');
+				return;
+			}
+			$.ajax({
+				type : "POST",
+				url : "{:U('Orders/touUp')}",
+				data : {
+					money : money,
+					payType : payType
+				},
+				dataType : "json",
+				success : function(data) {
+					layer.closeAll();
+					switch (data.status) {
+					case 0:
+						layer.msg('订单提交成功');
+						setTimeout(function() {
+//							location.href = "{:U('Confirm/onlinkPay')}";
+							location.href = "/Game/Confirm/onlinkPay/payType/"+payType;
+						}, 2000);
+						break;
+					case -1:
+						layer.msg('请先登录');
+						$('#isrepeat').val(0);
+						location.href = "{:U('Login/login')}";
+						break;
+					break;
+				case -3:
+					layer.msg('请稍候重试');
+					$('#isrepeat').val(0);
+					setTimeout(function() {
+						location.reload([ true ])
+					}, 1000);
+				}
+			}
+			})
+		}
+	}
+	
+	
+	function keyPress(ob) {
+		 if (!ob.value.match(/^\d*?\.?\d*?$/)) ob.value = ob.t_value; else ob.t_value = ob.value; if (ob.value.match(/^(\d+(?:\.\d+)?)?$/)) ob.o_value = ob.value;
+		}
+		function keyUp(ob) {
+		 if (!ob.value.match(/^\d*?\.?\d*?$/)) ob.value = ob.t_value; else ob.t_value = ob.value; if (ob.value.match(/^(\d+(?:\.\d+)?)?$/)) ob.o_value = ob.value;
+		        }
+		function onBlur(ob) {
+			return;
+		if(!ob.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?|\.\d*?)?$/))ob.value=ob.o_value;else{if(ob.value.match(/^\.\d+$/))ob.value=0+ob.value;if(ob.value.match(/^\.$/))ob.value=0;ob.o_value=ob.value};
+		}
+
+</script>
+
+</html>

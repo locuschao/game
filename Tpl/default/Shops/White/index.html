@@ -1,0 +1,112 @@
+<extend name="Shops:layout" />
+<block name="content"> <script
+	src="__PUBLIC__/plugins/kindeditor/kindeditor.js"></script> <script
+	src="__PUBLIC__/plugins/kindeditor/lang/zh_CN.js"></script>
+
+<link rel="stylesheet" type="text/css"
+	href="__PUBLIC__/plugins/webuploader/style.css" />
+<link rel="stylesheet" type="text/css"
+	href="__PUBLIC__/plugins/webuploader/webuploader.css" />
+<script type="text/javascript"
+	src="__PUBLIC__/plugins/webuploader/webuploader.js"></script> <script
+	type="text/javascript" src="__JS__/goodsbatchupload.js"></script> <script
+	type="text/javascript" src="__JS__/layer.js"></script> <script
+	type="text/javascript" src="__JS__/jquery-1.8.3.min.js"></script> <script
+	type="text/javascript" src="__PUBLIC__/plugins/jeDate/jedate.js"></script>
+
+<style>
+.datainp {
+	width: 150px;
+}
+
+.bor tr td, th {
+	border: #efefef solid 1px;
+}
+
+.tableinput input {
+	width: 60px;;
+}
+.wst-pagination .wst-current{
+    padding:4px 12px;
+    background:#e23e3d;
+    color:#fff;
+    margin-right:2px;
+}
+.wst-pagination .wst-num,
+.wst-pagination .wst-next,
+.wst-pagination .wst-end,
+.wst-pagination .wst-prev{
+    display:inline-block;
+    padding:4px 12px;
+    background:#f1eff0;
+    
+    margin-right:2px;
+}
+</style>
+
+<div class="wst-body">
+	<div class='wst-page-header'>
+		卖家中心 >
+		<if condition="$object['goodsId'] ==0 ">新增<else />编辑</if>
+		首充白名单
+	</div>
+	<div class='wst-page-content'>
+		<form method='POST' action="{:U('Home/White/index')}">
+			<div class='wst-tbar'>
+				游戏名称：<input type='text' id='gameName' name='gameName'
+					class='form-control wst-ipt-10' value='{$gameName}' />
+				<!-- 商家名称：<input
+					type='text' id='shopName' name='shopName'
+					class='form-control wst-ipt-10' value='{$shopName}' /> -->
+				<button type="submit" class="wst-btn-query">查询</button>
+				<a class="btn btn-success glyphicon glyphicon-plus"
+					href="{:U('Home/White/toEdit')}" style='float: right'>新增</a>
+			</div>
+		</form>
+		<div id='tab' class="wst-tab-box">
+
+			<div class="wst-tab-content" style='width: 99%; margin-bottom: 10px;'>
+
+				<div class='wst-tab-item' style="position: relative;">
+					<!--表单提交部分-->
+					<table
+						class="table table-hover table-striped table-bordered wst-list wst-form" style="wdith:100%;">
+						<thead>
+							<tr>
+								<th width='30'>编号</th>
+								<th width=''>游戏帐号</th>
+								<th width=''>游戏名称</th>
+								<th width=''>版本</th>
+								<th width=''>创建时间</th>
+								<th width=''>商铺名称</th>
+								<th width=''>订单号</th>
+							<!-- 	<th width='100'>操作</th> -->
+							</tr>
+						</thead>
+						<tbody>
+							<volist name="Page['root']" id="vo" key='i'>
+							<tr>
+								<td>{$vo.id}</td>
+								<td>{$vo['account']}</td>
+								<td>{$vo['gameName']}</td>
+								<td>{$vo['vName']}</td>
+								<td>{$vo['createTime']}</td>
+								<td>{$vo['shopName']}</td>
+								<td>{$vo['orderId']}</td>
+							<!-- 	<td><a class="btn btn-default glyphicon glyphicon-pencil"
+									href="{:U('Home/White/toEdit',array('id'=>$vo['id'],'src'=>'index'))}">修改</a>&nbsp;
+								</td> -->
+							</tr>
+							</volist>
+							<tr>
+								<td colspan='11' align='center'>{$Page['pager']}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div style='clear: both;'></div>
+</div>
+</block>

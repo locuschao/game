@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{$CONF['shopTitle']['fieldValue']}后台管理中心</title>
+<link href="__PUBLIC__/plugins/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+<link href="__CSS__/AdminLTE.css" rel="stylesheet" type="text/css" />
+<!--[if lt IE 9]>
+      <script src="__PUBLIC__/js/html5shiv.min.js"></script>
+      <script src="__PUBLIC__/js/respond.min.js"></script>
+      <![endif]-->
+<script src="__PUBLIC__/js/jquery.min.js"></script>
+<script src="__PUBLIC__/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="__PUBLIC__/js/common.js"></script>
+<script src="__PUBLIC__/plugins/plugins/plugins.js"></script>
+</head>
+<script>
+   function getAreaList(objId,parentId,t,id){
+	   var params = {};
+	   params.parentId = parentId;
+	   $('#'+objId).empty();
+	   if(t<1){
+		   $('#areaId3').empty();
+		   $('#areaId3').html('<option value="">请选择</option>');
+	   }
+	   var html = [];
+	   $.post("{:U('Admin/Areas/queryByList')}",params,function(data,textStatus){
+		    html.push('<option value="">请选择</option>');
+			var json = WST.toJson(data);
+			if(json.status=='1' && json.list.length>0){
+				var opts = null;
+				for(var i=0;i<json.list.length;i++){
+					opts = json.list[i];
+					html.push('<option value="'+opts.areaId+'" '+((id==opts.areaId)?'selected':'')+'>'+opts.areaName+'</option>');
+				}
+			}
+			$('#'+objId).html(html.join(''));
+	   });
+   }
+   $(function(){
+       <PHP>if($areaId1!=0){</PHP>
+	   getAreaList("areaId2",'{$areaId1}',0,'{$areaId2}');
+	   <PHP>}</PHP>  
+	   <PHP>if($areaId2 != 0){</PHP>
+	   getAreaList("areaId3",'{$areaId2}',1,'{$areaId3}');
+	   <PHP>}</PHP>
+	   $('#orderStatus').val({$orderStatus});
+   });
+
+
+
+   function pay(orderId){
+       Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
+       $.post("{:U('Admin/PlateformAgent/orderAction')}",{orderId:orderId},function(data){
+		   var json = WST.toJson(data);
+
+           if(json.status==true){
+               Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
+                   location.reload();
+
+               }});
+           }
+           else{
+
+               Plugins.closeWindow();
+               Plugins.Tips({title:'信息提示',icon:'error',content:json.info,timeout:1000});
+           }
+
+
+       });
+
+
+
+   }
+
+
+
+
+   </script>
+<body class='wst-page'>
+
+	<div class="wst-body">
+		<table class="table table-hover table-striped table-bordered wst-list">
+			<volist name="Page['root']" id="vo" key='key'>
+			<thead>
+				<tr>
+					<th colspan='6'>{$key}.订单：{$vo['orderNo']}<span
+						style='margin-left: 100px;'><a
+							href="{:U('Home/Shops/toShopHome',array('shopId'=>$vo['shopId']))}"
+							target='_blank'>{$vo['shopName']}</a></span></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>
+						<div style='width: 150px;'>
+							<img style='margin: 2px;' src="<?php if($vo['goodsThums']): ?>__ROOT__/{$vo['goodsThums']} <?php else :?>/Tpl/present.png<?php endif ?>"
+								height="50" width="50" title='{$goods[' goodsName']}'/>
+						</div>
+					</td>
+					<td>{$vo['goodsName']}</td>
+					<td>￥{$vo['needPay']}<br /> <if
+							condition="$vo['orderStatus'] gt 0"> <if
+							condition="$vo['payType'] ==2 ">微信支付<else />余额支付</if> <else />
+						待付款 </if>
+					</td>
+					<td>{$vo['createTime']}</td>
+					<td><if condition='$vo["orderStatus"] eq 1'>等待发货 <elseif
+							condition='$vo["orderStatus"] eq -2' />待付款 <elseif
+							condition='$vo["orderStatus"] eq 2' />已发货 <elseif
+							condition='$vo["orderStatus"] eq 3' />已完成 </if></td>
+					<td><if condition='$vo["isAgent"] eq 1'>已分成 </if> <if
+							condition='$vo["isAgent"] eq 0'>未分成 </if></td>
+					<td>
+					<!-- <a class="btn btn-primary glyphicon" href="{:U('Admin/Agent/orderToView',array('id'=>$vo['orderId']))}"">查看</a> -->
+					<a class="btn btn-primary glyphicon" href="{:U('Admin/Orders/toView',array('id'=>$vo['orderId']))}"">查看</a>
+					&nbsp;
+						<button class="btn btn-warning glyphicon"
+							onclick="javascript:pay({$vo['orderId']})">分成</button>&nbsp;</td>
+				</tr>
+			</volist>
+			<tr>
+				<td colspan='6' align='center'>{$Page['pager']}</td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

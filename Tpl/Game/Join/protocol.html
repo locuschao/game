@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>入驻协议</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<link rel="stylesheet" href="__CSS__/font.css" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/layer.min.js"></script>
+<style>
+.col-9 {
+	color: #999
+}
+
+body {
+	padding-top: 55px;
+}
+
+p {
+	background: none;
+	text-align: left;
+}
+
+.con {
+	width: 95%;
+	margin: 0 auto;
+	height: 350px;
+	background: #fff;
+	border-bottom: #bfbfc3 solid 1px;
+	overflow-y: scroll;
+}
+
+.text {
+	text-align: left;
+	padding: 10px;
+}
+
+.lh45 {
+	width: 95%;
+	margin: 0 auto;
+}
+
+.mui-checkbox input[type=checkbox]:before, .mui-radio input[type=radio]:before
+	{
+	font-family: Muiicons;
+	font-size: 24px;
+	font-weight: 400;
+	line-height: 1;
+	text-decoration: none;
+	color: #aaa;
+	border-radius: 0;
+	background: 0 0;
+	-webkit-font-smoothing: antialiased;
+}
+
+.btn {
+	width: 100%;
+	margin-top: 20px;
+}
+
+.btn span {
+	width: 40%;
+	margin: 0 auto;
+	height: 40px;
+	line-height: 40px;
+	background: #ff4045;
+	border-radius: 4px;
+	display: block;
+	text-align: center;
+	color: #fff;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<div class="_top">
+		<div class="_left_top"
+			onclick="location.href='{:U('Wx/Index/index',array('r'=>'my'))}' "></div>
+		<div class="_title_top">入驻协议</div>
+		<div class="_right_top no-bg"></div>
+	</div>
+	<div class="con">
+		<div class="text">I volunteer to join the Communist Party of
+			China, uphold the party's program, comply with the party constitution
+			perform the duties of a party member, execute the party's decisions,
+			strictly observe Party discipline, the secret of the conservative
+			party, loyal to the party, and actively work, for the Communist
+			struggle for life, ready to sacrifice to the party and the people,
+			and never betray the party. I volunteer to join the Communist Party
+			of China, uphold the party's program, comply with the party
+			constitution perform the duties of a party member, execute the
+			party's decisions, strictly observe Party discipline, the secret of
+			the conservative party, loyal to the party, and actively work, for
+			the Communist struggle for life, ready to sacrifice to the party and
+			the people, and never betray the party.</div>
+	</div>
+	<div class=" lh45 col-9">
+		<div class="mui-input-row mui-checkbox  margin_right10 margin_top5">
+			<input type="checkbox" class="chkall" value="1" />我已阅读并同意以上协议
+		</div>
+	</div>
+	<div class="btn">
+		<span onclick="next()">同意并继续</span>
+	</div>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script>
+	function next(){
+		if($('.chkall').is(":checked")){
+			location.href="{:U('Join/toJoin')}"
+		}else{
+			layer.msg('请认真阅读协议');
+			return;
+		}
+	}
+</script>
+</html>

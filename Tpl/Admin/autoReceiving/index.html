@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{$CONF['shopTitle']['fieldValue']}后台管理中心</title>
+<link href="__PUBLIC__/plugins/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+<link href="__CSS__/AdminLTE.css" rel="stylesheet" type="text/css" />
+<link href="__CSS__/upload.css" rel="stylesheet" type="text/css" />
+
+<!--[if lt IE 9]>
+      <script src="__PUBLIC__/js/html5shiv.min.js"></script>
+      <script src="__PUBLIC__/js/respond.min.js"></script>
+      <![endif]-->
+<script src="__PUBLIC__/js/jquery.min.js"></script>
+<script src="__PUBLIC__/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="__PUBLIC__/js/common.js"></script>
+<script src="__PUBLIC__/plugins/plugins/plugins.js"></script>
+<script src="__PUBLIC__/js/layer.js"></script>
+
+</head>
+<style>
+img {
+	max-width: 100px;
+}
+
+.ATRoot {
+	height: 22px;
+	line-height: 22px;
+	margin-left: 5px;
+	clear: both;
+	cursor: pointer;
+}
+
+.ATNode {
+	margin-left: 5px;
+	line-height: 22px;
+	margin-left: 17px;
+	clear: both;
+	cursor: pointer;
+}
+
+.Hide {
+	display: none;
+}
+
+dl.areaSelect {
+	padding: 0 5px;
+	display: inline-block;
+	width: 100%;
+	margin-bottom: 0; /*border:1px solid #eee;*/
+}
+
+dl.areaSelect:hover {
+	border: 1px solid #E5CD29;
+}
+
+dl.areaSelect:hover dd {
+	display: block;
+}
+
+dl.areaSelect dd {
+	float: left;
+	margin-left: 20px;
+	cursor: pointer;
+}
+
+#preview {
+	width: 152px;
+	height: 152px;
+	max-width: 152px;
+}
+
+#preview_Filedata img {
+	width: 152px;
+	height: 152px;
+	max-width: 152px;
+}
+</style>
+<script>
+	function save() {
+		var params = {};
+		params.auto = $('input[name="auto"]:checked').val();
+		params.autoTime = $('#autoTime').val();
+		Plugins.waitTips({
+			title : '信息提示',
+			content : '正在提交数据，请稍后...'
+		});
+		$.post("{:U('Admin/autoReceiving/save')}", params, function(data,
+				textStatus) {
+			var json = WST.toJson(data);
+			if (json.status == '0') {
+				Plugins.setWaitTipsMsg({
+					content : '操作成功',
+					timeout : 1000,
+					callback : function() {
+						location.reload();
+					}
+				});
+			} else {
+				Plugins.closeWindow();
+				Plugins.Tips({
+					title : '信息提示',
+					icon : 'error',
+					content : '操作失败!',
+					timeout : 1000
+				});
+				location.reload();
+			}
+		});
+	}
+
+	function hand() {
+		var params = {};
+		Plugins.waitTips({
+			title : '信息提示',
+			content : '正在提交数据，请稍后...'
+		});
+		$.ajax({
+			url : "{:U('Admin/AutoReceiving/hand')}",
+			type : "POST",
+			data : {},
+			timeout : 3000,
+			dataType : "json",
+			success : function(data) {
+				Plugins.setWaitTipsMsg({
+					content : '操作成功',
+					timeout : 1000,
+					callback : function() {
+						location.reload();
+					}
+				});
+			},
+			error : function() {
+				Plugins.setWaitTipsMsg({
+					content : '操作成功',
+					timeout : 1000,
+					callback : function() {
+						location.reload();
+					}
+				});
+			}
+		});
+	}
+
+	function active() {
+		var params = {};
+		Plugins.waitTips({
+			title : '信息提示',
+			content : '正在提交请求，请稍后...'
+		});
+		$.ajax({
+			url : "{:U('Admin/autoReceiving/active')}",
+			type : "POST",
+			data : {},
+			timeout : 3000,
+			dataType : "json",
+			success : function(data) {
+				Plugins.setWaitTipsMsg({
+					content : '操作成功',
+					timeout : 1000,
+					callback : function() {
+						location.reload();
+					}
+				});
+			},
+			error : function() {
+				Plugins.setWaitTipsMsg({
+					content : '操作成功',
+					timeout : 1000,
+					callback : function() {
+						location.reload();
+					}
+				});
+			}
+		});
+
+		/*    $.post("{:U('Game/autoExc/autoRun')}",params,timeout:100,function(data,textStatus){
+					    Plugins.setWaitTipsMsg({ content:'操作成功',timeout:1000,callback:function(){
+					}});
+			}); */
+	}
+</script>
+<body class="wst-page" style="position: relative;">
+
+	<form name="myform" method="post" id="myform" autocomplete="off">
+		<input type='hidden' id='id' value='{$object.id}' />
+		<table class="table table-hover table-striped table-bordered wst-form">
+			<tr>
+				<th width='100' align='right'>自动收货状态<font color='red'>*</font>：
+				</th>
+				<td width='100'><label for="auto"> <input type="radio"
+					<if condition="$setting[0] eq 1">checked</if> name="auto" value="1"
+						>开启
+				</label> <label for="auto"> <input type="radio"
+					<if condition="$setting[0] eq 0">checked</if> name="auto" value="0"
+						>关闭
+				</label></td>
+			</tr>
+			<tr>
+				<th width='100' align='right'>最后一次执行时间<font color='red'>*</font>：
+				</th>
+				<td width='100'>{$setting[1]}
+					（说明：如果最后一次执行时间与当前时间间隔大于2分钟，需要重新激活自动收货）</td>
+			</tr>
+			<tr>
+				<th width='100' align='right'>自动收货时间设置<font color='red'>*</font>：
+				</th>
+				<td width='100'><input type="text" id="autoTime"
+					name="autoTime" value="{$setting[2]}" />说明（单位：小时）</td>
+			</tr>
+			<td style='text-align: center;' colspan="2">
+				<button type="button" onclick="save()" class="btn btn-success">保存修改</button>
+				<!--<button type="button" onclick="active()" class="btn btn-success">激活自动收货</button>-->
+				<button type="button" onclick="hand()" class="btn btn-success">手动执行一次确认收货</button>
+			</td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>

@@ -1,0 +1,124 @@
+body {
+	background: #efeff4
+}
+
+input[type=text] {
+	height: 30px;
+	line-height: 30px;
+	background: transparent;
+	border: #ccc solid 1px;
+	border-radius: 4px;
+	width: 95%;
+	text-indent: 10px;
+}
+
+.search {
+	background: #fff600;
+	height: 35px;
+	line-height: 35px;
+	border-radius: 4px;
+	padding: 0px 15px;
+}
+
+.nav a {
+	cursor: pointer;
+	display: inline-block;
+	margin: 10px;
+	width: 25px;
+	height: 25px;
+	line-height: 25px;
+	border-radius: 50%;
+	text-align: center;
+	border: #e7e7e7 solid 1px;
+}
+
+.nav a:hover {
+	background: #fff600;
+	border: #4a2d1a solid 1px;
+}
+
+.active {
+	background: #fff600;
+	border: #4a2d1a solid 1px;
+}
+.goodsList a{
+	display:inline-block;
+	width:25%;
+	 text-align:center;
+	overflow:hidden;
+	padding:0;
+	margin:0;
+}
+.gameImg{width:90%; overflow:hidden;}
+.gameImg img {
+	text-align:center;
+    width: 60px;
+	border-radius:4px;
+	height: 60px;
+	padding: 10px;
+}
+
+.gameName {
+	width: 90%;
+	margin: 0 auto;
+	text-align: center;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.tof {
+	overflow: ellipsis;
+	white-space: no-wrap;
+	overflow: hidden;
+}
+
+.tab {
+	width: 80px;
+	color: #666;
+	cursor: pointer
+}
+
+.box-align {
+	moz-box-align: center;
+	-webkit-box-align: center;
+	-o-box-align: center;
+	box-align: center;
+	moz-box-pack: center;
+	-webkit-box-pack: center;
+	-o-box-pack: center;
+	box-pack: center;
+}
+
+.box-center {
+	height: 32px;
+	line-height: 32px;
+	width: 160px;
+	margin: 0 auto;
+	border: #40220e solid 1px;
+	border-radius: 4px;;
+	text-align: center;
+	moz-box-align: center;
+	-webkit-box-align: center;
+	-o-box-align: center;
+	box-align: center;
+	moz-box-pack: center;
+	-webkit-box-pack: center;
+	-o-box-pack: center;
+	box-pack: center;
+}
+
+.tab_active {
+	background: #40220e;
+	color: #fff;
+}
+
+/**
+ * @author peng
+ * @copyright 2016
+ * @remark
+ */
+ .game-list-tip{
+    text-align:center;
+    padding:15px 0;
+ }

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{$CONF['shopTitle']['fieldValue']}后台管理中心</title>
+<link href="__PUBLIC__/plugins/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+<link href="__CSS__/AdminLTE.css" rel="stylesheet" type="text/css" />
+<link href="__CSS__/upload.css" rel="stylesheet" type="text/css" />
+<!--[if lt IE 9]>
+      <script src="__PUBLIC__/js/html5shiv.min.js"></script>
+      <script src="__PUBLIC__/js/respond.min.js"></script>
+      <![endif]-->
+<script src="__PUBLIC__/js/jquery.min.js"></script>
+<script src="__PUBLIC__/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="__PUBLIC__/js/common.js"></script>
+<script src="__PUBLIC__/plugins/plugins/plugins.js"></script>
+<script src="__PUBLIC__/plugins/formValidator/formValidator-4.1.3.js"></script>
+</head>
+<script>
+   var ThinkPHP = window.Think = {
+	        "ROOT"   : "__ROOT__"
+	};
+   $(function () {
+	   $.formValidator.initConfig({
+		   theme:'Default',mode:'AutoTip',formID:"myform",debug:true,submitOnce:true,onSuccess:function(){
+				   edit();
+			       return false;
+			}});
+
+
+
+		$("#userScore").formValidator({
+			empty:true,onShow:"",onFocus:"当前积分只能是正整数"
+			}).functionValidator({
+				fun:function(val,elem){
+					if(parseInt(val,10)<=parseInt($("#userTotalScore").val(),10)){
+					    return true;
+				    }else{
+					    return "会员积分不能大于历史积分";
+				    }
+				}
+		});
+		$("#userTotalScore").formValidator({
+			empty:true,onShow:"",onFocus:"当前积分只能是正整数"
+			}).functionValidator({
+				fun:function(val,elem){
+					if(parseInt(val,10)>=parseInt($("#userScore").val(),10)){
+					    return true;
+				    }else{
+					    return "历史积分不能小于用户积分";
+				    }
+				}
+			});
+	
+   });
+   function edit(){
+	   var params = {};
+	   params.partnerId = $.trim($('#partnerId').val());
+	   params.agentBalance = $.trim($('#agentBalance').val());
+	   params.agentWaitPrice = $.trim($('#agentWaitPrice').val());
+	   params.agentPayPrice = $.trim($('#agentPayPrice').val());
+	   params.agentTotalPrice = $.trim($('#agentTotalPrice').val());
+	   params.id = $('#id').val();
+	   
+	   Plugins.waitTips({title:'信息提示',content:'正在提交数据，请稍后...'});
+		$.post("{:U('Admin/agent/usersEdit')}",params,function(data,textStatus){
+			var json = WST.toJson(data);
+			if(json.status=='1'){
+				Plugins.setWaitTipsMsg({ content:'操作成功',timeout:1000,callback:function(){
+				   location.href='{:U("Admin/agent/usersIndex")}';
+				}});
+			}else{
+				Plugins.closeWindow();
+				Plugins.Tips({title:'信息提示',icon:'error',content:'操作失败!',timeout:1000});
+			}
+		});
+   }
+   </script>
+<body class="wst-page">
+	<form name="myform" method="post" id="myform" autocomplete="off">
+		<input type='hidden' id='id' value='{$object.userId}' />
+
+		<table class="table table-hover table-striped table-bordered wst-form">
+			<tr>
+				<th width='120' align='right'>账号：</th>
+				<td>{$object.loginName}</td>
+			</tr>
+			<tr>
+				<th align='right'>用户名：</th>
+				<td>{$object.userName}</td>
+			</tr>
+			<tr>
+				<th align='right'>推荐人编号(id)：</th>
+				<td><input type='text' id='partnerId' name='partnerId'
+					class="form-control wst-ipt" value='{$object.partnerId}'
+					maxLength='25' /></td>
+			</tr>
+
+			<tr>
+				<th align='right'>总佣金：</th>
+				<td><input type='text' id='agentTotalPrice'
+					name='agentTotalPrice' class="form-control wst-ipt"
+					value='{$object.agentTotalPrice}' maxLength='25' /></td>
+			</tr>
+
+			<tr>
+				<th align='right'>可提现佣金：</th>
+				<td><input type='text' id='agentBalance' name='agentBalance'
+					class="form-control wst-ipt" value='{$object.agentBalance}'
+					maxLength='25' /></td>
+			</tr>
+
+			<tr>
+				<th align='right'>申请提现中佣金：</th>
+				<td><input type='text' id='agentWaitPrice'
+					name='agentWaitPrice' class="form-control wst-ipt"
+					value='{$object.agentWaitPrice}' maxLength='25' /></td>
+			</tr>
+
+			<tr>
+				<th align='right'>已提现佣金：</th>
+				<td><input type='text' id='agentPayPrice' name='agentPayPrice'
+					class="form-control wst-ipt" value='{$object.agentPayPrice}'
+					maxLength='25' /></td>
+			</tr>
+
+			<tr>
+				<td colspan='3' style='padding-left: 250px;'>
+					<button type="submit" class="btn btn-success">保&nbsp;存</button>
+					<button type="button" class="btn btn-primary"
+						onclick='javascript:location.href="{:U('Admin/agent/usersIndex')}"'>返&nbsp;回</button>
+				</td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>

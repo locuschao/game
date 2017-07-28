@@ -1,0 +1,157 @@
+<extend name="Base:common" />
+<block name="static">
+<link rel="stylesheet" href="__CSS__/ordersuccess.css" />
+<link rel="stylesheet" href="__CSS__/pslocation.css" />
+<link rel="stylesheet" href="__CSS__/magnifier.css" />
+<style type="text/css">
+.passContainer {
+	border: 1px solid #ccc;
+	border-radius: 16px;
+	width: 300px;
+	height: 50px;
+	overflow: hidden;
+	padding: 0;
+	position: relative;
+}
+
+.passContainer input {
+	width: 100%;
+	height: 100%;
+	background-color: transparent;
+	background: transparent;
+	position: absolute;
+	border: none;
+	padding: 0 20px;
+	outline: 6;
+	font-size: 20px;
+	font-family: "courier new", sans-serif;
+	letter-spacing: 18px;
+	text-align: left;
+	text-overflow: hidden;
+}
+</style>
+</block>
+<block name="body">
+<div class="w">
+	<div>
+		<div>
+			<div id="succeed" class="wst-ods-success">
+				<div class="success2" style="margin: 0 auto;">
+					<div class="wst-ods-success-blank"></div>
+					<div class="wst-ods-success-step">
+						<img src="__IMG__/step1.png" alt="" /><br /> <span
+							class="wst-pay-success-step1 wst-pay-curr-step">1.在线支付</span> <span
+							class="wst-pay-success-step2">2.收银台</span> <span
+							class="wst-pay-success-step3">3.支付成功</span>
+					</div>
+					<div class="wst-clear"></div>
+				</div>
+			</div>
+		</div>
+		<br />
+		<div class="wst-ods-success-tb" style="margin-top: 40px;">
+			<form autocomplete="off" method="get">
+				<div class="wst-ods-success-tc" style="background-color: #F8F8F8;">
+					<div class="wst-ods-success-td">
+						<if condition="count($orderInfos) gt 0"> <img
+							src="__IMG__/icon-succ.png" alt="" /> </if>
+					</div>
+					<div class="wst-ods-success-tf">
+						<div class="wst-ods-success-l25">
+							<input type="hidden" id="orderIds" name="orderIds"
+								value="{$orderIds}" />
+							<if condition="$payway eq 3"> <input type="hidden"
+								id="payCode" name="payCode"
+								value="{$payments['yulines']['0']['payCode']}" /> <else /> <input
+								type="hidden" id="payCode" name="payCode" value="{$payCode}" />
+							</if>
+							<input type="hidden" id="needPay" name="needPay"
+								value="{$needPay}" />
+							<if condition="count($orders) gt 0">
+							<div class="wst-ods-success-tg">请你尽快支付，以便订单快速处理！</div>
+							<div>
+								共{$orderCnt}张订单， <span id="wst-order-details"
+									style="color: #1D94D7; cursor: pointer;">订单详情</span>。
+							</div>
+							<div id="wst-orders-box"
+								style="margin-left: 75px; display: none;">
+								<volist name="orders" key="key" id="order">
+								<div>订单：{$key}</div>
+								<volist name="order" id="goods">
+								<div>{$goods["goodsName"]}&nbsp;&nbsp;{$goods["goodsAttrName"]}</div>
+								</volist> </volist>
+							</div>
+							待付金额：<span class="wst-ods-success-ti">￥{$needPay}</span> 元
+							<div style="border: 1px dotted #dddddd; padding: 10px;">
+								<if condition="$payway eq 3">
+								<div style="width: 80px; float: left;">支付密码：</div>
+								<div style="width: 200px; float: left;" class="passContainer">
+									<input type="password" maxlength="6" id="password"
+										onkeypress="return WST.isNumberKey(event)"
+										onkeyup="javascript:WST.isChinese(this,1)" />
+									<div class="passItem"></div>
+									<div class="passItem"></div>
+									<div class="passItem"></div>
+									<div class="passItem"></div>
+									<div class="passItem"></div>
+									<div class="passItem"></div>
+									<div class="wst-clear"></div>
+								</div>
+								<div class="wst-clear"></div>
+								<else />
+								<div style="width: 80px; float: left;">支付方式：</div>
+								<div style="width: 700px; float: left;">
+									<volist name="payments['onlines']" key="key" id="payment">
+									<if condition="$payment['isOnline'] eq 1">
+									<div class="wst-payCode" data="{$payment['payCode']}">
+										<img src="__ROOT__/{$payment['payIcon']}" width="160"
+											height="45" />
+									</div>
+									</if> </volist>
+									<div class="wst-clear"></div>
+								</div>
+								<div class="wst-clear"></div>
+								</if>
+							</div>
+							<div style="height: 50px; line-height: 50px; margin-top: 15px;">
+								<if condition="$payway eq 3"> <input type="button"
+									onclick="yuePay();"
+									style="width: 120px; height: 35px; font-size: 16px;"
+									value="确认付款" /> <else /> <input type="button"
+									onclick="getPayUrl();"
+									style="width: 120px; height: 35px; font-size: 16px;"
+									value="前往支付" /> </if>
+							</div>
+							<else />
+							<div class="wst-ods-success-tj">您的订单已支付!</div>
+							</if>
+						</div>
+					</div>
+					<div class="wst-clear"></div>
+				</div>
+			</form>
+			<div class="wst-clear"></div>
+			<div class="wst-ods-success-tk">
+				<div id="checkout" class="wst-checkout">
+					<a class="btn-submit" href="__ROOT__/index.php"> <span
+						id="saveConsigneeTitleDiv" class="wst_btn-continue"></span>
+					</a>
+					<div class="wst-clear"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="wst-clear"></div>
+<div style="height: 20px;"></div>
+
+</block>
+<block name="footer_static"> <script
+	src="__PUBLIC__/plugins/layer/layer.min.js"></script> <script
+	src="__JS__/index.js"></script> <script src="__JS__/orders.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	if($(".wst-payCode")[0])$(".wst-payCode")[0].click();
+});
+</script> </block>

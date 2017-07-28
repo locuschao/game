@@ -1,0 +1,127 @@
+<extend name="Shops:layout" />
+<block name="content"> <script
+	src="__PUBLIC__/plugins/kindeditor/kindeditor.js"></script> <script
+	src="__PUBLIC__/plugins/kindeditor/lang/zh_CN.js"></script>
+
+<link rel="stylesheet" type="text/css"
+	href="__PUBLIC__/plugins/webuploader/style.css" />
+<link rel="stylesheet" type="text/css"
+	href="__PUBLIC__/plugins/webuploader/webuploader.css" />
+<script type="text/javascript"
+	src="__PUBLIC__/plugins/webuploader/webuploader.js"></script> <script
+	type="text/javascript" src="__JS__/goodsbatchupload.js"></script> <script
+	type="text/javascript" src="__JS__/layer.js"></script> <script
+	type="text/javascript" src="__JS__/jquery-1.8.3.min.js"></script> <script
+	type="text/javascript" src="__PUBLIC__/plugins/jeDate/jedate.js"></script>
+
+<style>
+.datainp {
+	width: 150px;
+}
+
+.bor tr td, th {
+	border: #efefef solid 1px;
+}
+
+.tableinput input {
+	width: 60px;;
+}
+
+.wst-form tr th {
+	text-align: center;
+}
+
+.wst-form tr td {
+	text-align: center;
+	border: #efefef solid 1px;
+}
+
+.btn {
+	border: #ff1515 solid 1px;
+	border-radius: 4px;
+	text-indent: 0;
+	padding: 5px 10px;
+	text-align: center;
+	color: #ff3035;
+}
+
+.tixian {
+	width: 100px;
+	text-align: center;
+	margin: 30px 0px 0px 100px;
+	cursor: pointer;
+}
+</style>
+<script>
+
+
+function tixianHandle(){
+		var money=$('#txMoney').val();
+		var bankName=$.trim($('#bankName').val());
+		var bankNo=$.trim($('#bankNo').val());
+		var userName=$.trim($('#userName').val());
+		if(money<=0){
+			layer.msg('余额为0元');return;
+		}
+		if(bankName.length<2||bankNo.length<2){
+			layer.msg('请返回店铺资料中完善银行信息');return;
+		}
+		if(userName.length<2){
+			layer.msg('请返回店铺资料中填写店主姓名');return;
+		}
+		
+		   $.ajax({
+	             type: "POST",
+	             url:"{:U('Home/Tixian/tixianHandle')}",
+	             data: {money:money,bankName:bankName,bankNo:bankNo,userName:userName},
+	             dataType: "json",
+	             success: function(data){
+	            	 	if(data.status==0){
+	            	  	 	layer.msg('提现成功，请等待平台处理');
+		            	 	setTimeout(function(){
+		            	 			location.href="{:U('Home/Tixian/tixianList')}";
+		            	 		},2000)
+	            	 	}else{
+	    	                	layer.msg(data.msg);
+	    	                	setTimeout(function(){
+	    	                		location.reload();
+	    	                	},2000);
+	            	 	}
+	                }
+	         });
+		
+}
+</script>
+<div class="wst-body">
+	<div class='wst-page-header'>卖家中心 >提现</div>
+	<div class='wst-page-content'>
+		<div style="height: 60px; line-height: 60px; font-size: 24px;">
+			帐户余额:&nbsp;&nbsp;&nbsp;<b style="color: #ff4045">{$info.bizMoney}</b>元
+		</div>
+		<input type="hidden" id="txMoney" value="{$info.bizMoney}" />
+		<div
+			style="color: #fff; text-indent: 20px; background: #11f497; height: 40px; line-height: 40px;">以下资料不可编辑，如需要修改，请在店铺资料里修改</div>
+		<table class="table table-hover table-striped table-bordered wst-list wst-form">
+			<tr>
+				<td>用户名：</td>
+				<td style="text-align: left;"><input id="userName" type="text"
+					readonly="readonly" value="{$info.userName}"
+					placeholder="请在店铺资料中编辑真名" /></td>
+			</tr>
+			<tr>
+				<td>开户行：</td>
+				<td style="text-align: left;"><input style="width: 250px;"
+					id="bankName" type="text" readonly="readonly"
+					value="{$info.bankName}" placeholder="请在店铺资料中编辑开户行" /></td>
+			</tr>
+			<tr>
+				<td>银行卡号：</td>
+				<td style="text-align: left;"><input style="width: 250px;"
+					id="bankNo" type="text" readonly="readonly" value="{$info.bankNo}"
+					placeholder="请在店铺资料中编辑开户行" /></td>
+			</tr>
+		</table>
+		<input class="tixian " type="button" onclick="tixianHandle()" name=''
+			value="申请提现" />
+	</div>
+</block>

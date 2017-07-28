@@ -1,0 +1,29 @@
+.wrap{
+    padding-left:20px;
+    padding-top:20px;
+}
+.data-table{
+    width:400px;
+}
+.data-table td,.data-table th{
+    text-align:center;
+}
+.tip{
+    margin-bottom: 10px;
+    padding:3px 0;
+    background:#ddd;
+    border-radius: 5px;
+    padding-left:10px;
+    font-size:17px;
+}
+.panel-title{
+    background:#ddd;
+    padding:3px 0;
+    padding-left:10px;
+    border-radius: 5px;
+    width:600px;
+    font-size:15px;
+}
+.panel-block{
+    margin-top:10px;
+}   

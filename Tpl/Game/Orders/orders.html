@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>全部订单</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<script src="__JS__/layer.min.js"></script>
+
+<style>
+.layui-layer-btn a {
+	font-weight: normal
+}
+
+.font90 {
+	font-size: 90%;
+}
+
+body {
+	padding-bottom: 50px;
+}
+
+.col-red {
+	color: #ff4045
+}
+
+.right_arrows {
+	background-size: 7px;
+}
+
+.imgwh img {
+	width: 72px;
+	height: 72px;
+}
+
+.padd-tb {
+	padding: 10px 0px;
+}
+
+.lh35 {
+	height: 35px;
+	line-height: 35px;
+}
+
+.titls {
+	line-height: 20px;
+}
+
+.fw {
+	font-weight: 550;
+}
+
+.txt_title {
+	height: 40px;
+	line-height: 20px;
+}
+
+.swi span {
+	display: block;
+	width: 90%;
+	height: 100%;
+	margin: 0 auto;
+}
+
+.bor_b2 {
+	border-bottom: #ff4045 solid 3px;
+}
+
+.hide {
+	display: none;
+}
+
+.triangle-up {
+	position: absolute;
+	left: 48%;
+	bottom: 0;
+	width: 0;
+	height: 0;
+	border-left: 2px solid transparent;
+	border-right: 2px solid transparent;
+	border-bottom: 3px solid red;
+}
+
+.btn span {
+	border: #52c4ff solid 1px;
+	padding: 7px 10px;
+	border-radius: 2px;
+	color: #52c4ff
+}
+
+.btns span:last-child {
+	border: #ff4045 solid 1px;
+	padding: 7px 10px;
+	border-radius: 2px;
+	color: #ff4045
+}
+
+.del {
+	width: 50px;
+	background: url(__IMG__/del.png) 20px center no-repeat;
+	background-size: 16px;
+}
+
+.complete {
+	background: url(__IMG__/completeOrder.png) center top no-repeat;
+	z-index: 10;
+	width: 75px;
+	height: 75px;
+	background-size: 75px;
+}
+
+body {
+	background: #efeff4;
+}
+
+.ub {
+	background: #fff;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<div class="_top">
+		<div class="_left_top" onclick='javascript:window.location.href="{:U('
+			wx/index/index',array('r'=>'my'))}"'></div>
+		<div class="_title_top">全部订单</div>
+		<div class="_right_top nobackground"></div>
+	</div>
+	<div class="_content">
+		<volist name="info" id="io">
+		<div class="_son_title ub margin_top10">
+			<php> if(empty($io['shopImg'])&&$io['shopId']==0){
+			$_shopImg=ltrim("__IMG__/".'shop_ico.png','/'); $_shopName='平台';
+			$_url="return false;"; }else{ $_shopImg=$io['shopImg'];
+			$_shopName=$io['shopName'];
+			$_url='window.location.href="'.U('Shop/shop',array('id'=>$io['shopId'],'ref'=>'Orders_orders')).'"';
+			} </php>
+			<div onclick='javascript:{$_url}'
+				class="title_left_ico margin_left10"
+				style="background: url(/{$_shopImg}) center no-repeat; background-size: 26px 26px;"></div>
+			<div class=" text-l ub-f1" onclick='javascript:{$_url}'>{$_shopName}</div>
+			<if condition="$io['orderStatus'] eq 4">
+			<div class="complete"></div>
+			<div class="txt-r margin_right10 del"
+				onclick="delOrder({$io.orderId})"></div>
+			<else />
+			<div class="ub-f1 txt-r margin_right10 col-red">
+				<if condition="$io['isRefund'] eq 0"> <switch
+					name="io['orderStatus']"> <case value="-2">等待付款</case> <case
+					value="0">等待发货</case> <case value="1">商家已受理</case> <case value="2">配送中</case>
+				<case value="3">配送中</case> <case value="4">已送达</case> </switch> <else /> <switch
+					name="io['isRefund']"> <case value="1">退款中</case> <case
+					value="2">退款成功</case> <case value="3">退款关闭</case> </switch> </if>
+			</div>
+			</if>
+		</div>
+		<div class="switch" onclick='javascript:window.location.href="{:U('
+			Orders/orderDetail',array('id'=>
+			$io['orderId']))}"'>
+			<volist name="io['goods']" id="goods">
+			<div class="ub padd-tb  bor_b bg-ff">
+				<div class="margin_left10 margin_right10 imgwh ">
+					<img style="height: 6rem;" src="/{$goods.goodsThums}" alt="">
+				</div>
+				<div class="ub-f1  ub bv bg-ff">
+					<div class="txt_title">{$goods.goodsName}</div>
+				</div>
+			</div>
+			</volist>
+		</div>
+		<div class="_son_title lh45 ub font90">
+			<div class="ub-f1 ti10 font120 fw">实付款￥{$io.needPay}</div>
+			<if condition="$io['orderStatus'] gt 0 && $io['orderStatus'] lt 4">
+			<if condition="$io['isSelf'] eq 1">
+			<div class=" margin_right10 col-666 btn">
+				<span>自提</span>
+			</div>
+			<else />
+			<div class=" margin_right10 col-666 btn">
+				<span onclick="checkexPress({$io.orderId})">查看物流</span>
+			</div>
+			</if> </if>
+			<if condition="$io['orderStatus'] eq -2">
+			<div class=" margin_right10 col-666 btns">
+				<a href="{:U('Orders/caretePayInfo',array('ids'=>$io['orderId']))}"><span>去支付</span></a>
+			</div>
+			</if>
+			<if condition="$io['isRefund'] eq 0"> <switch
+				name="io['orderStatus']"> <case value="1">
+			<div class=" margin_right10 col-666 btns">
+				<a href="javascript:conFirmOrder({$io.orderId})"><span>确认收货</span></a>
+			</div>
+			</case> <case value="2">
+			<div class=" margin_right10 col-666 btns">
+				<a href="javascript:conFirmOrder({$io.orderId})"><span>确认收货</span></a>
+			</div>
+			</case> <case value="3">
+			<div class=" margin_right10 col-666 btns">
+				<a href="javascript:conFirmOrder({$io.orderId})"><span>确认收货</span></a>
+			</div>
+			</case> <case value="4"> <if conditon="$io['isPJ'] eq 0"> <php>
+			$url=U('Comment/evaluate',array('r'=>'my','ref'=>'Orders_orders'));
+			if($io['isPJ'] == 0){ echo "
+			<div class='margin_right10 col-666 btns'>
+				<a href='$url'><span>去评价</span></a>
+			</div>
+			"; }elseif($io['isPJ'] == 1 &&$io['pj_addTo'] == 0){ echo "
+			<div class='margin_right10 col-666 btns'>
+				<a href='$url'><span>追加评价</span></a>
+			</div>
+			"; } </php></case> </switch>
+		</div>
+		</volist>
+	</div>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script>
+function conFirmOrder(oid){
+	layer.confirm('已经收到货，确认收货', {icon: 3, title:'确认收货'}, function(index){
+		 $.ajax({
+	         type: "POST",
+	         url: "{:U('Orders/confirmOrder')}",
+	         data: {oid:oid},
+	         dataType: "json",
+	         success: function(data){
+	        	 console.log(data);
+	       	  if(data.status==-2){
+	       		  layer.msg('操作失败');
+	       		  setTimeout(function(){
+	       			  location.href="{:U('Login/Login')}";
+	       		  },1000);
+	       		  return;
+	       	  }else if(data.status==-1){
+	       		  layer.msg('操作失败');
+	       		  return;
+	       	  }else if(data.status==0){
+	       		  layer.msg('确认收货完成');
+	       		  setTimeout(function(){
+	       			 location.reload([true]);
+	       		  },1000)
+	       		  return;
+	       	  }else if(data.status==-3){
+	       		  layer.msg('请不要重复提交');
+	       		  return;
+	       	  }
+	          }
+	     });
+		  layer.close(index);
+		});
+}
+
+function delOrder(oid){
+	layer.confirm('确定删除此订单吗？', {icon: 3, title:'删除订单'}, function(index){
+		 $.ajax({
+	         type: "POST",
+	         url: "{:U('Orders/delOrder')}",
+	         data: {oid:oid},
+	         dataType: "json",
+	         success: function(data){
+	        	 console.log(data);
+	       	  if(data.status==-2){
+	       		  layer.msg('操作失败');
+	       		  setTimeout(function(){
+	       			  location.href="{:U('Login/Login')}";
+	       		  },1000);
+	       		  return;
+	       	  }else if(data.status==-1){
+	       		  layer.msg('操作失败');
+	       		  return;
+	       	  }else if(data.status==0){
+	       		  layer.msg('订单删除成功');
+	       		  setTimeout(function(){
+	       			 location.reload([true]);
+	       		  },1000)
+	       		  return;
+	       	  }else if(data.status==-3){
+	       		  layer.msg('请不要重复提交');
+	       		  return;
+	       	  }
+	          }
+	     });
+		  layer.close(index);
+		});
+	}
+function checkexPress(oid){
+	var url='/Wx/Orders/expressDetail/id/'+oid+'.html';
+	layer.open({
+		  type: 2, 
+		  title:'物流详情',
+		  area: ['90%', '50%'],
+		  content: url,//这里content是一个普通的String
+		});
+}
+</script>
+</html>

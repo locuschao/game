@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta property="qc:admins" content="3541104430061172011637577155" />
+<title>我的代金券</title>
+<include file="./Tpl/head.html" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="stylesheet" type="text/css" href="__CSS__/swiper.min.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/base.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/index.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/myvoucher.css?2017">
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<!-- 我的代金券 -->
+    <div class="header col-6">
+        <div class="ub">
+        
+            <a class="turnback" href="javascript:history.go(-1)" ><</a>
+            <div class="ub-f1 search">
+            
+            <div class="titleNav" style="display: block;">我的代金券</div>
+            
+            </div>
+            
+        </div>
+    </div>
+    
+    <div id="page2" class="hideDiv" style="display: block; margin-top: 50px;">
+        <div class="ub orderNav">
+            <!--<div class="ub-f1 pos-r br-r orderMenu orderNavActive ">
+            <div class="pos-a txt-c">全部</div>
+            </div>-->
+            <div class="ub-f1 pos-r br-r orderMenu orderNavActive" data-type="1">
+            <div class="pos-a txt-c">未使用</div>
+            </div>
+             <div class="ub-f1 pos-r br-r orderMenu has-used" data-type="2">
+            <div class="pos-a txt-c">已使用或已结束</div>
+            </div>
+            
+        </div>
+
+        <div class="orderList" style="display:block" id="orderList">
+            
+            
+        </div>
+      </div>  
+      <div class="btn loadmore" id="loadmore">加载更多</div>
+<script>
+$(function(){
+    
+    var page=1;
+    var model={
+        data:{p:page,type:1},
+        type:1,
+        cacheList:{}
+    };
+    getList()
+    $('body').on('click','#loadmore',function(){
+        page++;
+        model.data={p:page,type:model.type}
+        getList()
+    }).on('click','.orderMenu',function(){
+        $('.orderMenu').removeClass('orderNavActive');
+        $(this).addClass('orderNavActive')
+        model.type=$(this).data('type');
+        init();
+        model.data={p:page,type:model.type}
+        getList()
+        
+    })
+    function getList(){
+            
+            if($data=getCache()){
+                 showList($data);
+            }else{
+                $.get('__URL__/myVoucherList',model.data,function(re){
+                    if(re.status){
+                       showList(re.info);
+                       setCache(re.info);
+                    }else{
+                       $('#loadmore').text('没有更多数据');
+                    }
+                if(model.type==2) $('.voucherNum').hide();
+                },'json')
+            }
+            if(model.type==2) $('.voucherNum').hide();
+            
+    }
+    function showList(data){
+        $.each(data,function(i,row){
+            
+        	       $('#orderList').append('<div class="row clearfix">\
+                    <div class="fl contentLeft">\
+                    <div class="title">'+row.goods_name+'<span class="voucherNum">( <b>'+row.num+'</b>张 )</span></div>\
+                    <div class="expire">有效期至：'+row.expireTime+'</div>\
+                    '+(row.remark?'<div class="remark">'+row.remark+'</div>':'')+
+                    '</div>\
+                   \
+                </div>');
+        	   })
+               
+               
+    }
+    function setCache(info){
+        model.cacheList[String(page)+String(model.type)]=info;
+    }
+    function getCache(){
+        
+        return model.cacheList[String(page)+String(model.type)];
+    }
+    function init(){
+        page=1;
+        $('#orderList').empty()
+        $('#loadmore').text('加载更多');
+        
+    }
+})
+</script>
+
+ </body>	
+ </html>

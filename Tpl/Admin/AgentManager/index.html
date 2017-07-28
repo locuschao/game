@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta http-equiv="Cache-control" content="no-cache"/>
+<meta http-equiv="Cache" content="no-cache"/>
+<title>代理管理</title>
+<link href="/Public/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="/Tpl/Admin/css/AdminLTE.css" rel="stylesheet"/>
+<link href="/Tpl/Admin/css/statistic/statistic-index.css" rel="stylesheet"/>
+</head>
+<div class="wrap">
+   
+    <table class="table table-striped data-table">
+	
+	<thead>
+		<tr>
+            <th>店铺</th>
+            <th>代理账户</th>
+            <th>版本</th>
+        </tr>
+	</thead>
+	<tbody>
+    <?php foreach($data as $row):?>
+		<tr>
+            <td>{$row.shopName}</td>
+			<td>{$row.username}</td>
+			<td>{$version_arr[$row['versionId']]}</td>
+		
+		</tr>
+	<?php endforeach; ?>	
+	</tbody>
+</table>
+<div class="pager">{$page}</div>
+</div>
+<script src="/Public/js/jquery.min.js"></script>
+<script type="text/javascript" src="/Public/js/jedate.js"></script>
+<script>
+ $(function () {
+	   jeDate({dateCell:'#start_date',isTime:true,format:'YYYY-MM-DD'});
+	   jeDate({dateCell:'#end_date',isTime:true,format:'YYYY-MM-DD'});
+
+   });
+</script>
+</body>
+</html>

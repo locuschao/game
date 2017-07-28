@@ -1,0 +1,242 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>买家中心</title>
+<link rel="stylesheet" href="__CSS__/common.css" />
+<link rel="stylesheet" href="__CSS__/user.css">
+<script type="text/javascript" src="__JS__/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="__JS__/layer.js"></script>
+<style>
+.wst-odetal-box {
+	padding: 10px;
+	text-align: center;
+	background-color: #ffffff;
+}
+
+.wst-tab {
+	border-collapse: collapse;
+}
+
+.wst-tab-cpt {
+	text-align: left;
+	height: 30px;
+	font-weight: bold;
+}
+
+.wst-tab tr {
+	height: 30px;
+}
+
+.wst-tab tr td {
+	border: 1px solid #eeeeee;
+}
+
+.wst-td-title {
+	width: 100px;
+	text-align: right;
+}
+
+.wst-td-content {
+	padding-left: 6px;
+	text-align: left;
+}
+
+.wst-align-center {
+	text-align: center;
+}
+
+.wst-btn-query {
+	height: auto
+}
+</style>
+
+</head>
+<script>
+var is_pt='<?=$_GET['is_pt']?>';
+
+</script>
+
+<body style="background-color: #f5f5f5;">
+	<div style="text-align: center;">
+		<div class="wst-odetal-box">
+			<table cellspacing="0" cellpadding="0" class="wst-tab" width="920"
+				style="border: 1px solid #eeeeee; margin: 0 auto;">
+				<tbody>
+					<tr>
+						<td class="wst-td-title">订单编号：</td>
+						<td class="wst-td-content">{$orderInfo["order"]["orderNo"]}</td>
+					</tr>
+					<tr>
+						<td class="wst-td-title">订单类型：</td>
+						<td class="wst-td-content">
+						 <if condition="$orderInfo['order']['orderType'] eq 1">
+							 <if condition="$orderInfo['order']['goodsType'] eq 1">会员首充<else/>首充号</if>
+						 </if>
+						 <if condition="$orderInfo['order']['orderType'] eq 2" >
+							 <if condition="$orderInfo['order']['goodsType'] eq 1">会员首代<else/>首充号代充</if>
+						 </if>
+					</tr>
+					<if condition="$orderInfo['order']['createTime']">
+					<tr>
+						<td class="wst-td-title">下单时间：</td>
+						<td class="wst-td-content">{$orderInfo["order"]["createTime"]}</td>
+					</tr>
+					</if>
+					<!--   		<tr>
+	        			<td class="wst-td-title">收货人姓名：</td>
+	        			<td class="wst-td-content">{$orderInfo["order"]["userName"]}</td>
+	        		</tr> -->
+					<if condition="$orderInfo['order']['userPhone']">
+					<tr>
+						<td class="wst-td-title">手机号：</td>
+						<td class="wst-td-content">{$orderInfo["order"]["userPhone"]}</td>
+					</tr>
+					</if>
+					<if condition="$orderInfo['order']['qq']">
+					<tr>
+						<td class="wst-td-title">QQ号：</td>
+						<td class="wst-td-content">{$orderInfo["order"]["qq"]}</td>
+					</tr>
+					</if>
+					<if condition="$orderInfo['order']['goodsName']">
+					<tr>
+						<td class="wst-td-title">商品名称：</td>
+						<td class="wst-td-content">{$orderInfo["order"]["goodsName"]}</td>
+					</tr>
+					</if>
+					<if condition="$orderInfo['order']['gameName']">
+					<tr>
+						<td class="wst-td-title">所属游戏：</td>
+						<td class="wst-td-content">{$orderInfo["order"]["gameName"]}</td>
+					</tr>
+					</if>
+					<if condition="$orderInfo['order']['vName']">
+					<tr>
+						<td class="wst-td-title">游戏版本：</td>
+						<td class="wst-td-content">{$orderInfo["order"]["vName"]}</td>
+					</tr>
+					</if>
+					<if condition="$orderInfo['order']['userAddress']">
+					<tr>
+						<td class="wst-td-title">游戏区服：</td>
+						<td class="wst-td-content">{$orderInfo["order"]["userAddress"]}</td>
+					</tr>
+					</if>
+					<if condition="$orderInfo['order']['roleName']">
+					<tr>
+						<td class="wst-td-title">游戏角色：</td>
+						<td class="wst-td-content">{$orderInfo["order"]["roleName"]}</td>
+					</tr>
+					</if>
+					<if condition="$orderInfo['order']['profession']">
+					<tr>
+						<td class="wst-td-title">游戏职业：</td>
+						<td class="wst-td-content">{$orderInfo["order"]["profession"]}</td>
+					</tr>
+					</if>
+					<tr>
+						<td class="wst-td-title">商品数量：</td>
+						<td class="wst-td-content">{$orderInfo["order"]["goodsNums"]}</td>
+					</tr>
+					<tr>
+						<td class="wst-td-title">充值总金额：</td>
+						<td class="wst-td-content">{$orderInfo["order"]["totalMoney"]}</td>
+					</tr>
+					<if condition="$orderInfo['order']['account']">
+					<tr>
+						<td class="wst-td-title">登录帐号：</td>
+						<td class="wst-td-content">{$orderInfo["order"]["account"]}</td>
+					</tr>
+					</if>
+					<if condition="$orderInfo['order']['pwd']">
+					<tr>
+						<td class="wst-td-title">登录密码：</td>
+						<td class="wst-td-content">{$orderInfo["order"]["pwd"]}</td>
+					</tr>
+					</if>
+
+				</tbody>
+			</table>
+		</div>
+		<div class="wst-odetal-box">
+			<if condition='$orderInfo["order"]["orderType"] neq 2 '>
+			<table cellspacing="0" cellpadding="0" class="wst-tab" width="920"
+				style="border: 1px solid #eeeeee; margin: 0 auto;">
+				<tbody>
+					<php>$num=$orderInfo["order"]["goodsNums"];</php>
+					<for start="0" end="$num">
+					<!--
+                    <tr>
+						<td class="wst-td-title">游戏区服</td>
+						<td class="wst-td-content"><input
+							onkeyup="this.value=this.value.replace(/[\|\;]/g,'')"
+							onafterpaste="this.value=this.value.replace(/[\|\;]/g,'')"
+							type="text" class="area" value="" /></td>
+						<td class="wst-td-title">登录帐号：</td>
+						<td class="wst-td-content"><input
+							onkeyup="this.value=this.value.replace(/[\|\;]/g,'')"
+							onafterpaste="this.value=this.value.replace(/[\|\;]/g,'')"
+							type="text" class="account" value="" /></td>
+						<td class="wst-td-title">登录密码：</td>
+						<td class="wst-td-content"><input
+							onkeyup="this.value=this.value.replace(/[\|\;]/g,'')"
+							onafterpaste="this.value=this.value.replace(/[\|\;]/g,'')"
+							type="text" class="password" value="" /></td>
+					</tr>-->
+					</for>
+				</tbody>
+			</table>
+			</if>
+		</div>
+		<br />
+		<br />
+      
+		<button onclick="fahuoHandle()" class="wst-btn-query"
+			style="width: 30%; padding: 10px;">一键发货</button>
+		<br /> <br />
+	</div>
+	<script>
+    
+        function fahuoHandle(){
+            var wst_btn= $('.wst-btn-query');
+			wst_btn.prop('disabled',true).text('发货中···');
+            
+        	var info='';''
+        	var orderId="{$orderId}";
+        	var check=true;
+        	$('.area').each(function(index){
+        		if($.trim($(this).val()).length>0&&$.trim($('.account').eq(index).val()).length>0&&$.trim($('.password').eq(index).val()).length>0)
+        		{
+        			info+=$.trim($(this).val())+'|'+$.trim($('.account').eq(index).val())+'|'+$.trim($('.password').eq(index).val())+';';
+        		}else{
+        			check=false;
+        		}
+        	})
+        	if(!check){
+        		layer.msg('发货信息必须填写完整');return;
+        	}
+
+        	  $.ajax({
+                  type: "POST",
+                  url: "{:U('Orders/autoFahuoHandle')}",
+                  data: {orderId:orderId},
+                  dataType: "json",
+                  success: function(data){
+						wst_btn.prop('disabled',false).text('一键发货');
+                	  if(data.status==0){
+                		  layer.msg('发货成功');
+                		  setTimeout(function(){
+                			  //location.href="{:U('Orders/getOrderDetails',array('orderId'=>$orderId))}";
+                              if(is_pt) location.href="{:U('Orders/getOrderDetails',array('orderId'=>$orderId,'is_pt'=>1))}";
+                		      else location.href="{:U('Orders/getOrderDetails',array('orderId'=>$orderId))}";
+                		  },1000);
+                	  }else{
+                		  layer.msg(data.msg);
+                	  }
+                    }
+              });
+        }
+        </script>
+</body>
+</html>

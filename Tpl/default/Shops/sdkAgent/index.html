@@ -1,0 +1,154 @@
+<extend name="Shops:layout" />
+<block name="content">
+<style>
+.ATRoot {
+	height: 22px;
+	line-height: 22px;
+	margin-left: 5px;
+	clear: both;
+	cursor: pointer;
+}
+
+.ATNode {
+	margin-left: 5px;
+	line-height: 22px;
+	margin-left: 17px;
+	clear: both;
+	cursor: pointer;
+}
+
+.Hide {
+	display: none;
+}
+
+dl.areaSelect {
+	padding: 0 5px;
+	display: inline-block;
+	width: 100%;
+	margin-bottom: 0; /*border:1px solid #eee;*/
+}
+
+dl.areaSelect:hover {
+	border: 1px solid #E5CD29;
+}
+
+dl.areaSelect:hover dd {
+	display: block;
+}
+
+dl.areaSelect dd {
+	float: left;
+	margin-left: 20px;
+	cursor: pointer;
+}
+
+</style>
+ <style>
+   .agent-panel{
+        padding:10px 50px;
+    
+   }
+   .row{
+        margin-bottom:20px;
+   }
+   .row span:first-child{
+        min-width:130px;
+        display:inline-block;
+        text-align:right;
+        margin-right:10px;
+   }
+   .agent-panel select,.agent-panel select option{
+        padding:0 10px;
+   }
+   .row button{
+        text-align:center;
+   }
+   .row .code{
+        width:60px;
+   }
+   .row input{
+        padding-left:8px;
+   }
+   #bindBtn.btn-primary {
+    background-color: #428bca;
+    border-color: #357ebd;
+    color: #fff;
+    height:30px;
+    
+}
+    #bindBtn.btn {
+        -moz-user-select: none;
+        background-image: none;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        cursor: pointer;
+        display: inline-block;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1.42857;
+        margin-bottom: 0;
+        padding: 4px 8px;
+        text-align: center;
+        vertical-align: middle;
+        white-space: nowrap;
+    }
+   </style>
+<div class="wst-body">
+	<div class='wst-page-header'>卖家中心 > 绑定代理</div>
+	<div class='wst-page-content' style="position: relative;">
+		<div class="agent-block">
+       <div class="agent-panel">
+            
+            <div class="row"><span><?php if($bind_info): ?> 已绑定<?php endif; ?>代理用户名 :</span>
+            <?php if($bind_info): ?><input type="hidden" id="username" value="{$bind_info.agentname}" name="username"/>{$bind_info.agentname} <?php else : ?><input type="text" id="username" name="username" placeholder="代理名称"/> <?php endif; ?>
+            
+            
+            </div>
+            <div class="row"><span>代理登陆密码 :</span><input type="password" id="password" name="password" placeholder="代理登陆密码"/></div>
+            
+            
+          
+            <div class="row"><span>验证码 :</span>
+            <input type="text" class="code" id="code" name="code" placeholder="验证码"/>
+            <img class="verifyImg" style="vertical-align: middle; cursor: pointer; height: 30px;" src="/Home/Users/getVerify/rnd/0.9067240689618885.html" title="刷新验证码" onclick="javascript:getVerify()">
+            </div>
+            
+            <div class="row"><span></span><button id="bindBtn" class="btn btn-md btn-primary">
+            <?php if($bind_info): ?>解除绑定 <?php else : ?>绑定 <?php endif; ?>
+            </button></div>
+       </div>
+   </div>
+	</div>
+</div>
+
+  <script>
+        $(function(){
+            
+        	$('.agent-block').on('click','#bindBtn',function(){
+        	   $('#bindBtn').prop('disabled',true).text('处理中···');
+               
+        	   var select=$('.row select option:selected');
+        	   $.post('__URL__/doBind',{
+        	       
+            	   username:$('#username').val(),
+                   password:$('#password').val(),
+                   code:$('#code').val()
+            	},function(data){
+            	   if(data.info=='验证码错误'){
+		              $('.verifyImg').trigger('click');
+							
+				   }
+            	   WST.msg(data.info, {icon: 1});
+                   $('#bindBtn').prop('disabled',false).text('绑定');
+            	   
+                    if(data.status==1) {
+                        $('#username').val('');
+                        $('#password').val('');
+                        $('#code').val('');
+                        location.reload();
+                    }
+                },'json');
+        	})
+        })
+   </script>
+</block>

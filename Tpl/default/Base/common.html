@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>首页 - {$CONF['mallTitle']}</title>
+	<include file="./Tpl/homeHead.html" />
+<link rel="stylesheet" href="__CSS__/common.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<link rel="stylesheet" href="__CSS__/head.css" />
+<link rel="stylesheet" href="__CSS__/Comm.css" />
+<link rel="stylesheet" href="__CSS__/List.css" />
+<link rel="stylesheet" href="__CSS__/magnifier.css" />
+<script src="__JS__/jquery-1.8.3.min.js"></script>
+<block name="static"></block>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<include file="Public:header_common" />
+	<include file="Public:body" />
+	<include file="Public:footer" />
+	<include file="Public:right_cart" />
+	<script src="__PUBLIC__/js/common.js"></script>
+	<script src="__JS__/common.js"></script>
+	<script src="__JS__/head.js" type="text/javascript"></script>
+	<block name="footer_static"></block>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+</html>

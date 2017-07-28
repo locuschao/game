@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta http-equiv="Cache-control" content="no-cache"/>
+<meta http-equiv="Cache" content="no-cache"/>
+<title>财务统计</title>
+<link href="/Public/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="/Tpl/Admin/css/AdminLTE.css" rel="stylesheet"/>
+<link href="/Tpl/Admin/css/statistic/statistic-countPyPayType.css" rel="stylesheet"/>
+</head>
+<div class="wrap">
+   <div class="tip">统计时间：<?=date('Y-m-d H:i',time())?></div>
+   <div class="panel-title">用户各种支付方式统计</div>
+   <div class="panel-block">
+     <table class="table table-bordered data-table">
+	
+        	<thead>
+        		<tr>
+                    <th>支付方式</th>
+                    <th>总支付金额</th>
+                </tr>
+        	</thead>
+        	<tbody>
+            <?php $sum=0; foreach($data as $row): $sum+=$row['payAmount'];?>
+        		<tr>
+        			<td><?=$pay_type_text[$row['payType']]?></td>
+        			<td>{$row.payAmount}</td>
+        			
+        		</tr>
+        	<?php endforeach; ?>
+            <tr>
+        			<td>合计</td>
+        			<td>{$sum1}</td>
+        			
+        		</tr>	
+        	</tbody>
+     </table>
+   
+   </div>
+   <div class="panel-title">提现统计</div>
+   <div class="panel-block">
+     <table class="table table-bordered data-table">
+	
+        	<thead>
+        		<tr>
+                    <th>对象</th>
+                    <th>总提现金额</th>
+                </tr>
+        	</thead>
+        	<tbody>
+            
+    			<tr><td>所有用户</td><td>{$txMoneyAmount.user}</td></tr>
+        	   <tr><td>所有商家</td><td>{$txMoneyAmount.shop}</td></tr>
+        	   <tr><td>合计</td><td>{$txMoneyAmount.sum}</td></tr>
+        
+        	</tbody>
+     </table>
+   
+   </div>
+   <div class="panel-title">余额统计</div>
+   <div class="panel-block">
+     <table class="table table-bordered data-table">
+	
+        	<thead>
+        		<tr>
+                    <th>对象</th>
+                    <th>总金额</th>
+                </tr>
+        	</thead>
+        	<tbody>
+            
+    			<tr><td>所有用户</td><td>{$bizMoney.user}</td></tr>
+        	   <tr><td>所有商家</td><td>{$bizMoney.shop}</td></tr>
+        	   <tr><td>平台余额</td><td>{$bizMoney.plateForm_money}</td></tr>
+        	   <tr><td>合计</td><td>{$bizMoney.sum}</td></tr>
+        
+        	</tbody>
+     </table>
+   
+   </div>
+  
+</div>
+<script src="/Public/js/jquery.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta http-equiv="Cache-control" content="no-cache"/>
+<meta http-equiv="Cache" content="no-cache"/>
+<title>代理管理</title>
+<link href="/Public/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="/Tpl/Admin/css/AdminLTE.css" rel="stylesheet"/>
+<link href="/Tpl/Admin/css/statistic/statistic-index.css" rel="stylesheet"/>
+</head>
+<?php
+
+$condition = [
+    
+    'status'=>['neq',0]
+];
+
+$update_bind = M('update_bind');
+$pager = new \Think\Page($update_bind->where($condition)->count(),10);
+$data = $update_bind->where($condition)
+->join('ub left join '.C('DB_PREFIX').'agent a on ub.agentId=a.id left join '.C('DB_PREFIX').'shops s on ub.shopId=s.shopId')
+->field('*,ub.id ubid')
+->limit($pager->firstRow,$pager->listRows)
+->select();
+
+foreach(M('versions')->select() as $row){
+    $version_arr[$row['id']] = $row['vName'];
+}
+$reason_arr = [
+    1=>'未处理',
+    2=>'已同意',
+    3=>'已拒绝',
+    4=>'已完成'
+];
+?>
+<div class="wrap">
+   
+    <table class="table table-striped data-table">
+	
+	<thead>
+		<tr>
+            	<th style="width: 80px;">申请ID</th>
+                <th style="width: 80px;">商店名</th>
+                <th style="width: 80px;">代理用户名</th>
+                <th style="width: 80px;">版本</th>
+				<th style="width: 200px;">原因</th>
+				<th style="width: 80px;">状态</th>
+				<th style="width: 80px;">操作</th>
+        </tr>
+	</thead>
+	<tbody>
+    <volist name="data" id="vo">
+			<tr>
+				<td>{$vo.ubid}</td>
+				<td>{$vo.shopName}</td>
+				<td>{$vo.username}</td>
+				<td><?=$version_arr[$vo['versionId']]?></td>
+				<td><?=$vo['update_reason']?></td>
+				<td><?=$reason_arr[$vo['status']]?></td>
+				<td>
+                <?php if($vo['status'] == 1) : ?>
+                <a href="{:U('AgentManager/updateStatus',[
+                'status'=>2,
+                'id'=>$vo['ubid']
+                ])}" style="color: blue;">同意</a>
+                
+                <a href="{:U('AgentManager/updateStatus',[
+                'status'=>3,
+                'id'=>$vo['ubid']
+                ])}" style="color: blue;">拒绝</a>
+                <?php else : ?>
+                已处理
+                <?php endif; ?>
+                </td>
+			</tr>
+	</volist>
+	</tbody>
+</table>
+<div class="pager" style="margin-top: 10px;"><?=$pager->show()?></div>
+</div>
+<script src="/Public/js/jquery.min.js"></script>
+<script type="text/javascript" src="/Public/js/jedate.js"></script>
+<script>
+ $(function () {
+	   jeDate({dateCell:'#start_date',isTime:true,format:'YYYY-MM-DD'});
+	   jeDate({dateCell:'#end_date',isTime:true,format:'YYYY-MM-DD'});
+
+   });
+</script>
+</body>
+</html>

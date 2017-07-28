@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>店铺列表</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<style>
+body {
+	background: #efeff4;
+	max-width:800px;
+}
+
+input[type=text] {
+	height: 30px;
+	line-height: 30px;
+	background: transparent;
+	border: #ccc solid 1px;
+	border-radius: 4px;
+	width: 95%;
+	text-indent: 10px;
+}
+
+.search {
+	background: #fff600;
+	height: 35px;
+	line-height: 35px;
+	border-radius: 4px;
+	padding: 0px 15px;
+}
+
+.list {
+	height: 60px;
+	padding: 10px;
+	background: #fff;
+	width: 85%;
+	margin: 10px auto 10px auto;
+	border-radius: 4px
+}
+
+.shopImg img {
+	width: 60px;
+	height: 60px;
+	border-radius: 4px;
+}
+
+.shopContent {
+	margin-left: 5px;
+}
+
+.shopName {
+	font-size: 120%;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	height: 25px;
+	line-height: 25px;
+	over-flow: hidden;
+}
+
+.fw {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	height: 20px;
+	line-height: 20px;
+	font-size: 90%;
+}
+.search{cursor:pointer;}
+._top{
+	max-width: 800px;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<div class="_top" style="z-index: 999">
+		<div class="_left_top" onclick='history.go(-1)'></div>
+		<div class="_title_top">店铺列表</div>
+		<div class="_right_top mess"
+			onclick="location.href='/Game/Mess/mess/r/Goods_searchShop'"></div>
+	</div>
+	<div class="lh45"></div>
+	<form action="{:U('searchShop')}" method="get" id="shopSearch">
+		<div class="lh35  back-ff ub " style="padding: 10px 0px;">
+			<div class="ub-f1 margin_left10">
+				<input type="text" name="key" value="{$_GET['key']}"
+					placeholder="请输入店铺名" />
+			</div>
+			<div class="margin_right10 search">店铺搜索</div>
+		</div>
+	</form>
+
+	<volist name="shopList" id="sl"> <a
+		href="{:U('Shop/personShop',array('id'=>$sl['shopId']))}">
+		<div class="ub list">
+			<div class="shopImg">
+				<img src="/{$sl.shopImg|default='__IMG__/shopImg.png'}" />
+			</div>
+			<div class="ub-f1 shopContent">
+				<div class='shopName'>{$sl.shopName}</div>
+				<div class="fw">经营范围：{$sl.scope}</div>
+				<div class="sl">销量：{$sl.sales|default=0}</div>
+			</div>
+			<div class="right_arrows arrowsMy"></div>
+		</div>
+	</a> </volist>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script>
+$('body').on('click','.search',function(){
+	$('#shopSearch').submit();
+})
+
+</script>
+</html>

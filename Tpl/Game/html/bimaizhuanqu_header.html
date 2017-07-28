@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>title</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" type="text/css" href="../css/api.css" />
+<link rel="stylesheet" type="text/css" href="../css/header.css" />
+<style>
+body {
+	
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<div id="wrap">
+		<header id="headers">
+			<div id="goshop" class="topbar ">
+				<div tapmode="a" onclick="freturn();" class="topzuo"></div>
+				<div class="topzhong">必买专区</div>
+				<!--<div tapmode="a" class="topyou">编辑</div>-->
+				<div tapmode="a" class="topyou_tu"></div>
+			</div>
+		</header>
+	</div>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript">
+function freturn()
+{
+	api.closeWin({
+    });
+}
+	apiready = function(){
+			api.parseTapmode();
+	if(api.systemType=='ios'){
+       		document.getElementById("headers").style.paddingTop="20px";
+    	}
+    	else
+    	{
+    		var sVer = api.systemVersion;
+    		var banben=parseFloat(sVer);
+    		if(banben>=4.4)
+    		{
+    			document.getElementById("headers").style.paddingTop="25px";
+    		}
+    	}
+    		var $header = $api.dom('header');
+			$api.fixIos7Bar($header);
+			var $body = $api.dom('body');
+			var header_h = $api.offset($header).h;
+			var body_h = $api.offset($body).h;
+			var rect_h = body_h - header_h - 50;
+    	api.openFrame({
+	        name: 'bimaizhuanqu',
+	        url: 'bimaizhuanqu.html',
+	        rect: {
+		        x : 0,
+				y : header_h,
+				w : 'auto',
+				h : rect_h
+	        }
+        });
+	};
+</script>
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{$CONF['mallTitle']}后台管理中心</title>
+
+
+
+
+<link href="__PUBLIC__/plugins/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+<link href="__CSS__/AdminLTE.css" rel="stylesheet" type="text/css" />
+<!--[if lt IE 9]>
+      <script src="__PUBLIC__/js/html5shiv.min.js"></script>
+      <script src="__PUBLIC__/js/respond.min.js"></script>
+      <!--<![endif]&ndash;&gt;-->
+<script src="__PUBLIC__/js/jquery.min.js"></script>
+<script src="__PUBLIC__/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="__PUBLIC__/js/common.js"></script>
+<script src="__PUBLIC__/plugins/plugins/plugins.js"></script>
+    <!--  二次开发 引入时间插件-->
+<script type="text/javascript" src="__PUBLIC__/js/jedate.js"></script>
+
+
+
+
+    <link rel="stylesheet" type="text/css"
+	href="__CSS__/bootstrap/css/bootstrap.min.css">
+
+<link rel="stylesheet" type="text/css"
+	href="__CSS__/datatable/dataTables.bootstrap.min.css">
+
+<script src="__JS__/datatable/jquery.dataTables.js"></script>
+<script src="__JS__/datatable/dataTables.bootstrap.min.js"></script>
+
+
+
+<style type="text/css">
+#preview {
+	border: 1px solid #cccccc;
+	background: #CCC;
+	color: #fff;
+	padding: 5px;
+	display: none;
+	position: absolute;
+}
+/*二次开发 新增样式 start*/
+.dataExp{
+    margin-bottom: 10px;
+    margin-top: 10px;
+    margin-left: 17px;
+}
+.dataExp table tr td{
+    padding-right: 5px;
+}
+/*二次开发 新增样式 end*/
+</style>
+</head>
+<script>
+
+
+
+
+
+function changeStatus(id,v){
+
+    Plugins.waitTips({title:'信息提示',content:'正在操作，请稍后...'});
+
+
+    $.post("{:U('Admin/Agent/applyEdit')}",{id:id,status:v},function(data,textStatus){
+
+        if(data!=0){
+            Plugins.setWaitTipsMsg({content:'操作成功',timeout:1000,callback:function(){
+                location.reload();
+            }});
+        }else{
+
+            Plugins.Tips({title:'信息提示',icon:'error',content:'操作失败!',timeout:1000});
+            location.reload();
+
+        }
+    });
+}
+/*二次开发  添加的js --start*/
+$(function () {
+    $('.datainp').click(function () {
+        if($(this).attr('id') != 'datebut')
+        {
+            $('#datebut').attr('id','datebut1');
+            $(this).attr('id','datebut');
+
+        }
+        jeDate({dateCell:'#datebut',isTime:true,format:'YYYY-MM-DD hh:mm:ss'});
+    });
+});
+/*二次开发 添加的js  --end  */
+   </script>
+<body class='wst-page'>
+<!--二次开发 --start-->
+<div class="dataExp">
+    <form action="__CONTROLLER__/applyExp" method="post" id="timeForm">
+        <table>
+            <tr>
+                <td>
+                    申请时间段：
+                </td>
+                <td><input class="datainp" name="timeStart"  id="datebut" type="text" placeholder="请选择" value="2016-01-01 00:00:00"  readonly ></td>
+                <td>：</td>
+                <td><input class="datainp" name="timeEnd" id="datebut1" type="text" placeholder="请选择" value="2016-01-01 00:00:00"  readonly ></td>
+                <td><button type="submit" class="btn btn-primary">导出提现管理数据</button></td>
+                <td id="timeMsg">{$msg}</td>
+            </tr>
+        </table>
+    </form>
+</div>
+<!-- 二次开发 --end -->
+	<div class="container-fluid">
+		<div class='wst-page-content'>
+			<div style="padding-bottom: 4px;"></div>
+			<div class='wst-page-content' id="one">
+				<table id="applyLog" class="table table-striped table-bordered"
+					cellspacing="0" width="100%">
+
+
+					<thead>
+						<tr>
+							<th>用户ID</th>
+							<th>申请类型</th>
+							<th>申请金额</th>
+							<th>银行名称</th>
+						    <th>银行卡号</th>
+							<th>姓名</th>
+							<th>电话</th>
+							<th>申请时间</th>
+							<th>状态</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+
+
+
+
+
+
+					<tbody>
+
+					</tbody>
+					<tfoot>
+						<tr>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
+						</tr>
+					</tfoot>
+
+				</table>
+
+
+			</div>
+
+		</div>
+	</div>
+</body>
+<script type="text/javascript" language="javascript" class="init">
+    $(function (){
+
+
+        listLog();
+
+
+    });
+
+
+
+
+
+
+    function  listLog(){
+        var data=eval({$applyLog});
+        $('#applyLog').DataTable( {
+            data:data,
+            columns: [
+                {data: 'userId'},
+                {data: 'applyType'},
+                {data: 'applyPrice'},
+                {data: 'bankName'},
+                {data: 'bankNum'},
+                {data: 'bankUserName'},
+                {data: 'tel'},
+                {data: 'time'},
+                {data: 'status'},
+                {data: 'action'}
+            ]
+                ,
+            "language": {
+                "sProcessing": "处理中...",
+                "sLengthMenu": "显示 _MENU_ 项结果",
+                "sZeroRecords": "没有匹配结果",
+                "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                "sInfoPostFix": "",
+                "sSearch": "搜索:",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上页",
+                    "sNext": "下页",
+                    "sLast": "末页"
+                },
+                "oAria": {
+                    "sSortAscending": ": 以升序排列此列",
+                    "sSortDescending": ": 以降序排列此列"
+                }
+            },
+            "initComplete": function () {
+                var api = this.api();
+
+                api.columns().indexes().flatten().each( function ( i ) {
+
+                    var column = api.column( i );
+                    var select = $('<select class="form-control input-sm"><option value=""></option></select>')
+                            .appendTo( $(column.footer()).empty() )
+                            .on( 'change', function () {
+                                var val = $.fn.dataTable.util.escapeRegex(
+                                        $(this).val()
+                                );
+                                column
+                                        .search( val ? '^'+val+'$' : '', true, false )
+                                        .draw();
+                            } );
+                    column.data().unique().sort().each( function ( d, j ) {
+                        select.append( '<option value="'+d+'">'+d+'</option>' );
+                    } );
+                } );
+            }
+
+        } );
+    }
+</script>
+</html>

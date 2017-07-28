@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>公告</title>
+<include file="./Tpl/head.html" />
+<link rel="stylesheet" href="__CSS__/supermarket.css" />
+<link rel="stylesheet" href="__CSS__/orderDetail.css" />
+<link rel="stylesheet" href="__CSS__/base.css" />
+<script src="__JS__/jquery2.1.1.min.js"></script>
+<style>
+body {
+	background: #FFF;
+	max-width: 800px;
+}
+
+.txt-c {
+	text-align: center;
+}
+
+.notice_color {
+	color: #783500
+}
+
+.noticeContent {
+	width: 95%;
+	margin: 0 auto;
+	padding-top: 10px;
+}
+
+.contentDetail img {
+	max-width: 640px;
+	padding-top: 10px;
+}
+
+.wrap {
+	word-break: break-all; /*支持IE，chrome，FF不支持*/
+	　　word-wrap: break-word; /*支持IE，chrome，FF*/
+}
+._top{
+	max-width: 800px;
+}
+</style>
+	<include file="./Tpl/Public/commonHead.html" />
+</head>
+<body>
+	<div class="_top" style="z-index: 999">
+		<div class="_left_top" onclick='history.go(-1)'></div>
+		<div class="_title_top">公告</div>
+		<div class="_right_top mess"></div>
+	</div>
+	<div class="lh45"></div>
+	<div class="noticeContent">
+		<div class="lh25 back-ff  ft12 ">
+			<span class="notice_color">【公告】</span>{$info.title}
+		</div>
+		<div class="lh25 back-ff  bor-b col-9">{$info.createTime}</div>
+		<div class="contentDetail wrap"><php>echo html_entity_decode($info['content'])</php></div>
+
+	</div>
+	<include file="./Tpl/Public/commonFooter.html" />
+</body>
+<script>
+
+$(function(){
+	var ww=$('body').width()-20;
+	$('.contentDetail').find('img').css('max-width',ww+'px');
+})
+</script>
+</html>

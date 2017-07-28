@@ -1,0 +1,153 @@
+<!doctype html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>买家中心</title>
+    <link rel="stylesheet" href="__CSS__/common.css"/>
+    <link rel="stylesheet" href="__CSS__/user.css">
+    <style>
+        body {
+            font-size: 14px;
+        }
+
+        .wst-odetal-box {
+            padding: 10px;
+            text-align: center;
+            background-color: #ffffff;
+        }
+
+        .wst-tab {
+            border-collapse: collapse;
+        }
+
+        .wst-tab-cpt {
+            text-align: left;
+            height: 30px;
+            font-weight: bold;
+        }
+
+        .wst-tab tr {
+            height: 30px;
+        }
+
+        .wst-tab tr td {
+            border: 1px solid #eeeeee;
+        }
+
+        .wst-td-title {
+            width: 100px;
+            text-align: right;
+        }
+
+        .wst-td-content {
+            padding-left: 6px;
+            text-align: left;
+        }
+
+        .wst-align-center {
+            text-align: center;
+        }
+    </style>
+
+</head>
+
+<body style="background-color: #f5f5f5;">
+<div style="text-align: center;">
+    <div class="wst-odetal-box">
+        <table cellspacing="0" cellpadding="0" class="wst-tab" width="100%"
+               style="border: 1px solid #eeeeee; margin: 0 auto;">
+            <caption class="wst-tab-cpt">
+                日志信息 <span style="color: blue; float: right;"> <if
+                    condition='$object["order"]["orderStatus"] eq 1'>等待发货{$order["orderStatus"]}
+                <elseif condition='$object["order"]["orderStatus"] eq -2'/>
+                待付款
+                <elseif
+                        condition='$object["order"]["orderStatus"] eq 2'/>
+                已发货
+                <elseif
+                        condition='$object["order"]["orderStatus"] eq 3'/>
+                已完成
+            </if>
+            </caption>
+            </span>
+            <tbody>
+            <volist name="orderLogArr" id="vo" >
+                <tr>
+                    <td width="200">{$vo.logTime}</td>
+                    <td class="wst-td-content">{$vo.logContent}</td>
+                </tr>
+            </volist>
+            </tbody>
+        </table>
+    </div>
+    <br/>
+    <br/>
+    <div class="wst-odetal-box">
+        <table cellspacing="0" cellpadding="0" class="wst-tab" width="1210">
+            <caption class="wst-tab-cpt">订单信息</caption>
+            <tbody>
+            <tr>
+                <td class="wst-td-title">订单编号：</td>
+                <td class="wst-td-content">{$orderArr['orderNo']}</td>
+            </tr>
+            <tr>
+                <td class="wst-td-title">支付方式：</td>
+                <td class="wst-td-content">
+                    <switch name="orderArr['payType']">
+                        <case value="0">或到付款</case>
+                        <case value="1">支付宝</case>
+                        <case value="2">微信支付</case>
+                        <case value="3">余额</case>
+                        <case value="4">支付</case>
+                    </switch>
+
+                </td>
+            </tr>
+            <tr>
+                <td class="wst-td-title">下单时间：</td>
+                <td class="wst-td-content">{$orderArr['createTime']}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <br/>
+    <br/>
+    <div class="wst-odetal-box">
+        <table cellspacing="0" cellpadding="0" class="wst-tab" width="1210">
+            <caption class="wst-tab-cpt">商品信息</caption>
+            <tbody>
+            <tr>
+                <td class="wst-td-title">商品名称：</td>
+                <td class="wst-td-content">{$goodsArr['goodsName']}</td>
+            </tr>
+            <tr>
+                <td class="wst-td-title">数量：</td>
+                <td class="wst-td-content">{$goodsArr['goodsNums']}</td>
+            </tr>
+            <tr>
+                <td class="wst-td-title">商品总金额：</td>
+                <td class="wst-td-content">{$goodsArr['goodsPrice']}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="wst-odetal-box">
+        <table cellspacing="0" cellpadding="0" class="wst-tab" width="1210">
+            <caption class="wst-tab-cpt">代金券</caption>
+            <tbody>
+            <volist name="voucherArr" id="vo">
+                <tr>
+                    <td class="wst-td-title">{$i}.代金券名称：</td>
+                    <td class="wst-td-content">{$vo.name}({$vo.validTime}天有效)</td>
+                </tr>
+            </volist>
+            </tbody>
+        </table>
+    </div>
+    <button onclick="history.go(-1)" class="btn btn-primary"
+            type="button">返&nbsp;回
+    </button>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,90 @@
+[ 2015-11-19T15:49:57+08:00 ] 127.0.0.1 /index.php/Home/Index/images/9_G_1241511871574.jpg
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000019s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000678s ]
+
+[ 2015-11-19T15:49:57+08:00 ] 127.0.0.1 /index.php/Home/Index/images/goumai2.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000020s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000769s ]
+
+[ 2015-11-19T15:49:57+08:00 ] 127.0.0.1 /index.php/Home/Index/images/up.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000019s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000830s ]
+
+[ 2015-11-19T15:49:57+08:00 ] 127.0.0.1 /index.php/Home/Index/images/shoucang2.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000020s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000702s ]
+
+[ 2015-11-19T15:49:57+08:00 ] 127.0.0.1 /index.php/Home/Index/images/tuijian.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000761s ]
+
+[ 2015-11-19T15:49:57+08:00 ] 127.0.0.1 /index.php/Home/Index/images/stars4.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000025s ]
+INFO: [ app_init ] --END-- [ RunTime:0.008024s ]
+
+[ 2015-11-19T15:49:57+08:00 ] 127.0.0.1 /index.php/Home/Index/images/stars2.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000021s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001290s ]
+
+[ 2015-11-19T15:49:57+08:00 ] 127.0.0.1 /index.php/Home/Index/images/zoom.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000021s ]
+INFO: [ app_init ] --END-- [ RunTime:0.002331s ]
+
+[ 2015-11-19T15:49:57+08:00 ] 127.0.0.1 /index.php/Home/Index/images/captcha.png
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000021s ]
+INFO: [ app_init ] --END-- [ RunTime:0.006904s ]
+
+[ 2015-11-19T16:05:44+08:00 ] 127.0.0.1 /index.php/Home/Index/images/up.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000021s ]
+INFO: [ app_init ] --END-- [ RunTime:0.002820s ]
+
+[ 2015-11-19T16:05:44+08:00 ] 127.0.0.1 /index.php/Home/Index/images/zoom.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000026s ]
+INFO: [ app_init ] --END-- [ RunTime:0.003828s ]
+
+[ 2015-11-19T16:05:44+08:00 ] 127.0.0.1 /index.php/Home/Index/images/9_G_1241511871574.jpg
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.006703s ]
+
+[ 2015-11-19T16:05:44+08:00 ] 127.0.0.1 /index.php/Home/Index/images/goumai2.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000827s ]
+
+[ 2015-11-19T16:05:44+08:00 ] 127.0.0.1 /index.php/Home/Index/images/stars3.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000021s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001238s ]
+
+[ 2015-11-19T16:05:44+08:00 ] 127.0.0.1 /index.php/Home/Index/images/shoucang2.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.002143s ]
+
+[ 2015-11-19T16:05:44+08:00 ] 127.0.0.1 /index.php/Home/Index/images/tuijian.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000020s ]
+INFO: [ app_init ] --END-- [ RunTime:0.002978s ]
+
+[ 2015-11-19T16:05:44+08:00 ] 127.0.0.1 /index.php/Home/Index/images/sousuo.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000022s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000948s ]
+
+[ 2015-11-19T21:47:58+08:00 ] 127.0.0.1 /index.php/Admin/images/menu_minus.gif
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000025s ]
+INFO: [ app_init ] --END-- [ RunTime:0.001338s ]
+

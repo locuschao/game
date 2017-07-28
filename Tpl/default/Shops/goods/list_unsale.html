@@ -1,0 +1,153 @@
+<extend name="Shops:layout" />
+<block name="content">
+<style type="text/css">
+#preview {
+	border: 1px solid #cccccc;
+	background: #CCC;
+	color: #fff;
+	padding: 5px;
+	display: none;
+	position: absolute;
+}
+</style>
+<script>
+$(document).ready(function(){
+    $('.imgPreview').imagePreview();
+    <notempty name='shopCatId1'>
+    getShopCatListForGoods('{$shopCatId1}','{$shopCatId2}');
+    </notempty>
+});
+</script>
+<div class="wst-body">
+	<div class='wst-page-header'>卖家中心 > 仓库中的商品</div>
+	<div class='wst-page-content'>
+		<div class='wst-tbar-query'
+			style="width: 100%; height: 70px; clear: both;">
+			<div class='wst-tbar-query'
+				style="width: 100%; height: 70px; clear: both;">
+				<form method='GET' action='{:U("Home/Goods/queryUnSaleByPage")}'
+					autocomplete="off">
+					商品名称：<input type='text' id='goodsName' name='goodsName'
+						value='{$goodsName}' /> 商品编号：<input type='text' id='goodsSn'
+						name='goodsSn' value='{$goodsSn}' /> 创建日期：<input
+						class="laydate-icon" onclick="laydate()" type='text' id='starDay'
+						name='starDay' value='{$starDay}' /> - <input class="laydate-icon"
+						onclick="laydate()" type='text' id='endDay' name='endDay'
+						value='{$endDay}' /><br /> 游戏类型<input type='text' id='gameName'
+						name='gameName' value='{$gameName}' /> 游戏版本<input type='text'
+						id='vName' name='vName' value='{$vName}' />
+							商品类型：<select	 name="scope" id="scope">
+				<option value="0" <if condition="$_GET['scope'] eq 0">selected</if>>--请选择--</option>
+				 <option value="1" <if condition="$_GET['scope'] eq 1">selected</if>>首充号</option>
+				 <option value="2" <if condition="$_GET['scope'] eq 2">selected</if>>首充号代充</option>
+				 <option value="3" <if condition="$_GET['scope'] eq 3">selected</if>>会员首充</option>
+				 <option value="4" <if condition="$_GET['scope'] eq 4">selected</if>>会员首代</option>
+				</select>
+					<button class='wst-btn-query'
+						onclick='javascript:queryUnSaleByPage()'>查询</button>
+				</form>
+			</div>
+		</div>
+		<div class='wst-tbar-group'>
+			<span></span> <a href='javascript:batchDel()'><span
+				class='del btn'></span>删除</a> <a href='javascript:sale(1)'><span
+				class='onSale btn'></span>上架</a>
+			<!--    <a href='javascript:goodsSet("isRecomm","queryUnSaleByPage")'><span class='recomm btn'></span>推荐</a>
+           <a href='javascript:goodsSet("isBest","queryUnSaleByPage")'><span class='hot btn'></span>精品</a>
+           <a href='javascript:goodsSet("isNew","queryUnSaleByPage")'><span class='new btn'></span>新品</a>
+           <a href='javascript:goodsSet("isHot","queryUnSaleByPage")'><span class='hot btn'></span>热销</a> -->
+		</div>
+		<table class='table table-hover table-striped table-bordered wst-list wst-form'>
+			<thead>
+				<tr>
+					<th width='40'><input type='checkbox'
+						onclick='javascript:checkAll(this)' /></th>
+					<th width='30'>商品编号</th>
+					<th width='120'>商品名称</th>
+
+					<th width='40'>游戏类型</th>
+					<th width='40'>版本</th>
+					<th width='40'>商品类型</th>
+					<th width='40'>充值面额</th>
+					<th width='40'>最低售价</th>
+					<th width='40'>最低折扣</th>
+					<th width='40'>上架时间</th>
+					<th width='40'>销量</th>
+					<th width='40'>创建时间</th>
+					<th width='80'>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<volist name="Page['root']" id="vo" key='i'>
+				<tr>
+					<td><input class='chk' type='checkbox' value='{$vo['goodsId']}'/></td>
+					<td>{$vo['goodsSn']}&nbsp;</td>
+					<td>{$vo['goodsName']}</td>
+
+					<td>{$vo['gameName']}&nbsp;</td>
+					<td>{$vo['versions']}</td>
+					<td>{$vo['scopeType']}</td>
+					<td>{$vo['shopPrice']}</td>
+					<td>{$vo['lowPrice']}</td>
+					<td>{$vo['zhekou']}</td>
+					<td>{$vo['upTime']}</td>
+					<td>{$vo['saleCount']}</td>
+					<td>{$vo['createTime']}</td>
+					<td><a
+						href='{:U("Home/Goods/toEdit",array("umark"=>"queryUnSaleByPage","id"=>$vo['
+						goodsId']))}' class='btn edit'></a> <a
+						href="javascript:delGoods({$vo['goodsId']})" class='btn del'></a>
+						&nbsp;</td>
+				</tr>
+				</volist>
+			<tfoot>
+				<tr>
+					<td colspan='12' align='center'>
+						<div class="wst-page" style="float: right; padding-bottom: 10px;">
+							<div id="wst-page-items"></div>
+						</div> <script>
+			    <if condition="$Page['totalPage'] gt 1">
+			    $(document).ready(function(){
+					laypage({
+					    cont: 'wst-page-items',
+					    pages: {$Page['totalPage']}, //总页数
+					    skip: true, //是否开启跳页
+					    skin: '#e23e3d',
+					    groups: 3, //连续显示分页数
+					    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
+					        var page = location.search.match(/p=(\d+)/);
+					        return page ? page[1] : 1;
+					    }(), 
+					    jump: function(e, first){ //触发分页后的回调
+					        if(!first){ //一定要加此判断，否则初始时会无限刷新
+					        	var nuewurl = WST.splitURL("p");
+					        	var ulist = nuewurl.split("?");
+					        	if(ulist.length>1){
+					        		location.href = nuewurl+'&p='+e.curr;
+					        	}else{
+					        		location.href = '?p='+e.curr;
+					        	}
+					            
+					        }
+					    }
+					});
+			    });
+				</if>
+				</script>
+					</td>
+				</tr>
+			</tfoot>
+			</tbody>
+		</table>
+		<div class='wst-tbar-group'>
+			<span></span> <a href='javascript:batchDel()'><span
+				class='del btn'></span>删除</a> <a href='javascript:sale(1)'><span
+				class='onSale btn'></span>上架</a>
+			<!--            <a href='javascript:goodsSet("isRecomm","queryUnSaleByPage")'><span class='recomm btn'></span>推荐</a>
+           <a href='javascript:goodsSet("isBest","queryUnSaleByPage")'><span class='hot btn'></span>精品</a>
+           <a href='javascript:goodsSet("isNew","queryUnSaleByPage")'><span class='new btn'></span>新品</a>
+           <a href='javascript:goodsSet("isHot","queryUnSaleByPage")'><span class='hot btn'></span>热销</a> -->
+		</div>
+	</div>
+</div>
+</block>

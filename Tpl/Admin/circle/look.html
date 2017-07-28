@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{$CONF['shopTitle']['fieldValue']}后台管理中心</title>
+<link href="__PUBLIC__/plugins/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+<link href="__CSS__/AdminLTE.css" rel="stylesheet" type="text/css" />
+</head>
+<body class="wst-page">
+
+	<div class="container">
+		<div class="row">
+			<div class="col-ls-12 text-center">
+				<h1>圈子标题：{$look['circle']['title']}</h1>
+			</div>
+			<div class="col-ls-12 text-center">
+				缩略图：<img src="/{$look['circle']['imgThums']}">
+			</div>
+		</div>
+		<div class="row">{$look['circle']['content']}</div>
+		<div class="row">
+			<!--Home/Goods/getGoodsDetails/goodsId/16.html-->
+			<div
+				style="height: 200px; width: 100%; margin-top: 20px; position: relative; float: left; border: 3px dashed #e6e6e6">
+				<div style="float: left; width: 50%; height: 100%">
+					<a
+						href="{:U('Home/Goods/getGoodsDetails/',array('goodsId'=>$look['goods']['goodsId']))}">
+						<img src="/{$look['goods']['goodsImg']}"> 立即选购
+					</a>
+				</div>
+				<div style="float: left; width: 50%; height: 100%">
+					<a
+						href="{:U('Home/Shops/toShopHome/',array('shopId'=>$look['circle']['shopId']))}">进入店铺</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div></div>
+</body>
+</html>
